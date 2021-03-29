@@ -46,11 +46,9 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
     /**
      * Method called by the player to activate the Leader Card's ability
      * @param player the player who's  activating the Leader Card. It will be used in this calls.
-     * @param resource a generic resource. Unuseful in this case. Use EMPTY.
-     * @param resourceNumber a generic resource number. Unuseful in this case. Use 0.
      */
     @Override
-    public void activateAbility(Player player, Resource resource, int resourceNumber) {
+    public void activateAbility(Player player) {
         activateLeaderAbility(player);
     }
 
@@ -58,7 +56,7 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
      * This method activate the discount leader card ability which affects directly the player.
      * @param player The player who decides to activate the leader card power.
      */
-    public void activateLeaderAbility(Player player){            //EXCEPTION?
+    public void activateLeaderAbility(Player player){
         if(!discountResource.equals(Resource.EMPTY)){
             player.setDiscountPower(discountResource);
         }

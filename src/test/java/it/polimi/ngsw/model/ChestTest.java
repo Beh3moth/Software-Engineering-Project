@@ -6,9 +6,6 @@ import it.polimi.ngsw.model.Chest;
 import it.polimi.ngsw.model.Resource;
 import org.junit.jupiter.api.Test;
 
-/**
- * Unit test for Chest class.
- */
 
 public class ChestTest {
 
@@ -26,7 +23,7 @@ public class ChestTest {
                 chest.addResourceToChest(Resource.SHIELD, j);
                 if(j>0)
                     x+=j;
-                assertEquals( x, chest.getShiedFromChest());
+                assertEquals( x, chest.getShieldFromChest());
 
             }
         }
@@ -46,16 +43,16 @@ public class ChestTest {
                 if(x - j > 0){
                     x -= j;
                 } else x = 0;
-                assertEquals(x, chest.getShiedFromChest());
+                assertEquals(x, chest.getShieldFromChest());
             }
         }
     }
 
     @Test
-    public void getShiedFromChestTest(){
+    public void getShieldFromChestTest(){
         chest.addResourceToChest(Resource.SHIELD, 1);
         chest.addResourceToChest(Resource.SHIELD, 2);
-        assertEquals(3, chest.getShiedFromChest());
+        assertEquals(3, chest.getShieldFromChest());
     }
 
     @Test

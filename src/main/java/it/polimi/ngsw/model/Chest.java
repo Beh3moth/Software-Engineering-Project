@@ -22,10 +22,12 @@ public class Chest {
      * @param resourceType is the parameter used as key to set the resource type.
      * @param resourceNumber is the parameter used as value to set the number of resources. It can't be negative.
      */
-    public void addResourceToChest(Resource resourceType, Integer resourceNumber){
+    public boolean addResourceToChest(Resource resourceType, Integer resourceNumber){
         if(resourceNumber>=0) {
             chestResources.put(resourceType, chestResources.get(resourceType) + resourceNumber);
+            return true;
         }
+        else return false;
     }
 
     /**
@@ -34,19 +36,19 @@ public class Chest {
      * @param resourceType is the parameter used as key to set the resource type.
      * @param resourceNumber  is the parameter used as value to set the number of resources.
      */
-    public void removeResourceFromChest(Resource resourceType, Integer resourceNumber){
-        if(chestResources.get(resourceType) - resourceNumber > 0){
+    public boolean removeResourceFromChest(Resource resourceType, Integer resourceNumber){
+        if(chestResources.get(resourceType) - resourceNumber >= 0){
             chestResources.put(resourceType, chestResources.get(resourceType) - resourceNumber);
-        } else {
-            chestResources.put(resourceType, 0);
+            return true;
         }
+        else return false;
     }
 
     /**
      * Method that returns the number of shield's resources in the Chest.
      * @return the int number of shields in the Chest.
      */
-    public int getShiedFromChest(){
+    public int getShieldFromChest(){
         return chestResources.get(Resource.SHIELD);
     }
 

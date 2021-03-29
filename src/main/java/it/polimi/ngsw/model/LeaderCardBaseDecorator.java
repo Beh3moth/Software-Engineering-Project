@@ -9,8 +9,8 @@ public class LeaderCardBaseDecorator implements LeaderCard{
     }
 
     @Override
-    public void activateAbility(Player player, Resource resource, int resourceNumber) {
-        wrapper.activateAbility(player, resource, resourceNumber);
+    public void activateAbility(Player player) {
+        wrapper.activateAbility(player);
     }
 
     @Override

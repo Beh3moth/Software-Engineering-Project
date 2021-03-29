@@ -45,11 +45,9 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
     /**
      * Method that activates the Leader Card's ability.
      * @param player is the one who wants to activate the ability.
-     * @param resource isn't used. Use EMPTY.
-     * @param resourceNumber isn't used. Use 0.
      */
     @Override
-    public void activateAbility(Player player, Resource resource, int resourceNumber) {
+    public void activateAbility(Player player) {
         activateLeaderAbility(player);
     }
 

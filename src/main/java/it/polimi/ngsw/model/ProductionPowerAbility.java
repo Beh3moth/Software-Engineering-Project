@@ -43,8 +43,12 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         return leaderCardCost;
     }
 
+    /**
+     * The method activates the Leader Card's ability by calling the method @activateLeaderAbility
+     * @param player is the player who decided to activate the Leader Card's ability.
+     */
     @Override
-    public void activateAbility(Player player, Resource resource, int resourceNumber) {
+    public void activateAbility(Player player) {
         activateLeaderAbility(player);
     }
 

@@ -3,7 +3,7 @@ package it.polimi.ngsw.model;
 public class ConcreteLeaderCard implements LeaderCard {
 
     @Override
-    public void activateAbility(Player player, Resource resource, int resourceNumber) {
+    public void activateAbility(Player player) {
     }
 
     @Override

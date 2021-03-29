@@ -15,7 +15,7 @@ public class SpaceAbilityTest {
     public void activateAbilityTest(){
         list.add(0, Resource.MONEY);
         LeaderCardBaseDecorator leader1 = new SpaceAbility(new ConcreteLeaderCard(), 2, list, Resource.MONEY);
-        leader1.activateAbility(player, Resource.EMPTY, 0);
+        leader1.activateAbility(player);
         assert(player.getWarehouse().getLeaderLevelType(1).equals(Resource.MONEY));
     }
 

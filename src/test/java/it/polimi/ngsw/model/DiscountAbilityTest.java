@@ -10,15 +10,15 @@ import java.util.List;
 public class DiscountAbilityTest {
 
     Player player = new Player();
-    ProductionPower productionPower = new ProductionPower();
-    DevCard devCard = new DevCard(1, DevCardColour.BLUE, Resource.SHIELD, 3, productionPower, 4);
+    ProductionPower productionPower;
+    DevCard devCard = new DevCard(2, DevCardColour.BLUE, Resource.SHIELD, 3, productionPower, 4);
     List<DevCard> list = new ArrayList<>();
 
     @Test
     public void activateAbilityTest(){
         list.add(0, devCard);
         LeaderCardBaseDecorator leader1 = new DiscountAbility(new ConcreteLeaderCard(), 2, list, Resource.SHIELD);
-        leader1.activateAbility(player, Resource.EMPTY, 0);
+        leader1.activateAbility(player);
         assert(player.getDiscountPowerOne().equals(Resource.SHIELD));
     }
 

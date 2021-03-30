@@ -29,8 +29,8 @@ public class DevCardDashboard {
 
     public DevCardDashboard(){
         this.devCards = new DevCard[MAX_SLOT][MAX_CARDS_FOR_SLOT];  //qui devo valutare se inizializzare come nuova carta
-        this.leaderProductionPowerOne = new ProductionPower();      //qui è nullo all'inizio, valuto se mi serve il metodo costruttore o lo inizializzo come nullo
-        this.leaderProductionPowerTwo = new ProductionPower();
+       // this.leaderProductionPowerOne = new ProductionPower();      //qui è nullo all'inizio, valuto se mi serve il metodo costruttore o lo inizializzo come nullo
+        //this.leaderProductionPowerTwo = new ProductionPower();
         initDevCardStat();                                         //inizializza i livelli degli slot e i boolean dei poteri di produzione extra
 
     }
@@ -78,20 +78,22 @@ public class DevCardDashboard {
      *
      **/
     public void baseProductionPower(List<Resource> resourceNeeded, Resource resourceProduced){
+
         //serie di metodi che chiedono al client di scegliere in quali piani togliere ppure al magazzino, il controller verifica la correttezza
         for(int i=0; i<2; i++){
             int fromFloor; //ci vorrà messaggio al client che mi dice quale piano
             boolean goneRight = false;
             do{
-                goneRight = removeResource(fromFloor, resourceNeeded.get(i));
+             //   goneRight = removeResource(fromFloor, resourceNeeded.get(i));
             }
             while(!goneRight);
         }
         //metodo che aggiunge al forziere la risorsa prodotta nuova
+        boolean goneRight = false;
         do{
             int toFloor;
-            boolean goneRight = false;
-            goneRight = addResource(floor, resourceProduced);
+
+            //goneRight = addResource(floor, resourceProduced);
         }
         while(!goneRight);
     } //intero metodo da riguardare
@@ -113,7 +115,7 @@ public class DevCardDashboard {
             int fromFloor = 0;
             productionPower = devCards[slot][devCardLevel[slot]].getProductionPower();
             //stesso discorso di prima, devo chiedere al magazzino o forziere di rimuovere risorse e poi aggiungere
-            removeResource(fromFloor, productionPower.getResourceToPay()); //qua è da rivedere il metodo, perchè posso avere più risorse da dover pagare, non abbiamo più la classe resourceNumber
+            //removeResource(fromFloor, productionPower.getResourceToPay()); //qua è da rivedere il metodo, perchè posso avere più risorse da dover pagare, non abbiamo più la classe resourceNumber
 
         }
         return goneRight;
@@ -128,7 +130,7 @@ public class DevCardDashboard {
     public boolean activateLeaderProduction(Resource resource, Player activePlayer){
         boolean goneRight = false;  //devo anche scegliere quale dei due possibili production power
         int fromFloor = 0;
-        goneRight = removeResource(fromFloor, resource); //da rivedere il metodo, devo chiedere al client quale floor voglio o se forziere
+       // goneRight = removeResource(fromFloor, resource); //da rivedere il metodo, devo chiedere al client quale floor voglio o se forziere
         if(goneRight){
             activePlayer.getFaithPath().increaseCrossPosition(); //aggiunge un punto fede al traceFaith
             // devo anche vedere se è andato bene (nel test)

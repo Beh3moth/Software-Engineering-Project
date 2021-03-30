@@ -58,6 +58,12 @@ public class DevCardSpace {
     }
 
     /**
+     * Set the number of cards in a deck, it is used to remove one or two card at time
+     * @param quantity of cards to remove in a deck
+     */
+    public void setNumberOfCards(int quantity){this.numberOfCards = this.numberOfCards - quantity;}
+
+    /**
      * Method that permit to take a card and put it into the player dash board on a given slot
      * @param activePlayer the player
      * @param slot wich slot

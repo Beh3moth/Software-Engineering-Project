@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 public class Game {
     private Board board;
+    private FaithPath lawrenceFaithPath = new FaithPath();
 
     public Game(){
         this.board = new Board();

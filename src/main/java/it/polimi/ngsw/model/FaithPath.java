@@ -6,14 +6,12 @@ package it.polimi.ngsw.model;
 public class FaithPath {
 
     private int crossPosition;
-    private int blackCrossPosition;
 
     /**
      *  Initialize crossPosition and blackCrossPosition at zero.
      */
     public FaithPath() {
         crossPosition = 0;
-        blackCrossPosition = 0;
     }
 
     /**
@@ -24,26 +22,11 @@ public class FaithPath {
     }
 
     /**
-     *  Increase blackCrossPosition of one.
-     */
-    public void increaseBlackCrossPosition() {
-        blackCrossPosition++;
-    }
-
-    /**
      * This method get the cross position.
      * @return the int value crossPosition.
      */
     public int getCrossPosition() {
         return crossPosition;
-    }
-
-    /**
-     * This method get the black cross position.
-     * @return the int value blackCrossPosition.
-     */
-    public int getBlackCrossPosition() {
-        return blackCrossPosition;
     }
 
 

@@ -29,7 +29,7 @@ public class DevCardDashboard {
 
     public DevCardDashboard(){
         this.devCards = new DevCard[MAX_SLOT][MAX_CARDS_FOR_SLOT];  //qui devo valutare se inizializzare come nuova carta
-       // this.leaderProductionPowerOne = new ProductionPower();      //qui è nullo all'inizio, valuto se mi serve il metodo costruttore o lo inizializzo come nullo
+        // this.leaderProductionPowerOne = new ProductionPower();      //qui è nullo all'inizio, valuto se mi serve il metodo costruttore o lo inizializzo come nullo
         //this.leaderProductionPowerTwo = new ProductionPower();
         initDevCardStat();                                         //inizializza i livelli degli slot e i boolean dei poteri di produzione extra
 
@@ -84,7 +84,7 @@ public class DevCardDashboard {
             int fromFloor; //ci vorrà messaggio al client che mi dice quale piano
             boolean goneRight = false;
             do{
-             //   goneRight = removeResource(fromFloor, resourceNeeded.get(i));
+                //   goneRight = removeResource(fromFloor, resourceNeeded.get(i));
             }
             while(!goneRight);
         }
@@ -130,7 +130,7 @@ public class DevCardDashboard {
     public boolean activateLeaderProduction(Resource resource, Player activePlayer){
         boolean goneRight = false;  //devo anche scegliere quale dei due possibili production power
         int fromFloor = 0;
-       // goneRight = removeResource(fromFloor, resource); //da rivedere il metodo, devo chiedere al client quale floor voglio o se forziere
+        // goneRight = removeResource(fromFloor, resource); //da rivedere il metodo, devo chiedere al client quale floor voglio o se forziere
         if(goneRight){
             activePlayer.getFaithPath().increaseCrossPosition(); //aggiunge un punto fede al traceFaith
             // devo anche vedere se è andato bene (nel test)

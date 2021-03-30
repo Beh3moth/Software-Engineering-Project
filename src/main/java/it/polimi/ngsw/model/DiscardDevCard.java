@@ -10,8 +10,13 @@ public class DiscardDevCard implements ActionToken {
         this.devCardLevel = devCardLevel;
     }
 
+    /**
+     * The method activates the effect of an action token by calling the Board's method removeDevCard().
+     * @param lawrenceFaithPath unuseful.
+     * @param board the common board.
+     */
     @Override
-    public void applyToken(Player player, Board board) {
-        //Chiedere ad Aaron se è meglio fare il metodo qui o fare solo l'invocazione
+    public void applyToken(FaithPath lawrenceFaithPath, Board board) {
+        board.removeDevCard(devCardColour);
     }
 }

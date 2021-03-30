@@ -22,14 +22,6 @@ public class FaithPathTest {
     }
 
     @Test
-    public void increaseBlackCrossPositionTest() {
-        for(int i=1; i<=24; i++){
-            faithPath.increaseBlackCrossPosition();
-            assertEquals(i, faithPath.getBlackCrossPosition());
-        }
-    }
-
-    @Test
     public void getPVTest(){
         for(int i=1; i<=24; i++){
             faithPath.increaseCrossPosition();

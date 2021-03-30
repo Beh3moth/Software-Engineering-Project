@@ -92,13 +92,14 @@ public class Warehouse {
         return false;
     }
 
+
     /**
      * this method adds a resource in a floor added thanks to the ability of the leader card, while also checking if the floor is active
      * @param level
      * @param resource
      * @return true if added correctly, false otherwise
      */
-    public boolean addResourceToSpecialLevel (int level, Resource resource){
+    public boolean addResourceToSpecialLevel (int level, Resource resource){ //ok, faccio che finchè non ho vero, chiamo questo metodo
 
         if(level < 1 || level > 2){//controllo che il livello sia valido
             return false;
@@ -143,6 +144,7 @@ public class Warehouse {
 
         return false;
     }
+
 
     /**
      * this method discards a resource directly from the warehouse checking that it is legal
@@ -429,5 +431,29 @@ public class Warehouse {
             default:
                 return null;
         }
+    }
+
+
+
+
+
+
+
+    /**
+     * Method that return an elemnt of the stock
+     * @param wich wich one
+     * @return the resource
+     */
+    public Resource getStockResource(int wich){
+        return warehouseStock.get(wich);
+    }
+    public void removeFirstResourceFromStock(){
+        warehouseStock.remove(0);
+    }
+    public int getStockResourceNumber(){
+        return warehouseStock.size();
+    }
+    public void moveFromStockToWarehouse(){
+
     }
 }

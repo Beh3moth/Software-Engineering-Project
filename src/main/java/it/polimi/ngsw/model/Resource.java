@@ -6,5 +6,5 @@ public enum Resource {
     SHIELD,
     SLAVE,
     FAITHPOINT,
-    EMPTY
+    EMPTY;
 }

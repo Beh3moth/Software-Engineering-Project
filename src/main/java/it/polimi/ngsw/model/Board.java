@@ -113,6 +113,7 @@ public class Board{
         this.marketDashboard[row][1] = this.marketDashboard[row][2];
         this.marketDashboard[row][2] = this.marketDashboard[row][3];
         this.marketDashboard[row][3] = supportMarble;
+
     }
 
     /**

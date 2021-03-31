@@ -32,9 +32,9 @@ public class Warehouse {
      */
     public boolean addResourceToWarehouse (int level, Resource resource){
 
-        if(level < 1 || level > 3){//controlla che il piano sia valido
+        /*if(level < 1 || level > 3){//controlla che il piano sia valido
             return false;
-        }
+        }*/
 
         switch(level) {
 
@@ -438,22 +438,87 @@ public class Warehouse {
 
 
 
+    //AARON
+
 
     /**
      * Method that return an elemnt of the stock
      * @param wich wich one
-     * @return the resource
+     * @return the resoure
      */
     public Resource getStockResource(int wich){
         return warehouseStock.get(wich);
     }
-    public void removeFirstResourceFromStock(){
+    public boolean removeFirstResourceFromStock(){
         warehouseStock.remove(0);
+        return true;
     }
     public int getStockResourceNumber(){
         return warehouseStock.size();
     }
-    public void moveFromStockToWarehouse(){
+    public boolean removeResourceWarehouse(int level){
+        switch(level){
+            case 1 :
+                if(firstLevel.getResourceNumber() == 0){
+                    return false;
+                }
+                firstLevel.removeResourceNumber();
+                firstLevel.setResourceType(Resource.EMPTY);
+                return true;
 
+            case 2:
+                if(secondLevel.getResourceNumber() == 0){
+                    return false;
+                }
+                if(secondLevel.getResourceNumber() == 1){
+                    secondLevel.removeResourceNumber();
+                    secondLevel.setResourceType(Resource.EMPTY);
+                    return true;
+                }
+                else{
+                    secondLevel.removeResourceNumber();
+                    return true;
+                }
+
+            case 3:
+                if(thirdLevel.getResourceNumber() == 0){
+                    return false;
+                }
+                if(thirdLevel.getResourceNumber() == 1){
+                    thirdLevel.removeResourceNumber();
+                    thirdLevel.setResourceType(Resource.EMPTY);
+                    return true;
+                }
+                else{
+                    thirdLevel.removeResourceNumber();
+                    return true;
+                }
+
+        }
+        return false;
     }
+
+    public boolean removeSpecialResourceWarehouse(int level){
+        switch(level){
+            case 1:
+                    if(firstLeaderLevel.getResourceNumber() == 0){
+                        return false;
+                    }
+                    else{
+                        firstLeaderLevel.removeResourceNumber();
+                        return true;
+                    }
+
+            case 2:
+                    if(secondLeaderLevel.getResourceNumber() == 0){
+                        return false;
+                    }
+                    else{
+                        secondLeaderLevel.removeResourceNumber();
+                        return true;
+                    }
+        }
+        return false;
+    }
+
 }

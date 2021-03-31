@@ -463,6 +463,33 @@ public class Warehouse {
     }
 
     /**
+     * this method returns true if the resource is present in the warehouse on the "level" floor
+     * @param level
+     * @param resource
+     * @return true if the resource is present in the warehouse on the "level" floor
+     */
+    public boolean hasResource (int level, Resource resource){
+        switch(level){
+            case 1:
+                if(firstLevel.getResourceType() == resource)return true;
+                else return false;
+            case 2:
+                if(secondLevel.getResourceType() == resource)return true;
+                else return false;
+            case 3:
+                if(thirdLevel.getResourceType() == resource)return true;
+                else return false;
+            case 4:
+                if(firstLeaderLevel.getResourceNumber() >= 1)return true;
+                else return false;
+            case 5:
+                if(secondLeaderLevel.getResourceNumber() >= 1)return true;
+                else return false;
+            default: return false;
+        }
+    }
+
+    /**
      * Method that return an elementof the stock
      * @param wich wich one
      * @return the resource

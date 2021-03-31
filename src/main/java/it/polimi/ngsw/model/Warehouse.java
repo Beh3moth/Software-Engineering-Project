@@ -24,13 +24,14 @@ public class Warehouse {
         this.secondLeaderLevelType = Resource.EMPTY;
     }
 
+
     /**
      *this method adds a resource to the warehouse checking that it is legal
      * @param level
      * @param resource
      * @return true if the addition was successful false if the addition was illegal
      */
-    public boolean addResourceToWarehouse (int level, Resource resource){
+    public boolean addResourceToWarehouse(int level, Resource resource){
 
         if(level < 1 || level > 3){//controlla che il piano sia valido
             return false;
@@ -429,5 +430,44 @@ public class Warehouse {
             default:
                 return null;
         }
+    }
+
+    /**
+     * this method returns true if in the warehouse there are at least n resources false otherwise
+     * @param n
+     * @param resource
+     * @return true if in the warehouse there are at least n resources false otherwise
+     */
+    public boolean contains(int n,Resource resource){
+        if(firstLevel.getResourceType() == resource){
+            if(firstLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        else if(secondLevel.getResourceType() == resource){
+            if(secondLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        else if(thirdLevel.getResourceType() == resource){
+            if(thirdLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        else if(firstLeaderLevelType == resource){
+            if(firstLeaderLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        else if(secondLeaderLevelType == resource){
+            if(secondLeaderLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        return false;
+    }
+
+    /**
+     * Method that return an elementof the stock
+     * @param wich wich one
+     * @return the resource
+     */
+    public Resource getStockResource(int wich){
+        return warehouseStock.get(wich);
     }
 }

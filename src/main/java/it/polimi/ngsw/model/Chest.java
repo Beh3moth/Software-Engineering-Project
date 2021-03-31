@@ -76,4 +76,15 @@ public class Chest {
         return chestResources.get(Resource.MONEY);
     }
 
+    /**
+     * The method returns true if the chest has at least the number of resources specified.
+     * @param resource is the resource to check.
+     * @param numberOfResource is the number of resources to check.
+     * @return true if the chest has at least the number of resources specified
+     */
+    public boolean contains(Resource resource, int numberOfResource){
+       Integer resources = chestResources.get(resource);
+        return resources != null && resources >= numberOfResource;
+    }
+
 }

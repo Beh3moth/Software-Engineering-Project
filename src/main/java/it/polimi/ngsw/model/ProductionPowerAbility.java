@@ -1,6 +1,5 @@
 package it.polimi.ngsw.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProductionPowerAbility extends LeaderCardBaseDecorator{
@@ -52,6 +51,10 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         activateLeaderAbility(player);
     }
 
+    /**
+     * The method activates the Leader's production power calling the method Board's method activateLeaderProduction()
+     * @param player the player who wants to activate the power.
+     */
     public void activateLeaderAbility(Player player){
         player.getDevCardDashboard().activateLeaderProduction(inputResource, player);
     }

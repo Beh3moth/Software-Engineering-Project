@@ -8,7 +8,7 @@ import java.util.Map;
 public class DevCardTest {
 
     Map<Resource, Integer> map;
-    ProductionPower productionPower = new ProductionPower();
+    ProductionPower productionPower /*= new ProductionPower()*/;
     DevCard devCard = new DevCard(2, DevCardColour.BLUE, Resource.SHIELD, 10, productionPower, 2);
 
     @Test

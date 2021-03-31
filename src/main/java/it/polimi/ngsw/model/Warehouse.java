@@ -92,7 +92,6 @@ public class Warehouse {
         return false;
     }
 
-
     /**
      * this method adds a resource in a floor added thanks to the ability of the leader card, while also checking if the floor is active
      * @param level
@@ -144,7 +143,6 @@ public class Warehouse {
 
         return false;
     }
-
 
     /**
      * this method discards a resource directly from the warehouse checking that it is legal

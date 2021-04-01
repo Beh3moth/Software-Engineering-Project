@@ -1,0 +1,34 @@
+[
+  {
+    "PV": 2,
+    "leaderCardCost": [
+      "YELLOW",
+      "GREEN"
+    ],
+    "discountResource": "SLAVE"
+  },
+  {
+    "PV": 2,
+    "leaderCardCost": [
+      "BLUE",
+      "PURPLE"
+    ],
+    "discountResource": "SHIELD"
+  },
+  {
+    "PV": 2,
+    "leaderCardCost": [
+      "GREEN",
+      "BLUE"
+    ],
+    "discountResource": "STONE"
+  },
+  {
+    "PV": 2,
+    "leaderCardCost": [
+      "YELLOW",
+      "PURPLE"
+    ],
+    "discountResource": "MONEY"
+  }
+]

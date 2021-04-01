@@ -519,4 +519,61 @@ public class Warehouse {
         return false;
     }
 
+    /**
+     * this method returns true if the resource is present in the warehouse on the "level" floor
+     * @param level
+     * @param resource
+     * @return true if the resource is present in the warehouse on the "level" floor
+     */
+    public boolean hasResource (int level, Resource resource){
+        switch(level){
+            case 1:
+                if(firstLevel.getResourceType() == resource)return true;
+                else return false;
+            case 2:
+                if(secondLevel.getResourceType() == resource)return true;
+                else return false;
+            case 3:
+                if(thirdLevel.getResourceType() == resource)return true;
+                else return false;
+            case 4:
+                if(firstLeaderLevel.getResourceNumber() >= 1)return true;
+                else return false;
+            case 5:
+                if(secondLeaderLevel.getResourceNumber() >= 1)return true;
+                else return false;
+            default: return false;
+        }
+    }
+
+    /**
+     * this method returns true if in the warehouse there are at least n resources false otherwise
+     * @param n
+     * @param resource
+     * @return true if in the warehouse there are at least n resources false otherwise
+     */
+    public boolean contains(int n,Resource resource){
+        if(firstLevel.getResourceType() == resource){
+            if(firstLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        else if(secondLevel.getResourceType() == resource){
+            if(secondLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        else if(thirdLevel.getResourceType() == resource){
+            if(thirdLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        else if(firstLeaderLevelType == resource){
+            if(firstLeaderLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        else if(secondLeaderLevelType == resource){
+            if(secondLeaderLevel.getResourceNumber() >= n)return true;
+            else return false;
+        }
+        return false;
+    }
+
 }

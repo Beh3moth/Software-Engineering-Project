@@ -1,130 +1,24 @@
 package it.polimi.ngsw.model;
-//import player
 
-import java.io.IOException; //uhmmmm
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Game {
-    public static final int MAX_PLAYERS = 3;
 
     private Board board;
     private Player activePlayer;
     private List<Player> players;
     private int playerNumbers;
     private FaithPath lawrenceFaithPath = new FaithPath();
+    private Deque<ActionToken> actionTokensDeque = new ArrayDeque<>(6);
+    private List<LeaderCard> leaderCards = new ArrayList<>(16);
+
+    //List of production powers the player decides to activate between among his available Production Powers.
+    List<ProductionPower> listOfAffordableProductionPowers = new ArrayList<>();
 
     public Game(){
-        this.board = new Board();
-        this.players = new ArrayList<>();
+        initActionTokensDeque();
     }
 
-    /**
-     * Returns a player given his {@code nickname}.
-     * Only the first occurrence is returned because
-     * the player nickname is considered to be unique.
-     * If no player is found {@code null} is returned.
-     *
-     * @param nickname the nickname of the player to be found.
-     * @return Returns the player given his {@code nickname}, {@code null} otherwise.
-     */
-    public Player getPlayerByNickname(String nickname) {
-        return players.stream()
-                .filter(player -> nickname.equals(player.getNickName()))
-                .findFirst()
-                .orElse(null);
-    }
-
-    /**
-     * Adds a player to the game.
-     * Notifies all the views if the playersNumber is already set.
-     *
-     * @param player the player to add to the game.
-     */
-    public void addPlayer(Player player) {
-        players.add(player);
-       /* if (chosenPlayersNumber != 0) {
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayersNumber));
-        }*/
-    }
-
-    /**
-     * Removes a player from the game.
-     * Notifies all the views if the notifyEnabled argument is set to {@code true}.
-     *
-     * @param nickname      the nickname of the player to remove from the game.
-     * @param notifyEnabled set to {@code true} to enable a lobby disconnection message, {@code false} otherwise.
-     * @return {@code true} if the player is removed, {@code false} otherwise.
-     */
-    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
-        boolean result = players.remove(getPlayerByNickname(nickname));
-
-        /*if (notifyEnabled) {
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayersNumber));
-        }*/
-
-        return result;
-    }
-
-    /**
-     * Number of current players added in the game.
-     *
-     * @return the number of players.
-     */
-    public int getNumCurrentPlayers() {
-        return players.size();
-    }
-
-    /**
-     * Returns the number of players chosen by the first player.
-     *
-     * @return the number of players chosen by the first player.
-     */
-    public int getChosenPlayersNumber() {
-        return playerNumbers;
-    }
-
-    /**
-     * Search a nickname in the current Game.
-     *
-     * @param nickname the nickname of the player.
-     * @return {@code true} if the nickname is found, {@code false} otherwise.
-     */
-    public boolean isNicknameTaken(String nickname) {
-        return players.stream()
-                .anyMatch(p -> nickname.equals(p.getNickName()));
-    }
-
-    /**
-     * Returns a list of player nicknames that are already in-game.
-     *
-     * @return a list with all nicknames in the Game
-     */
-    public List<String> getPlayersNicknames() {
-        List<String> nicknames = new ArrayList<>();
-        for (Player p : players) {
-            nicknames.add(p.getNickName());
-        }
-        return nicknames;
-    }
-
-    /**
-     * Returns the current board.
-     *
-     * @return the board of the game.
-     */
-    public Board getBoard() {
-        return board;
-    }
-
-    /**
-     * Returns a list of players.
-     *
-     * @return the players.
-     */
-    public List<Player> getPlayers() {
-        return players;
-    }
 
     /**
      * Method that permit to take resources from the market, it asks the user if column or row, and wich one
@@ -283,6 +177,196 @@ public class Game {
             }
         }
     }
+
+
+    //ActionToken's methods
+
+    /**
+     * The method returns a Deque of ActionToken.
+     * @return a Deque of ActionToken.
+     */
+    public Deque<ActionToken> getTokensDeque(){
+        return actionTokensDeque;
+    }
+
+    /**
+     * The method initialized the tokens and shuffles the Deque of ActionToken using a List as support.
+     * @return true if execution is successful and does not modify the Deque.
+     */
+    private boolean initActionTokensDeque(){
+        //Action tokens initialization
+        this.actionTokensDeque.add(new DiscardDevCard(DevCardColour.BLUE));
+        this.actionTokensDeque.add(new DiscardDevCard(DevCardColour.YELLOW));
+        this.actionTokensDeque.add(new DiscardDevCard(DevCardColour.GREEN));
+        this.actionTokensDeque.add(new DiscardDevCard(DevCardColour.PURPLE));
+        this.actionTokensDeque.add(new Move());
+        this.actionTokensDeque.add(new MoveAndScrum());
+        return shuffleActionTokensDeque();
+    }
+
+    /**
+     * The method shuffles the ActionToken's Deque using an ArrayList as support.
+     * @return true if it is successful.
+     */
+    public boolean shuffleActionTokensDeque(){
+        //Action tokens shuffle
+        List<ActionToken> actionTokensList = new ArrayList<>(actionTokensDeque);
+        Collections.shuffle(actionTokensList);
+        for(int i=0; i<6; i++){
+            actionTokensDeque.removeLast();
+            actionTokensDeque.addFirst(actionTokensList.get(i));
+        }
+        return actionTokensDeque.size()==6;
+    }
+
+    /**
+     * The method puts the first element of the deque at the end of it. Then it activates the last token's effect.
+     * @return true if successful.
+     */
+    public boolean drawActionToken(){
+        ActionToken tempActionToken = actionTokensDeque.pollFirst();
+        actionTokensDeque.addLast(tempActionToken);
+        actionTokensDeque.getLast().applyToken(lawrenceFaithPath, board, this);
+        return true;
+    }
+
+
+    //Activate Production Power's methods
+
+    /**
+     * The method allows the player to choose a Production power to use. The method also ensures the player can afford the Production Power.
+     * If the method i successful the Production Power chosen is stored in the list listOfAffordableProductionPowers.
+     * @param activePlayer the player who decided to activate a Production Power.
+     * @param productionPowerChosen an int that indicates which Production Power the player wants to activate.
+     * @return true if the player can buy the Production Power, false otherwise.
+     */
+    public boolean chooseProductionPower(Player activePlayer, int productionPowerChosen) {
+
+        ProductionPower productionPower = activePlayer.getDevCardDashboard().getProductionPower(productionPowerChosen);
+
+        if(canBuyProductionPower(activePlayer, productionPower)){
+            listOfAffordableProductionPowers.add(productionPower);
+            return true;
+        }
+        else return false;
+
+    }
+
+    /**
+     * The method ensures the player can afford the Production Power.
+     * @param activePlayer the player who decided to activate the Production Power.
+     * @param productionPower is the Production Power the player wants to activate.
+     * @return true if the player can buy the Production Power, false otherwise.
+     */
+    public boolean canBuyProductionPower(Player activePlayer, ProductionPower productionPower){
+
+        List<Resource> resourceToPay = productionPower.getResourceToPay();
+
+        int shieldsToPay = 0;
+        int slavesToPay = 0;
+        int moneyToPay = 0;
+        int stoneToPay = 0;
+
+        for (Resource resource : resourceToPay) {
+            if (resource.equals(Resource.SHIELD)) {
+                shieldsToPay++;
+            }
+            if (resource.equals(Resource.SLAVE)) {
+                slavesToPay++;
+            }
+            if (resource.equals(Resource.MONEY)) {
+                moneyToPay++;
+            }
+            if (resource.equals(Resource.STONE)) {
+                stoneToPay++;
+            }
+        }
+
+        boolean affordable;
+
+        affordable = activePlayer.getChest().contains(Resource.SHIELD, shieldsToPay);
+        affordable = activePlayer.getChest().contains(Resource.SLAVE, slavesToPay);
+        affordable = activePlayer.getChest().contains(Resource.MONEY, moneyToPay);
+        affordable = activePlayer.getChest().contains(Resource.STONE, stoneToPay);
+        affordable = activePlayer.getWarehouse().contains(shieldsToPay, Resource.SHIELD);
+        affordable = activePlayer.getWarehouse().contains(slavesToPay, Resource.SLAVE);
+        affordable = activePlayer.getWarehouse().contains(moneyToPay, Resource.MONEY);
+        affordable =  activePlayer.getWarehouse().contains(stoneToPay, Resource.STONE);
+
+        return affordable;
+
+    }
+
+    /**
+     * The method allows the player to pay the production power. If the player gives wrong coordinates nothing change in the Warehouse or Chest.
+     * @param activePlayer is the player who wants to pay a production power.
+     * @param coordinates are the coordinates of the resources that the player chooses.
+     * @param productionPower is the Production Power the player wants to pay.
+     * @return true if the player manage to pay the production power, false otherwise.
+     */
+    public boolean playerPaysProductionPower(Player activePlayer, List<List<Object>> coordinates, ProductionPower productionPower){
+
+        //Correct resource control
+        for(List<Object> coordinate : coordinates) {
+
+            Resource resource = (Resource) coordinate.get(0);
+            boolean warehouse = (boolean) coordinate.get(1);
+            int shelfLevel = (int) coordinate.get(2);
+
+            if(warehouse){
+                if (!activePlayer.getWarehouse().hasResource(shelfLevel, resource)) {
+                    removeResourcesFormProductionPower(activePlayer, productionPower);
+                    return false;
+                }
+                else {
+                    activePlayer.getWarehouse().removeResourceWarehouse(shelfLevel);
+                    productionPower.addSingleCoordinate(resource, true, shelfLevel, activePlayer);
+                }
+            } else {
+                if (!activePlayer.getChest().contains(resource, 1)) {
+                    removeResourcesFormProductionPower(activePlayer, productionPower);
+                    return false;
+                }
+                else {
+                    activePlayer.getChest().removeResourceFromChest(resource, 1);
+                }
+
+            }
+
+        }
+
+        return true;
+
+    }
+
+    /**
+     * The method puts the resources of a production power back in their resource.
+     * @param activePlayer is the Player who has the Production Power.
+     * @param productionPower is the Production Power that has the coordinates of the resources.
+     * @return true if successful, false otherwise.
+     */
+    public boolean removeResourcesFormProductionPower(Player activePlayer, ProductionPower productionPower){
+        for(List<Object> coordinate : productionPower.getCoordinates()){
+            productionPower.removeSingleCoordinate(activePlayer);
+        }
+        return true;
+    }
+
+    /**
+     * The method activates every production power the player chose. It also cleans the coordinates.
+     * @return true if successful, false otherwise.
+     */
+    public boolean activateProductionPowers(){
+        for(ProductionPower productionPower : listOfAffordableProductionPowers){
+            for(Resource resource : productionPower.getResourceToPay()){
+                activePlayer.getChest().addResourceToChest(resource, 1);
+            }
+            productionPower.cleanCoordinates();
+        }
+        return true;
+    }
+
+
 }
 
 

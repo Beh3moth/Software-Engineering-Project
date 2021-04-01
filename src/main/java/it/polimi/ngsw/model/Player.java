@@ -2,7 +2,7 @@ package it.polimi.ngsw.model;
 
 public class Player {
 
-    private final String nickName;
+    private String nickName;
     private Resource discountPowerOne;
     private Resource discountPowerTwo;
     private Resource whiteMarblePowerOne;
@@ -14,8 +14,8 @@ public class Player {
     private FaithPath faithPath;
     private int PV;
 
-    public Player(String nickname){
-        this.nickName = nickname;
+    public Player(){
+        nickName = new String();
         discountPowerOne = Resource.EMPTY;
         discountPowerTwo = Resource.EMPTY;
         whiteMarblePowerOne = Resource.EMPTY;
@@ -24,11 +24,14 @@ public class Player {
         //Da rivedere! devCardDashboardd
         devCardDashboard = new DevCardDashboard();
         warehouse = new Warehouse();
-        leaderCard = new LeaderCard[2];
+        leaderCard = new LeaderCard[4];
         faithPath = new FaithPath();
         PV = 0;
     }
 
+    public void setNickName(String name){
+        nickName = name;
+    }
 
     public String getNickName(){
         return nickName;
@@ -51,22 +54,10 @@ public class Player {
     }
 
     /**
-     * Set the first LeaderCard associated to the PLayer.
-     *
-     * @param card first leaderCard of the Player.
-     */
-    public void setFirstLeaderCard(LeaderCard card) {
-        this.leaderCard[0] = card;
+    public DevCardDashboard getDevCardDashboard() {
+        return devCardDashboard;
     }
-
-    /**
-     * Set the second LeaderCard associated to the PLayer.
-     *
-     * @param card first leaderCard of the Player.
-     */
-    public void setSecondLeaderCard(LeaderCard card) {
-        this.leaderCard[1] = card;
-    }
+     **/
 
     public LeaderCard[] getLeaderCard() {
         return leaderCard;

@@ -6,6 +6,8 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class Game {
+    public static final int MAX_PLAYERS = 3;
+
     private Board board;
     private Player activePlayer;
     private List<Player> players;
@@ -14,8 +16,115 @@ public class Game {
 
     public Game(){
         this.board = new Board();
+        this.players = new ArrayList<>();
     }
 
+    /**
+     * Returns a player given his {@code nickname}.
+     * Only the first occurrence is returned because
+     * the player nickname is considered to be unique.
+     * If no player is found {@code null} is returned.
+     *
+     * @param nickname the nickname of the player to be found.
+     * @return Returns the player given his {@code nickname}, {@code null} otherwise.
+     */
+    public Player getPlayerByNickname(String nickname) {
+        return players.stream()
+                .filter(player -> nickname.equals(player.getNickName()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Adds a player to the game.
+     * Notifies all the views if the playersNumber is already set.
+     *
+     * @param player the player to add to the game.
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
+       /* if (chosenPlayersNumber != 0) {
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayersNumber));
+        }*/
+    }
+
+    /**
+     * Removes a player from the game.
+     * Notifies all the views if the notifyEnabled argument is set to {@code true}.
+     *
+     * @param nickname      the nickname of the player to remove from the game.
+     * @param notifyEnabled set to {@code true} to enable a lobby disconnection message, {@code false} otherwise.
+     * @return {@code true} if the player is removed, {@code false} otherwise.
+     */
+    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
+        boolean result = players.remove(getPlayerByNickname(nickname));
+
+        /*if (notifyEnabled) {
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.chosenPlayersNumber));
+        }*/
+
+        return result;
+    }
+
+    /**
+     * Number of current players added in the game.
+     *
+     * @return the number of players.
+     */
+    public int getNumCurrentPlayers() {
+        return players.size();
+    }
+
+    /**
+     * Returns the number of players chosen by the first player.
+     *
+     * @return the number of players chosen by the first player.
+     */
+    public int getChosenPlayersNumber() {
+        return playerNumbers;
+    }
+
+    /**
+     * Search a nickname in the current Game.
+     *
+     * @param nickname the nickname of the player.
+     * @return {@code true} if the nickname is found, {@code false} otherwise.
+     */
+    public boolean isNicknameTaken(String nickname) {
+        return players.stream()
+                .anyMatch(p -> nickname.equals(p.getNickName()));
+    }
+
+    /**
+     * Returns a list of player nicknames that are already in-game.
+     *
+     * @return a list with all nicknames in the Game
+     */
+    public List<String> getPlayersNicknames() {
+        List<String> nicknames = new ArrayList<>();
+        for (Player p : players) {
+            nicknames.add(p.getNickName());
+        }
+        return nicknames;
+    }
+
+    /**
+     * Returns the current board.
+     *
+     * @return the board of the game.
+     */
+    public Board getBoard() {
+        return board;
+    }
+
+    /**
+     * Returns a list of players.
+     *
+     * @return the players.
+     */
+    public List<Player> getPlayers() {
+        return players;
+    }
 
     /**
      * Method that permit to take resources from the market, it asks the user if column or row, and wich one

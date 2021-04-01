@@ -1,0 +1,34 @@
+[
+{
+  "PV": "5",
+  "devLevel": "2",
+  "devColour": "GREEN",
+  "devCost": ["SHIELD", "SHIELD", "SHIELD", "SHIELD"],
+  "resourcesNeeded": ["STONE"],
+  "resourceToProduce": ["FAITHPOINT", "FAITHPOINT"]
+},
+{
+"PV": "6",
+"devLevel": "2",
+"devColour": "GREEN",
+"devCost": ["SHIELD", "SHIELD", "SHIELD", "SLAVE", "SLAVE"],
+"resourcesNeeded": ["STONE"],
+"resourceToProduce": ["SLAVE"]
+},
+{
+"PV": "3",
+"devLevel": "2",
+"devColour": "Green",
+"devCost": ["SHIELD", "SHIELD", "SHIELD"],
+"resourcesNeeded": ["SLAVE", "SLAVE"],
+"resourceToProduce": ["MONEY", "SHIELD", "STONE"]
+},
+{
+"PV": "",
+"devLevel": "2",
+"devColour": "GREEN",
+"devCost": ["SHIELD", "SHIELD", "MONEY", "MONEY"],
+"resourcesNeeded": ["STONE", "SLAVE"],
+"resourceToProduce": ["MONEY", "MONEY", "FAITHPOINT"]
+}
+]

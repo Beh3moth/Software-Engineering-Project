@@ -244,11 +244,14 @@ public class Game {
 
         ProductionPower productionPower = activePlayer.getDevCardDashboard().getProductionPower(productionPowerChosen);
 
-        if(canBuyProductionPower(activePlayer, productionPower)){
-            listOfAffordableProductionPowers.add(productionPower);
-            return true;
+        if(productionPower == null){
+            return false;
+        } else{
+            if(canBuyProductionPower(activePlayer, productionPower)){
+                listOfAffordableProductionPowers.add(productionPower);
+                return true;
+            } else return false;
         }
-        else return false;
 
     }
 

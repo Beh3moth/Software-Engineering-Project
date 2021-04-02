@@ -40,11 +40,6 @@ public class ProductionPower {
 
     //Aggiunti da fede
 
-    public boolean addCoordinates(List<List<Object>> coordinates){
-        this.coordinates = coordinates;
-        return true;
-    }
-
     public List<List<Object>> getCoordinates(){
         return coordinates;
     }

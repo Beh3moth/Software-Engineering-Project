@@ -41,7 +41,9 @@ public class ProductionPower {
     //Aggiunti da fede
 
     public List<List<Object>> getCoordinates(){
-        return coordinates;
+        if(coordinates.isEmpty()){
+            return null;
+        } else return coordinates;
     }
 
     /**
@@ -53,7 +55,7 @@ public class ProductionPower {
      * @param activePlayer is the player who's  saving the coordinates.
      * @return true if the coordinates are correct and correctly added in the list, false otherwise.
      */
-    public boolean addSingleCoordinate(Resource resourceToPay, boolean warehouse, Integer shelfLevel, Player activePlayer){
+    public boolean addSingleCoordinate(Resource resourceToPay, boolean warehouse, int shelfLevel, Player activePlayer){
         List<Object> tempList = new ArrayList<>(3);
 
         if(resourceToPay!=Resource.EMPTY && shelfLevel<6){
@@ -71,14 +73,13 @@ public class ProductionPower {
                 if(activePlayer.getChest().contains(resourceToPay, 1)){
                     tempList.add(0, resourceToPay);
                     tempList.add(1, false);
-                    tempList.add(2, shelfLevel);
+                    tempList.add(2, 0);
                     coordinates.add(tempList);
                     return (coordinates.contains(tempList));
                 }
             }
 
-        }
-        else return false;
+        } else return false;
 
         return false;
 
@@ -118,11 +119,9 @@ public class ProductionPower {
 
     /**
      * Removes every coordinate without putting the resources to the resource location.
-     * @return true if successful.
      */
-    public boolean cleanCoordinates(){
+    public void cleanCoordinates(){
         coordinates.clear();
-        return true;
     }
 
 

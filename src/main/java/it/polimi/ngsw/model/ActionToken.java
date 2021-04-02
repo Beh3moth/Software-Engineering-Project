@@ -1,5 +1,6 @@
 package it.polimi.ngsw.model;
 
 public interface ActionToken {
-    public void applyToken(FaithPath lawrenceFaithPath, Board board);
+    void applyToken(FaithPath lawrenceFaithPath, Board board, Game game);
+    String getActionTokenName();
 }

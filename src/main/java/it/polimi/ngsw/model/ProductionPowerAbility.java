@@ -6,10 +6,10 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
 
     private int PV;
     private final String abilityName = "production power";
-    private List<DevCard> leaderCardCost;
+    private DevCard leaderCardCost;
     private Resource inputResource;
 
-    public ProductionPowerAbility(LeaderCard leaderCard, int PV, List<DevCard> leaderCardCost, Resource inputResource) {
+    public ProductionPowerAbility(LeaderCard leaderCard, int PV, DevCard leaderCardCost, Resource inputResource) {
         super(leaderCard);
         this.PV = PV;
         this.leaderCardCost = leaderCardCost;
@@ -38,7 +38,7 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
      * Method that return the leader card's cost.
      * @return a list of Development Cards List<DevCard>
      */
-    public List<DevCard> getLeaderCardCost() {
+    public DevCard getLeaderCardCost() {
         return leaderCardCost;
     }
 

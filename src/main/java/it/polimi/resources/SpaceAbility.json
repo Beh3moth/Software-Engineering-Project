@@ -1,0 +1,47 @@
+[
+  {
+    "PV": 3,
+    "leaderCardCost": [
+      "SHIELD",
+      "SHIELD",
+      "SHIELD",
+      "SHIELD",
+      "SHIELD"
+    ],
+    "resourceToIncrease": "MONEY"
+  },
+  {
+    "PV": 3,
+    "leaderCardCost": [
+      "MONEY",
+      "MONEY",
+      "MONEY",
+      "MONEY",
+      "MONEY"
+    ],
+    "resourceToIncrease": "STONE"
+  },
+  {
+    "PV": 3,
+    "leaderCardCost": [
+      "STONE",
+      "STONE",
+      "STONE",
+      "STONE",
+      "STONE"
+    ],
+    "resourceToIncrease": "SLAVE"
+  },
+  {
+    "PV": 3,
+    "leaderCardCost": [
+      "SLAVE",
+      "SLAVE",
+      "SLAVE",
+      "SLAVE",
+      "SLAVE"
+    ],
+    "resourceToIncrease": "SHIELD"
+  }
+
+]

@@ -21,6 +21,7 @@ public class Chest {
      * Method that add a number of resources of a certain type to the Chest.
      * @param resourceType is the parameter used as key to set the resource type.
      * @param resourceNumber is the parameter used as value to set the number of resources. It can't be negative.
+     * @return true if the resource is added, false otherwise.
      */
     public boolean addResourceToChest(Resource resourceType, Integer resourceNumber){
         if(resourceNumber>=0) {
@@ -35,6 +36,7 @@ public class Chest {
      * The method avoid the user from setting the number of resources below zero.
      * @param resourceType is the parameter used as key to set the resource type.
      * @param resourceNumber  is the parameter used as value to set the number of resources.
+     * @return true if the resource is removed, false otherwise.
      */
     public boolean removeResourceFromChest(Resource resourceType, Integer resourceNumber){
         if(chestResources.get(resourceType) - resourceNumber >= 0){

@@ -9,7 +9,7 @@ import java.util.List;
 public class ProductionPower {
     private final List<Resource> resourceToPay;
     private final List<Resource> resourceToProduce;
-    private List< List<Object> > coordinates = new ArrayList<>();
+    private List<List<Object> > coordinates = new ArrayList<>();
 
     /**
      * Constructor method: receive a list of resources and describe the production power of every cards
@@ -40,6 +40,10 @@ public class ProductionPower {
 
     //Aggiunti da fede
 
+    public List<List<Object>> getCoordinates(){
+        return coordinates;
+    }
+
     /**
      * The method adds the coordinates of a certain source at the end of a list of coordinates.
      * It also check if the coordinates are correct or not.
@@ -49,7 +53,7 @@ public class ProductionPower {
      * @param activePlayer is the player who's  saving the coordinates.
      * @return true if the coordinates are correct and correctly added in the list, false otherwise.
      */
-    public boolean addCoordinate(Resource resourceToPay, boolean warehouse, Integer shelfLevel, Player activePlayer){
+    public boolean addSingleCoordinate(Resource resourceToPay, boolean warehouse, Integer shelfLevel, Player activePlayer){
         List<Object> tempList = new ArrayList<>(3);
 
         if(resourceToPay!=Resource.EMPTY && shelfLevel<6){
@@ -66,7 +70,7 @@ public class ProductionPower {
             else {
                 if(activePlayer.getChest().contains(resourceToPay, 1)){
                     tempList.add(0, resourceToPay);
-                    tempList.add(1, true);
+                    tempList.add(1, false);
                     tempList.add(2, shelfLevel);
                     coordinates.add(tempList);
                     return (coordinates.contains(tempList));
@@ -79,5 +83,48 @@ public class ProductionPower {
         return false;
 
     }
+
+    /**
+     * The method removes the coordinates of a Production Power and it puts the Resources to the resource locations.
+     * @param activePlayer is the player who decided to renounce to a Production Power activated previously.
+     * @return true if the method is successful.
+     */
+    public boolean removeSingleCoordinate(Player activePlayer){
+
+        Resource resourceToPay;
+        boolean warehouse;
+        int shelfLevel;
+
+        for (List<Object> coordinate : coordinates) {
+
+            resourceToPay = (Resource) coordinate.get(0);
+            warehouse = (boolean) coordinate.get(1);
+            if (warehouse) {
+                shelfLevel = (int) coordinate.get(2);
+                if(!activePlayer.getWarehouse().addResourceToWarehouse(shelfLevel, resourceToPay)){
+                    return false;
+                }
+            } else {
+                if(!activePlayer.getChest().addResourceToChest(resourceToPay, 1)){
+                    return false;
+                }
+            }
+
+        }
+
+        return true;
+
+    }
+
+    /**
+     * Removes every coordinate without putting the resources to the resource location.
+     * @return true if successful.
+     */
+    public boolean cleanCoordinates(){
+        coordinates.clear();
+        return true;
+    }
+
+
 
 }

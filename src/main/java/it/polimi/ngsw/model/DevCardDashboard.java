@@ -31,7 +31,7 @@ public class DevCardDashboard {
         this.devCards = new DevCard[MAX_SLOT][MAX_CARDS_FOR_SLOT];  //qui devo valutare se inizializzare come nuova carta
         // this.leaderProductionPowerOne = new ProductionPower();      //qui è nullo all'inizio, valuto se mi serve il metodo costruttore o lo inizializzo come nullo
         //this.leaderProductionPowerTwo = new ProductionPower();
-        initDevCardStat();                                         //inizializza i livelli degli slot e i boolean dei poteri di produzione extra
+        //initDevCardStat();                                         //inizializza i livelli degli slot e i boolean dei poteri di produzione extra
 
     }
 
@@ -73,7 +73,7 @@ public class DevCardDashboard {
     }
 
 
-    //public void setLevel(){}   inutile? aumento il livello solo quando aggiungo
+    //public void setLevel(){} inutile? aumento il livello solo quando aggiungo
     /** serve? posso fare da controller, devo togliere due risorse di qualsiasi tipo e metterne una nuova nel forziere
      *
      **/
@@ -155,4 +155,29 @@ public class DevCardDashboard {
     }
 
 
+    //Aggiunti da fede
+
+    public ProductionPower getLeaderProductionPowerOne(){
+        return this.leaderProductionPowerOne;
+    }
+
+    public ProductionPower getLeaderProductionPowerTwo(){
+        return this.leaderProductionPowerTwo;
+    }
+
+    public ProductionPower getProductionPower(int slot){
+        if(slot>=0 && slot<=2){
+            return devCards[slot][getLevel(slot)-1].getProductionPower();
+        }
+       else if(slot == 3){
+           return getLeaderProductionPowerOne();
+        }
+       else if (slot == 4) {
+           return  getLeaderProductionPowerTwo();
+       }
+       else return null;
+    }
+
+
 }
+

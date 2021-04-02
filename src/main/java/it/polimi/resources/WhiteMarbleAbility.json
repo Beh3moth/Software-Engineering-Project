@@ -1,0 +1,38 @@
+[
+  {
+    "PV": 5,
+    "leaderCardCost": [
+      "YELLOW",
+      "YELLOW",
+      "BLUE"
+    ],
+    "resourceToObtain":"SLAVE"
+  },
+  {
+    "PV": 5,
+    "leaderCardCost": [
+      "GREEN",
+      "GREEN",
+      "PURPLE"
+    ],
+    "resourceToObtain":"SHIELD"
+  },
+  {
+    "PV": 5,
+    "leaderCardCost": [
+      "BLUE",
+      "BLUE",
+      "YELLOW"
+    ],
+    "resourceToObtain":"STONE"
+  },
+  {
+    "PV": 5,
+    "leaderCardCost": [
+      "PURPLE",
+      "PURPLE",
+      "GREEN"
+    ],
+    "resourceToObtain":"MONEY"
+  }
+]

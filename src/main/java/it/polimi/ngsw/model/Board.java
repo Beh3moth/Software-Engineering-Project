@@ -22,6 +22,7 @@ public class Board{
     private DevCardSpace[][] devDashboard;
 
     public Board(){
+        marketDashboard = new Marble[3][4];
         List<Marble> marbles = new ArrayList<Marble>();
         marbles.add(new RedMarble());
         marbles.add(new BlueMarble());
@@ -40,12 +41,14 @@ public class Board{
         Marble[] support = marbles.toArray(new Marble[marbles.size()]);
         int z = 0;
         for(int i = 0; i < 3 ; i++){
-            for(int j = 0; i < 4 ; j++){
+            for(int j = 0; j < 4 ; j++){
                 marketDashboard[i][j] = support[z];
                 z++;
             }
         }
-        this.singleMarble = support[12];
+        this.singleMarble = support[12];  //TESTATO
+
+
         this.devDashboard = new DevCardSpace[MAX_ROWS_MARKET][MAX_COLUMNS_MARKET];
         initDevDashboard();
 
@@ -104,15 +107,15 @@ public class Board{
      * @param activePlayer  the player
      */
     public void getMarbleRow(int row, Player activePlayer){
-        for(int j = 0; j < 3; j++ ){
-            this.marketDashboard[row][j].actionMarble(activePlayer);
+        for(int j = 0; j < 4; j++ ){
+            this.marketDashboard[row-1][j].actionMarble(activePlayer);
         }
         Marble supportMarble = this.singleMarble;
-        this.singleMarble = this.marketDashboard[row][0];
-        this.marketDashboard[row][0] = this.marketDashboard[row][1];
-        this.marketDashboard[row][1] = this.marketDashboard[row][2];
-        this.marketDashboard[row][2] = this.marketDashboard[row][3];
-        this.marketDashboard[row][3] = supportMarble;
+        this.singleMarble = this.marketDashboard[row-1][0];
+        this.marketDashboard[row-1][0] = this.marketDashboard[row-1][1];
+        this.marketDashboard[row-1][1] = this.marketDashboard[row-1][2];
+        this.marketDashboard[row-1][2] = this.marketDashboard[row-1][3];
+        this.marketDashboard[row-1][3] = supportMarble;
 
     }
 
@@ -122,14 +125,14 @@ public class Board{
      * @param activePlayer  the player
      */
     public void getMarbleColumn(int column, Player activePlayer){
-        for(int j = 0; j < 4; j++ ){
-            this.marketDashboard[j][column].actionMarble(activePlayer);
+        for(int j = 0; j < 3; j++ ){
+            this.marketDashboard[j][column-1].actionMarble(activePlayer);
         }
         Marble supportMarble = this.singleMarble;
-        this.singleMarble = this.marketDashboard[0][column];
-        this.marketDashboard[0][column] = this.marketDashboard[1][column];
-        this.marketDashboard[1][column] = this.marketDashboard[2][column];
-        this.marketDashboard[2][column] = supportMarble;
+        this.singleMarble = this.marketDashboard[0][column-1];
+        this.marketDashboard[0][column-1] = this.marketDashboard[1][column-1];
+        this.marketDashboard[1][column-1] = this.marketDashboard[2][column-1];
+        this.marketDashboard[2][column-1] = supportMarble;
     }
 
     /**

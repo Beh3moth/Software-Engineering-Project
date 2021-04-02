@@ -19,4 +19,5 @@ abstract class Marble{
     public void actionMarble(Player player){
     }
 
+    public  Resource getResource(){return typeResource;};
 }

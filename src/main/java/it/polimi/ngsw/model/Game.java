@@ -148,7 +148,7 @@ public class Game {
                 if(column > 0 && column < 5){
                     allRightTwo = true;
                 }
-                }while(allRightTwo);
+                }while(!allRightTwo);
                 this.board.getMarbleColumn(column, activePlayer);
             }
             else if(sector == 2){
@@ -161,7 +161,7 @@ public class Game {
                     if(row > 0 && row < 4){
                         allRightTwo = true;
                     }
-                }while(allRightTwo);
+                }while(!allRightTwo);
                 this.board.getMarbleRow(row, activePlayer);
             }
         } while (!allRight);
@@ -204,7 +204,9 @@ public class Game {
 
                     } while (!goneRight);
                     generalValidator = activePlayer.getWarehouse().addResourceToWarehouse(level, activePlayer.getWarehouse().getStockResource(0)); //devo controllare poi se una volta dentro la inserisco veramente
-                    activePlayer.getWarehouse().removeFirstResourceFromStock();
+                    if(generalValidator == true){activePlayer.getWarehouse().removeFirstResourceFromStock();
+                        j--;
+                        up--;}
                 } else if (choosen == 3) {
                     int levelUp = 1;
                     if (activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY) {
@@ -219,8 +221,10 @@ public class Game {
                         }
                     } while (!goneRight);
                     generalValidator = activePlayer.getWarehouse().addResourceToSpecialLevel(level, activePlayer.getWarehouse().getStockResource(0));
-                    activePlayer.getWarehouse().removeFirstResourceFromStock();
-
+                    if(generalValidator == true){
+                        activePlayer.getWarehouse().removeFirstResourceFromStock();
+                        j--;
+                        up--;}
                 } else if (choosen == 4) {
                     reorderWarehouse(activePlayer);
                 }

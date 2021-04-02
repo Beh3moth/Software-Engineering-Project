@@ -100,21 +100,15 @@ public class Warehouse {
      */
     public boolean addResourceToSpecialLevel (int level, Resource resource){ //ok, faccio che finchè non ho vero, chiamo questo metodo
 
-        if(level < 1 || level > 2){//controllo che il livello sia valido
-            return false;
-        }
 
         switch (level){
 
             case 1:
-                if(firstLeaderLevelType == Resource.EMPTY){//piano non attivo
-                    return false;
-                }
                 if(firstLeaderLevelType != resource){//risorsa non valida
                     return false;
                 }
                 else{//risorsa valida
-                    if(firstLeaderLevel.getResourceNumber()<=2){//si può aggiungere risorsa
+                    if(firstLeaderLevel.getResourceNumber()<2){//si può aggiungere risorsa
                         firstLeaderLevel.addResourceNumber();
                         return true;
                     }
@@ -124,14 +118,11 @@ public class Warehouse {
                 }
 
             case 2:
-                if(secondLeaderLevelType == Resource.EMPTY){//piano non attivo
-                    return false;
-                }
                 if(secondLeaderLevelType != resource){//risorsa non valida
                     return false;
                 }
                 else{//risorsa valida
-                    if(secondLeaderLevel.getResourceNumber()<=2){//si può aggiungere risorsa
+                    if(secondLeaderLevel.getResourceNumber()<2){//si può aggiungere risorsa
                         secondLeaderLevel.addResourceNumber();
                         return true;
                     }
@@ -386,18 +377,18 @@ public class Warehouse {
      * @param level
      * @return null if the level is not valid
      */
-    public Shelf getShelf(int level){
-        switch(level) {
-            case 1:
-                return firstLevel;
-            case 2:
-                return secondLevel;
-            case 3:
-                return thirdLevel;
-            default:
-                return null;
+        public Shelf getShelf(int level){
+            switch(level) {
+                case 1:
+                    return firstLevel;
+                case 2:
+                    return secondLevel;
+                case 3:
+                    return thirdLevel;
+                default:
+                    return null;
+            }
         }
-    }
 
     /**
      * this method returns the leader's shelf of the level passed by parameter

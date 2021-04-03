@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,7 +130,6 @@ public class GameTest {
 
     @Test
     public void activateProductionPowersTest(){
-
         canBuyProductionPowerTest();
         assertTrue(game.activateProductionPowers());
 

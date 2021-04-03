@@ -4,12 +4,13 @@ import java.util.List;
 
 public class ProductionPowerAbility extends LeaderCardBaseDecorator{
 
-    private int PV;
+    private final int PV;
     private final String abilityName = "production power";
-    private DevCard leaderCardCost;
-    private Resource inputResource;
+    private final DevCardColour leaderCardCost;
+    private final int devCardLevel = 2;
+    private final Resource inputResource;
 
-    public ProductionPowerAbility(LeaderCard leaderCard, int PV, DevCard leaderCardCost, Resource inputResource) {
+    public ProductionPowerAbility(LeaderCard leaderCard, int PV, DevCardColour leaderCardCost, Resource inputResource) {
         super(leaderCard);
         this.PV = PV;
         this.leaderCardCost = leaderCardCost;
@@ -38,8 +39,16 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
      * Method that return the leader card's cost.
      * @return a list of Development Cards List<DevCard>
      */
-    public DevCard getLeaderCardCost() {
+    public DevCardColour getLeaderCardCost() {
         return leaderCardCost;
+    }
+
+    /**
+     * The method returns the DevCardLevel required.
+     * @return the DevCardLevel required.
+     */
+    public int getDevCardLevel() {
+        return devCardLevel;
     }
 
     /**

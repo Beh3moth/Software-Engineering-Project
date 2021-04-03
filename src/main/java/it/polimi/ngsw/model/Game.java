@@ -1,5 +1,6 @@
 package it.polimi.ngsw.model;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Game {
@@ -10,11 +11,13 @@ public class Game {
     private int playerNumbers;
     private FaithPath lawrenceFaithPath = new FaithPath();
     private Deque<ActionToken> actionTokensDeque = new ArrayDeque<>(6);
-    private List<LeaderCard> leaderCards = new ArrayList<>(16);
 
-
+    private List<LeaderCard> leaderCards = new ArrayList<>();
+    private LeaderCardParser leaderCardParser;
+    
     public Game(){
         initActionTokensDeque();
+        this.leaderCards = initLeaderCards();
     }
 
     /**
@@ -295,6 +298,18 @@ public class Game {
             if(players.get(i) != activePlayer){
                 players.get(i).getFaithPath().increaseCrossPosition();
             }
+        }
+    }
+
+
+    //LeaderCard methods
+
+    private List<LeaderCard> initLeaderCards() {
+        try{
+            return leaderCardParser.initLeaderCards();
+        }
+        catch (FileNotFoundException e){
+            return null;
         }
     }
 

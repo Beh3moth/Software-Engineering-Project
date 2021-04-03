@@ -7,10 +7,10 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
 
     private int PV;
     private final String abilityName = "discount";
-    private List<DevCard> leaderCardCost;
+    private List<DevCardColour> leaderCardCost;
     private Resource discountResource;
 
-    public DiscountAbility(LeaderCard leaderCard, int PV, List<DevCard> leaderCardCost, Resource discountResource) {
+    public DiscountAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource discountResource) {
         super(leaderCard);
         this.PV = PV;
         this.leaderCardCost = leaderCardCost;
@@ -39,7 +39,7 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
      * Method that return the leader card's cost.
      * @return a list of Development Cards List<DevCard>
      */
-    public List<DevCard> getLeaderCardCost() {
+    public List<DevCardColour> getLeaderCardCost() {
         return leaderCardCost;
     }
 

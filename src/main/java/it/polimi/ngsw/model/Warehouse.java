@@ -138,65 +138,45 @@ public class Warehouse {
     /**
      * this method discards a resource directly from the warehouse checking that it is legal
      * @param level
-     * @param resource
      * @return true if the resource was successfully discarded false otherwise
      */
-    public boolean discardResourceFromWarehouse (int level, Resource resource){
-
-        if (level < 1 || level > 3){//controlla che il piano sia valido
-            return false;
-        }
+    public boolean discardResourceFromWarehouse (int level){
 
         switch(level){
 
             case 1 :
-                if(firstLevel.getResourceType() != resource ){//nel piano c'è un'altra risorsa
+                if(firstLevel.getResourceNumber() == 0){//nel piano non c'è niente
                     return false;
                 }
-                if(firstLevel.getResourceNumber() == 0){//nel piano non c'è niente
-                    return false; //credo, dato che non deve aggiungere punti fede
-                }
-                //ora il piano dovrebbe possedere solamente una risorsa da scartare
                 firstLevel.removeResourceNumber();
                 firstLevel.setResourceType(Resource.EMPTY);
-                //bisognerebbe chiamare una funzione che aggiunge un punto fede agli altri giocatori
                 return true;
 
-            case 2:
-                if(secondLevel.getResourceType() != resource ){//nel piano c'è un'altra risorsa
-                    return false;
-                }
+            case 2 :
                 if(secondLevel.getResourceNumber() == 0){//nel piano non c'è niente
-                    return false; //credo, dato che non deve aggiungere punti fede
+                    return false;
                 }
                 if(secondLevel.getResourceNumber() == 1){//c'è solo un elemento da scartare
                     secondLevel.removeResourceNumber();
                     secondLevel.setResourceType(Resource.EMPTY);
-                    //bisognerebbe chiamare una funzione che aggiunge un punto fede agli altri giocatori
                     return true;
                 }
-                else{//ci sono due elementi
+                else{
                     secondLevel.removeResourceNumber();
-                    //bisognerebbe chiamare una funzione che aggiunge un punto fede agli altri giocatori
                     return true;
                 }
 
             case 3:
-                if(thirdLevel.getResourceType() != resource ){//nel piano c'è un'altra risorsa
-                    return false;
-                }
                 if(thirdLevel.getResourceNumber() == 0){//nel piano non c'è niente
-                    return false; //credo, dato che non deve aggiungere punti fede
+                    return false;
                 }
                 if(thirdLevel.getResourceNumber() == 1){//c'è solo un elemento da scartare
                     thirdLevel.removeResourceNumber();
                     thirdLevel.setResourceType(Resource.EMPTY);
-                    //bisognerebbe chiamare una funzione che aggiunge un punto fede agli altri giocatori
                     return true;
                 }
                 else{//ci sono due/tre elementi
                     thirdLevel.removeResourceNumber();
-                    //bisognerebbe chiamare una funzione che aggiunge un punto fede agli altri giocatori
                     return true;
                 }
 
@@ -207,10 +187,9 @@ public class Warehouse {
     /**
      * a method that discards a resource directly from the special shelves
      * @param level
-     * @param resource
      * @return true if discarded directly, false otherwise
      */
-    public boolean discardResourceFromSpecialLevel (int level, Resource resource){
+    public boolean discardResourceFromSpecialLevel (int level){
 
         if(level < 1 || level > 2){//controllo che il livello sia valido
             return false;
@@ -218,39 +197,25 @@ public class Warehouse {
 
         switch(level){
             case 1:
-                if(firstLeaderLevelType == Resource.EMPTY){//piano non attivo
+                if(firstLeaderLevel.getResourceNumber() == 0){//ce ne sono 0, quindi non scarto nulla
                     return false;
                 }
-                if(firstLeaderLevelType != resource){//risorsa non valida
-                    return false;
-                }
-                else{//risorsa valida
-                    if(firstLeaderLevel.getResourceNumber() == 0){//ce ne sono 0, quindi non scarto nulla
-                        return false;
-                    }
-                    else{
-                        firstLeaderLevel.removeResourceNumber();
-                        //metodo che aggiunge punti fede agli altri giocatori
-                        return true;
-                    }
+                else{
+                    firstLeaderLevel.removeResourceNumber();
+                    //metodo che aggiunge punti fede agli altri giocatori
+                    return true;
+
                 }
             case 2:
-                if(secondLeaderLevelType == Resource.EMPTY){//piano non attivo
+                if(secondLeaderLevel.getResourceNumber() == 0){//ce ne sono 0, quindi non scarto nulla
                     return false;
                 }
-                if(secondLeaderLevelType != resource){//risorsa non valida
-                    return false;
+                else{
+                    secondLeaderLevel.removeResourceNumber();
+                    //metodo che aggiunge punti fede agli altri giocatori
+                    return true;
                 }
-                else{//risorsa valida
-                    if(secondLeaderLevel.getResourceNumber() == 0){//ce ne sono 0, quindi non scarto nulla
-                        return false;
-                    }
-                    else{
-                        secondLeaderLevel.removeResourceNumber();
-                        //metodo che aggiunge punti fede agli altri giocatori
-                        return true;
-                    }
-                }
+
         }
         return false;
     }
@@ -445,6 +410,7 @@ public class Warehouse {
     public int getStockResourceNumber(){
         return warehouseStock.size();
     }
+
     public boolean removeResourceWarehouse(int level){
         switch(level){
             case 1 :
@@ -487,28 +453,40 @@ public class Warehouse {
         return false;
     }
 
+
     public boolean removeSpecialResourceWarehouse(int level){
         switch(level){
             case 1:
-                    if(firstLeaderLevel.getResourceNumber() == 0){
-                        return false;
-                    }
-                    else{
-                        firstLeaderLevel.removeResourceNumber();
-                        return true;
-                    }
+                if(firstLeaderLevel.getResourceNumber() == 0){
+                    return false;
+                }
+                if(firstLeaderLevel.getResourceNumber() == 1){
+                    firstLeaderLevel.removeResourceNumber();
+                    firstLeaderLevel.setResourceType(Resource.EMPTY);
+                    return true;
+                }
+                else{
+                    firstLeaderLevel.removeResourceNumber();
+                    return true;
+                }
 
             case 2:
-                    if(secondLeaderLevel.getResourceNumber() == 0){
-                        return false;
-                    }
-                    else{
-                        secondLeaderLevel.removeResourceNumber();
-                        return true;
-                    }
+                if(secondLeaderLevel.getResourceNumber() == 0){
+                    return false;
+                }
+                if(secondLeaderLevel.getResourceNumber() == 1){
+                    secondLeaderLevel.removeResourceNumber();
+                    secondLeaderLevel.setResourceType(Resource.EMPTY);
+                    return true;
+                }
+                else{
+                    secondLeaderLevel.removeResourceNumber();
+                    return true;
+                }
         }
         return false;
     }
+
 
     /**
      * this method returns true if the resource is present in the warehouse on the "level" floor

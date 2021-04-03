@@ -19,7 +19,6 @@ public class Game {
         initActionTokensDeque();
     }
 
-
     /**
      * Method that permit to take resources from the market, it asks the user if column or row, and wich one
      * @param activePlayer the player that do the action
@@ -37,11 +36,11 @@ public class Game {
                 int column;
                 boolean allRightTwo = false;
                 do{
-                System.out.println("Choose between 1 and 4");
-                column= input.nextInt();
-                if(column > 0 && column < 5){
-                    allRightTwo = true;
-                }
+                    System.out.println("Choose between 1 and 4");
+                    column= input.nextInt();
+                    if(column > 0 && column < 5){
+                        allRightTwo = true;
+                    }
                 }while(!allRightTwo);
                 this.board.getMarbleColumn(column, activePlayer);
             }
@@ -84,7 +83,7 @@ public class Game {
                 int level;
                 if (choosen == 1) {
                     generalValidator = activePlayer.getWarehouse().removeFirstResourceFromStock();
-                    addOtherFaithPoint(activePlayer);
+                    //addOtherFaithPoint(activePlayer);
                     j--;
                     up--;
                 } else if (choosen == 2) {
@@ -94,13 +93,14 @@ public class Game {
                         level = input.nextInt();
                         if (0 < level && level < 4) {
                             goneRight = true;
-                        }
+                        }else{System.out.println("Not valid, choose again");}
 
                     } while (!goneRight);
                     generalValidator = activePlayer.getWarehouse().addResourceToWarehouse(level, activePlayer.getWarehouse().getStockResource(0)); //devo controllare poi se una volta dentro la inserisco veramente
                     if(generalValidator == true){activePlayer.getWarehouse().removeFirstResourceFromStock();
                         j--;
                         up--;}
+                    //QUA DEVO METTERE SOLO SE è ANDATO POSITIVOOOOOOO
                 } else if (choosen == 3) {
                     int levelUp = 1;
                     if (activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY) {
@@ -119,42 +119,69 @@ public class Game {
                         activePlayer.getWarehouse().removeFirstResourceFromStock();
                         j--;
                         up--;}
-                } else if (choosen == 4) {
+
+                } else if (choosen == 4) { //da finireeeeeeeeeee
                     reorderWarehouse(activePlayer);
                 }
             } while (!generalValidator);
             j++;
 
         }
+        System.out.println(activePlayer.getWarehouse().getShelf(1).getResourceType() + " " +  activePlayer.getWarehouse().getShelf(1).getResourceNumber() + "  " + "  " + activePlayer.getWarehouse().getShelf(2).getResourceType() +  " " +  activePlayer.getWarehouse().getShelf(2).getResourceNumber() + "  " + "  " + " " + activePlayer.getWarehouse().getShelf(3).getResourceType() + "  " + " " +  activePlayer.getWarehouse().getShelf(3).getResourceNumber() + "  " + "  ");
+        reorderWarehouse(activePlayer);
     }
 
     public void reorderWarehouse(Player activePlayer) {
         Scanner input = new Scanner(System.in);
+        int quantityOfElementSupport = 0;
         int choosen;
-        boolean verifier = false;
+        boolean verifier = false; //se true, finish process
+        List<Resource> support = new ArrayList<Resource>();
         do{
-            System.out.println("Chose what to do: 1)Finish 2)Throw away resource 2)Move resources");
+            System.out.println("The situation: First shelf " + activePlayer.getWarehouse().getShelf(1).getResourceType() + " " + activePlayer.getWarehouse().getShelf(1).getResourceNumber());
+            System.out.println("Second shelf " + activePlayer.getWarehouse().getShelf(2).getResourceType() + " " + activePlayer.getWarehouse().getShelf(2).getResourceNumber());
+            System.out.println("Third shelf " + activePlayer.getWarehouse().getShelf(3).getResourceType() + " " + activePlayer.getWarehouse().getShelf(3).getResourceNumber());
+            System.out.println("First special shelf " + activePlayer.getWarehouse().getLeaderShelf(1).getResourceType()+ " " + activePlayer.getWarehouse().getLeaderShelf(1).getResourceNumber());
+            System.out.println("Second special shelf " + activePlayer.getWarehouse().getLeaderShelf(2).getResourceType()+ " " + activePlayer.getWarehouse().getLeaderShelf(2).getResourceNumber());
+            System.out.println("Chose what to do: 1)Finish process 2)Throw away a resource 3) throw away a leader resource 4)Move resources to Stock 5)RePut resource to warehouse");
             choosen = input.nextInt();
-            boolean goneWell = false;
+
+            boolean goneWell = false; //if true, adds others faithpoint
+
+
             if(choosen == 1){
-                verifier = true;
+                if(support.isEmpty()){
+                    verifier = true;}
+                else{ System.out.println("You still have some resources to manage ");
+                    //qua potrei elencare quali
+                }
             }
             else if(choosen == 2){
                 System.out.println("Chose a shelf to remove from (between 1 and 3");
-                choosen = input.nextInt();
+                int choosenTwo = input.nextInt();
 
-                if(choosen < 4 && 0 < choosen){
-                    goneWell = activePlayer.getWarehouse().removeResourceWarehouse(choosen);
+                if(choosenTwo < 4 && 0 < choosenTwo){
+                    goneWell = activePlayer.getWarehouse().discardResourceFromWarehouse(choosenTwo);
+                }
+                if(goneWell == false){
+                    System.out.println("Nothing was throw away");
                 }
             }
-                else if(choosen == 4){
-                    int levelUp = 1;
-                    int level;
-                    if (activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY) {
-                        levelUp = 2;
-                    }
+            else if(choosen == 3){
+                int levelUp = 0;
+                int level = 0;
+                if (activePlayer.getWarehouse().getLeaderLevelType(1) != Resource.EMPTY) {
+                    levelUp = 1;
+                }
+                if (activePlayer.getWarehouse().getLeaderLevelType(1) != Resource.EMPTY && activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY) {
+                    levelUp = 2;
+                }
+                boolean goneRight = false;
+                if(levelUp == 0){
+                    System.out.println("You don't have special shelf");
+                }
+                else if(levelUp > 0) {
                     System.out.println("Choose wich specialshelf of the warehouse");
-                    boolean goneRight = false;
                     do {
                         level = input.nextInt();
                         if (0 < level && level <= levelUp) {
@@ -162,15 +189,106 @@ public class Game {
                         }
 
                     } while (!goneRight);
-                    goneWell = activePlayer.getWarehouse().removeSpecialResourceWarehouse(level);
                 }
-                if(goneWell == true){
-                    addOtherFaithPoint(activePlayer);
-                }
+                goneWell = activePlayer.getWarehouse().discardResourceFromSpecialLevel(level);
+            }
+            else if(choosen == 4){
+                System.out.println("Choose a floor to take resource from 1-3 normal shelf, 4-5 leader shelf");
+                int choosenTwo = input.nextInt();
+                boolean okParam = false;
+                if(choosenTwo < 4 && 0 < choosenTwo){
+                    if(activePlayer.getWarehouse().getShelf(choosenTwo).getResourceType() != Resource.EMPTY) {
+                        support.add(activePlayer.getWarehouse().getShelf(choosenTwo).getResourceType());
+                        quantityOfElementSupport++;
+                    }
+                    okParam = activePlayer.getWarehouse().removeResourceWarehouse(choosenTwo);
+                    if(okParam == false){
+                        System.out.println("Not valid");
+                        //support.remove(quantityOfElementSupport - 1);
+                    }
 
-            else if(choosen == 2){
+                }
+                else if(choosenTwo == 4 && activePlayer.getWarehouse().getLeaderLevelType(1) != Resource.EMPTY){
+                    if(activePlayer.getWarehouse().getLeaderShelf(1).getResourceType() != Resource.EMPTY) {
+                        support.add(activePlayer.getWarehouse().getLeaderShelf(1).getResourceType());
+                        quantityOfElementSupport++;
+                    }
+                    okParam = activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                    if(okParam == false){
+                        System.out.println("Not valid");
+                        //if(activePlayer.getWarehouse().getLeaderShelf(1).getResourceType() != Resource.EMPTY) {
+                        //support.remove(quantityOfElementSupport - 1);
+                        //}
+                    }
+                }
+                else if(choosenTwo == 5 && activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY){
+                    if(activePlayer.getWarehouse().getLeaderShelf(2).getResourceType() != Resource.EMPTY) {
+                        support.add(activePlayer.getWarehouse().getLeaderShelf(2).getResourceType());
+                        quantityOfElementSupport++;
+                    }
+                    okParam = activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                    if(okParam == false){
+                        System.out.println("Not valid");
+                        //if(activePlayer.getWarehouse().getLeaderShelf(2).getResourceType() != Resource.EMPTY) {
+                        // support.remove(quantityOfElementSupport - 1);}
+                    }
+                }
+                else{
+                    System.out.println("Not valid");
+                }
+            }
+            else if(choosen == 5){
+                System.out.println("All the resources that you have to manage: ");
+                // if(quantityOfElementSupport == 0){
+                //     System.out.println("Nothing");
+                // }
+                for(int i = 0; i < quantityOfElementSupport; i++){
+                    System.out.println(support.get(i));
+                }
+                int i = 0;
+                while(i < quantityOfElementSupport){
+                    System.out.println("What do you want to do with this?  " + support.get(i) + " 1) Put inside Warehouse 2) Discard completaly   (Others do nothing)");
+                    int choosenTwo = input.nextInt();
+                    boolean Validator = false;
+                    if(choosenTwo == 2){
+                        support.remove(i);
+                        addOtherFaithPoint(activePlayer);
+                        System.out.println("Aggiunta agli altri dei faith point");
+                        i--;
+                        quantityOfElementSupport--;
+                    }
+                    else if(choosenTwo == 1){
+                        System.out.println("Inside wich shelf 1-3 normal, 4-5");
+                        int choosenThree = input.nextInt();
+                        if(choosenThree > 0 && choosenThree < 4) {
+                            Validator = activePlayer.getWarehouse().addResourceToWarehouse(choosenThree, support.get(i)); //devo controllare poi se una volta dentro la inserisco veramente
+                        }
+                        else if(choosenThree < 6 && choosenThree > 3){
+                            Validator = activePlayer.getWarehouse().addResourceToSpecialLevel(choosenThree - 3, support.get(i));
+                        }
+                        if(Validator == true){
+                            support.remove(i);
+                            i--;
+                            quantityOfElementSupport--;
+                        }else {
+                            System.out.println("Failed, not valid to insert, chose again what to do with this resource");
+                            i--;
+                        }
+                    }
+                    else{
+                        System.out.println("Resource skipped, remember to go back again later");
+                    }
+                    i++;
+
+                }
 
             }
+
+            if(goneWell == true){
+                addOtherFaithPoint(activePlayer);
+                System.out.println("Aggiunta agli altri dei faith point");
+            }
+
         }while(!verifier);
     }
 

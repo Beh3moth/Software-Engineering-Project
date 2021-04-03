@@ -29,7 +29,7 @@ public class DevCard {
      * @return the int that represents the level of a Development Card.
      */
     public int getDevLevel(){
-        return devLevel;
+        return this.devLevel;
     }
 
     /**

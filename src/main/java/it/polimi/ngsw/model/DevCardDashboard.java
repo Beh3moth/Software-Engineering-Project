@@ -29,6 +29,7 @@ public class DevCardDashboard {
 
     public DevCardDashboard(){
         this.devCards = new DevCard[MAX_SLOT][MAX_CARDS_FOR_SLOT];  //qui devo valutare se inizializzare come nuova carta
+        this.devCardLevel = new int[10];
         // this.leaderProductionPowerOne = new ProductionPower();      //qui è nullo all'inizio, valuto se mi serve il metodo costruttore o lo inizializzo come nullo
         //this.leaderProductionPowerTwo = new ProductionPower();
         //initDevCardStat();                                         //inizializza i livelli degli slot e i boolean dei poteri di produzione extra
@@ -167,7 +168,12 @@ public class DevCardDashboard {
 
     public ProductionPower getProductionPower(int slot){
         if(slot>=0 && slot<=2){
-            return devCards[slot][getLevel(slot)-1].getProductionPower();
+            try{
+                return devCards[slot][getLevel(slot)-1].getProductionPower();
+            }
+            catch (IndexOutOfBoundsException e){
+                return null;
+            }
         }
        else if(slot == 3){
            return getLeaderProductionPowerOne();

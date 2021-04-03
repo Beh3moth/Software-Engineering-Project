@@ -4,7 +4,7 @@ import java.util.*;
 
 public class Game {
 
-    private Board board;
+    private Board board = new Board();
     private Player activePlayer;
     private List<Player> players;
     private int playerNumbers;
@@ -12,8 +12,6 @@ public class Game {
     private Deque<ActionToken> actionTokensDeque = new ArrayDeque<>(6);
     private List<LeaderCard> leaderCards = new ArrayList<>(16);
 
-    //List of production powers the player decides to activate between among his available Production Powers.
-    List<ProductionPower> listOfAffordableProductionPowers = new ArrayList<>();
 
     public Game(){
         initActionTokensDeque();
@@ -315,15 +313,14 @@ public class Game {
      * The method initialized the tokens and shuffles the Deque of ActionToken using a List as support.
      * @return true if execution is successful and does not modify the Deque.
      */
-    private boolean initActionTokensDeque(){
-        //Action tokens initialization
+    private void initActionTokensDeque(){
         this.actionTokensDeque.add(new DiscardDevCard(DevCardColour.BLUE));
         this.actionTokensDeque.add(new DiscardDevCard(DevCardColour.YELLOW));
         this.actionTokensDeque.add(new DiscardDevCard(DevCardColour.GREEN));
         this.actionTokensDeque.add(new DiscardDevCard(DevCardColour.PURPLE));
         this.actionTokensDeque.add(new Move());
         this.actionTokensDeque.add(new MoveAndScrum());
-        return shuffleActionTokensDeque();
+        shuffleActionTokensDeque();
     }
 
     /**
@@ -353,7 +350,10 @@ public class Game {
     }
 
 
-    //Activate Production Power's methods
+    //Activate Production Power's
+
+    //List of production powers the player decides to activate between among his available Production Powers.
+    private List<ProductionPower> listOfAffordableProductionPowers = new ArrayList<>();
 
     /**
      * The method allows the player to choose a Production power to use. The method also ensures the player can afford the Production Power.
@@ -370,8 +370,7 @@ public class Game {
             return false;
         } else{
             if(canBuyProductionPower(activePlayer, productionPower)){
-                listOfAffordableProductionPowers.add(productionPower);
-                return true;
+                return listOfAffordableProductionPowers.add(productionPower);
             } else return false;
         }
 
@@ -387,38 +386,32 @@ public class Game {
 
         List<Resource> resourceToPay = productionPower.getResourceToPay();
 
-        int shieldsToPay = 0;
-        int slavesToPay = 0;
-        int moneyToPay = 0;
-        int stoneToPay = 0;
+        Resource[] resourcesArray = new Resource[4];
+        resourcesArray[0] = Resource.SHIELD;
+        resourcesArray[1] = Resource.MONEY;
+        resourcesArray[2] = Resource.SLAVE;
+        resourcesArray[3] = Resource.STONE;
+
+        int[] resourceToPayArray = new int[4];
 
         for (Resource resource : resourceToPay) {
-            if (resource.equals(Resource.SHIELD)) {
-                shieldsToPay++;
-            }
-            if (resource.equals(Resource.SLAVE)) {
-                slavesToPay++;
-            }
-            if (resource.equals(Resource.MONEY)) {
-                moneyToPay++;
-            }
-            if (resource.equals(Resource.STONE)) {
-                stoneToPay++;
+            for(int j=0; j<4; j++){
+                if (resource.equals(resourcesArray[j])) {
+                    resourceToPayArray[j]++;
+                }
             }
         }
+        int i=0;
+        for(Resource resourceType : resourcesArray){
+            boolean chestContains = activePlayer.getChest().contains(resourceType, resourceToPayArray[i]);
+            boolean warehouseContains = activePlayer.getWarehouse().contains(resourceToPayArray[i], resourceType);
+            if(!(chestContains||warehouseContains)){
+                return false;
+            }
+            i++;
+        }
 
-        boolean affordable;
-
-        affordable = activePlayer.getChest().contains(Resource.SHIELD, shieldsToPay);
-        affordable = activePlayer.getChest().contains(Resource.SLAVE, slavesToPay);
-        affordable = activePlayer.getChest().contains(Resource.MONEY, moneyToPay);
-        affordable = activePlayer.getChest().contains(Resource.STONE, stoneToPay);
-        affordable = activePlayer.getWarehouse().contains(shieldsToPay, Resource.SHIELD);
-        affordable = activePlayer.getWarehouse().contains(slavesToPay, Resource.SLAVE);
-        affordable = activePlayer.getWarehouse().contains(moneyToPay, Resource.MONEY);
-        affordable =  activePlayer.getWarehouse().contains(stoneToPay, Resource.STONE);
-
-        return affordable;
+        return true;
 
     }
 
@@ -429,14 +422,18 @@ public class Game {
      * @param productionPower is the Production Power the player wants to pay.
      * @return true if the player manage to pay the production power, false otherwise.
      */
-    public boolean playerPaysProductionPower(Player activePlayer, List<List<Object>> coordinates, ProductionPower productionPower){
+    public boolean payProductionPower(Player activePlayer, List<List<Object>> coordinates, ProductionPower productionPower){
+
+        Resource resource;
+        boolean warehouse;
+        int shelfLevel;
 
         //Correct resource control
         for(List<Object> coordinate : coordinates) {
 
-            Resource resource = (Resource) coordinate.get(0);
-            boolean warehouse = (boolean) coordinate.get(1);
-            int shelfLevel = (int) coordinate.get(2);
+            resource = (Resource) coordinate.get(0);
+            warehouse = (boolean) coordinate.get(1);
+            shelfLevel = (int) coordinate.get(2);
 
             if(warehouse){
                 if (!activePlayer.getWarehouse().hasResource(shelfLevel, resource)) {
@@ -454,8 +451,8 @@ public class Game {
                 }
                 else {
                     activePlayer.getChest().removeResourceFromChest(resource, 1);
+                    productionPower.addSingleCoordinate(resource, false, 0, activePlayer);
                 }
-
             }
 
         }
@@ -488,6 +485,7 @@ public class Game {
             }
             productionPower.cleanCoordinates();
         }
+        listOfAffordableProductionPowers.clear();
         return true;
     }
 

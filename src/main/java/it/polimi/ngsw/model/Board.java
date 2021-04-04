@@ -98,9 +98,9 @@ public class Board{
      * @param column wich column
      * @return the space
      */
-   // public DevCardSpace getDevCardSpace(int row, int column){  //CAMBIARE NOME SU UML
-     //   return devDashboard[row][column];
-   // }
+   public DevCardSpace getDevCardSpace(int row, int column){  //CAMBIARE NOME SU UML
+        return devDashboard[row][column];
+   }
 
     /**
      * Method that permit the player to take all resources of a row

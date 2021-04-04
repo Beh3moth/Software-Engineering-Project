@@ -18,6 +18,293 @@ public class Game {
     }
 
     /**
+     * this method allows the player to purchase a devcard and add it to his dashboard
+     * @param activePlayer player who wants to buy a card
+     * @param colour_to_buy color of the card he wants to buy
+     * @param level_to_buy level of the card he wants to buy
+     * @param slotToPut slot on the dashboard where he wants to insert the card
+     * @return true if the card was purchased and inserted correctly, false if there was some problem
+     */
+    public boolean buyDevCard(Player activePlayer, DevCardColour colour_to_buy, int level_to_buy, int slotToPut){
+        Map<Resource, Integer> Cost = new HashMap<>();
+        //controllo che i parametri siano validi
+        if(level_to_buy != activePlayer.getDevCardDashboard().getLevel(slotToPut) + 1)return false;
+        //ora vado a vedere quanto costa la carta e se se la può permettere
+        //se se la può permettere mi salvo il costo, aggiungo alla dashboard e la rimuovo
+
+        switch(colour_to_buy){
+            case GREEN:
+                Cost = this.board.getDevCardSpace(level_to_buy-1, 0).firstDevCard().getDevCostAsMap();
+                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 0).firstDevCard());
+                this.board.getDevCardSpace(level_to_buy-1, 0).removeFirstCard();
+            case BLUE:
+                Cost = this.board.getDevCardSpace(level_to_buy-1, 1).firstDevCard().getDevCostAsMap();
+                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 1).firstDevCard());
+                this.board.getDevCardSpace(level_to_buy-1, 1).removeFirstCard();
+            case YELLOW:
+                Cost = this.board.getDevCardSpace(level_to_buy-1, 2).firstDevCard().getDevCostAsMap();
+                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 2).firstDevCard());
+                this.board.getDevCardSpace(level_to_buy-1, 2).removeFirstCard();
+            case PURPLE:
+                Cost = this.board.getDevCardSpace(level_to_buy-1, 3).firstDevCard().getDevCostAsMap();
+                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 3).firstDevCard());
+                this.board.getDevCardSpace(level_to_buy-1, 3).removeFirstCard();
+            case EMPTY: return false;
+        }
+
+        //ora in Cost ho il costo della devcard devo scalare le risorse
+        //-----inizio scalo risorse-----
+        int shieldNumber = 0;
+        int slaveNumber = 0;
+        int moneyNumber = 0;
+        int stoneNumber = 0;
+        int choose = 0; //variabile che permette al player di scegliere dove pagare
+        int removeLevel = 0; //livello da cui rimuovere la risorsa
+
+        shieldNumber = Cost.get(Resource.SHIELD);
+        slaveNumber = Cost.get(Resource.SLAVE);
+        moneyNumber = Cost.get(Resource.MONEY);
+        stoneNumber = Cost.get(Resource.STONE);
+
+        if(shieldNumber != 0){
+            for(int i = 0; i < shieldNumber; i++){
+            if(activePlayer.getWarehouse().contains(1, Resource.SHIELD) && activePlayer.getChest().contains(Resource.SHIELD, 1)){ //sono entrambi true quindi deve scegliere
+                //chiedo al controller di dirmi come vuole pagare le shield
+                //0:warehouse 1:chest, nella variabile:choose
+                //ovviamente solo se la risorsa è presente in entrambi i luoghi
+                //ci sarà tipo choose = ...
+                if(choose == 0){
+                    //rimuovo da warehouse
+                    removeLevel = activePlayer.getWarehouse().getLevel(Resource.SHIELD);
+                    if(removeLevel < 4) {
+                        activePlayer.getWarehouse().removeResourceWarehouse(removeLevel);
+                    }
+                    else if(removeLevel == 4){
+                        activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                    }
+                    else{
+                        activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                    }
+                }
+                else{
+                    //rimuovo da chest
+                    activePlayer.getChest().removeResourceFromChest(Resource.SHIELD, 1);
+                }
+            }
+            else {
+                if(activePlayer.getWarehouse().contains(1, Resource.SHIELD)){
+                    removeLevel = activePlayer.getWarehouse().getLevel(Resource.SHIELD);
+                    if(removeLevel < 4) {
+                        activePlayer.getWarehouse().removeResourceWarehouse(removeLevel);
+                    }
+                    else if(removeLevel == 4){
+                        activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                    }
+                    else{
+                        activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                    }
+                }
+                else if (activePlayer.getChest().contains(Resource.SHIELD, 1)){
+                    activePlayer.getChest().removeResourceFromChest(Resource.SHIELD, 1);
+                }
+                else return false; //ulteriore controllo, se non se lo può permettere ritorna false
+            }
+            }
+        }
+
+        if(slaveNumber != 0){
+            for(int i = 0; i < slaveNumber; i++){
+                if(activePlayer.getWarehouse().contains(1, Resource.SLAVE) && activePlayer.getChest().contains(Resource.SLAVE, 1)){ //sono entrambi true quindi deve scegliere
+                    //chiedo al controller di dirmi come vuole pagare le slave
+                    //0:warehouse 1:chest, nella variabile:choose
+                    //ovviamente solo se la risorsa è presente in entrambi i luoghi
+                    //ci sarà tipo choose = ...
+                    if(choose == 0){
+                        //rimuovo da warehouse
+                        removeLevel = activePlayer.getWarehouse().getLevel(Resource.SLAVE);
+                        if(removeLevel < 4) {
+                            activePlayer.getWarehouse().removeResourceWarehouse(removeLevel);
+                        }
+                        else if(removeLevel == 4){
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                        }
+                        else{
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                        }
+                    }
+                    else{
+                        //rimuovo da chest
+                        activePlayer.getChest().removeResourceFromChest(Resource.SLAVE, 1);
+                    }
+                }
+                else {
+                    if(activePlayer.getWarehouse().contains(1, Resource.SLAVE)){
+                        removeLevel = activePlayer.getWarehouse().getLevel(Resource.SLAVE);
+                        if(removeLevel < 4) {
+                            activePlayer.getWarehouse().removeResourceWarehouse(removeLevel);
+                        }
+                        else if(removeLevel == 4){
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                        }
+                        else{
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                        }
+                    }
+                    else if (activePlayer.getChest().contains(Resource.SLAVE, 1)){
+                        activePlayer.getChest().removeResourceFromChest(Resource.SLAVE, 1);
+                    }
+                    else return false; //ulteriore controllo, se non se lo può permettere ritorna false
+                }
+            }
+        }
+
+        if(moneyNumber != 0){
+            for(int i = 0; i < moneyNumber; i++){
+                if(activePlayer.getWarehouse().contains(1, Resource.MONEY) && activePlayer.getChest().contains(Resource.MONEY, 1)){ //sono entrambi true quindi deve scegliere
+                    //chiedo al controller di dirmi come vuole pagare i money
+                    //0:warehouse 1:chest, nella variabile:choose
+                    //ovviamente solo se la risorsa è presente in entrambi i luoghi
+                    //ci sarà tipo choose = ...
+                    if(choose == 0){
+                        //rimuovo da warehouse
+                        removeLevel = activePlayer.getWarehouse().getLevel(Resource.MONEY);
+                        if(removeLevel < 4) {
+                            activePlayer.getWarehouse().removeResourceWarehouse(removeLevel);
+                        }
+                        else if(removeLevel == 4){
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                        }
+                        else{
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                        }
+                    }
+                    else{
+                        //rimuovo da chest
+                        activePlayer.getChest().removeResourceFromChest(Resource.MONEY, 1);
+                    }
+                }
+                else {
+                    if(activePlayer.getWarehouse().contains(1, Resource.MONEY)){
+                        removeLevel = activePlayer.getWarehouse().getLevel(Resource.MONEY);
+                        if(removeLevel < 4) {
+                            activePlayer.getWarehouse().removeResourceWarehouse(removeLevel);
+                        }
+                        else if(removeLevel == 4){
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                        }
+                        else{
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                        }
+                    }
+                    else if (activePlayer.getChest().contains(Resource.MONEY, 1)){
+                        activePlayer.getChest().removeResourceFromChest(Resource.MONEY, 1);
+                    }
+                    else return false; //ulteriore controllo, se non se lo può permettere ritorna false
+                }
+            }
+        }
+
+        if(stoneNumber != 0){
+            for(int i = 0; i < stoneNumber; i++){
+                if(activePlayer.getWarehouse().contains(1, Resource.STONE) && activePlayer.getChest().contains(Resource.STONE, 1)){ //sono entrambi true quindi deve scegliere
+                    //chiedo al controller di dirmi come vuole pagare le stone
+                    //0:warehouse 1:chest, nella variabile:choose
+                    //ovviamente solo se la risorsa è presente in entrambi i luoghi
+                    //ci sarà tipo choose = ...
+                    if(choose == 0){
+                        //rimuovo da warehouse
+                        removeLevel = activePlayer.getWarehouse().getLevel(Resource.STONE);
+                        if(removeLevel < 4) {
+                            activePlayer.getWarehouse().removeResourceWarehouse(removeLevel);
+                        }
+                        else if(removeLevel == 4){
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                        }
+                        else{
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                        }
+                    }
+                    else{
+                        //rimuovo da chest
+                        activePlayer.getChest().removeResourceFromChest(Resource.STONE, 1);
+                    }
+                }
+                else {
+                    if(activePlayer.getWarehouse().contains(1, Resource.STONE)){
+                        removeLevel = activePlayer.getWarehouse().getLevel(Resource.STONE);
+                        if(removeLevel < 4) {
+                            activePlayer.getWarehouse().removeResourceWarehouse(removeLevel);
+                        }
+                        else if(removeLevel == 4){
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
+                        }
+                        else{
+                            activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
+                        }
+                    }
+                    else if (activePlayer.getChest().contains(Resource.STONE, 1)){
+                        activePlayer.getChest().removeResourceFromChest(Resource.STONE, 1);
+                    }
+                    else return false; //ulteriore controllo, se non se lo può permettere ritorna false
+                }
+            }
+        }
+        //-----fine scalo risorse-----
+        return true; // se è arrivato fino a qui è andato tutto bene
+    }
+
+    /**
+     * this method tells if the player has the necessary resources to be able to purchase the desired card
+     * @param activePlayer
+     * @param cost is a map that has the resources as keys and the number of associated resources as an integer
+     * @return true if the player can buy the card false otherwise
+     */
+    public boolean canBuyDevCard(Player activePlayer, Map<Resource, Integer> cost){
+
+        int shieldsToPay = 0;
+        int slavesToPay = 0;
+        int moneyToPay = 0;
+        int stoneToPay = 0;
+
+        shieldsToPay = cost.get(Resource.SHIELD);
+        slavesToPay = cost.get(Resource.SLAVE);
+        moneyToPay = cost.get(Resource.MONEY);
+        stoneToPay = cost.get(Resource.STONE);
+
+        boolean affordable = false;
+
+        if(shieldsToPay > 0){
+            affordable = (activePlayer.getChest().contains(Resource.SHIELD, shieldsToPay) ||
+            activePlayer.getWarehouse().contains(shieldsToPay, Resource.SHIELD));
+            if(!affordable)return false;
+        }
+
+        if(slavesToPay > 0){
+            affordable = (activePlayer.getChest().contains(Resource.SLAVE, slavesToPay) ||
+                    activePlayer.getWarehouse().contains(slavesToPay, Resource.SLAVE));
+            if(!affordable)return false;
+        }
+
+        if(moneyToPay > 0){
+            affordable = (activePlayer.getChest().contains(Resource.MONEY, moneyToPay) ||
+                    activePlayer.getWarehouse().contains(moneyToPay, Resource.MONEY));
+            if(!affordable)return false;
+        }
+
+        if(stoneToPay > 0){
+            affordable = (activePlayer.getChest().contains(Resource.STONE, stoneToPay) ||
+                    activePlayer.getWarehouse().contains(stoneToPay, Resource.STONE));
+            if(!affordable)return false;
+        }
+
+        return affordable;
+    }
+
+    /**
      * Method that permit to take resources from the market, it asks the user if column or row, and wich one
      * @param activePlayer the player that do the action
      */
@@ -488,8 +775,4 @@ public class Game {
         listOfAffordableProductionPowers.clear();
         return true;
     }
-
-
 }
-
-

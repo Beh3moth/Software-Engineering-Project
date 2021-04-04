@@ -73,4 +73,12 @@ public class DevCardSpace {
         this.numberOfCards--;
     }
 
+    public void removeFirstCard(){
+        this.developDeck.remove(0);
+        this.numberOfCards--;
+    }
+
+    public DevCard firstDevCard(){
+        return this.developDeck.get(0);
+    }
 }

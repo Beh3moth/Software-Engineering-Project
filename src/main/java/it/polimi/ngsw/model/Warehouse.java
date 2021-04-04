@@ -545,4 +545,14 @@ public class Warehouse {
         return false;
     }
 
+    //samuele
+
+    public int getLevel(Resource resource){
+        if(firstLevel.getResourceType() == resource )return 1;
+        else if(secondLevel.getResourceType() == resource)return 2;
+        else if(thirdLevel.getResourceType() == resource)return 3;
+        else if(firstLeaderLevel.getResourceType() == resource && firstLeaderLevel.getResourceNumber() >= 1)return 4;
+        else if(secondLeaderLevel.getResourceType() == resource && secondLeaderLevel.getResourceNumber() >= 1)return 5;
+        else return 0;
+    }
 }

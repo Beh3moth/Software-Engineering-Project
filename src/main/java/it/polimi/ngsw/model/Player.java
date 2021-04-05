@@ -32,26 +32,51 @@ public class Player {
         PV = 0;
     }
 
+    /**
+     * this method allows you to change the nickName attribute
+     * @param name
+     */
     public void setNickName(String name){
         nickName = name;
     }
 
+    /**
+     * this method returns the string: nickName
+     * @return nickName
+     */
     public String getNickName(){
         return nickName;
     }
 
+    /**
+     * this method returns the Integer: PV
+     * @return PV
+     */
     public int GetPV(){
         return PV;
     }
 
-    public void addPV(int newPV){
-        PV += newPV;
+    /**
+     * this method receives as a parameter the life points to be added to the players and adds them
+     * @param adderPV
+     */
+    public void addPV(int adderPV){
+        PV += adderPV;
     }
 
+    /**
+     * this method returns the Chest: chest
+     * @return chest
+     */
     public Chest getChest() {
         return chest;
     }
 
+
+    /**
+     * this method returns the Resource: DiscountPowerOne
+     * @return DiscountPowerOne
+     */
     public Resource getDiscountPowerOne() {
         return discountPowerOne;
     }
@@ -67,25 +92,44 @@ public class Player {
         return (leaderCards.equals(leaderCardList));
     }
 
+    /**
+     * this method returns the the Leader Cards vector
+     * @return leaderCard[]
+     */
     public boolean discardLeaderCards(int firstLeaderCardToDiscard, int secondLeaderCardToDiscard){
         leaderCards.remove(firstLeaderCardToDiscard);
         leaderCards.remove(secondLeaderCardToDiscard);
         return leaderCards.size() == 2;
     }
 
-
+    /**
+     * this method returns the Resource: DiscountPowerTwo
+     * @return DiscountPowerTwo
+     */
     public Resource getDiscountPowerTwo() {
         return discountPowerTwo;
     }
 
+    /**
+     * this method returns the Resource: WhiteMarblePowerOne
+     * @return WhiteMarblePowerOne
+     */
     public Resource getWhiteMarblePowerOne() {
         return whiteMarblePowerOne;
     }
 
+    /**
+     * this method returns the Resource: WhiteMarblePowerTwo
+     * @return WhiteMarblePowerTwo
+     */
     public Resource getWhiteMarblePowerTwo() {
         return whiteMarblePowerTwo;
     }
 
+    /**
+     * this method returns the FaithPath: faithPath
+     * @return faithPath
+     */
     public FaithPath getFaithPath() {
         return faithPath;
     }
@@ -136,7 +180,10 @@ public class Player {
         }
         else return false;
     }
-
+    /**
+     * this method returns the DevCardDashboard: devCardDashboard
+     * @return devCardDashboard
+     */
     public DevCardDashboard getDevCardDashboard(){
         return devCardDashboard;
     }

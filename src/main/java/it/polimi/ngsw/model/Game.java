@@ -303,7 +303,6 @@ public class Game {
 
 
     //LeaderCard methods
-    //Mancno metodi per distribuirle farle scegliere ecc.
 
     private List<LeaderCard> initLeaderCards() {
         try{
@@ -507,3 +506,5 @@ public class Game {
 
 
 }
+
+

@@ -1,5 +1,6 @@
 package it.polimi.ngsw.model;
 
+import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Game {
@@ -10,11 +11,13 @@ public class Game {
     private int playerNumbers;
     private FaithPath lawrenceFaithPath = new FaithPath();
     private Deque<ActionToken> actionTokensDeque = new ArrayDeque<>(6);
-    private List<LeaderCard> leaderCards = new ArrayList<>(16);
 
-
+    private List<LeaderCard> leaderCards = new ArrayList<>();
+    private LeaderCardParser leaderCardParser = new LeaderCardParser();
+    
     public Game(){
         initActionTokensDeque();
+        this.leaderCards = initLeaderCards();
     }
 
     /**
@@ -586,6 +589,18 @@ public class Game {
     }
 
 
+    //LeaderCard methods
+
+    private List<LeaderCard> initLeaderCards() {
+        try{
+            return leaderCardParser.initLeaderCards();
+        }
+        catch (FileNotFoundException e){
+            return null;
+        }
+    }
+
+
     //ActionToken's methods
 
     /**
@@ -651,7 +666,7 @@ public class Game {
      */
     public boolean chooseProductionPower(Player activePlayer, int productionPowerChosen) {
 
-        ProductionPower productionPower = activePlayer.getDevCardDashboard().getProductionPower(productionPowerChosen);
+        ProductionPower productionPower = activePlayer.getDevCardDashboard().getSingleProductionPower(productionPowerChosen);
 
         if(productionPower == null){
             return false;

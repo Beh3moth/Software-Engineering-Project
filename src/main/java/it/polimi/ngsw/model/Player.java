@@ -1,5 +1,8 @@
 package it.polimi.ngsw.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
 
     private String nickName;
@@ -10,7 +13,7 @@ public class Player {
     private Chest chest;
     private DevCardDashboard devCardDashboard;
     private Warehouse warehouse;
-    private LeaderCard[] leaderCard;
+    private List<LeaderCard> leaderCards;
     private FaithPath faithPath;
     private int PV;
 
@@ -24,101 +27,65 @@ public class Player {
         //Da rivedere! devCardDashboardd
         devCardDashboard = new DevCardDashboard();
         warehouse = new Warehouse();
-        leaderCard = new LeaderCard[4];
+        leaderCards = new ArrayList<>();
         faithPath = new FaithPath();
         PV = 0;
     }
 
-    /**
-     * this method allows you to change the nickName attribute
-     * @param name
-     */
     public void setNickName(String name){
         nickName = name;
     }
 
-    /**
-     * this method returns the string: nickName
-     * @return nickName
-     */
     public String getNickName(){
         return nickName;
     }
 
-    /**
-     * this method returns the Integer: PV
-     * @return PV
-     */
     public int GetPV(){
         return PV;
     }
 
-    /**
-     * this method receives as a parameter the life points to be added to the players and adds them
-     * @param adderPV
-     */
-    public void addPV(int adderPV){
-        PV += adderPV;
+    public void addPV(int newPV){
+        PV += newPV;
     }
 
-    /**
-     * this method returns the Chest: chest
-     * @return chest
-     */
     public Chest getChest() {
         return chest;
     }
 
-    /**
-     * this method returns the Resource: DiscountPowerOne
-     * @return DiscountPowerOne
-     */
     public Resource getDiscountPowerOne() {
         return discountPowerOne;
     }
 
-    /**
-    public DevCardDashboard getDevCardDashboard() {
-        return devCardDashboard;
-    }
-     **/
+    //LeaderCards methods
 
-    /**
-     * this method returns the the Leader Cards vector
-     * @return leaderCard[]
-     */
-    public LeaderCard[] getLeaderCard() {
-        return leaderCard;
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
     }
 
-    /**
-     * this method returns the Resource: DiscountPowerTwo
-     * @return DiscountPowerTwo
-     */
+    public boolean setLeaderCard(List<LeaderCard> leaderCardList){
+        leaderCards = leaderCardList;
+        return (leaderCards.equals(leaderCardList));
+    }
+
+    public boolean discardLeaderCards(int firstLeaderCardToDiscard, int secondLeaderCardToDiscard){
+        leaderCards.remove(firstLeaderCardToDiscard);
+        leaderCards.remove(secondLeaderCardToDiscard);
+        return leaderCards.size() == 2;
+    }
+
+
     public Resource getDiscountPowerTwo() {
         return discountPowerTwo;
     }
 
-    /**
-     * this method returns the Resource: WhiteMarblePowerOne
-     * @return WhiteMarblePowerOne
-     */
     public Resource getWhiteMarblePowerOne() {
         return whiteMarblePowerOne;
     }
 
-    /**
-     * this method returns the Resource: WhiteMarblePowerTwo
-     * @return WhiteMarblePowerTwo
-     */
     public Resource getWhiteMarblePowerTwo() {
         return whiteMarblePowerTwo;
     }
 
-    /**
-     * this method returns the FaithPath: faithPath
-     * @return faithPath
-     */
     public FaithPath getFaithPath() {
         return faithPath;
     }
@@ -169,10 +136,7 @@ public class Player {
         }
         else return false;
     }
-    /**
-     * this method returns the DevCardDashboard: devCardDashboard
-     * @return devCardDashboard
-     */
+
     public DevCardDashboard getDevCardDashboard(){
         return devCardDashboard;
     }

@@ -105,7 +105,6 @@ public class DevCardDashboard {
      * @param slot wich of the three slot
      * @return a boolean if it has gone right
      */
-
     public boolean activateProductionPower(int slot){
         boolean goneRight = false;
         if(devCardLevel[slot] == 0){
@@ -166,7 +165,7 @@ public class DevCardDashboard {
         return this.leaderProductionPowerTwo;
     }
 
-    public ProductionPower getProductionPower(int slot){
+    public ProductionPower getSingleProductionPower(int slot){
         if(slot>=0 && slot<=2){
             try{
                 return devCards[slot][getLevel(slot)-1].getProductionPower();

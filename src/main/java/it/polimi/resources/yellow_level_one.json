@@ -1,0 +1,34 @@
+[
+  {
+    "devLevel" : 1,
+    "devCardColour" : "YELLOW",
+    "devCost" : ["STONE", "STONE"],
+    "resourceToPay" : ["SLAVE"],
+    "resourceToProduce" : ["FAITHPOINT"],
+    "PV" : 1
+  },
+  {
+    "devLevel" : 1,
+    "devCardColour" : "YELLOW",
+    "devCost" : ["STONE", "STONE","STONE"],
+    "resourceToPay" : ["SHIELD","SHIELD"],
+    "resourceToProduce" : ["MONEY","SLAVE","STONE"],
+    "PV" : 3
+  },
+  {
+    "devLevel" : 1,
+    "devCardColour" : "YELLOW",
+    "devCost" : ["STONE", "STONE","SHIELD","SHIELD"],
+    "resourceToPay" : ["MONEY","SLAVE"],
+    "resourceToProduce" : ["SHIELD","SHIELD","FAITHPOINT"],
+    "PV" : 4
+  },
+  {
+    "devLevel" : 1,
+    "devCardColour" : "YELLOW",
+    "devCost" : ["SHIELD", "STONE","MONEY"],
+    "resourceToPay" : ["SHIELD"],
+    "resourceToProduce" : ["MONEY"],
+    "PV" : 2
+  }
+]

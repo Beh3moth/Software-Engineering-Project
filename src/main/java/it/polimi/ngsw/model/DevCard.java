@@ -1,4 +1,5 @@
 package it.polimi.ngsw.model;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,17 +12,36 @@ public class DevCard {
     private int devLevel;
     private DevCardColour devCardColour;
     private Map<Resource, Integer> devCost = new HashMap<>();
-    private Resource resourceCostType;
-    private int resourceCostNumber;
     private ProductionPower productionPower;                        //Manca ancora l'implementazione finale della classe productionPower
     private int PV;
 
-    public DevCard(int devLevel, DevCardColour devCardColour, Resource resourceCostType, int resourceCostNumber, ProductionPower productionPower, int PV){
+    public DevCard(int devLevel, DevCardColour devCardColour, ArrayList<Resource> devCostList , ProductionPower productionPower, int PV){
         this.devLevel = devLevel;
         this.devCardColour = devCardColour;
-        this.devCost.put(resourceCostType, resourceCostNumber);
         this.productionPower = productionPower;                     //NON DEFINITIVO
         this.PV = PV;
+
+        //settiamo il costo con la mappa
+        int shieldCost = 0;
+        int slaveCost = 0;
+        int moneyCost = 0;
+        int stoneCost = 0;
+
+        for(int i = 0; i < devCostList.size(); i++){
+            switch(devCostList.get(i)){
+                case SHIELD: shieldCost++;
+                case MONEY: moneyCost++;
+                case SLAVE: slaveCost++;
+                case STONE: stoneCost++;
+                default: ;
+            }
+
+            this.devCost.put(Resource.SHIELD, shieldCost);
+            this.devCost.put(Resource.MONEY, moneyCost);
+            this.devCost.put(Resource.SLAVE, slaveCost);
+            this.devCost.put(Resource.STONE, stoneCost);
+
+        }
     }
 
     /**

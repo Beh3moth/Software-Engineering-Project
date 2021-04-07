@@ -1,6 +1,7 @@
 package it.polimi.ngsw.model;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ public class DevCard {
     private ProductionPower productionPower;                        //Manca ancora l'implementazione finale della classe productionPower
     private int PV;
 
-    public DevCard(int devLevel, DevCardColour devCardColour, ArrayList<Resource> devCostList , ProductionPower productionPower, int PV){
+    public DevCard(int devLevel, DevCardColour devCardColour, List<Resource> devCostList , ProductionPower productionPower, int PV){
         this.devLevel = devLevel;
         this.devCardColour = devCardColour;
         this.productionPower = productionPower;                     //NON DEFINITIVO

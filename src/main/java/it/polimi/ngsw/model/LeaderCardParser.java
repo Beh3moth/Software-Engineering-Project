@@ -12,11 +12,11 @@ import java.util.List;
 
 public class LeaderCardParser {
 
-    private List<LeaderCard> leaderCards = new ArrayList<>();
-    private List<SpaceAbility> spaceLeaderCards;
-    private List<DiscountAbility> discountLeaderCards;
-    private List<WhiteMarbleAbility> whiteMarbleLeaderCards;
-    private List<ProductionPowerAbility> productionPowerLeaderCards;
+    private List<LeaderCard> leaderCards = new ArrayList<>(4);
+    private List<SpaceAbility> spaceLeaderCards = new ArrayList<>(4);
+    private List<DiscountAbility> discountLeaderCards = new ArrayList<>(4);
+    private List<WhiteMarbleAbility> whiteMarbleLeaderCards = new ArrayList<>(4);
+    private List<ProductionPowerAbility> productionPowerLeaderCards = new ArrayList<>(4);
 
 
     public void initSpaceLeaderCards() throws FileNotFoundException {

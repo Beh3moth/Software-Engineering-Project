@@ -13,6 +13,22 @@ public class GameTest {
     Game game = new Game();
 
     @Test
+    public void removeAndReturnTheLastFourLeaderCardsTest(){
+        for(int i=0; i<4; i++){
+            List<LeaderCard> list = new ArrayList<>();
+            try {
+                  list = game.removeAndReturnTheLastFourLeaderCards();
+            }
+            catch (IndexOutOfBoundsException e){
+                fail();
+            }
+            for(int j=0; j<4; j++){
+                System.out.println(list.get(j).getAbilityName());
+            }
+        }
+    }
+
+    @Test
     public void shuffleActionTokensDequeTest(){
         List<ActionToken> testList1 = new ArrayList<>(game.getTokensDeque());
         assertTrue(game.shuffleActionTokensDeque());
@@ -32,6 +48,7 @@ public class GameTest {
             }
         }
     }
+
     /*
     @Test
     public void canBuyProductionPowerTest(){

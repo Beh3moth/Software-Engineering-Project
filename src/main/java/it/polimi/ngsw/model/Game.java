@@ -20,8 +20,9 @@ public class Game {
         this.leaderCards = initLeaderCards();
     }
 
+
     /**
-     * this method allows the player to purchase a devcard and add it to his dashboard
+     * this method allows the player to purchase a DevCard and add it to his dashboard
      * @param activePlayer player who wants to buy a card
      * @param colour_to_buy color of the card he wants to buy
      * @param level_to_buy level of the card he wants to buy
@@ -308,7 +309,7 @@ public class Game {
     }
 
     /**
-     * Method that permit to take resources from the market, it asks the user if column or row, and wich one
+     * Method that permit to take resources from the market, it asks the user if column or row, and which one
      * @param activePlayer the player that do the action
      */
     public void getBoardResources(Player activePlayer){
@@ -591,6 +592,10 @@ public class Game {
 
     //LeaderCard methods
 
+    /**
+     * The method return a list of every LeaderCard of the game.
+     * @return a list of LeaderCards.
+     */
     private List<LeaderCard> initLeaderCards() {
         try{
             return leaderCardParser.initLeaderCards();
@@ -598,6 +603,19 @@ public class Game {
         catch (FileNotFoundException e){
             return null;
         }
+    }
+
+    /**
+     * The method removes the last four LeaderCards from the leaderCards list of the player and returning them.
+     * @return a list of LeaderCards.
+     * @throws IndexOutOfBoundsException if the index is out of bounds.
+     */
+    public List<LeaderCard> removeAndReturnTheLastFourLeaderCards() throws IndexOutOfBoundsException {
+        List<LeaderCard> leaderCardList = new ArrayList<>();
+        for(int i=0; i<4; i++){
+            leaderCardList.add(leaderCards.remove(leaderCards.size()-1));
+        }
+        return leaderCardList;
     }
 
 

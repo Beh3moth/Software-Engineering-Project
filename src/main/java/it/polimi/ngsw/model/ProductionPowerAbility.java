@@ -17,10 +17,6 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         this.inputResource = inputResource;
     }
 
-    public Resource getInputResource(){
-        return inputResource;
-    }
-
     /**
      * Method that returns the number of victory points of the leader card.
      * @return an int containing the number of victory points of the leader card.
@@ -40,28 +36,36 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
     }
 
     /**
-     * Method that return the leader card's cost.
-     * @return a list of Development Cards List<DevCard>
-     */
-    public DevCardColour getLeaderCardCost() {
-        return leaderCardCost;
-    }
-
-    /**
-     * The method returns the DevCardLevel required.
-     * @return the DevCardLevel required.
-     */
-    public int getDevCardLevel() {
-        return devCardLevel;
-    }
-
-    /**
      * The method activates the Leader Card's ability by calling the method @activateLeaderAbility
      * @param player is the player who decided to activate the Leader Card's ability.
      */
     @Override
     public void activateAbility(Player player) {
         activateLeaderAbility(player);
+    }
+
+    /**
+     * The method returns the Input Resource required by the Leader Card Production Power.
+     * @return the Input Resource required by the Leader Card Production Power.
+     */
+    public Resource getInputResource(){
+        return inputResource;
+    }
+
+    /**
+     * Method that return the leader card's cost.
+     * @return a list of Development Cards List<DevCard>
+     */
+    public DevCardColour getLeaderCardCostDevCardColour() {
+        return leaderCardCost;
+    }
+
+    /**
+     * The method returns the DevCardLevel required by the Leader Card Cost.
+     * @return the DevCardLevel required.
+     */
+    public int getLeaderCardCostDevCardLevel() {
+        return devCardLevel;
     }
 
     /**

@@ -16,23 +16,19 @@ public class DevCardDashboard {
 
     public static final int MAX_SLOT= 3;
     public static final int MAX_CARDS_FOR_SLOT = 3;
-
-    //import devCard library
-    private DevCard[][] devCards;   //matrix 3x3 of cards
-    private int[] devCardLevel;     //level of the card in every slot
+    private DevCard[][] devCards;
+    private int[] devCardLevel;
     private boolean lockProductionPowerOne;
     private boolean lockProductionPowerTwo;
-
-    //import ProductionPower library
     private ProductionPower leaderProductionPowerOne;
     private ProductionPower leaderProductionPowerTwo;
 
     public DevCardDashboard(){
         this.devCards = new DevCard[MAX_SLOT][MAX_CARDS_FOR_SLOT];  //qui devo valutare se inizializzare come nuova carta
         this.devCardLevel = new int[10];
-        // this.leaderProductionPowerOne = new ProductionPower();      //qui è nullo all'inizio, valuto se mi serve il metodo costruttore o lo inizializzo come nullo
+        //this.leaderProductionPowerOne = new ProductionPower();      //qui è nullo all'inizio, valuto se mi serve il metodo costruttore o lo inizializzo come nullo
         //this.leaderProductionPowerTwo = new ProductionPower();
-        //initDevCardStat();                                         //inizializza i livelli degli slot e i boolean dei poteri di produzione extra
+        initDevCardStat();                                         //inizializza i livelli degli slot e i boolean dei poteri di produzione extra
 
     }
 
@@ -74,10 +70,9 @@ public class DevCardDashboard {
     }
 
 
-    //public void setLevel(){} inutile? aumento il livello solo quando aggiungo
-    /** serve? posso fare da controller, devo togliere due risorse di qualsiasi tipo e metterne una nuova nel forziere
-     *
-     **/
+
+
+    
     public void baseProductionPower(List<Resource> resourceNeeded, Resource resourceProduced){
 
         //serie di metodi che chiedono al client di scegliere in quali piani togliere ppure al magazzino, il controller verifica la correttezza
@@ -114,8 +109,6 @@ public class DevCardDashboard {
             ProductionPower productionPower;
             int fromFloor = 0;
             productionPower = devCards[slot][devCardLevel[slot]].getProductionPower();
-            //stesso discorso di prima, devo chiedere al magazzino o forziere di rimuovere risorse e poi aggiungere
-            //removeResource(fromFloor, productionPower.getResourceToPay()); //qua è da rivedere il metodo, perchè posso avere più risorse da dover pagare, non abbiamo più la classe resourceNumber
 
         }
         return goneRight;

@@ -30,9 +30,9 @@ public class WhiteMarble extends Marble{
      */
     @Override
     public void actionMarble(Player player){        //quando la chiamo devo controllare se ho nella player la whitemarble leader abilitata, se no chiamo la classica che non fa nulla
-        Resource firstResource = player.getWhiteMarblePowerOne();    //aggiungere questi due metodi, controllare che su player sono iniziailizzati con NULL
-        Resource secondResource = player.getWhiteMarblePowerTwo();
-        if(firstResource != Resource.EMPTY && secondResource == Resource.EMPTY){
+        /*Resource firstResource = player.getWhiteMarblePowerOne();    //aggiungere questi due metodi, controllare che su player sono iniziailizzati con NULL
+        Resource secondResource = player.getWhiteMarblePowerTwo();*/
+       /* if(firstResource != Resource.EMPTY && secondResource == Resource.EMPTY){
             typeResource = firstResource;
             player.getWarehouse().addResourceToStock(typeResource);
         }else if (firstResource != Resource.EMPTY && secondResource != Resource.EMPTY){
@@ -47,7 +47,9 @@ public class WhiteMarble extends Marble{
                 typeResource = secondResource;
                 player.getWarehouse().addResourceToStock(typeResource);
             }
-        }
+        }*/
+        player.getWarehouse().addResourceToWhiteStock(typeResource);
+
     }
 
     /**

@@ -307,6 +307,25 @@ public class Game {
         return affordable;
     }
 
+    public void getBoardResourcesToStock(Player activePlayer, int columnOrRow, int wich){
+        if(columnOrRow == 1){
+            this.board.getMarbleColumn(wich, activePlayer);
+        }
+        else if(columnOrRow == 2){
+            this.board.getMarbleRow(wich, activePlayer);
+        }
+    }
+
+    public void manageWhiteResources(Player activePlayer, int whitePower){ //avrò un while che in base al numero di risorce nel white stock, scelgo per ognuna cosa voglio e chiamo questo metodo
+        if(whitePower == 1){
+            activePlayer.getWarehouse().addResourceToStock(activePlayer.getWhiteMarblePowerOne());
+            activePlayer.getWarehouse().removeFromWhiteStock();
+        }
+        else if(whitePower == 2){
+            activePlayer.getWarehouse().addResourceToStock(activePlayer.getWhiteMarblePowerTwo());
+            activePlayer.getWarehouse().removeFromWhiteStock();
+        }
+    }
     /**
      * Method that permit to take resources from the market, it asks the user if column or row, and wich one
      * @param activePlayer the player that do the action

@@ -12,6 +12,7 @@ public class Warehouse {
     private Resource firstLeaderLevelType;
     private Resource secondLeaderLevelType;
     private List<Resource> warehouseStock;
+    private List <Resource> whitemarbleStock;
 
     public Warehouse(){
         firstLevel = new Shelf();
@@ -20,10 +21,21 @@ public class Warehouse {
         firstLeaderLevel = new Shelf();
         secondLeaderLevel = new Shelf();
         warehouseStock = new ArrayList<Resource>();
+        whitemarbleStock = new ArrayList<Resource>();
         this.firstLeaderLevelType = Resource.EMPTY;
         this.secondLeaderLevelType = Resource.EMPTY;
     }
 
+    public boolean addResourceToWhiteStock(Resource resource){
+        whitemarbleStock.add(resource);
+        return true;
+    }
+    public void removeFromWhiteStock(){
+        whitemarbleStock.remove(0);
+    }
+    public int numberOfWhiteStock(){
+        return whitemarbleStock.size();
+    }
     /**
      *this method adds a resource to the warehouse checking that it is legal
      * @param level

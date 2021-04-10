@@ -2,13 +2,10 @@ package it.polimi.ngsw.model;
 //import Player library
 //import devcardcolour enum
 
-import java.io.IOException; //uhmmmm
-import java.util.Scanner;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * Class of the Board with the single marble, the market e the matrix of develop cards, this class has methods for taking column or rows
@@ -21,6 +18,10 @@ public class Board{
     private Marble singleMarble;
     private DevCardSpace[][] devDashboard;
 
+    /**
+     * Constructor methd, it creates the market with random marble inside, also the single Marble.
+     * It also creates the devCard Space
+     */
     public Board(){
         marketDashboard = new Marble[3][4];
         List<Marble> marbles = new ArrayList<Marble>();
@@ -46,9 +47,8 @@ public class Board{
                 z++;
             }
         }
-        this.singleMarble = support[12];  //TESTATO
-
-
+        this.singleMarble = support[12];
+         //testare se funziona questo codice sotto
         this.devDashboard = new DevCardSpace[MAX_ROWS_MARKET][MAX_COLUMNS_MARKET];
         initDevDashboard();
 
@@ -57,7 +57,7 @@ public class Board{
     /**
      * method that initialize the matrix of the Developing Cards
      */
-    public void initDevDashboard(){    //AGGIUNGERE SU UML
+    public void initDevDashboard(){
         int z = 0;
         DevCardColour spaceColour = DevCardColour.EMPTY;
         for (int i = 0; i < MAX_ROWS_MARKET; i++) {
@@ -155,7 +155,6 @@ public class Board{
         if(cardColour == DevCardColour.GREEN){
             if(devDashboard[2][0].getNumberOfCards() >= 2){
                 devDashboard[2][0].setNumberOfCards(remove);
-                remove = 0;
                return;
             }
             else if(devDashboard[2][0].getNumberOfCards() == 1){
@@ -169,7 +168,6 @@ public class Board{
                 }
                 else if(devDashboard[1][0].getNumberOfCards() >= 1 && remove == 1){
                     devDashboard[1][0].setNumberOfCards(remove);
-                    remove = 0;
                     return;
 
                 }
@@ -181,18 +179,15 @@ public class Board{
                 if(devDashboard[1][0].getNumberOfCards() == 0){
                     if(devDashboard[0][0].getNumberOfCards() >=3 && remove == 2){
                         devDashboard[0][0].setNumberOfCards(remove);
-                        remove = 0;
                         return;
                     }
                     else if(devDashboard[0][0].getNumberOfCards() == 2 && remove == 2){
                         devDashboard[0][0].setNumberOfCards(remove);
-                        remove = 0;
                         //end of the game
                         return;
                     }
                     else if(devDashboard[0][0].getNumberOfCards() >= 1 && remove == 1){
                         devDashboard[0][0].setNumberOfCards(remove);
-                        remove = 0;
                         return;
                     }
                     else if(devDashboard[0][0].getNumberOfCards() < 2 && remove == 2){

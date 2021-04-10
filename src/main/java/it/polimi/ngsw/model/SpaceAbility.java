@@ -62,4 +62,43 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         }
     }
 
+    @Override
+    public boolean isLeaderCardCostSatisfied(Player player){
+        List<Resource> resourceCostList = getLeaderCardCost();
+
+        int money = 0;
+        int slave = 0;
+        int stone = 0;
+        int shield = 0;
+
+        for(Resource resource : resourceCostList){
+            switch (resource){
+                case MONEY: money++;
+                case SLAVE: slave++;
+                case STONE: stone++;
+                case SHIELD:shield++;
+            }
+        }
+
+        if(
+                (
+                    !player.getChest().contains(Resource.MONEY, money) ||
+                    !player.getChest().contains(Resource.SLAVE, slave) ||
+                    !player.getChest().contains(Resource.STONE, stone) ||
+                    !player.getChest().contains(Resource.SHIELD, shield)
+                )
+                &&
+                (
+                    !player.getChest().contains(Resource.MONEY, money) ||
+                    !player.getChest().contains(Resource.SLAVE, slave) ||
+                    !player.getChest().contains(Resource.STONE, stone) ||
+                    !player.getChest().contains(Resource.SHIELD, shield)
+                )
+        )
+        {
+            return false;
+        }
+        else return true;
+    }
+
 }

@@ -1,5 +1,6 @@
 package it.polimi.ngsw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
@@ -59,6 +60,25 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
         if(!resourceToObtain.equals(Resource.EMPTY)){
             player.setWhiteMarblePower(resourceToObtain);
         }
+    }
+
+    @Override
+    public boolean isLeaderCardCostSatisfied(Player player){
+        List<DevCardColour> devCardColourCostList = getLeaderCardCost();
+        List<DevCardColour> devCardColourList = new ArrayList<>();
+        List<DevCard> devCardList = player.getDevCardDashboard().getActiveDevCards();
+
+        for(DevCard devCard : devCardList){
+            devCardColourList.add(devCard.getCardColour());
+        }
+
+        for(DevCardColour devCardColour : devCardColourCostList){
+            if(!devCardColourList.contains(devCardColour)){
+                return false;
+            }
+        }
+
+        return true;
     }
 
 }

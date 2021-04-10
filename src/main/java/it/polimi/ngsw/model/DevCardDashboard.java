@@ -65,6 +65,16 @@ public class DevCardDashboard {
         return devCardLevel[slot];
     }
 
+    public List<DevCard> getActiveDevCards(){
+        List<DevCard> devCardList = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            if(devCardLevel[i]>0){
+                devCardList.add(devCards[i][devCardLevel[i]]);
+            }
+        }
+        return  devCardList;
+    }
+
 
     //Methods to manage production powers
 

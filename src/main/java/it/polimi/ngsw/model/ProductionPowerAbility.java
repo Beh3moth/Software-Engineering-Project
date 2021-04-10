@@ -76,4 +76,15 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         player.getDevCardDashboard().activateProductionPowerAbility(this);
     }
 
+    @Override
+    public boolean isLeaderCardCostSatisfied(Player player){
+        List<DevCard> devCardList = player.getDevCardDashboard().getActiveDevCards();
+        for(DevCard devCard : devCardList){
+            if(devCard.getCardColour().equals(getLeaderCardCostDevCardColour()) && devCard.getDevLevel()==getLeaderCardCostDevCardLevel()){
+                return true;
+            }
+        }
+        return false;
+    }
+
 }

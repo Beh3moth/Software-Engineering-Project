@@ -6,5 +6,6 @@ public interface LeaderCard {
     void activateAbility(Player player);
     int getPV();
     String getAbilityName();
+    boolean isLeaderCardCostSatisfied(Player player);
 
 }

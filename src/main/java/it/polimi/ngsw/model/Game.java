@@ -20,6 +20,7 @@ public class Game {
         this.leaderCards = initLeaderCards();
     }
 
+    //Buy DevCard methods
 
     /**
      * this method allows the player to purchase a DevCard and add it to his dashboard
@@ -307,6 +308,8 @@ public class Game {
 
         return affordable;
     }
+
+    //Get board resources methods.
 
     public void getBoardResourcesToStock(Player activePlayer, int columnOrRow, int wich){
         if(columnOrRow == 1){
@@ -689,30 +692,35 @@ public class Game {
     }
 
 
-    //Activate Production Power's
+    //Activate Production Power
 
-    //List of production powers the player decides to activate between among his available Production Powers.
-    private List<ProductionPower> listOfAffordableProductionPowers = new ArrayList<>();
+    private List<ProductionPower> listOfPaidProductionPowers = new ArrayList<>();
 
     /**
-     * The method allows the player to choose a Production power to use. The method also ensures the player can afford the Production Power.
-     * If the method i successful the Production Power chosen is stored in the list listOfAffordableProductionPowers.
+     * The method allows the player to choose a Production power to use.
      * @param activePlayer the player who decided to activate a Production Power.
      * @param productionPowerChosen an int that indicates which Production Power the player wants to activate.
-     * @return true if the player can buy the Production Power, false otherwise.
+     * @return the Production Power chosen if it exists, null if it doesn't.
      */
-    public boolean chooseProductionPower(Player activePlayer, int productionPowerChosen) {
-
-        ProductionPower productionPower = activePlayer.getDevCardDashboard().getSingleProductionPower(productionPowerChosen);
-
-        if(productionPower == null){
-            return false;
-        } else{
-            if(canBuyProductionPower(activePlayer, productionPower)){
-                return listOfAffordableProductionPowers.add(productionPower);
-            } else return false;
+    public ProductionPower chooseProductionPower(Player activePlayer, int productionPowerChosen) {
+        if(productionPowerChosen>=0 && productionPowerChosen<=5 && activePlayer!=null){
+            return activePlayer.getDevCardDashboard().getProductionPower(productionPowerChosen);
         }
+        else return null;
+    }
 
+    /**
+     * The method allows a player to set the resources to pay and the ones to receive.
+     * @param resourceToPay is a List of Resources.
+     * @param resourceToReceive is a List of Resources.
+     * @param baseProductionPower is the Base Production Power.
+     * @return return false if one of the parameters is null or if the procedure fails, true otherwise.
+     */
+    public boolean setBaseProductionPowerResourceLists(List<Resource> resourceToPay, List<Resource> resourceToReceive, ProductionPower baseProductionPower){
+        if(baseProductionPower!=null && resourceToPay!=null && resourceToReceive!=null){
+            return baseProductionPower.setBaseProductionPowerLists(resourceToPay, resourceToReceive);
+        }
+        else return false;
     }
 
     /**
@@ -731,20 +739,24 @@ public class Game {
         resourcesArray[2] = Resource.SLAVE;
         resourcesArray[3] = Resource.STONE;
 
-        int[] resourceToPayArray = new int[4];
+        int[] numberOfResourcesToPay = new int[4];
 
         for (Resource resource : resourceToPay) {
             for(int j=0; j<4; j++){
                 if (resource.equals(resourcesArray[j])) {
-                    resourceToPayArray[j]++;
+                    numberOfResourcesToPay[j]++;
                 }
             }
         }
+
         int i=0;
         for(Resource resourceType : resourcesArray){
-            boolean chestContains = activePlayer.getChest().contains(resourceType, resourceToPayArray[i]);
-            boolean warehouseContains = activePlayer.getWarehouse().contains(resourceToPayArray[i], resourceType);
-            if(!(chestContains||warehouseContains)){
+            boolean chestContains = activePlayer.getChest().contains(resourceType, numberOfResourcesToPay[i]);
+            boolean warehouseContains = activePlayer.getWarehouse().contains(numberOfResourcesToPay[i], resourceType);
+            if(!chestContains && !warehouseContains){
+                if(productionPower.isBaseProductionPower()){
+                    productionPower.removeBaseProductionPowerLists();
+                }
                 return false;
             }
             i++;
@@ -776,6 +788,9 @@ public class Game {
 
             if(warehouse){
                 if (!activePlayer.getWarehouse().hasResource(shelfLevel, resource)) {
+                    if(productionPower.isBaseProductionPower){
+                        productionPower.removeBaseProductionPowerLists();
+                    }
                     removeResourcesFormProductionPower(activePlayer, productionPower);
                     return false;
                 }
@@ -785,6 +800,9 @@ public class Game {
                 }
             } else {
                 if (!activePlayer.getChest().contains(resource, 1)) {
+                    if(productionPower.isBaseProductionPower){
+                        productionPower.removeBaseProductionPowerLists();
+                    }
                     removeResourcesFormProductionPower(activePlayer, productionPower);
                     return false;
                 }
@@ -796,6 +814,7 @@ public class Game {
 
         }
 
+        listOfPaidProductionPowers.add(productionPower);
         return true;
 
     }
@@ -814,17 +833,54 @@ public class Game {
     }
 
     /**
+     * The method returns a list of Leader Production Powers.
+     * @return a list of Leader Production Powers.
+     */
+    public List<ProductionPower> checkForLeaderProductionPowerAbility(){
+
+        List<ProductionPower> productionPowerAbilityList = new ArrayList<>();
+
+        for(ProductionPower productionPower : listOfPaidProductionPowers){
+            for(Resource resource : productionPower.getResourceToPay()){
+                if(resource.equals(Resource.FAITHPOINT)){
+                    productionPowerAbilityList.add(productionPower);
+                    listOfPaidProductionPowers.remove(productionPower);
+                }
+            }
+        }
+
+        return productionPowerAbilityList;
+
+    }
+
+
+    /**
+     * The method sets the resource to receive from leader production power. It also give a faith point to the player.
+     * @param activePlayer is the player who has to choose the resource to receive.
+     * @param resource is the resource chosen by the player.
+     * @param leaderProductionPower is the Leader Production Power.
+     * @return true if successful, false otherwise.
+     */
+    public boolean setResourceToReceiveFromLeaderProductionPowerAbility(Player activePlayer, Resource resource, ProductionPower leaderProductionPower){
+        activePlayer.addPV(1);
+        listOfPaidProductionPowers.add(leaderProductionPower);
+        return leaderProductionPower.setResourceToReceive(resource);
+    }
+
+    /**
      * The method activates every production power the player chose. It also cleans the coordinates.
      * @return true if successful, false otherwise.
      */
     public boolean activateProductionPowers(){
-        for(ProductionPower productionPower : listOfAffordableProductionPowers){
+        for(ProductionPower productionPower : listOfPaidProductionPowers){
             for(Resource resource : productionPower.getResourceToPay()){
                 activePlayer.getChest().addResourceToChest(resource, 1);
             }
             productionPower.cleanCoordinates();
         }
-        listOfAffordableProductionPowers.clear();
+        listOfPaidProductionPowers.clear();
         return true;
     }
+
+
 }

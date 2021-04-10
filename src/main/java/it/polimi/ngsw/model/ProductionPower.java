@@ -1,4 +1,4 @@
-package it.polimi.ngsw.model;//import le enum delle risorse
+package it.polimi.ngsw.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,19 +7,22 @@ import java.util.List;
  * Class that describe a production situation, it describe the resource that you need to produce some resources
  */
 public class ProductionPower {
-    private final List<Resource> resourceToPay;
-    private final List<Resource> resourceToProduce;
+    private List<Resource> resourceToPay;
+    private List<Resource> resourceToProduce;
     private List<List<Object> > coordinates = new ArrayList<>();
+    boolean isBaseProductionPower = false;
 
     /**
      * Constructor method: receive a list of resources and describe the production power of every cards
      * @param resourcesNeeded  resources that i need to produce
      * @param resourceToProduce   resources that i will receive
      */
-    public ProductionPower(List<Resource> resourcesNeeded, List<Resource> resourceToProduce){  //ottengo una lista er entrambe, no mappa, quindi se ho due schudi e un denaro, "scudo, scudo, denaro"
+    public ProductionPower(List<Resource> resourcesNeeded, List<Resource> resourceToProduce){
         this.resourceToPay = resourcesNeeded;
         this.resourceToProduce = resourceToProduce;
     }
+
+    //Standard methods
 
     /**
      * Method that return the resources that i need to have to produce
@@ -37,9 +40,70 @@ public class ProductionPower {
         return resourceToProduce;
     }
 
+    //Base Production Power methods
 
-    //Aggiunti da fede
+    /**
+     * The method makes a Production Power a Base Production Power.
+     */
+    public void setBaseProductionPowerToTrue(){
+        isBaseProductionPower = true;
+    }
 
+    /**
+     * The method returns true if the Production Power is a Base Production Power, false otherwise.
+     */
+    public boolean isBaseProductionPower(){
+        return isBaseProductionPower;
+    }
+
+    /**
+     * The method sets the resource to receive and the two resources to pay from a Base Production Power.
+     * @param resourceToPay are the two resources that the Base Production Power requires.
+     * @param resourceToReceive is the single resource that the Base Production Power produces.
+     * @return true if the procedure is successful, false otherwise.
+     */
+    public boolean setBaseProductionPowerLists(List<Resource> resourceToPay, List<Resource> resourceToReceive){
+        if(!(resourceToPay.size()==2)){
+            return false;
+        }
+        if(!(resourceToReceive.size()==1)){
+            return false;
+        }
+        this.resourceToPay = resourceToPay;
+        this.resourceToProduce = resourceToReceive;
+        return true;
+    }
+
+    /**
+     * Clear the lists of resources to receive and to pay from a Base Production Power.
+     */
+    public void removeBaseProductionPowerLists(){
+        resourceToPay.clear();
+        resourceToProduce.clear();
+    }
+
+    //Leader Production Power methods
+
+    /**
+     * The method sets a single resource to receive form a Production Power.
+     * It is intended to be used to allow the player to set the resource to receive from a Leader Production Power.
+     * @param resource is the resource to set.
+     * @return true if the method is successful, false otherwise.
+     */
+    public boolean setResourceToReceive(Resource resource){
+        List<Resource> resourceList = new ArrayList<>();
+        resourceList.add(resource);
+        resourceToProduce.clear();
+        resourceToProduce = resourceList;
+        return resourceToProduce.equals(resourceList);
+    }
+
+    //Coordinates methods
+
+    /**
+     * The method returns the coordinates of a Production Power.
+     * @return null if the coordinates are empty, the coordinates otherwise.
+     */
     public List<List<Object>> getCoordinates(){
         if(coordinates.isEmpty()){
             return null;

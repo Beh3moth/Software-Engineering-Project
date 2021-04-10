@@ -17,6 +17,10 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         this.inputResource = inputResource;
     }
 
+    public Resource getInputResource(){
+        return inputResource;
+    }
+
     /**
      * Method that returns the number of victory points of the leader card.
      * @return an int containing the number of victory points of the leader card.
@@ -65,7 +69,7 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
      * @param player the player who wants to activate the power.
      */
     public void activateLeaderAbility(Player player){
-        player.getDevCardDashboard().activateLeaderProduction(inputResource, player);
+        player.getDevCardDashboard().activateProductionPowerAbility(this);
     }
 
 }

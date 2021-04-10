@@ -3,6 +3,9 @@ package it.polimi.ngsw.model;
 //import devcardcolour enum
 
 
+import java.io.FileNotFoundException;
+import java.io.IOException; //uhmmmm
+import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,6 +20,8 @@ public class Board{
     private Marble[][] marketDashboard;
     private Marble singleMarble;
     private DevCardSpace[][] devDashboard;
+    private List<String> pathList = new ArrayList<String>();
+    DevCardParser devCardParser = new DevCardParser();
 
     /**
      * Constructor methd, it creates the market with random marble inside, also the single Marble.
@@ -50,27 +55,48 @@ public class Board{
         this.singleMarble = support[12];
          //testare se funziona questo codice sotto
         this.devDashboard = new DevCardSpace[MAX_ROWS_MARKET][MAX_COLUMNS_MARKET];
-        initDevDashboard();
+        try {
+            initDevDashboard();
+        }
+        catch (FileNotFoundException e) {
+            System.err.println("File not found");
+        }
 
     }
 
     /**
      * method that initialize the matrix of the Developing Cards
      */
-    public void initDevDashboard(){
+    private void initDevDashboard() throws FileNotFoundException {    //AGGIUNGERE SU UML
+
+        pathList.add("src/main/java/it/polimi/resources/green_level_three.json");
+        pathList.add("src/main/java/it/polimi/resources/blue_level_three.json");
+        pathList.add("src/main/java/it/polimi/resources/yellow_level_three.json");
+        pathList.add("src/main/java/it/polimi/resources/purple_level_three.json");
+        pathList.add("src/main/java/it/polimi/resources/green_level_two.json");
+        pathList.add("src/main/java/it/polimi/resources/blue_level_two.json");
+        pathList.add("src/main/java/it/polimi/resources/yellow_level_two.json");
+        pathList.add("src/main/java/it/polimi/resources/purple_level_two.json");
+        pathList.add("src/main/java/it/polimi/resources/green_level_one.json");
+        pathList.add("src/main/java/it/polimi/resources/blue_level_one.json");
+        pathList.add("src/main/java/it/polimi/resources/yellow_level_one.json");
+        pathList.add("src/main/java/it/polimi/resources/purple_level_one.json");
+
+
         int z = 0;
+        int k = 0;
         DevCardColour spaceColour = DevCardColour.EMPTY;
         for (int i = 0; i < MAX_ROWS_MARKET; i++) {
             for (int j = 0; j < MAX_COLUMNS_MARKET; j++) {
                 if(i == 0){z=3;}
                 else if(i == 1){z=2;}
-                else if(i== 2){z=1;}
+                else if(i == 2){z=1;}
                 if(j == 0){spaceColour = DevCardColour.GREEN;}
                 else if(j == 1){spaceColour = DevCardColour.BLUE;}
                 else if(j == 2){spaceColour = DevCardColour.YELLOW;}
                 else if(j == 3){spaceColour = DevCardColour.PURPLE;}
-                devDashboard[i][j] = new DevCardSpace(z, spaceColour);  //devo inizializzare i vari livelli e colori
-
+                devDashboard[i][j] = new DevCardSpace(devCardParser.parseDevDeck(pathList.get(k)));
+                k++;
             }
         }
     }

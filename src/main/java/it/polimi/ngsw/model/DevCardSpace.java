@@ -20,18 +20,15 @@ public class DevCardSpace {
     private int numberOfCards;
     private List<DevCard> developDeck;
 
-    public DevCardSpace(int level, DevCardColour colour){
-        this.deckLevel = level;
-        this.deckColour = colour;
-        this.numberOfCards = 4;
-        //  BISOGNO DI METODO CHE CREA LE CARTE, GLI PASSA VALORE COLORE ETC, SERVE PARSING !!!!!!!!!!
+    public DevCardSpace(List<DevCard> developDeck){
+        this.developDeck = developDeck;
+        Collections.shuffle(this.developDeck);
+        this.numberOfCards = this.developDeck.size();
     }
 
-
-
-    // (init card) !!!!!!!!!!!
-
-
+    public List<DevCard> getDevelopDeck(){
+        return developDeck;
+    }
 
     /**
      * Method that return the level of the Deck.

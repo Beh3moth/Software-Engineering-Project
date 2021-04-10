@@ -1,5 +1,8 @@
 package it.polimi.ngsw.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
 
     private String nickName;
@@ -10,7 +13,7 @@ public class Player {
     private Chest chest;
     private DevCardDashboard devCardDashboard;
     private Warehouse warehouse;
-    private LeaderCard[] leaderCard;
+    private List<LeaderCard> leaderCards;
     private FaithPath faithPath;
     private int PV;
 
@@ -24,9 +27,32 @@ public class Player {
         //Da rivedere! devCardDashboardd
         devCardDashboard = new DevCardDashboard();
         warehouse = new Warehouse();
-        leaderCard = new LeaderCard[4];
+        leaderCards = new ArrayList<>();
         faithPath = new FaithPath();
         PV = 0;
+    }
+
+    /**
+     * The method receives a list of Leader Cards and initializes puts them in the player's Dashboard.
+     * @param leaderCardList is a List of LeaderCards
+     * @return true if the leaderCardList's size is equal to 4, false otherwise.
+     */
+    public boolean receiveLeaderCards(List<LeaderCard> leaderCardList){
+        if(leaderCardList.size()==4){
+            this.leaderCards = leaderCardList;
+        }
+        else return false;
+        return true;
+    }
+
+    /**
+     * The method receives two integers and discard the two LeaderCards from the player's list of LeaderCards.
+     * @param leaderCardToDiscard1 is an integer which represents a certain LeaderCard the player wants to discard.
+     * @param leaderCardToDiscard2 is an integer which represents a certain LeaderCard the player wants to discard.
+     * @return true if the method is successful, false otherwise.
+     */
+    public boolean chooseLeaderCardsToDiscard(int leaderCardToDiscard1, int leaderCardToDiscard2){
+        return ( discardLeaderCard(leaderCardToDiscard1) && discardLeaderCard(leaderCardToDiscard2) );
     }
 
     /**
@@ -87,9 +113,25 @@ public class Player {
      * this method returns the the Leader Cards vector
      * @return leaderCard[]
      */
-    public LeaderCard[] getLeaderCard() {
-        return leaderCard;
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
     }
+
+    /**
+     * The method receives an integer and discard the LeaderCard in that position from player's list leaderCards.
+     * @param leaderCardToDiscard is an integer which represents the LeaderCard to discard.
+     * @return false if the exceptions UnsupportedOperationException or IndexOutOfBoundsException occur, false otherwise.
+     */
+    public boolean discardLeaderCard(int leaderCardToDiscard){
+        try{
+            leaderCards.remove(leaderCardToDiscard);
+        }
+        catch (UnsupportedOperationException | IndexOutOfBoundsException e){
+            return false;
+        }
+        return true;
+    }
+
 
     /**
      * this method returns the Resource: DiscountPowerTwo

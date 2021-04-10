@@ -13,6 +13,22 @@ public class GameTest {
     Game game = new Game();
 
     @Test
+    public void removeAndReturnTheLastFourLeaderCardsTest(){
+        for(int i=0; i<4; i++){
+            List<LeaderCard> list = new ArrayList<>();
+            try {
+                  list = game.removeAndReturnTheLastFourLeaderCards();
+            }
+            catch (IndexOutOfBoundsException e){
+                fail();
+            }
+            for(int j=0; j<4; j++){
+                System.out.println(list.get(j).getAbilityName());
+            }
+        }
+    }
+
+    @Test
     public void shuffleActionTokensDequeTest(){
         List<ActionToken> testList1 = new ArrayList<>(game.getTokensDeque());
         assertTrue(game.shuffleActionTokensDeque());
@@ -33,6 +49,7 @@ public class GameTest {
         }
     }
 
+    /*
     @Test
     public void canBuyProductionPowerTest(){
         //Initialize player resources
@@ -82,10 +99,10 @@ public class GameTest {
         resourceList4.add(Resource.SHIELD);
         ProductionPower productionPower2 = new ProductionPower(resourceList3, resourceList4);
 
-        DevCard devCard1 = new DevCard(1, DevCardColour.PURPLE, Resource.SHIELD, 2, productionPower1, 2);
-        DevCard devCard2 = new DevCard(1, DevCardColour.PURPLE, Resource.SHIELD, 2, productionPower2, 2);
+        //DevCard devCard1 = new DevCard(1, DevCardColour.PURPLE, Resource.SHIELD, 2, productionPower1, 2);
+        //DevCard devCard2 = new DevCard(1, DevCardColour.PURPLE, Resource.SHIELD, 2, productionPower2, 2);
 
-        player.getDevCardDashboard().putDevCardIn(0, devCard1);
+        //player.getDevCardDashboard().putDevCardIn(0, devCard1);
         player.getDevCardDashboard().putDevCardIn(1, devCard2);
 
         assertFalse(game.chooseProductionPower(player, 0));
@@ -134,5 +151,6 @@ public class GameTest {
         assertTrue(game.activateProductionPowers());
 
     }
+    */
 
 }

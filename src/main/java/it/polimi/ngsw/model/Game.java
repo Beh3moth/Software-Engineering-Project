@@ -882,16 +882,27 @@ public class Game implements FaithPathListener {
         return true;
     }
 
+
     //Vatican Report management
 
+    /**
+     * The method makes the class Game listener of a player FaithPath.
+     */
     public void makeGameListenerOfPlayerFaithPath(Player player){
         player.getFaithPath().events.subscribe(this);
     }
 
+    /**
+     * The method makes the class Game listener of Lawrence's FaithPath.
+     */
     public void makeGameListenerOfLawrenceFaithPath(){
         lawrenceFaithPath.events.subscribe(this);
     }
 
+    /**
+     * The method creates a list of every FaithPath in the game: both of players and Lawrence The Magnificent.
+     * @return
+     */
     private List<FaithPath> createFaithPathList(){
         List<FaithPath> faithPathList = new ArrayList<>();
         for(Player player : players){
@@ -903,6 +914,9 @@ public class Game implements FaithPathListener {
         return faithPathList;
     }
 
+    /**
+     * The method receives the cross position upgraded, verify if the position requires a Vatican Report and in case activates the Papal Cards of the players in the right range.
+     */
     @Override
     public void update(int crossPosition){
 
@@ -940,6 +954,12 @@ public class Game implements FaithPathListener {
 
     }
 
+    /**
+     * The method verifies if the cross position requires a Vatican Report.
+     * @param crossPosition is the integer representing the cross position to check.
+     * @param faithPathList is a list of every active FaithPath in the game.
+     * @return In case the Vatican Report is required the method returns true, false otherwise.
+     */
     private boolean isVaticanReportOne(int crossPosition, List<FaithPath> faithPathList){
         for(FaithPath faithpath : faithPathList){
             if(faithpath.getPapalCardOne()){
@@ -949,6 +969,12 @@ public class Game implements FaithPathListener {
         return true;
     }
 
+    /**
+     * The method verifies if the cross position requires a Vatican Report.
+     * @param crossPosition is the integer representing the cross position to check.
+     * @param faithPathList is a list of every active FaithPath in the game.
+     * @return In case the Vatican Report is required the method returns true, false otherwise.
+     */
     private boolean isVaticanReportTwo(int crossPosition, List<FaithPath> faithPathList){
         for(FaithPath faithpath : faithPathList){
             if(faithpath.getPapalCardTwo()){
@@ -958,6 +984,12 @@ public class Game implements FaithPathListener {
         return true;
     }
 
+    /**
+     * The method verifies if the cross position requires a Vatican Report.
+     * @param crossPosition is the integer representing the cross position to check.
+     * @param faithPathList is a list of every active FaithPath in the game.
+     * @return In case the Vatican Report is required the method returns true, false otherwise.
+     */
     private boolean isVaticanReportThree(int crossPosition, List<FaithPath> faithPathList){
         for(FaithPath faithpath : faithPathList){
             if(faithpath.getPapalCardThree()){

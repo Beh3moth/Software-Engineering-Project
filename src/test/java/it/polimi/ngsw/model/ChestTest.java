@@ -4,13 +4,42 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 
 public class ChestTest {
 
     Chest chest = new Chest();
 
+    public void randomChest(){
+        chest.addResourceToChest(Resource.SHIELD, new Random().nextInt(100));
+        chest.addResourceToChest(Resource.STONE, new Random().nextInt(100));
+        chest.addResourceToChest(Resource.SLAVE, new Random().nextInt(100));
+        chest.addResourceToChest(Resource.MONEY, new Random().nextInt(100));
+    }
+
+    @Test
+    public void randomTest(){
+        randomChest();
+        for(int i=0; i<100; i++){
+            if( (new Random().nextInt(100))%2 == 0 ){
+                assertTrue(chest.addResourceToChest(Resource.SHIELD, new Random().nextInt(100)));
+                assertTrue(chest.addResourceToChest(Resource.STONE, new Random().nextInt(100)));
+                assertTrue(chest.addResourceToChest(Resource.SLAVE, new Random().nextInt(100)));
+                assertTrue(chest.addResourceToChest(Resource.MONEY, new Random().nextInt(100)));
+            }
+            else{
+                assertTrue(chest.removeResourceFromChest(Resource.SHIELD, new Random().nextInt(chest.getShieldFromChest())));
+                assertTrue(chest.removeResourceFromChest(Resource.STONE, new Random().nextInt(chest.getStoneFromChest())));
+                assertTrue(chest.removeResourceFromChest(Resource.SLAVE, new Random().nextInt(chest.getSlaveFromChest0())));
+                assertTrue(chest.removeResourceFromChest(Resource.MONEY, new Random().nextInt(chest.getMoneyFromChest())));
+            }
+        }
+    }
+
     @Test
     public void addResourceToChestTest() {
+
         int x = 0;
         for(int i = -5; i<5; i++){
             for(int j = -5; j<5; j++){
@@ -72,6 +101,14 @@ public class ChestTest {
         chest.addResourceToChest(Resource.MONEY, 1);
         chest.addResourceToChest(Resource.MONEY, 2);
         assertEquals(3, chest.getMoneyFromChest());
+    }
+
+    @Test
+    public void containsTest(){
+        chest.addResourceToChest(Resource.MONEY, 1);
+        assertTrue(chest.contains(Resource.MONEY, 1));
+        assertFalse(chest.contains(Resource.MONEY, 2));
+        assertTrue(chest.contains(Resource.MONEY, 0));
     }
 
 }

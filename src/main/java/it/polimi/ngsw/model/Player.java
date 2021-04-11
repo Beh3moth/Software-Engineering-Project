@@ -33,6 +33,27 @@ public class Player {
     }
 
     /**
+     * this method allows the player to activate a leadercard
+     * @param leaderCardToActive
+     * @return true if the card is activeted, false otherwhise
+     */
+    public boolean activeLeaderCard(int leaderCardToActive){
+        if(this.leaderCards.get(leaderCardToActive).equals(null)){
+            return false; //l'intero passato non è valido
+        }
+        else{
+            if(!leaderCards.get(leaderCardToActive).isLeaderCardCostSatisfied(this)){
+                return false; //i requirements non sono soddisfatti
+            }
+            else{
+                leaderCards.get(leaderCardToActive).activateAbility(this);
+                leaderCards.remove(leaderCardToActive);
+                return true;
+            }
+        }
+
+    }
+    /**
      * The method receives a list of Leader Cards and initializes puts them in the player's Dashboard.
      * @param leaderCardList is a List of LeaderCards
      * @return true if the leaderCardList's size is equal to 4, false otherwise.

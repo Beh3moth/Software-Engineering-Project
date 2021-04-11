@@ -20,6 +20,76 @@ public class Game implements FaithPathListener {
         this.leaderCards = initLeaderCards();
     }
 
+    //init game
+
+    /**
+     * this method allows you to set the number of players
+     * @param numberOfPlayers
+     * @return true if the number of players is allowed
+     */
+    public boolean setNumberOfPlayers(int numberOfPlayers){
+        if(numberOfPlayers < 1 || numberOfPlayers > 4)return false;
+        else{
+            this.playerNumbers = numberOfPlayers;
+            return true;
+        }
+    }
+
+    /**
+     * this method create the player
+     */
+    public void createPlayers(){
+        for(int i = 0; i < this.playerNumbers; i++){
+            Player newPlayer = new Player();
+            //questi metodi andranno messi da altre parti
+            Scanner input = new Scanner(System.in);
+            String newNickName = input.nextLine();
+            //fine dei metodi da mettere da altre parti
+            newPlayer.setNickName(newNickName);
+            players.add(newPlayer);
+        }
+    }
+
+    /**
+     * this method initialize the Lawrence's FaithPath
+     */
+    public void initLawrenceFaithPath(){
+        this.lawrenceFaithPath = new FaithPath();
+    }
+
+    /**
+     * this method checks that the multiplayers' game is over
+     * @return true if the multiplayers' game is ended, false otherwise
+     */
+    public boolean isGameEndedMultiPlayers(){
+        for(int i = 0; i < playerNumbers; i++){
+            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
+                    (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
+        }
+        return false;
+    }
+
+    /**
+     * this method checks that the singleplayer's game is over
+     * @return true if the singleplayer's game is ended, false otherwise
+     */
+    public boolean isGameEndedSinglePlayer(){
+        for(int i = 0; i < 4; i++){
+            if(this.board.getDevCardSpace(0,i).getNumberOfCards() == 0 &&
+                    this.board.getDevCardSpace(1,i).getNumberOfCards() == 0 &&
+                    this.board.getDevCardSpace(2,i).getNumberOfCards() == 0
+            )return true;
+        }
+
+        if(this.lawrenceFaithPath.getCrossPosition() == 20)return true;
+
+        if(this.players.get(0).getFaithPath().getCrossPosition() == 20)return true;
+
+        if(this.players.get(0).getDevCardDashboard().getDevCardNumber() == 7)return true;
+
+        return false;
+    }
+
     //Buy DevCard methods
 
     /**

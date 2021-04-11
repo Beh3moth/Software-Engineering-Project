@@ -14,7 +14,7 @@ public class DevCardDashboard {
 
     private DevCard[][] devCards;   //matrix 3x3 of cards
     private int[] devCardLevel;     //level of the card in every slot
-    
+    private int devCardNumber;
     private ProductionPower leaderProductionPowerOne;
     private ProductionPower leaderProductionPowerTwo;
     private ProductionPower baseProductionPower;
@@ -27,6 +27,7 @@ public class DevCardDashboard {
         initDevCardStat();
         baseProductionPower = new ProductionPower(null, null);
         baseProductionPower.setBaseProductionPowerToTrue();
+        this.devCardNumber = 0;
     }
 
 
@@ -51,6 +52,7 @@ public class DevCardDashboard {
             devCards[slot][devCardLevel[slot]] = newCard;
             devCardLevel[slot]++;
             goneRight = true;
+            devCardNumber++;
         }
         return goneRight;
     }
@@ -129,5 +131,8 @@ public class DevCardDashboard {
        else return null;
     }
 
+    public int getDevCardNumber(){
+        return this.devCardNumber;
+    }
 }
 

@@ -65,6 +65,10 @@ public class DevCardDashboard {
         return devCardLevel[slot];
     }
 
+    /**
+     * The method returns a List of active DevCards.
+     * @return a List of active DevCards.
+     */
     public List<DevCard> getActiveDevCards(){
         List<DevCard> devCardList = new ArrayList<>();
         for(int i=0; i<3; i++){

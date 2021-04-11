@@ -76,11 +76,16 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         player.getDevCardDashboard().activateProductionPowerAbility(this);
     }
 
+    /**
+     * The method returns true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     * @param player is the Player who wants to check if he can activate a Leader Card.
+     * @return true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     */
     @Override
     public boolean isLeaderCardCostSatisfied(Player player){
-        List<DevCard> devCardList = player.getDevCardDashboard().getActiveDevCards();
-        for(DevCard devCard : devCardList){
-            if(devCard.getCardColour().equals(getLeaderCardCostDevCardColour()) && devCard.getDevLevel()==getLeaderCardCostDevCardLevel()){
+        List<DevCard> devCardPlayerList = player.getDevCardDashboard().getActiveDevCards();
+        for(DevCard devCard : devCardPlayerList){
+            if(devCard.getCardColour().equals(getLeaderCardCostDevCardColour()) && devCard.getDevLevel()>=getLeaderCardCostDevCardLevel()){
                 return true;
             }
         }

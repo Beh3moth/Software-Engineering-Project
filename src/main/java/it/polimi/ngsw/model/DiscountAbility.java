@@ -5,10 +5,10 @@ import java.util.List;
 
 public class DiscountAbility extends LeaderCardBaseDecorator {
 
-    private int PV;
+    private final int PV;
     private final String abilityName = "discount";
-    private List<DevCardColour> leaderCardCost;
-    private Resource discountResource;
+    private final List<DevCardColour> leaderCardCost;
+    private final Resource discountResource;
 
     public DiscountAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource discountResource) {
         super(leaderCard);
@@ -62,18 +62,22 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
         }
     }
 
+    /**
+     * The method returns true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     * @param player is the Player who wants to check if he can activate a Leader Card.
+     * @return true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     */
     @Override
     public boolean isLeaderCardCostSatisfied(Player player){
-        List<DevCardColour> devCardColourCostList = getLeaderCardCost();
-        List<DevCardColour> devCardColourList = new ArrayList<>();
+        List<DevCardColour> devCardColourPlayerList = new ArrayList<>();
         List<DevCard> devCardList = player.getDevCardDashboard().getActiveDevCards();
 
         for(DevCard devCard : devCardList){
-            devCardColourList.add(devCard.getCardColour());
+            devCardColourPlayerList.add(devCard.getCardColour());
         }
 
-        for(DevCardColour devCardColour : devCardColourCostList){
-            if(!devCardColourList.contains(devCardColour)){
+        for(DevCardColour devCardColour : leaderCardCost){
+            if(!devCardColourPlayerList.contains(devCardColour)){
                 return false;
             }
         }

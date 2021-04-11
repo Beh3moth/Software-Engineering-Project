@@ -3,13 +3,13 @@ package it.polimi.ngsw.model;
 import java.io.FileNotFoundException;
 import java.util.*;
 
-public class Game {
+public class Game implements FaithPathListener {
 
     private Board board = new Board();
     private Player activePlayer;
     private List<Player> players;
     private int playerNumbers;
-    private FaithPath lawrenceFaithPath = new FaithPath();
+    private FaithPath lawrenceFaithPath = null;
     private Deque<ActionToken> actionTokensDeque = new ArrayDeque<>(6);
 
     private List<LeaderCard> leaderCards = new ArrayList<>();
@@ -882,5 +882,89 @@ public class Game {
         return true;
     }
 
+    //Vatican Report management
+
+    public void makeGameListenerOfPlayerFaithPath(Player player){
+        player.getFaithPath().events.subscribe(this);
+    }
+
+    public void makeGameListenerOfLawrenceFaithPath(){
+        lawrenceFaithPath.events.subscribe(this);
+    }
+
+    private List<FaithPath> createFaithPathList(){
+        List<FaithPath> faithPathList = new ArrayList<>();
+        for(Player player : players){
+            faithPathList.add(player.getFaithPath());
+        }
+        if(lawrenceFaithPath != null){
+            faithPathList.add(lawrenceFaithPath);
+        }
+        return faithPathList;
+    }
+
+    @Override
+    public void update(int crossPosition){
+
+        List<FaithPath> faithPathList = createFaithPathList();
+
+        if(crossPosition>=8 && crossPosition<=15){
+            if(isVaticanReportOne(crossPosition, faithPathList)){
+                for(FaithPath faithPath : faithPathList){
+                    if(faithPath.getCrossPosition()>=5 && faithPath.getCrossPosition()<=8){
+                        faithPath.activatePapalCardOne();
+                    }
+                }
+            }
+        }
+
+        else if(crossPosition>=16 && crossPosition<=23){
+            if(isVaticanReportTwo(crossPosition, faithPathList)){
+                for(FaithPath faithPath : faithPathList){
+                    if(faithPath.getCrossPosition()>=12 && faithPath.getCrossPosition()<=16){
+                        faithPath.activatePapalCardTwo();
+                    }
+                }
+            }
+        }
+
+        else if(crossPosition>=24){
+            if(isVaticanReportThree(crossPosition, faithPathList)){
+                for(FaithPath faithPath : faithPathList){
+                    if(faithPath.getCrossPosition()>=19){
+                        faithPath.activatePapalCardThree();
+                    }
+                }
+            }
+        }
+
+    }
+
+    private boolean isVaticanReportOne(int crossPosition, List<FaithPath> faithPathList){
+        for(FaithPath faithpath : faithPathList){
+            if(faithpath.getPapalCardOne()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isVaticanReportTwo(int crossPosition, List<FaithPath> faithPathList){
+        for(FaithPath faithpath : faithPathList){
+            if(faithpath.getPapalCardTwo()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isVaticanReportThree(int crossPosition, List<FaithPath> faithPathList){
+        for(FaithPath faithpath : faithPathList){
+            if(faithpath.getPapalCardThree()){
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

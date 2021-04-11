@@ -23,4 +23,9 @@ public class LeaderCardBaseDecorator implements LeaderCard{
         return null;
     }
 
+    @Override
+    public boolean isLeaderCardCostSatisfied(Player player) {
+        return false;
+    }
+
 }

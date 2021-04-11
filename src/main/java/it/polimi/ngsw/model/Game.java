@@ -6,15 +6,17 @@ import java.util.*;
 import java.io.Serializable;
 import it.polimi.observer.Observable;
 
-public class Game  extends Observable implements Serializable{
+public class Game  extends Observable implements Serializable, FaithPathListener{
     private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
+
+
     private Board board = new Board();
     private Player activePlayer;
     private List<Player> players;
     private int playerNumbers;
-    private FaithPath lawrenceFaithPath = new FaithPath();
+    private FaithPath lawrenceFaithPath = null;
     private Deque<ActionToken> actionTokensDeque = new ArrayDeque<>(6);
 
     private List<LeaderCard> leaderCards = new ArrayList<>();
@@ -29,6 +31,44 @@ public class Game  extends Observable implements Serializable{
         return this.board;
     }
 
+    /**
+     * this method checks that the singleplayer's game is over
+     * @return true if the singleplayer's game is ended, false otherwise
+     */
+    public boolean isGameEndedSinglePlayer(){
+        for(int i = 0; i < 4; i++){
+            if(this.board.getDevCardSpace(0,i).getNumberOfCards() == 0 &&
+                    this.board.getDevCardSpace(1,i).getNumberOfCards() == 0 &&
+                    this.board.getDevCardSpace(2,i).getNumberOfCards() == 0
+            )return true;
+        }
+
+        if(this.lawrenceFaithPath.getCrossPosition() == 20)return true;
+
+        if(this.players.get(0).getFaithPath().getCrossPosition() == 20)return true;
+
+        if(this.players.get(0).getDevCardDashboard().getDevCardNumber() == 7)return true;
+
+        return false;
+    }
+    /**
+     * this method checks that the multiplayers' game is over
+     * @return true if the multiplayers' game is ended, false otherwise
+     */
+    public boolean isGameEndedMultiPlayers(){
+        for(int i = 0; i < playerNumbers; i++){
+            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
+                    (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
+        }
+        return false;
+    }
+
+    /**
+     * this method initialize the Lawrence's FaithPath
+     */
+    public void initLawrenceFaithPath(){
+        this.lawrenceFaithPath = new FaithPath();
+    }
     /**
      * this method allows the player to purchase a DevCard and add it to his dashboard
      * @param activePlayer player who wants to buy a card
@@ -315,6 +355,8 @@ public class Game  extends Observable implements Serializable{
 
         return affordable;
     }
+
+    //Get board resources methods.
 
     public void getBoardResourcesToStock(Player activePlayer, int columnOrRow, int wich){
         if(columnOrRow == 1){
@@ -697,30 +739,35 @@ public class Game  extends Observable implements Serializable{
     }
 
 
-    //Activate Production Power's
+    //Activate Production Power
 
-    //List of production powers the player decides to activate between among his available Production Powers.
-    private List<ProductionPower> listOfAffordableProductionPowers = new ArrayList<>();
+    private List<ProductionPower> listOfPaidProductionPowers = new ArrayList<>();
 
     /**
-     * The method allows the player to choose a Production power to use. The method also ensures the player can afford the Production Power.
-     * If the method i successful the Production Power chosen is stored in the list listOfAffordableProductionPowers.
+     * The method allows the player to choose a Production power to use.
      * @param activePlayer the player who decided to activate a Production Power.
      * @param productionPowerChosen an int that indicates which Production Power the player wants to activate.
-     * @return true if the player can buy the Production Power, false otherwise.
+     * @return the Production Power chosen if it exists, null if it doesn't.
      */
-    public boolean chooseProductionPower(Player activePlayer, int productionPowerChosen) {
-
-        ProductionPower productionPower = activePlayer.getDevCardDashboard().getSingleProductionPower(productionPowerChosen);
-
-        if(productionPower == null){
-            return false;
-        } else{
-            if(canBuyProductionPower(activePlayer, productionPower)){
-                return listOfAffordableProductionPowers.add(productionPower);
-            } else return false;
+    public ProductionPower chooseProductionPower(Player activePlayer, int productionPowerChosen) {
+        if(productionPowerChosen>=0 && productionPowerChosen<=5 && activePlayer!=null){
+            return activePlayer.getDevCardDashboard().getProductionPower(productionPowerChosen);
         }
+        else return null;
+    }
 
+    /**
+     * The method allows a player to set the resources to pay and the ones to receive.
+     * @param resourceToPay is a List of Resources.
+     * @param resourceToReceive is a List of Resources.
+     * @param baseProductionPower is the Base Production Power.
+     * @return return false if one of the parameters is null or if the procedure fails, true otherwise.
+     */
+    public boolean setBaseProductionPowerResourceLists(List<Resource> resourceToPay, List<Resource> resourceToReceive, ProductionPower baseProductionPower){
+        if(baseProductionPower!=null && resourceToPay!=null && resourceToReceive!=null){
+            return baseProductionPower.setBaseProductionPowerLists(resourceToPay, resourceToReceive);
+        }
+        else return false;
     }
 
     /**
@@ -739,20 +786,24 @@ public class Game  extends Observable implements Serializable{
         resourcesArray[2] = Resource.SLAVE;
         resourcesArray[3] = Resource.STONE;
 
-        int[] resourceToPayArray = new int[4];
+        int[] numberOfResourcesToPay = new int[4];
 
         for (Resource resource : resourceToPay) {
             for(int j=0; j<4; j++){
                 if (resource.equals(resourcesArray[j])) {
-                    resourceToPayArray[j]++;
+                    numberOfResourcesToPay[j]++;
                 }
             }
         }
+
         int i=0;
         for(Resource resourceType : resourcesArray){
-            boolean chestContains = activePlayer.getChest().contains(resourceType, resourceToPayArray[i]);
-            boolean warehouseContains = activePlayer.getWarehouse().contains(resourceToPayArray[i], resourceType);
-            if(!(chestContains||warehouseContains)){
+            boolean chestContains = activePlayer.getChest().contains(resourceType, numberOfResourcesToPay[i]);
+            boolean warehouseContains = activePlayer.getWarehouse().contains(numberOfResourcesToPay[i], resourceType);
+            if(!chestContains && !warehouseContains){
+                if(productionPower.isBaseProductionPower()){
+                    productionPower.removeBaseProductionPowerLists();
+                }
                 return false;
             }
             i++;
@@ -784,6 +835,9 @@ public class Game  extends Observable implements Serializable{
 
             if(warehouse){
                 if (!activePlayer.getWarehouse().hasResource(shelfLevel, resource)) {
+                    if(productionPower.isBaseProductionPower){
+                        productionPower.removeBaseProductionPowerLists();
+                    }
                     removeResourcesFormProductionPower(activePlayer, productionPower);
                     return false;
                 }
@@ -793,6 +847,9 @@ public class Game  extends Observable implements Serializable{
                 }
             } else {
                 if (!activePlayer.getChest().contains(resource, 1)) {
+                    if(productionPower.isBaseProductionPower){
+                        productionPower.removeBaseProductionPowerLists();
+                    }
                     removeResourcesFormProductionPower(activePlayer, productionPower);
                     return false;
                 }
@@ -804,6 +861,7 @@ public class Game  extends Observable implements Serializable{
 
         }
 
+        listOfPaidProductionPowers.add(productionPower);
         return true;
 
     }
@@ -822,6 +880,41 @@ public class Game  extends Observable implements Serializable{
     }
 
     /**
+     * The method returns a list of Leader Production Powers.
+     * @return a list of Leader Production Powers.
+     */
+    public List<ProductionPower> checkForLeaderProductionPowerAbility(){
+
+        List<ProductionPower> productionPowerAbilityList = new ArrayList<>();
+
+        for(ProductionPower productionPower : listOfPaidProductionPowers){
+            for(Resource resource : productionPower.getResourceToPay()){
+                if(resource.equals(Resource.FAITHPOINT)){
+                    productionPowerAbilityList.add(productionPower);
+                    listOfPaidProductionPowers.remove(productionPower);
+                }
+            }
+        }
+
+        return productionPowerAbilityList;
+
+    }
+
+
+    /**
+     * The method sets the resource to receive from leader production power. It also give a faith point to the player.
+     * @param activePlayer is the player who has to choose the resource to receive.
+     * @param resource is the resource chosen by the player.
+     * @param leaderProductionPower is the Leader Production Power.
+     * @return true if successful, false otherwise.
+     */
+    public boolean setResourceToReceiveFromLeaderProductionPowerAbility(Player activePlayer, Resource resource, ProductionPower leaderProductionPower){
+        activePlayer.addPV(1);
+        listOfPaidProductionPowers.add(leaderProductionPower);
+        return leaderProductionPower.setResourceToReceive(resource);
+    }
+
+    /**
      * The method activates every production power the player chose. It also cleans the coordinates.
      * @return true if successful, false otherwise.
      */
@@ -832,7 +925,124 @@ public class Game  extends Observable implements Serializable{
             }
             productionPower.cleanCoordinates();
         }
-        listOfAffordableProductionPowers.clear();
+        listOfPaidProductionPowers.clear();
+        return true;
+    }
+
+
+    //Vatican Report management
+
+    /**
+     * The method makes the class Game listener of a player FaithPath.
+     */
+    public void makeGameListenerOfPlayerFaithPath(Player player){
+        player.getFaithPath().events.subscribe(this);
+    }
+
+    /**
+     * The method makes the class Game listener of Lawrence's FaithPath.
+     */
+    public void makeGameListenerOfLawrenceFaithPath(){
+        lawrenceFaithPath.events.subscribe(this);
+    }
+
+    /**
+     * The method creates a list of every FaithPath in the game: both of players and Lawrence The Magnificent.
+     * @return
+     */
+    private List<FaithPath> createFaithPathList(){
+        List<FaithPath> faithPathList = new ArrayList<>();
+        for(Player player : players){
+            faithPathList.add(player.getFaithPath());
+        }
+        if(lawrenceFaithPath != null){
+            faithPathList.add(lawrenceFaithPath);
+        }
+        return faithPathList;
+    }
+
+    /**
+     * The method receives the cross position upgraded, verify if the position requires a Vatican Report and in case activates the Papal Cards of the players in the right range.
+     */
+    @Override
+    public void update(int crossPosition){
+
+        List<FaithPath> faithPathList = createFaithPathList();
+
+        if(crossPosition>=8 && crossPosition<=15){
+            if(isVaticanReportOne(crossPosition, faithPathList)){
+                for(FaithPath faithPath : faithPathList){
+                    if(faithPath.getCrossPosition()>=5 && faithPath.getCrossPosition()<=8){
+                        faithPath.activatePapalCardOne();
+                    }
+                }
+            }
+        }
+
+        else if(crossPosition>=16 && crossPosition<=23){
+            if(isVaticanReportTwo(crossPosition, faithPathList)){
+                for(FaithPath faithPath : faithPathList){
+                    if(faithPath.getCrossPosition()>=12 && faithPath.getCrossPosition()<=16){
+                        faithPath.activatePapalCardTwo();
+                    }
+                }
+            }
+        }
+
+        else if(crossPosition>=24){
+            if(isVaticanReportThree(crossPosition, faithPathList)){
+                for(FaithPath faithPath : faithPathList){
+                    if(faithPath.getCrossPosition()>=19){
+                        faithPath.activatePapalCardThree();
+                    }
+                }
+            }
+        }
+
+    }
+
+    /**
+     * The method verifies if the cross position requires a Vatican Report.
+     * @param crossPosition is the integer representing the cross position to check.
+     * @param faithPathList is a list of every active FaithPath in the game.
+     * @return In case the Vatican Report is required the method returns true, false otherwise.
+     */
+    private boolean isVaticanReportOne(int crossPosition, List<FaithPath> faithPathList){
+        for(FaithPath faithpath : faithPathList){
+            if(faithpath.getPapalCardOne()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * The method verifies if the cross position requires a Vatican Report.
+     * @param crossPosition is the integer representing the cross position to check.
+     * @param faithPathList is a list of every active FaithPath in the game.
+     * @return In case the Vatican Report is required the method returns true, false otherwise.
+     */
+    private boolean isVaticanReportTwo(int crossPosition, List<FaithPath> faithPathList){
+        for(FaithPath faithpath : faithPathList){
+            if(faithpath.getPapalCardTwo()){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * The method verifies if the cross position requires a Vatican Report.
+     * @param crossPosition is the integer representing the cross position to check.
+     * @param faithPathList is a list of every active FaithPath in the game.
+     * @return In case the Vatican Report is required the method returns true, false otherwise.
+     */
+    private boolean isVaticanReportThree(int crossPosition, List<FaithPath> faithPathList){
+        for(FaithPath faithpath : faithPathList){
+            if(faithpath.getPapalCardThree()){
+                return false;
+            }
+        }
         return true;
     }
 
@@ -956,4 +1166,5 @@ public class Game  extends Observable implements Serializable{
     public static void resetInstance() {
         Game.instance = null;
     }
+
 }

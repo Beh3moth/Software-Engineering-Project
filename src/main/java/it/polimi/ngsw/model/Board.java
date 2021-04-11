@@ -4,8 +4,6 @@ package it.polimi.ngsw.model;
 
 
 import java.io.FileNotFoundException;
-import java.io.IOException; //uhmmmm
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +54,7 @@ public class Board{
          //testare se funziona questo codice sotto
         this.devDashboard = new DevCardSpace[MAX_ROWS_MARKET][MAX_COLUMNS_MARKET];
         try {
-            initDevDashboard();
+            initDevCardSpace();
         }
         catch (FileNotFoundException e) {
             System.err.println("File not found");
@@ -67,7 +65,7 @@ public class Board{
     /**
      * method that initialize the matrix of the Developing Cards
      */
-    private void initDevDashboard() throws FileNotFoundException {    //AGGIUNGERE SU UML
+    private void initDevCardSpace() throws FileNotFoundException {
 
         pathList.add("src/main/java/it/polimi/resources/green_level_three.json");
         pathList.add("src/main/java/it/polimi/resources/blue_level_three.json");

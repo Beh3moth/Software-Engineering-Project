@@ -1,5 +1,6 @@
 package it.polimi.ngsw.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
@@ -59,6 +60,33 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
         if(!resourceToObtain.equals(Resource.EMPTY)){
             player.setWhiteMarblePower(resourceToObtain);
         }
+    }
+
+    /**
+     * The method returns true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     * @param player is the Player who wants to check if he can activate a Leader Card.
+     * @return true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     */
+    @Override
+    public boolean isLeaderCardCostSatisfied(Player player){
+        List<DevCardColour> devCardColourCostList = getLeaderCardCost();
+        List<DevCardColour> devCardColourPlayerList = new ArrayList<>();
+        List<DevCard> devCardList = player.getDevCardDashboard().getActiveDevCards();
+
+        for(DevCard devCard : devCardList){
+            devCardColourPlayerList.add(devCard.getCardColour());
+        }
+
+        for(DevCardColour devCardColour : devCardColourCostList){
+            if(!devCardColourPlayerList.contains(devCardColour)){
+                return false;
+            }
+            else{
+                devCardColourPlayerList.remove(devCardColour);
+            }
+        }
+
+        return true;
     }
 
 }

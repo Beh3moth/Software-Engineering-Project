@@ -1,10 +1,15 @@
 package it.polimi.ngsw.model;
 
+import it.polimi.network.message.*;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.io.Serializable;
+import it.polimi.observer.Observable;
 
-public class Game {
-
+public class Game  extends Observable implements Serializable{
+    private static Game instance;
+    public static final int MAX_PLAYERS = 4;
+    public static final String SERVER_NICKNAME = "server";
     private Board board = new Board();
     private Player activePlayer;
     private List<Player> players;
@@ -20,6 +25,9 @@ public class Game {
         this.leaderCards = initLeaderCards();
     }
 
+    public Board getBoard(){
+        return this.board;
+    }
 
     /**
      * this method allows the player to purchase a DevCard and add it to his dashboard
@@ -826,5 +834,126 @@ public class Game {
         }
         listOfAffordableProductionPowers.clear();
         return true;
+    }
+
+    /**
+     * @return the singleton instance.
+     */
+    public static Game getInstance() {
+        if (instance == null)
+            instance = new Game();
+        return instance;
+    }
+
+    /**
+     * Search a nickname in the current Game.
+     *
+     * @param nickname the nickname of the player.
+     * @return {@code true} if the nickname is found, {@code false} otherwise.
+     */
+    public boolean isNicknameTaken(String nickname) {
+        return players.stream()
+                .anyMatch(p -> nickname.equals(p.getNickname()));
+    }
+
+
+    /**
+     * Adds a player to the game.
+     * Notifies all the views if the playersNumber is already set.
+     *
+     * @param player the player to add to the game.
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
+        if (playerNumbers != 0) {
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+        }
+    }
+
+    /**
+     * Returns a list of player nicknames that are already in-game.
+     *
+     * @return a list with all nicknames in the Game
+     */
+    public List<String> getPlayersNicknames() {
+        List<String> nicknames = new ArrayList<>();
+        for (Player p : players) {
+            nicknames.add(p.getNickname());
+        }
+        return nicknames;
+    }
+
+    /**
+     * Returns the number of players chosen by the first player.
+     *
+     * @return the number of players chosen by the first player.
+     */
+    public int getChosenPlayersNumber() {
+        return playerNumbers;
+    }
+
+
+    /**
+     * Number of current players added in the game.
+     *
+     * @return the number of players.
+     */
+    public int getNumCurrentPlayers() {
+        return players.size();
+    }
+    /**
+     * Sets the max number of players chosen by the first player joining the game.
+     *
+     * @param chosenMaxPlayers the max players number. Value can be {@code 0 < x < MAX_PLAYERS}.
+     * @return {@code true} if the argument value is {@code 0 < x < MAX_PLAYERS}, {@code false} otherwise.
+     */
+    public boolean setChosenMaxPlayers(int chosenMaxPlayers) {
+        if (chosenMaxPlayers > 0 && chosenMaxPlayers <= MAX_PLAYERS) {
+            this.playerNumbers = chosenMaxPlayers;
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Removes a player from the game.
+     * Notifies all the views if the notifyEnabled argument is set to {@code true}.
+     *
+     * @param nickname      the nickname of the player to remove from the game.
+     * @param notifyEnabled set to {@code true} to enable a lobby disconnection message, {@code false} otherwise.
+     * @return {@code true} if the player is removed, {@code false} otherwise.
+     */
+    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
+        boolean result = players.remove(getPlayerByNickname(nickname));
+
+        if (notifyEnabled) {
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+        }
+
+        return result;
+    }
+
+    /**
+     * Returns a player given his {@code nickname}.
+     * Only the first occurrence is returned because
+     * the player nickname is considered to be unique.
+     * If no player is found {@code null} is returned.
+     *
+     * @param nickname the nickname of the player to be found.
+     * @return Returns the player given his {@code nickname}, {@code null} otherwise.
+     */
+    public Player getPlayerByNickname(String nickname) {
+        return players.stream()
+                .filter(player -> nickname.equals(player.getNickname()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Resets the game instance. After this operations, all the game data is lost.
+     */
+    public static void resetInstance() {
+        Game.instance = null;
     }
 }

@@ -1,9 +1,12 @@
 package it.polimi.ngsw.model;
 
+import it.polimi.observer.Observable;
+
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player {
+public class Player extends Observable implements Serializable {
 
     private String nickName;
     private Resource discountPowerOne;
@@ -17,8 +20,8 @@ public class Player {
     private FaithPath faithPath;
     private int PV;
 
-    public Player(){
-        nickName = new String();
+    public Player(String nickname) {
+        this.nickName = nickname;
         discountPowerOne = Resource.EMPTY;
         discountPowerTwo = Resource.EMPTY;
         whiteMarblePowerOne = Resource.EMPTY;
@@ -32,6 +35,9 @@ public class Player {
         PV = 0;
     }
 
+    public void setLeaderCard(List<LeaderCard> twoLeaderCard){
+        this.leaderCards = twoLeaderCard;
+    }
     /**
      * The method receives a list of Leader Cards and initializes puts them in the player's Dashboard.
      * @param leaderCardList is a List of LeaderCards
@@ -53,7 +59,7 @@ public class Player {
      */
     public boolean chooseLeaderCardsToDiscard(int leaderCardToDiscard1, int leaderCardToDiscard2){
         return ( discardLeaderCard(leaderCardToDiscard1) && discardLeaderCard(leaderCardToDiscard2) );
-    }
+    }// non serve
 
     /**
      * this method allows you to change the nickName attribute
@@ -63,13 +69,6 @@ public class Player {
         nickName = name;
     }
 
-    /**
-     * this method returns the string: nickName
-     * @return nickName
-     */
-    public String getNickName(){
-        return nickName;
-    }
 
     /**
      * this method returns the Integer: PV
@@ -217,5 +216,14 @@ public class Player {
      */
     public DevCardDashboard getDevCardDashboard(){
         return devCardDashboard;
+    }
+
+    /**
+     * Return the nickname of the Player.
+     *
+     * @return nickname of the Player.
+     */
+    public String getNickname() {
+        return nickName;
     }
 }

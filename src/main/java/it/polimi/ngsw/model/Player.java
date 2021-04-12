@@ -208,7 +208,7 @@ public class Player {
             discountPowerOne = resource;
             return true;
         }
-        else if (discountPowerTwo.equals(Resource.EMPTY)) {
+        else if(discountPowerTwo.equals(Resource.EMPTY)) {
             discountPowerTwo = resource;
             return true;
         }

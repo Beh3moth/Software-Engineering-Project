@@ -941,7 +941,7 @@ public class Game implements FaithPathListener {
     public boolean setResourceToReceiveFromLeaderProductionPowerAbility(Player activePlayer, Resource resource, ProductionPower leaderProductionPower){
         activePlayer.addPV(1);
         listOfPaidProductionPowers.add(leaderProductionPower);
-        return leaderProductionPower.setResourceToReceive(resource);
+        return leaderProductionPower.setLeaderProductionPowerResourceToReceive(resource);
     }
 
     /**

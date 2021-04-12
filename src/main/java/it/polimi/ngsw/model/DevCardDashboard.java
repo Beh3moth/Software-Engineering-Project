@@ -75,7 +75,7 @@ public class DevCardDashboard {
         List<DevCard> devCardList = new ArrayList<>();
         for(int i=0; i<3; i++){
             if(devCardLevel[i]>0){
-                devCardList.add(devCards[i][devCardLevel[i]]);
+                devCardList.add(devCards[i][devCardLevel[i]-1]);
             }
         }
         return  devCardList;
@@ -121,7 +121,7 @@ public class DevCardDashboard {
         }
         else if(slot>=1 && slot<=3){
             if(getLevel(slot-1) > 0){
-                return devCards[slot-1][getLevel(slot)-1].getProductionPower();
+                return devCards[slot-1][getLevel(slot-1)-1].getProductionPower();
             }
             else return null;
         }

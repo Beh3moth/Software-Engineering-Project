@@ -8,6 +8,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ProductionPowerTest {
+
+    @Test
+    public void setBaseProductionPowerListsTest(){
+        Game game = new Game();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        List<Resource> resourcesToPay = new ArrayList<>(2);
+        resourcesToPay.add(Resource.SLAVE);
+        resourcesToPay.add(Resource.MONEY);
+        List<Resource> resourcesToReceive = new ArrayList<>(1);
+        resourcesToReceive.add(Resource.STONE);
+        assertTrue(game.getPlayerFromList(0).getDevCardDashboard().getProductionPower(0).setBaseProductionPowerLists(resourcesToPay, resourcesToReceive));
+    }
+
     @Test
     public void addSingleCoordinateTest(){
         Player player = new Player();

@@ -63,7 +63,7 @@ public class ProductionPower {
      * @return true if the procedure is successful, false otherwise.
      */
     public boolean setBaseProductionPowerLists(List<Resource> resourceToPay, List<Resource> resourceToReceive){
-        if(!(resourceToPay.size()==2) && !(resourceToReceive.size()==1) && !isBaseProductionPower){
+        if(!(resourceToPay.size()==2) || !(resourceToReceive.size()==1) || !isBaseProductionPower){
             return false;
         }
         else{

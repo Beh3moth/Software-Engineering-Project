@@ -21,7 +21,7 @@ public class Game implements FaithPathListener {
         this.leaderCards = initLeaderCards();
     }
 
-    //init game
+    //Init game
 
     /**
      * this method allows you to set the number of players
@@ -42,14 +42,10 @@ public class Game implements FaithPathListener {
     public void createPlayers(){
         for(int i = 0; i < this.playerNumbers; i++){
             Player newPlayer = new Player();
-            /*
-            //questi metodi andranno messi da altre parti
-            Scanner input = new Scanner(System.in);
-            String newNickName = input.nextLine();
-            //fine dei metodi da mettere da altre parti
-            newPlayer.setNickName(newNickName);
-             */
             players.add(newPlayer);
+        }
+        if(players.size()==1){
+            initLawrenceFaithPath();
         }
     }
 

@@ -1,13 +1,8 @@
 package it.polimi.ngsw.model;
-//import enum devcardcolour
-//import player
-import java.io.IOException; //uhmmmm
-import java.util.Scanner;
-import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
+
 /**
  *Class that contains a matrix of mini deck of 4 cards, it has a specific level and colour
  */

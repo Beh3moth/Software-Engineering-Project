@@ -120,7 +120,10 @@ public class DevCardDashboard {
             return baseProductionPower;
         }
         else if(slot>=1 && slot<=3){
-            return devCards[slot][getLevel(slot)-1].getProductionPower();
+            if(getLevel(slot-1) > 0){
+                return devCards[slot-1][getLevel(slot)-1].getProductionPower();
+            }
+            else return null;
         }
        else if(slot == 4){
             return leaderProductionPowerOne;

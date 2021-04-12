@@ -117,22 +117,22 @@ public class Game implements FaithPathListener {
         switch(colour_to_buy){
             case GREEN:
                 Cost = this.board.getDevCardSpace(level_to_buy-1, 0).firstDevCard().getDevCostAsMap();
-                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                if(!canBuyDevCard(activePlayer,Cost))return false;
                 activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 0).firstDevCard());
                 this.board.getDevCardSpace(level_to_buy-1, 0).removeFirstCard();
             case BLUE:
                 Cost = this.board.getDevCardSpace(level_to_buy-1, 1).firstDevCard().getDevCostAsMap();
-                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                if(!canBuyDevCard(activePlayer,Cost))return false;
                 activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 1).firstDevCard());
                 this.board.getDevCardSpace(level_to_buy-1, 1).removeFirstCard();
             case YELLOW:
                 Cost = this.board.getDevCardSpace(level_to_buy-1, 2).firstDevCard().getDevCostAsMap();
-                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                if(!canBuyDevCard(activePlayer,Cost))return false;
                 activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 2).firstDevCard());
                 this.board.getDevCardSpace(level_to_buy-1, 2).removeFirstCard();
             case PURPLE:
                 Cost = this.board.getDevCardSpace(level_to_buy-1, 3).firstDevCard().getDevCostAsMap();
-                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                if(!canBuyDevCard(activePlayer,Cost))return false;
                 activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 3).firstDevCard());
                 this.board.getDevCardSpace(level_to_buy-1, 3).removeFirstCard();
             case EMPTY: return false;

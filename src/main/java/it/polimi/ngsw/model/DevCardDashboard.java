@@ -89,7 +89,7 @@ public class DevCardDashboard {
      * @param productionPowerAbility is the Production Power Ability to activate.
      * @return true if the procedure is successful, false otherwise.
      */
-    public boolean activateProductionPowerAbility(ProductionPowerAbility productionPowerAbility){
+    public boolean activateProductionPowerAbility(LeaderCard productionPowerAbility){
 
         List<Resource> resourceList1 = new ArrayList<>();
         List<Resource> resourceList2 = new ArrayList<>();

@@ -7,5 +7,6 @@ public interface LeaderCard {
     int getPV();
     String getAbilityName();
     boolean isLeaderCardCostSatisfied(Player player);
+    Resource getInputResource();
 
 }

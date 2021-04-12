@@ -16,6 +16,7 @@ public class Game implements FaithPathListener {
     private LeaderCardParser leaderCardParser = new LeaderCardParser();
     
     public Game(){
+        players = new ArrayList<>(0);
         initActionTokensDeque();
         this.leaderCards = initLeaderCards();
     }
@@ -28,7 +29,7 @@ public class Game implements FaithPathListener {
      * @return true if the number of players is allowed
      */
     public boolean setNumberOfPlayers(int numberOfPlayers){
-        if(numberOfPlayers < 1 || numberOfPlayers > 4)return false;
+        if(numberOfPlayers < 1 || numberOfPlayers > 4) return false;
         else{
             this.playerNumbers = numberOfPlayers;
             return true;
@@ -41,11 +42,13 @@ public class Game implements FaithPathListener {
     public void createPlayers(){
         for(int i = 0; i < this.playerNumbers; i++){
             Player newPlayer = new Player();
+            /*
             //questi metodi andranno messi da altre parti
             Scanner input = new Scanner(System.in);
             String newNickName = input.nextLine();
             //fine dei metodi da mettere da altre parti
             newPlayer.setNickName(newNickName);
+             */
             players.add(newPlayer);
         }
     }
@@ -88,6 +91,10 @@ public class Game implements FaithPathListener {
         if(this.players.get(0).getDevCardDashboard().getDevCardNumber() == 7)return true;
 
         return false;
+    }
+
+    public Player getPlayerFromList(int indexNumber){
+        return this.players.get(indexNumber);
     }
 
     //Buy DevCard methods

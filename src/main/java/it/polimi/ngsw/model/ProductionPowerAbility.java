@@ -48,6 +48,7 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
      * The method returns the Input Resource required by the Leader Card Production Power.
      * @return the Input Resource required by the Leader Card Production Power.
      */
+    @Override
     public Resource getInputResource(){
         return inputResource;
     }

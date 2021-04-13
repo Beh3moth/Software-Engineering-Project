@@ -63,15 +63,14 @@ public class ProductionPower {
      * @return true if the procedure is successful, false otherwise.
      */
     public boolean setBaseProductionPowerLists(List<Resource> resourceToPay, List<Resource> resourceToReceive){
-        if(!(resourceToPay.size()==2)){
+        if(!(resourceToPay.size()==2) || !(resourceToReceive.size()==1) || !isBaseProductionPower){
             return false;
         }
-        if(!(resourceToReceive.size()==1)){
-            return false;
+        else{
+            this.resourceToPay = resourceToPay;
+            this.resourceToProduce = resourceToReceive;
+            return true;
         }
-        this.resourceToPay = resourceToPay;
-        this.resourceToProduce = resourceToReceive;
-        return true;
     }
 
     /**
@@ -90,7 +89,7 @@ public class ProductionPower {
      * @param resource is the resource to set.
      * @return true if the method is successful, false otherwise.
      */
-    public boolean setResourceToReceive(Resource resource){
+    public boolean setLeaderProductionPowerResourceToReceive(Resource resource){
         List<Resource> resourceList = new ArrayList<>();
         resourceList.add(resource);
         resourceToProduce.clear();
@@ -120,6 +119,7 @@ public class ProductionPower {
      * @return true if the coordinates are correct and correctly added in the list, false otherwise.
      */
     public boolean addSingleCoordinate(Resource resourceToPay, boolean warehouse, int shelfLevel, Player activePlayer){
+
         List<Object> tempList = new ArrayList<>(3);
 
         if(resourceToPay!=Resource.EMPTY && shelfLevel<6){
@@ -141,11 +141,10 @@ public class ProductionPower {
                     coordinates.add(tempList);
                     return (coordinates.contains(tempList));
                 }
+                else return false;
             }
 
         } else return false;
-
-        return false;
 
     }
 

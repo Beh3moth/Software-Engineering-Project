@@ -23,12 +23,31 @@ public class Game  extends Observable implements Serializable, FaithPathListener
     private LeaderCardParser leaderCardParser = new LeaderCardParser();
     
     public Game(){
+        players = new ArrayList<>(0);
         initActionTokensDeque();
         this.leaderCards = initLeaderCards();
     }
-
     public Board getBoard(){
         return this.board;
+    }
+
+    /**
+     * this method initialize the Lawrence's FaithPath
+     */
+    public void initLawrenceFaithPath(){
+        this.lawrenceFaithPath = new FaithPath();
+    }
+
+    /**
+     * this method checks that the multiplayers' game is over
+     * @return true if the multiplayers' game is ended, false otherwise
+     */
+    public boolean isGameEndedMultiPlayers(){
+        for(int i = 0; i < playerNumbers; i++){
+            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
+                    (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
+        }
+        return false;
     }
 
     /**
@@ -63,6 +82,12 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         return false;
     }
 
+    public Player getPlayerFromList(int indexNumber){
+        return this.players.get(indexNumber);
+    }
+
+    //Buy DevCard methods
+
     /**
      * this method initialize the Lawrence's FaithPath
      */
@@ -87,22 +112,22 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         switch(colour_to_buy){
             case GREEN:
                 Cost = this.board.getDevCardSpace(level_to_buy-1, 0).firstDevCard().getDevCostAsMap();
-                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                if(!canBuyDevCard(activePlayer,Cost))return false;
                 activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 0).firstDevCard());
                 this.board.getDevCardSpace(level_to_buy-1, 0).removeFirstCard();
             case BLUE:
                 Cost = this.board.getDevCardSpace(level_to_buy-1, 1).firstDevCard().getDevCostAsMap();
-                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                if(!canBuyDevCard(activePlayer,Cost))return false;
                 activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 1).firstDevCard());
                 this.board.getDevCardSpace(level_to_buy-1, 1).removeFirstCard();
             case YELLOW:
                 Cost = this.board.getDevCardSpace(level_to_buy-1, 2).firstDevCard().getDevCostAsMap();
-                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                if(!canBuyDevCard(activePlayer,Cost))return false;
                 activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 2).firstDevCard());
                 this.board.getDevCardSpace(level_to_buy-1, 2).removeFirstCard();
             case PURPLE:
                 Cost = this.board.getDevCardSpace(level_to_buy-1, 3).firstDevCard().getDevCostAsMap();
-                if(!canBuyDevCard(this.activePlayer,Cost))return false;
+                if(!canBuyDevCard(activePlayer,Cost))return false;
                 activePlayer.getDevCardDashboard().putDevCardIn(slotToPut, this.board.getDevCardSpace(level_to_buy-1, 3).firstDevCard());
                 this.board.getDevCardSpace(level_to_buy-1, 3).removeFirstCard();
             case EMPTY: return false;
@@ -826,7 +851,6 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         boolean warehouse;
         int shelfLevel;
 
-        //Correct resource control
         for(List<Object> coordinate : coordinates) {
 
             resource = (Resource) coordinate.get(0);
@@ -835,27 +859,21 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
             if(warehouse){
                 if (!activePlayer.getWarehouse().hasResource(shelfLevel, resource)) {
-                    if(productionPower.isBaseProductionPower){
-                        productionPower.removeBaseProductionPowerLists();
-                    }
-                    removeResourcesFormProductionPower(activePlayer, productionPower);
+                    rejectProductionPower(activePlayer, productionPower);
                     return false;
                 }
                 else {
-                    activePlayer.getWarehouse().removeResourceWarehouse(shelfLevel);
                     productionPower.addSingleCoordinate(resource, true, shelfLevel, activePlayer);
+                    activePlayer.getWarehouse().removeResourceWarehouse(shelfLevel);
                 }
             } else {
                 if (!activePlayer.getChest().contains(resource, 1)) {
-                    if(productionPower.isBaseProductionPower){
-                        productionPower.removeBaseProductionPowerLists();
-                    }
-                    removeResourcesFormProductionPower(activePlayer, productionPower);
+                    rejectProductionPower(activePlayer, productionPower);
                     return false;
                 }
                 else {
-                    activePlayer.getChest().removeResourceFromChest(resource, 1);
                     productionPower.addSingleCoordinate(resource, false, 0, activePlayer);
+                    activePlayer.getChest().removeResourceFromChest(resource, 1);
                 }
             }
 
@@ -867,16 +885,25 @@ public class Game  extends Observable implements Serializable, FaithPathListener
     }
 
     /**
-     * The method puts the resources of a production power back in their resource.
+     * The method puts the resources of a production power back in their resource and deletes the Production Power.
      * @param activePlayer is the Player who has the Production Power.
      * @param productionPower is the Production Power that has the coordinates of the resources.
-     * @return true if successful, false otherwise.
      */
-    public boolean removeResourcesFormProductionPower(Player activePlayer, ProductionPower productionPower){
-        for(List<Object> coordinate : productionPower.getCoordinates()){
-            productionPower.removeSingleCoordinate(activePlayer);
+    public void rejectProductionPower(Player activePlayer, ProductionPower productionPower){
+
+        if(productionPower.getCoordinates()!=null){
+            for(List<Object> coordinate : productionPower.getCoordinates()){
+                productionPower.removeSingleCoordinate(activePlayer);
+            }
+            productionPower.cleanCoordinates();
         }
-        return true;
+
+        listOfPaidProductionPowers.remove(productionPower);
+
+        if(productionPower.isBaseProductionPower()){
+            productionPower.removeBaseProductionPowerLists();
+        }
+
     }
 
     /**
@@ -889,7 +916,7 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
         for(ProductionPower productionPower : listOfPaidProductionPowers){
             for(Resource resource : productionPower.getResourceToPay()){
-                if(resource.equals(Resource.FAITHPOINT)){
+                if(resource.equals(Resource.EMPTY)){
                     productionPowerAbilityList.add(productionPower);
                     listOfPaidProductionPowers.remove(productionPower);
                 }
@@ -911,7 +938,7 @@ public class Game  extends Observable implements Serializable, FaithPathListener
     public boolean setResourceToReceiveFromLeaderProductionPowerAbility(Player activePlayer, Resource resource, ProductionPower leaderProductionPower){
         activePlayer.addPV(1);
         listOfPaidProductionPowers.add(leaderProductionPower);
-        return leaderProductionPower.setResourceToReceive(resource);
+        return leaderProductionPower.setLeaderProductionPowerResourceToReceive(resource);
     }
 
     /**
@@ -1044,127 +1071,6 @@ public class Game  extends Observable implements Serializable, FaithPathListener
             }
         }
         return true;
-    }
-
-    /**
-     * @return the singleton instance.
-     */
-    public static Game getInstance() {
-        if (instance == null)
-            instance = new Game();
-        return instance;
-    }
-
-    /**
-     * Search a nickname in the current Game.
-     *
-     * @param nickname the nickname of the player.
-     * @return {@code true} if the nickname is found, {@code false} otherwise.
-     */
-    public boolean isNicknameTaken(String nickname) {
-        return players.stream()
-                .anyMatch(p -> nickname.equals(p.getNickname()));
-    }
-
-
-    /**
-     * Adds a player to the game.
-     * Notifies all the views if the playersNumber is already set.
-     *
-     * @param player the player to add to the game.
-     */
-    public void addPlayer(Player player) {
-        players.add(player);
-        if (playerNumbers != 0) {
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
-        }
-    }
-
-    /**
-     * Returns a list of player nicknames that are already in-game.
-     *
-     * @return a list with all nicknames in the Game
-     */
-    public List<String> getPlayersNicknames() {
-        List<String> nicknames = new ArrayList<>();
-        for (Player p : players) {
-            nicknames.add(p.getNickname());
-        }
-        return nicknames;
-    }
-
-    /**
-     * Returns the number of players chosen by the first player.
-     *
-     * @return the number of players chosen by the first player.
-     */
-    public int getChosenPlayersNumber() {
-        return playerNumbers;
-    }
-
-
-    /**
-     * Number of current players added in the game.
-     *
-     * @return the number of players.
-     */
-    public int getNumCurrentPlayers() {
-        return players.size();
-    }
-    /**
-     * Sets the max number of players chosen by the first player joining the game.
-     *
-     * @param chosenMaxPlayers the max players number. Value can be {@code 0 < x < MAX_PLAYERS}.
-     * @return {@code true} if the argument value is {@code 0 < x < MAX_PLAYERS}, {@code false} otherwise.
-     */
-    public boolean setChosenMaxPlayers(int chosenMaxPlayers) {
-        if (chosenMaxPlayers > 0 && chosenMaxPlayers <= MAX_PLAYERS) {
-            this.playerNumbers = chosenMaxPlayers;
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
-            return true;
-        }
-        return false;
-    }
-
-    /**
-     * Removes a player from the game.
-     * Notifies all the views if the notifyEnabled argument is set to {@code true}.
-     *
-     * @param nickname      the nickname of the player to remove from the game.
-     * @param notifyEnabled set to {@code true} to enable a lobby disconnection message, {@code false} otherwise.
-     * @return {@code true} if the player is removed, {@code false} otherwise.
-     */
-    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
-        boolean result = players.remove(getPlayerByNickname(nickname));
-
-        if (notifyEnabled) {
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
-        }
-
-        return result;
-    }
-
-    /**
-     * Returns a player given his {@code nickname}.
-     * Only the first occurrence is returned because
-     * the player nickname is considered to be unique.
-     * If no player is found {@code null} is returned.
-     *
-     * @param nickname the nickname of the player to be found.
-     * @return Returns the player given his {@code nickname}, {@code null} otherwise.
-     */
-    public Player getPlayerByNickname(String nickname) {
-        return players.stream()
-                .filter(player -> nickname.equals(player.getNickname()))
-                .findFirst()
-                .orElse(null);
-    }
-
-    /**
-     * Resets the game instance. After this operations, all the game data is lost.
-     */
-    public static void resetInstance() {
-        Game.instance = null;
     }
 
 }

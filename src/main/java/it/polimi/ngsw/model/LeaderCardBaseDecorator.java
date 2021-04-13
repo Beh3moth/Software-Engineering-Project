@@ -28,4 +28,9 @@ public class LeaderCardBaseDecorator implements LeaderCard{
         return false;
     }
 
+    @Override
+    public Resource getInputResource() {
+        return null;
+    }
+
 }

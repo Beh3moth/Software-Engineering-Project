@@ -75,7 +75,7 @@ public class DevCardDashboard {
         List<DevCard> devCardList = new ArrayList<>();
         for(int i=0; i<3; i++){
             if(devCardLevel[i]>0){
-                devCardList.add(devCards[i][devCardLevel[i]]);
+                devCardList.add(devCards[i][devCardLevel[i]-1]);
             }
         }
         return  devCardList;
@@ -89,20 +89,20 @@ public class DevCardDashboard {
      * @param productionPowerAbility is the Production Power Ability to activate.
      * @return true if the procedure is successful, false otherwise.
      */
-    public boolean activateProductionPowerAbility(ProductionPowerAbility productionPowerAbility){
+    public boolean activateProductionPowerAbility(LeaderCard productionPowerAbility){
 
         List<Resource> resourceList1 = new ArrayList<>();
         List<Resource> resourceList2 = new ArrayList<>();
 
         if(leaderProductionPowerOne==null){
             resourceList1.add(productionPowerAbility.getInputResource());
-            resourceList2.add(Resource.FAITHPOINT);
+            resourceList2.add(Resource.EMPTY);
             leaderProductionPowerOne = new ProductionPower(resourceList1, resourceList2);
             return true;
         }
         else if(leaderProductionPowerTwo==null){
             resourceList1.add(productionPowerAbility.getInputResource());
-            resourceList2.add(Resource.FAITHPOINT);
+            resourceList2.add(Resource.EMPTY);
             leaderProductionPowerOne = new ProductionPower(resourceList1, resourceList2);
             return true;
         }
@@ -120,7 +120,10 @@ public class DevCardDashboard {
             return baseProductionPower;
         }
         else if(slot>=1 && slot<=3){
-            return devCards[slot][getLevel(slot)-1].getProductionPower();
+            if(getLevel(slot-1) > 0){
+                return devCards[slot-1][getLevel(slot-1)-1].getProductionPower();
+            }
+            else return null;
         }
        else if(slot == 4){
             return leaderProductionPowerOne;

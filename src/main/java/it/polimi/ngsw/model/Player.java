@@ -207,7 +207,7 @@ public class Player extends Observable implements Serializable {
             discountPowerOne = resource;
             return true;
         }
-        else if (discountPowerTwo.equals(Resource.EMPTY)) {
+        else if(discountPowerTwo.equals(Resource.EMPTY)) {
             discountPowerTwo = resource;
             return true;
         }

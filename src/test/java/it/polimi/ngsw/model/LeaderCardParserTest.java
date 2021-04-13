@@ -12,6 +12,7 @@ public class LeaderCardParserTest {
 
     @Test
     public void test1() throws FileNotFoundException {
+
         leaderCardParser.initSpaceLeaderCards();
 
         for(LeaderCard leaderCard : leaderCardParser.returnSpaceAbilityList()){
@@ -23,6 +24,7 @@ public class LeaderCardParserTest {
 
     @Test
     public void test2() throws FileNotFoundException {
+
         leaderCardParser.initDiscountLeaderCards();
 
         for(LeaderCard leaderCard : leaderCardParser.returnDiscountAbilityList()){
@@ -34,6 +36,7 @@ public class LeaderCardParserTest {
 
     @Test
     public void test3() throws FileNotFoundException {
+
         leaderCardParser.initWhiteMarbleLeaderCards();
 
         for(LeaderCard leaderCard : leaderCardParser.returnWhiteMarbleAbilityList()){
@@ -45,6 +48,7 @@ public class LeaderCardParserTest {
 
     @Test
     public void test4() throws FileNotFoundException {
+
         leaderCardParser.initProductionPowerLeaderCards();
 
         for(LeaderCard leaderCard : leaderCardParser.returnProductionPowerList()){

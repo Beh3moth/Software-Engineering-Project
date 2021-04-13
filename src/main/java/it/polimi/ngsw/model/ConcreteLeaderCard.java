@@ -16,4 +16,14 @@ public class ConcreteLeaderCard implements LeaderCard {
         return null;
     }
 
+    @Override
+    public boolean isLeaderCardCostSatisfied(Player player) {
+        return false;
+    }
+
+    @Override
+    public Resource getInputResource() {
+        return null;
+    }
+
 }

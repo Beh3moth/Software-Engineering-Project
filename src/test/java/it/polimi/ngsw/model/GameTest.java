@@ -7,10 +7,18 @@ import org.junit.jupiter.api.Test;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class GameTest {
 
     Game game = new Game();
+
+    public void randomChest(Chest chest){
+        chest.addResourceToChest(Resource.SHIELD, new Random().nextInt(100));
+        chest.addResourceToChest(Resource.STONE, new Random().nextInt(100));
+        chest.addResourceToChest(Resource.SLAVE, new Random().nextInt(100));
+        chest.addResourceToChest(Resource.MONEY, new Random().nextInt(100));
+    }
 
     @Test
     public void removeAndReturnTheLastFourLeaderCardsTest(){
@@ -40,6 +48,8 @@ public class GameTest {
 
     @Test
     public void drawActionTokenTest(){
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         for(int i=0; i<6; i++){
             ActionToken tempActionToken = game.getTokensDeque().getFirst();
             if( !(tempActionToken instanceof MoveAndScrum) ){
@@ -49,108 +59,120 @@ public class GameTest {
         }
     }
 
-    /*
     @Test
-    public void canBuyProductionPowerTest(){
-        //Initialize player resources
-        Player player = new Player();
-        player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
-        player.getChest().addResourceToChest(Resource.SHIELD,10);
-        //Initialize a Production Power
-        List<Resource> resourceList1 = new ArrayList<>();
-        resourceList1.add(Resource.SHIELD);
-        resourceList1.add(Resource.STONE);
-        resourceList1.add(Resource.MONEY);
-        List<Resource> resourceList2 = new ArrayList<>();
-        resourceList2.add(Resource.SHIELD);
-        resourceList2.add(Resource.SLAVE);
-        resourceList2.add(Resource.STONE);
-        ProductionPower productionPower1 = new ProductionPower(resourceList1, resourceList2);
-
-        assertFalse(game.canBuyProductionPower(player, productionPower1));
-        List<Resource> resourceList3 = new ArrayList<>();
-        resourceList3.add(Resource.SHIELD);
-        List<Resource> resourceList4 = new ArrayList<>();
-        resourceList4.add(Resource.SHIELD);
-        ProductionPower productionPower2 = new ProductionPower(resourceList3, resourceList4);
-        assertTrue(game.canBuyProductionPower(player, productionPower2));
+    public void chooseProductionPowerTest() throws FileNotFoundException {
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        randomChest(game.getPlayerFromList(0).getChest());
+        DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
+        DevCardParser devCardParser = new DevCardParser();
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/blue_level_one.json");
+        devCardDashboard.putDevCardIn(0, devCardList.get(0));
+        devCardDashboard.putDevCardIn(1, devCardList.get(1));
+        devCardDashboard.putDevCardIn(2, devCardList.get(2));
+        assertNull(game.chooseProductionPower(game.getPlayerFromList(0), 0).getResourceToPay());
+        assertNull(game.chooseProductionPower(game.getPlayerFromList(0), 0).getResourceToReceive());
+        assertEquals(devCardList.get(0).getProductionPower(), game.chooseProductionPower(game.getPlayerFromList(0), 1));
+        assertEquals(devCardList.get(1).getProductionPower(), game.chooseProductionPower(game.getPlayerFromList(0), 2));
+        assertEquals(devCardList.get(2).getProductionPower(), game.chooseProductionPower(game.getPlayerFromList(0), 3));
+        assertNull(game.chooseProductionPower(game.getPlayerFromList(0), 4));
     }
 
     @Test
-    public void chooseProductionPowerTest(){
+    public void setBaseProductionPowerResourceListsTest() throws FileNotFoundException {
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        randomChest(game.getPlayerFromList(0).getChest());
+        DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
+        DevCardParser devCardParser = new DevCardParser();
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/blue_level_one.json");
+        devCardDashboard.putDevCardIn(0, devCardList.get(0));
+        devCardDashboard.putDevCardIn(1, devCardList.get(1));
+        devCardDashboard.putDevCardIn(2, devCardList.get(2));
 
-        Player player = new Player();
-        player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
-        player.getChest().addResourceToChest(Resource.SHIELD,10);
+        List<Resource> resourcesToPay = new ArrayList<>();
+        resourcesToPay.add(Resource.STONE);
+        resourcesToPay.add(Resource.MONEY);
+        List<Resource> resourcesToReceive = new ArrayList<>();
+        resourcesToReceive.add(Resource.SHIELD);
 
-        List<Resource> resourceList1 = new ArrayList<>();
-        resourceList1.add(Resource.SHIELD);
-        resourceList1.add(Resource.STONE);
-        resourceList1.add(Resource.MONEY);
-        List<Resource> resourceList2 = new ArrayList<>();
-        resourceList2.add(Resource.SHIELD);
-        resourceList2.add(Resource.SLAVE);
-        resourceList2.add(Resource.STONE);
-        ProductionPower productionPower1 = new ProductionPower(resourceList1, resourceList2);
-
-        List<Resource> resourceList3 = new ArrayList<>();
-        resourceList3.add(Resource.SHIELD);
-        List<Resource> resourceList4 = new ArrayList<>();
-        resourceList4.add(Resource.SHIELD);
-        ProductionPower productionPower2 = new ProductionPower(resourceList3, resourceList4);
-
-        //DevCard devCard1 = new DevCard(1, DevCardColour.PURPLE, Resource.SHIELD, 2, productionPower1, 2);
-        //DevCard devCard2 = new DevCard(1, DevCardColour.PURPLE, Resource.SHIELD, 2, productionPower2, 2);
-
-        //player.getDevCardDashboard().putDevCardIn(0, devCard1);
-        player.getDevCardDashboard().putDevCardIn(1, devCard2);
-
-        assertFalse(game.chooseProductionPower(player, 0));
-        assertTrue(game.chooseProductionPower(player, 1));
-        assertFalse(game.chooseProductionPower(player, 2));
-        assertFalse(game.chooseProductionPower(player, 3));
-        assertFalse(game.chooseProductionPower(player, 4));
-        assertFalse(game.chooseProductionPower(player, 5));
-
+        assertTrue(game.setBaseProductionPowerResourceLists(resourcesToPay, resourcesToReceive, game.chooseProductionPower(game.getPlayerFromList(0), 0)));
+        resourcesToPay.add(Resource.SLAVE);
+        assertFalse(game.setBaseProductionPowerResourceLists(resourcesToPay, resourcesToReceive, game.chooseProductionPower(game.getPlayerFromList(0), 0)));
     }
 
     @Test
-    public void removeResourcesFormProductionPowerTest(){
-
-        Player player = new Player();
-
-        List<List<Object>> listOfList = new ArrayList<>();
-        List<Object> tempList = new ArrayList<>();
-        tempList.add(Resource.SHIELD);
-        tempList.add(true);
-        tempList.add(3);
-        listOfList.add(tempList);
-        List<Object> tempList1 = new ArrayList<>();
-        tempList1.add(Resource.SHIELD);
-        tempList1.add(false);
-        tempList1.add(0);
-        listOfList.add(tempList1);
-
-        player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
-        player.getChest().addResourceToChest(Resource.SHIELD,10);
-
-        List<Resource> resourceList3 = new ArrayList<>();
-        resourceList3.add(Resource.SHIELD);
-        List<Resource> resourceList4 = new ArrayList<>();
-        resourceList4.add(Resource.SHIELD);
-        ProductionPower productionPower2 = new ProductionPower(resourceList3, resourceList4);
-
-        assertTrue(game.payProductionPower(player, listOfList, productionPower2));
-        assertTrue(game.removeResourcesFormProductionPower(player, productionPower2));
-
+    public void canBuyProductionPowerTestWithResourcesInChest() throws FileNotFoundException {
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        randomChest(game.getPlayerFromList(0).getChest());
+        DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
+        DevCardParser devCardParser = new DevCardParser();
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
+        devCardDashboard.putDevCardIn(0, devCardList.get(0));
+        devCardDashboard.putDevCardIn(1, devCardList.get(1));
+        devCardDashboard.putDevCardIn(2, devCardList.get(2));
+        assertTrue(game.canBuyProductionPower(game.getPlayerFromList(0), game.chooseProductionPower(game.getPlayerFromList(0), 2)));
     }
 
     @Test
-    public void activateProductionPowersTest(){
-        canBuyProductionPowerTest();
-        assertTrue(game.activateProductionPowers());
+    public void canBuyProductionPowerTestWithoutResourcesInChest() throws FileNotFoundException {
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
+        DevCardParser devCardParser = new DevCardParser();
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
+        devCardDashboard.putDevCardIn(0, devCardList.get(0));
+        devCardDashboard.putDevCardIn(1, devCardList.get(1));
+        devCardDashboard.putDevCardIn(2, devCardList.get(2));
+        assertFalse(game.canBuyProductionPower(game.getPlayerFromList(0), game.chooseProductionPower(game.getPlayerFromList(0), 2)));
+    }
+
+    @Test
+    public void canBuyProductionPowerTestWithBaseProductionPowerWithResources(){
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        Player player = game.getPlayerFromList(0);
+        if( game.chooseProductionPower(player, 0).isBaseProductionPower){
+            List<Resource> resourcesToPay = new ArrayList<>();
+            resourcesToPay.add(Resource.STONE);
+            resourcesToPay.add(Resource.MONEY);
+            List<Resource> resourcesToReceive = new ArrayList<>();
+            resourcesToReceive.add(Resource.SHIELD);
+            game.setBaseProductionPowerResourceLists(resourcesToPay, resourcesToReceive, game.chooseProductionPower(player, 0));
+            assertFalse(game.canBuyProductionPower(player, game.chooseProductionPower(player, 0)));
+            randomChest(player.getChest());
+            assertTrue(game.canBuyProductionPower(player, game.chooseProductionPower(player, 0)));
+        }
 
     }
-    */
+
+    public List<List<Object>> createChestCoordinates(Resource resourceToPayOne, Resource resourceToPayTwo, Player player){
+        List<List<Object>> coordinates = new ArrayList<>();
+        List<Object> objectList = new ArrayList<>();
+        objectList.add(resourceToPayOne);
+        objectList.add(true);
+        objectList.add(1);
+        coordinates.add(objectList);
+        List<Object> objectList2 = new ArrayList<>();
+        objectList2.add(resourceToPayTwo);
+        objectList2.add(true);
+        objectList2.add(0);
+        coordinates.add(objectList2);
+        return coordinates;
+    }
+
+    @Test
+    public void payProductionPowerTest() throws FileNotFoundException {
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        Player player = game.getPlayerFromList(0);
+        DevCardParser devCardParser = new DevCardParser();
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
+        ProductionPower productionPower = devCardList.get(0).getProductionPower();
+        player.getWarehouse().addResourceToWarehouse(1, Resource.MONEY);
+        List<List<Object>> coordinates = createChestCoordinates(Resource.MONEY, Resource.SHIELD, player);
+        assertFalse(game.payProductionPower(player, coordinates, productionPower));
+    }
 
 }

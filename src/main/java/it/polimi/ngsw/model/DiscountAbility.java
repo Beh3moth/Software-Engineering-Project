@@ -69,6 +69,7 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
      */
     @Override
     public boolean isLeaderCardCostSatisfied(Player player){
+
         List<DevCardColour> devCardColourPlayerList = new ArrayList<>();
         List<DevCard> devCardList = player.getDevCardDashboard().getActiveDevCards();
 
@@ -83,6 +84,7 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
         }
 
         return true;
+
     }
 
 

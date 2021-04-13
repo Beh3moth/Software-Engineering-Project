@@ -1,9 +1,5 @@
 package it.polimi.ngsw.model;
 
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
-
 /**
  * The FaithPath class is a representation of the faith trace.
  */

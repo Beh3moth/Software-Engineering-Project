@@ -12,8 +12,8 @@ public class ProductionPowerTest {
     @Test
     public void setBaseProductionPowerListsTest(){
         Game game = new Game();
-        game.setNumberOfPlayers(1);
-        game.createPlayers();
+        /*game.setNumberOfPlayers(1);
+        game.createPlayers();*/
         List<Resource> resourcesToPay = new ArrayList<>(2);
         resourcesToPay.add(Resource.SLAVE);
         resourcesToPay.add(Resource.MONEY);
@@ -24,7 +24,7 @@ public class ProductionPowerTest {
 
     @Test
     public void addSingleCoordinateTest(){
-        Player player = new Player();
+        Player player = new Player("jacson");
         player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
         player.getChest().addResourceToChest(Resource.SHIELD,10);
         List<Resource> resourceList1 = new ArrayList<>();
@@ -43,7 +43,7 @@ public class ProductionPowerTest {
 
     @Test
     public void removeCoordinateTest(){
-        Player player = new Player();
+        Player player = new Player("whu");
         player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
         player.getChest().addResourceToChest(Resource.SHIELD,10);
         List<Resource> resourceList1 = new ArrayList<>();
@@ -63,7 +63,7 @@ public class ProductionPowerTest {
 
     @Test
     public void cleanCoordinatesTest(){
-        Player player = new Player();
+        Player player = new Player("aaron");
         List<Resource> resourceList1 = new ArrayList<>();
         resourceList1.add(Resource.SHIELD);
         resourceList1.add(Resource.STONE);

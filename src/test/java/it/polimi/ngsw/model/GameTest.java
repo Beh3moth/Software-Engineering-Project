@@ -48,8 +48,8 @@ public class GameTest {
 
     @Test
     public void drawActionTokenTest(){
-        game.setNumberOfPlayers(1);
-        game.createPlayers();
+        /*game.setNumberOfPlayers(1);
+        game.createPlayers();*/
         for(int i=0; i<6; i++){
             ActionToken tempActionToken = game.getTokensDeque().getFirst();
             if( !(tempActionToken instanceof MoveAndScrum) ){
@@ -61,8 +61,8 @@ public class GameTest {
 
     @Test
     public void chooseProductionPowerTest() throws FileNotFoundException {
-        game.setNumberOfPlayers(1);
-        game.createPlayers();
+        //game.setNumberOfPlayers(1);
+        //game.createPlayers();
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
@@ -80,8 +80,8 @@ public class GameTest {
 
     @Test
     public void setBaseProductionPowerResourceListsTest() throws FileNotFoundException {
-        game.setNumberOfPlayers(1);
-        game.createPlayers();
+        //game.setNumberOfPlayers(1);
+        //game.createPlayers();
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
@@ -103,8 +103,8 @@ public class GameTest {
 
     @Test
     public void canBuyProductionPowerTestWithResourcesInChest() throws FileNotFoundException {
-        game.setNumberOfPlayers(1);
-        game.createPlayers();
+        //game.setNumberOfPlayers(1);
+        //game.createPlayers();
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
@@ -117,8 +117,8 @@ public class GameTest {
 
     @Test
     public void canBuyProductionPowerTestWithoutResourcesInChest() throws FileNotFoundException {
-        game.setNumberOfPlayers(1);
-        game.createPlayers();
+        //game.setNumberOfPlayers(1);
+        //game.createPlayers();
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
         List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
@@ -130,8 +130,8 @@ public class GameTest {
 
     @Test
     public void canBuyProductionPowerTestWithBaseProductionPowerWithResources(){
-        game.setNumberOfPlayers(1);
-        game.createPlayers();
+        //game.setNumberOfPlayers(1);
+        //game.createPlayers();
         Player player = game.getPlayerFromList(0);
         if( game.chooseProductionPower(player, 0).isBaseProductionPower){
             List<Resource> resourcesToPay = new ArrayList<>();
@@ -164,8 +164,8 @@ public class GameTest {
 
     @Test
     public void payProductionPowerTest() throws FileNotFoundException {
-        game.setNumberOfPlayers(1);
-        game.createPlayers();
+        //game.setNumberOfPlayers(1);
+        //game.createPlayers();
         Player player = game.getPlayerFromList(0);
         DevCardParser devCardParser = new DevCardParser();
         List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");

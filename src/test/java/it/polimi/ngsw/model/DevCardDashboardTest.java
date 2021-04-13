@@ -29,8 +29,8 @@ public class DevCardDashboardTest {
         for(int i=0; i<10; i++){
             DevCardDashboard  devCardDashboard = new DevCardDashboard();
             Game game = new Game();
-            game.setNumberOfPlayers(1);
-            game.createPlayers();
+            /*game.setNumberOfPlayers(1);
+            game.createPlayers();*/
             game.getPlayerFromList(0).receiveLeaderCards(game.removeAndReturnTheLastFourLeaderCards());
             List<LeaderCard> leaderCardList = game.getPlayerFromList(0).getLeaderCards();
             leaderCardList.removeIf(leaderCard -> !leaderCard.getAbilityName().equals("production power"));

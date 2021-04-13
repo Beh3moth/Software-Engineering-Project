@@ -9,7 +9,7 @@ import java.util.List;
 
 public class DiscountAbilityTest {
 
-    Player player = new Player();
+    Player player = new Player("jacson");
     List<DevCardColour> list = new ArrayList<>();
 
     @Test

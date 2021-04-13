@@ -1,12 +1,12 @@
 package it.polimi.ngsw.model;
 
-import it.polimi.observer.Observable;
+//import it.polimi.observer.Observable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Observable implements Serializable {
+public class Player /* extends Observable*/ implements Serializable {
 
     private String nickName;
     private Resource discountPowerOne;

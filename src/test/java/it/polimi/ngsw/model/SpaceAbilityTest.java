@@ -8,7 +8,7 @@ import java.util.List;
 
 public class SpaceAbilityTest {
 
-    Player player = new Player();
+    Player player = new Player("jacson");
     List<Resource> list = new ArrayList<>();
 
     @Test

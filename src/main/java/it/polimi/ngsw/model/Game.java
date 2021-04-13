@@ -1,10 +1,10 @@
 package it.polimi.ngsw.model;
 
-import it.polimi.network.message.*;
+//import it.polimi.network.message.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.Serializable;
-import it.polimi.observer.Observable;
+//import it.polimi.observer.Observable;
 
 public class Game  extends Observable implements Serializable, FaithPathListener{
     private static Game instance;
@@ -31,12 +31,6 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         return this.board;
     }
 
-    /**
-     * this method initialize the Lawrence's FaithPath
-     */
-    public void initLawrenceFaithPath(){
-        this.lawrenceFaithPath = new FaithPath();
-    }
 
     /**
      * this method checks that the multiplayers' game is over
@@ -70,17 +64,7 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
         return false;
     }
-    /**
-     * this method checks that the multiplayers' game is over
-     * @return true if the multiplayers' game is ended, false otherwise
-     */
-    public boolean isGameEndedMultiPlayers(){
-        for(int i = 0; i < playerNumbers; i++){
-            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
-                    (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
-        }
-        return false;
-    }
+
 
     public Player getPlayerFromList(int indexNumber){
         return this.players.get(indexNumber);
@@ -946,13 +930,13 @@ public class Game  extends Observable implements Serializable, FaithPathListener
      * @return true if successful, false otherwise.
      */
     public boolean activateProductionPowers(){
-        for(ProductionPower productionPower : listOfAffordableProductionPowers){
+        /*for(ProductionPower productionPower : listOfAffordableProductionPowers){
             for(Resource resource : productionPower.getResourceToPay()){
                 activePlayer.getChest().addResourceToChest(resource, 1);
             }
             productionPower.cleanCoordinates();
         }
-        listOfPaidProductionPowers.clear();
+        listOfPaidProductionPowers.clear();*/
         return true;
     }
 

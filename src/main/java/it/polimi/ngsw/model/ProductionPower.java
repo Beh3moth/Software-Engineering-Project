@@ -119,6 +119,7 @@ public class ProductionPower {
      * @return true if the coordinates are correct and correctly added in the list, false otherwise.
      */
     public boolean addSingleCoordinate(Resource resourceToPay, boolean warehouse, int shelfLevel, Player activePlayer){
+
         List<Object> tempList = new ArrayList<>(3);
 
         if(resourceToPay!=Resource.EMPTY && shelfLevel<6){
@@ -140,11 +141,10 @@ public class ProductionPower {
                     coordinates.add(tempList);
                     return (coordinates.contains(tempList));
                 }
+                else return false;
             }
 
         } else return false;
-
-        return false;
 
     }
 

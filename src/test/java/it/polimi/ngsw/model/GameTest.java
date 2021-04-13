@@ -147,4 +147,32 @@ public class GameTest {
 
     }
 
+    public List<List<Object>> createChestCoordinates(Resource resourceToPayOne, Resource resourceToPayTwo, Player player){
+        List<List<Object>> coordinates = new ArrayList<>();
+        List<Object> objectList = new ArrayList<>();
+        objectList.add(resourceToPayOne);
+        objectList.add(true);
+        objectList.add(1);
+        coordinates.add(objectList);
+        List<Object> objectList2 = new ArrayList<>();
+        objectList2.add(resourceToPayTwo);
+        objectList2.add(true);
+        objectList2.add(0);
+        coordinates.add(objectList2);
+        return coordinates;
+    }
+
+    @Test
+    public void payProductionPowerTest() throws FileNotFoundException {
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        Player player = game.getPlayerFromList(0);
+        DevCardParser devCardParser = new DevCardParser();
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
+        ProductionPower productionPower = devCardList.get(0).getProductionPower();
+        player.getWarehouse().addResourceToWarehouse(1, Resource.MONEY);
+        List<List<Object>> coordinates = createChestCoordinates(Resource.MONEY, Resource.SHIELD, player);
+        assertFalse(game.payProductionPower(player, coordinates, productionPower));
+    }
+
 }

@@ -852,7 +852,6 @@ public class Game implements FaithPathListener {
         boolean warehouse;
         int shelfLevel;
 
-        //Correct resource control
         for(List<Object> coordinate : coordinates) {
 
             resource = (Resource) coordinate.get(0);
@@ -861,27 +860,21 @@ public class Game implements FaithPathListener {
 
             if(warehouse){
                 if (!activePlayer.getWarehouse().hasResource(shelfLevel, resource)) {
-                    if(productionPower.isBaseProductionPower){
-                        productionPower.removeBaseProductionPowerLists();
-                    }
-                    removeResourcesFormProductionPower(activePlayer, productionPower);
+                    rejectProductionPower(activePlayer, productionPower);
                     return false;
                 }
                 else {
-                    activePlayer.getWarehouse().removeResourceWarehouse(shelfLevel);
                     productionPower.addSingleCoordinate(resource, true, shelfLevel, activePlayer);
+                    activePlayer.getWarehouse().removeResourceWarehouse(shelfLevel);
                 }
             } else {
                 if (!activePlayer.getChest().contains(resource, 1)) {
-                    if(productionPower.isBaseProductionPower){
-                        productionPower.removeBaseProductionPowerLists();
-                    }
-                    removeResourcesFormProductionPower(activePlayer, productionPower);
+                    rejectProductionPower(activePlayer, productionPower);
                     return false;
                 }
                 else {
-                    activePlayer.getChest().removeResourceFromChest(resource, 1);
                     productionPower.addSingleCoordinate(resource, false, 0, activePlayer);
+                    activePlayer.getChest().removeResourceFromChest(resource, 1);
                 }
             }
 
@@ -893,16 +886,25 @@ public class Game implements FaithPathListener {
     }
 
     /**
-     * The method puts the resources of a production power back in their resource.
+     * The method puts the resources of a production power back in their resource and deletes the Production Power.
      * @param activePlayer is the Player who has the Production Power.
      * @param productionPower is the Production Power that has the coordinates of the resources.
-     * @return true if successful, false otherwise.
      */
-    public boolean removeResourcesFormProductionPower(Player activePlayer, ProductionPower productionPower){
-        for(List<Object> coordinate : productionPower.getCoordinates()){
-            productionPower.removeSingleCoordinate(activePlayer);
+    public void rejectProductionPower(Player activePlayer, ProductionPower productionPower){
+
+        if(productionPower.getCoordinates()!=null){
+            for(List<Object> coordinate : productionPower.getCoordinates()){
+                productionPower.removeSingleCoordinate(activePlayer);
+            }
+            productionPower.cleanCoordinates();
         }
-        return true;
+
+        listOfPaidProductionPowers.remove(productionPower);
+
+        if(productionPower.isBaseProductionPower()){
+            productionPower.removeBaseProductionPowerLists();
+        }
+
     }
 
     /**
@@ -915,7 +917,7 @@ public class Game implements FaithPathListener {
 
         for(ProductionPower productionPower : listOfPaidProductionPowers){
             for(Resource resource : productionPower.getResourceToPay()){
-                if(resource.equals(Resource.FAITHPOINT)){
+                if(resource.equals(Resource.EMPTY)){
                     productionPowerAbilityList.add(productionPower);
                     listOfPaidProductionPowers.remove(productionPower);
                 }

@@ -12,8 +12,8 @@ public class ProductionPowerTest {
     @Test
     public void setBaseProductionPowerListsTest(){
         Game game = new Game();
-        /*game.setNumberOfPlayers(1);
-        game.createPlayers();*/
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         List<Resource> resourcesToPay = new ArrayList<>(2);
         resourcesToPay.add(Resource.SLAVE);
         resourcesToPay.add(Resource.MONEY);
@@ -24,7 +24,7 @@ public class ProductionPowerTest {
 
     @Test
     public void addSingleCoordinateTest(){
-        Player player = new Player("jacson");
+        Player player = new Player("john");
         player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
         player.getChest().addResourceToChest(Resource.SHIELD,10);
         List<Resource> resourceList1 = new ArrayList<>();
@@ -43,7 +43,7 @@ public class ProductionPowerTest {
 
     @Test
     public void removeCoordinateTest(){
-        Player player = new Player("whu");
+        Player player = new Player("john");
         player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
         player.getChest().addResourceToChest(Resource.SHIELD,10);
         List<Resource> resourceList1 = new ArrayList<>();
@@ -57,13 +57,13 @@ public class ProductionPowerTest {
         ProductionPower productionPower = new ProductionPower(resourceList1, resourceList2);
         productionPower.addSingleCoordinate(Resource.SHIELD, true, 3, player);
         productionPower.addSingleCoordinate(Resource.SHIELD, false, 0, player);
-        assertTrue(productionPower.removeSingleCoordinate(player));
+        assertTrue(productionPower.moveResourcesToOrigin(player));
         assertTrue(player.getChest().contains(Resource.SHIELD, 10));
     }
 
     @Test
     public void cleanCoordinatesTest(){
-        Player player = new Player("aaron");
+        Player player = new Player("john");
         List<Resource> resourceList1 = new ArrayList<>();
         resourceList1.add(Resource.SHIELD);
         resourceList1.add(Resource.STONE);

@@ -1,12 +1,12 @@
 package it.polimi.ngsw.model;
 
-import it.polimi.network.message.*;
+//import it.polimi.network.message.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.Serializable;
-import it.polimi.observer.Observable;
+//import it.polimi.observer.Observable;
 
-public class Game  extends Observable implements Serializable, FaithPathListener{
+public class Game  /*extends Observable*/ implements Serializable, FaithPathListener{
     private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
@@ -27,8 +27,42 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         initActionTokensDeque();
         this.leaderCards = initLeaderCards();
     }
+
     public Board getBoard(){
         return this.board;
+    }
+
+    //Init game
+
+    /**
+     * this method allows you to set the number of players
+     * @param numberOfPlayers
+     * @return true if the number of players is allowed
+     */
+    public boolean setNumberOfPlayers(int numberOfPlayers){
+        if(numberOfPlayers < 1 || numberOfPlayers > 4) return false;
+        else{
+            this.playerNumbers = numberOfPlayers;
+            return true;
+        }
+    }
+
+    /**
+     * this method create the player
+     */
+    public void createPlayers(){
+        for(int i = 0; i < this.playerNumbers; i++){
+            Player newPlayer = new Player("jhon");
+            players.add(newPlayer);
+            makeGameListenerOfPlayerFaithPath(players.get(i));
+        }
+        if(players.size()==1){
+            Player newPlayer = new Player("john");
+            players.add(newPlayer);
+            makeGameListenerOfPlayerFaithPath(players.get(0));
+            initLawrenceFaithPath();
+            makeGameListenerOfLawrenceFaithPath();
+        }
     }
 
     /**
@@ -70,17 +104,6 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
         return false;
     }
-    /**
-     * this method checks that the multiplayers' game is over
-     * @return true if the multiplayers' game is ended, false otherwise
-     */
-    public boolean isGameEndedMultiPlayers(){
-        for(int i = 0; i < playerNumbers; i++){
-            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
-                    (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
-        }
-        return false;
-    }
 
     public Player getPlayerFromList(int indexNumber){
         return this.players.get(indexNumber);
@@ -88,12 +111,6 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
     //Buy DevCard methods
 
-    /**
-     * this method initialize the Lawrence's FaithPath
-     */
-    public void initLawrenceFaithPath(){
-        this.lawrenceFaithPath = new FaithPath();
-    }
     /**
      * this method allows the player to purchase a DevCard and add it to his dashboard
      * @param activePlayer player who wants to buy a card
@@ -885,17 +902,14 @@ public class Game  extends Observable implements Serializable, FaithPathListener
     }
 
     /**
-     * The method puts the resources of a production power back in their resource and deletes the Production Power.
+     * The method puts the resources of a production power back in their origin and deletes the Production Power.
      * @param activePlayer is the Player who has the Production Power.
      * @param productionPower is the Production Power that has the coordinates of the resources.
      */
     public void rejectProductionPower(Player activePlayer, ProductionPower productionPower){
 
         if(productionPower.getCoordinates()!=null){
-            for(List<Object> coordinate : productionPower.getCoordinates()){
-                productionPower.removeSingleCoordinate(activePlayer);
-            }
-            productionPower.cleanCoordinates();
+            productionPower.moveResourcesToOrigin(activePlayer);
         }
 
         listOfPaidProductionPowers.remove(productionPower);
@@ -907,23 +921,27 @@ public class Game  extends Observable implements Serializable, FaithPathListener
     }
 
     /**
-     * The method returns a list of Leader Production Powers.
+     * The method returns a list of Leader Production Powers and removes them from ListOfPaidProductionPower.
      * @return a list of Leader Production Powers.
      */
     public List<ProductionPower> checkForLeaderProductionPowerAbility(){
 
-        List<ProductionPower> productionPowerAbilityList = new ArrayList<>();
+        if(!listOfPaidProductionPowers.isEmpty()){
+            List<ProductionPower> productionPowerAbilityList = new ArrayList<>();
 
-        for(ProductionPower productionPower : listOfPaidProductionPowers){
-            for(Resource resource : productionPower.getResourceToPay()){
-                if(resource.equals(Resource.EMPTY)){
-                    productionPowerAbilityList.add(productionPower);
-                    listOfPaidProductionPowers.remove(productionPower);
+            for(ProductionPower productionPower : listOfPaidProductionPowers){
+                for(Resource resource : productionPower.getResourceToReceive()){
+                    if(resource.equals(Resource.EMPTY)){
+                        productionPowerAbilityList.add(productionPower);
+                    }
                 }
             }
+            for(ProductionPower productionPower : productionPowerAbilityList){
+                listOfPaidProductionPowers.remove(productionPower);
+            }
+            return productionPowerAbilityList;
         }
-
-        return productionPowerAbilityList;
+        else return null;
 
     }
 
@@ -945,10 +963,10 @@ public class Game  extends Observable implements Serializable, FaithPathListener
      * The method activates every production power the player chose. It also cleans the coordinates.
      * @return true if successful, false otherwise.
      */
-    public boolean activateProductionPowers(){
-        for(ProductionPower productionPower : listOfAffordableProductionPowers){
+    public boolean activateProductionPowers(Player player){
+        for(ProductionPower productionPower : listOfPaidProductionPowers){
             for(Resource resource : productionPower.getResourceToPay()){
-                activePlayer.getChest().addResourceToChest(resource, 1);
+                player.getChest().addResourceToChest(resource, 1);
             }
             productionPower.cleanCoordinates();
         }
@@ -975,7 +993,7 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
     /**
      * The method creates a list of every FaithPath in the game: both of players and Lawrence The Magnificent.
-     * @return
+     * @return a list of every FaithPath in the game: both of players and Lawrence The Magnificent.
      */
     private List<FaithPath> createFaithPathList(){
         List<FaithPath> faithPathList = new ArrayList<>();

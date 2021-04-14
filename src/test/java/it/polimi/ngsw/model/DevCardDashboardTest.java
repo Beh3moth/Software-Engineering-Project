@@ -10,18 +10,35 @@ import java.util.List;
 public class DevCardDashboardTest {
 
     @Test
-    public void getActiveDevCardsTest() throws FileNotFoundException {
-        DevCardDashboard devCardDashboard = new DevCardDashboard();
-        DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/blue_level_one.json");
-        devCardDashboard.putDevCardIn(0, devCardList.get(0));
-        devCardDashboard.putDevCardIn(1, devCardList.get(1));
-        devCardDashboard.putDevCardIn(2, devCardList.get(2));
-        List<DevCard> activeDevCardList = devCardDashboard.getActiveDevCards();
-        for(int i=0; i<3; i++){
-            assertTrue(activeDevCardList.contains(devCardList.get(i)));
+    public void putDevCardInTest(){
+        Game game = new Game();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        Player player = game.getPlayerFromList(0);
+        for(int j=0; j<3; j++){
+            for(int i=2; i>=0; i--){
+                assertTrue(player.getDevCardDashboard().putDevCardIn(j, game.getBoard().getDevCardSpace(i, 0).getDevelopDeck().get(0)));
+            }
         }
     }
+
+    @Test
+    public void getActiveDevCardsTest(){
+        Game game = new Game();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        Player player = game.getPlayerFromList(0);
+        for(int j=0; j<3; j++){
+            for(int i=2; i>=0; i--){
+                assertTrue(player.getDevCardDashboard().putDevCardIn(j, game.getBoard().getDevCardSpace(i, 0).getDevelopDeck().get(0)));
+            }
+        }
+        for(DevCard devCard : player.getDevCardDashboard().getActiveDevCards()){
+            assertEquals(DevCardColour.GREEN, devCard.getCardColour());
+            assertEquals(3, devCard.getDevLevel());
+        }
+    }
+
 
     @Test
     public void activateProductionPowerAbilityTest(){
@@ -29,8 +46,8 @@ public class DevCardDashboardTest {
         for(int i=0; i<10; i++){
             DevCardDashboard  devCardDashboard = new DevCardDashboard();
             Game game = new Game();
-            /*game.setNumberOfPlayers(1);
-            game.createPlayers();*/
+            game.setNumberOfPlayers(1);
+            game.createPlayers();
             game.getPlayerFromList(0).receiveLeaderCards(game.removeAndReturnTheLastFourLeaderCards());
             List<LeaderCard> leaderCardList = game.getPlayerFromList(0).getLeaderCards();
             leaderCardList.removeIf(leaderCard -> !leaderCard.getAbilityName().equals("production power"));
@@ -38,7 +55,6 @@ public class DevCardDashboardTest {
                 for (LeaderCard leaderCard : leaderCardList) {
                     devCardDashboard.activateProductionPowerAbility(leaderCard);
                 }
-                System.out.println(devCardDashboard.getProductionPower(4).getResourceToPay());
                 assertNotEquals(devCardDashboard.getProductionPower(4), null);
             }
             else assertTrue(true);

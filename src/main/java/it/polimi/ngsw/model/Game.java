@@ -1,12 +1,12 @@
 package it.polimi.ngsw.model;
 
-import it.polimi.network.message.*;
+//import it.polimi.network.message.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.Serializable;
-import it.polimi.observer.Observable;
+//import it.polimi.observer.Observable;
 
-public class Game  extends Observable implements Serializable, FaithPathListener{
+public class Game  /*extends Observable*/ implements Serializable, FaithPathListener{
     private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
@@ -27,8 +27,42 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         initActionTokensDeque();
         this.leaderCards = initLeaderCards();
     }
+
     public Board getBoard(){
         return this.board;
+    }
+
+    //Init game
+
+    /**
+     * this method allows you to set the number of players
+     * @param numberOfPlayers
+     * @return true if the number of players is allowed
+     */
+    public boolean setNumberOfPlayers(int numberOfPlayers){
+        if(numberOfPlayers < 1 || numberOfPlayers > 4) return false;
+        else{
+            this.playerNumbers = numberOfPlayers;
+            return true;
+        }
+    }
+
+    /**
+     * this method create the player
+     */
+    public void createPlayers(){
+        for(int i = 0; i < this.playerNumbers; i++){
+            Player newPlayer = new Player("jhon");
+            players.add(newPlayer);
+            makeGameListenerOfPlayerFaithPath(players.get(i));
+        }
+        if(players.size()==1){
+            Player newPlayer = new Player("john");
+            players.add(newPlayer);
+            makeGameListenerOfPlayerFaithPath(players.get(0));
+            initLawrenceFaithPath();
+            makeGameListenerOfLawrenceFaithPath();
+        }
     }
 
     /**
@@ -386,6 +420,134 @@ public class Game  extends Observable implements Serializable, FaithPathListener
             activePlayer.getWarehouse().removeFromWhiteStock();
         }
     }
+    /**
+     * Method that permit to take resources from the market, it asks the user if column or row, and which one
+     * @param activePlayer the player that do the action
+     */
+    public void getBoardResources(Player activePlayer){
+        //chiedo al client se riga o colonna
+        boolean allRight = false;
+        do{
+
+            System.out.println("Choose between column and row: 1 = column  2 = row"); //ovviamente qusti metodi lli buttero nel CLI
+            Scanner input = new Scanner(System.in);
+            int sector = input.nextInt();
+            if(sector == 1){
+                allRight = true;
+                int column;
+                boolean allRightTwo = false;
+                do{
+                    System.out.println("Choose between 1 and 4");
+                    column= input.nextInt();
+                    if(column > 0 && column < 5){
+                        allRightTwo = true;
+                    }
+                }while(!allRightTwo);
+                this.board.getMarbleColumn(column, activePlayer);
+            }
+            else if(sector == 2){
+                allRight = true;
+                int row;
+                boolean allRightTwo = false;
+                do{
+                    System.out.println("Choose between 1 and 3");
+                    row= input.nextInt();
+                    if(row > 0 && row < 4){
+                        allRightTwo = true;
+                    }
+                }while(!allRightTwo);
+                this.board.getMarbleRow(row, activePlayer);
+            }
+        } while (!allRight);
+
+        Scanner input = new Scanner(System.in);
+        int up = activePlayer.getWarehouse().getStockResourceNumber();
+        int j = 0;
+        while (j < up) {
+            boolean generalValidator = false;
+            do {
+                System.out.println("Choose what to do with this resource " + activePlayer.getWarehouse().getStockResource(j));
+                boolean validator = false;
+                int choosen;
+                do {
+                    System.out.println("1) Discard 2)Add Warehouse 3)Add special warehouse 4) reorder warehouse"); //potrei aggiungere
+                    choosen = input.nextInt();
+                    if (0 < choosen && choosen < 5) {
+                        validator = true;
+                    }
+                    if (choosen == 3 && (activePlayer.getWarehouse().getLeaderLevelType(1) == Resource.EMPTY)) {
+                        validator = false;
+                        System.out.println("You don't have leader card shelf");
+                    }
+                }
+                while (!validator);
+                int level;
+                if (choosen == 1) {
+                    generalValidator = activePlayer.getWarehouse().removeFirstResourceFromStock();
+                    //addOtherFaithPoint(activePlayer);
+                    j--;
+                    up--;
+                } else if (choosen == 2) {
+                    System.out.println("Choose wich shelf of the warehouse");
+                    boolean goneRight = false;
+                    do {
+                        level = input.nextInt();
+                        if (0 < level && level < 4) {
+                            goneRight = true;
+                        }else{System.out.println("Not valid, choose again");}
+
+                    } while (!goneRight);
+                    generalValidator = activePlayer.getWarehouse().addResourceToWarehouse(level, activePlayer.getWarehouse().getStockResource(0)); //devo controllare poi se una volta dentro la inserisco veramente
+                    if(generalValidator == true){activePlayer.getWarehouse().removeFirstResourceFromStock();
+                        j--;
+                        up--;}
+                    //QUA DEVO METTERE SOLO SE è ANDATO POSITIVOOOOOOO
+                } else if (choosen == 3) {
+                    int levelUp = 1;
+                    if (activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY) {
+                        levelUp = 2;
+                    }
+                    System.out.println("Choose wich specialshelf of the warehouse");
+                    boolean goneRight = false;
+                    do {
+                        level = input.nextInt();
+                        if (0 < level && level <= levelUp) {
+                            goneRight = true;
+                        }
+                    } while (!goneRight);
+                    generalValidator = activePlayer.getWarehouse().addResourceToSpecialLevel(level, activePlayer.getWarehouse().getStockResource(0));
+                    if(generalValidator == true){
+                        activePlayer.getWarehouse().removeFirstResourceFromStock();
+                        j--;
+                        up--;}
+
+                } else if (choosen == 4) { //da finireeeeeeeeeee
+                    reorderWarehouse(activePlayer);
+                }
+            } while (!generalValidator);
+            j++;
+
+        }
+        System.out.println(activePlayer.getWarehouse().getShelf(1).getResourceType() + " " +  activePlayer.getWarehouse().getShelf(1).getResourceNumber() + "  " + "  " + activePlayer.getWarehouse().getShelf(2).getResourceType() +  " " +  activePlayer.getWarehouse().getShelf(2).getResourceNumber() + "  " + "  " + " " + activePlayer.getWarehouse().getShelf(3).getResourceType() + "  " + " " +  activePlayer.getWarehouse().getShelf(3).getResourceNumber() + "  " + "  ");
+        reorderWarehouse(activePlayer);
+    }
+
+    public void reorderWarehouse(Player activePlayer) {
+        Scanner input = new Scanner(System.in);
+        int quantityOfElementSupport = 0;
+        int choosen;
+        boolean verifier = false; //se true, finish process
+        List<Resource> support = new ArrayList<Resource>();
+        do{
+            System.out.println("The situation: First shelf " + activePlayer.getWarehouse().getShelf(1).getResourceType() + " " + activePlayer.getWarehouse().getShelf(1).getResourceNumber());
+            System.out.println("Second shelf " + activePlayer.getWarehouse().getShelf(2).getResourceType() + " " + activePlayer.getWarehouse().getShelf(2).getResourceNumber());
+            System.out.println("Third shelf " + activePlayer.getWarehouse().getShelf(3).getResourceType() + " " + activePlayer.getWarehouse().getShelf(3).getResourceNumber());
+            System.out.println("First special shelf " + activePlayer.getWarehouse().getLeaderShelf(1).getResourceType()+ " " + activePlayer.getWarehouse().getLeaderShelf(1).getResourceNumber());
+            System.out.println("Second special shelf " + activePlayer.getWarehouse().getLeaderShelf(2).getResourceType()+ " " + activePlayer.getWarehouse().getLeaderShelf(2).getResourceNumber());
+            System.out.println("Chose what to do: 1)Finish process 2)Throw away a resource 3) throw away a leader resource 4)Move resources to Stock 5)RePut resource to warehouse");
+            choosen = input.nextInt();
+
+            boolean goneWell = false; //if true, adds others faithpoint
 
 
     public void addOthersFaithPoint(Player activePlayer){
@@ -410,6 +572,13 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         catch (FileNotFoundException e){
             return null;
         }
+    }
+
+    /**
+     * The method returns a list of Leader Cards.
+     */
+    public List<LeaderCard> getLeaderCards(){
+        return leaderCards;
     }
 
     /**
@@ -605,10 +774,7 @@ public class Game  extends Observable implements Serializable, FaithPathListener
     public void rejectProductionPower(Player activePlayer, ProductionPower productionPower){
 
         if(productionPower.getCoordinates()!=null){
-            for(List<Object> coordinate : productionPower.getCoordinates()){
-                productionPower.removeSingleCoordinate(activePlayer);
-            }
-            productionPower.cleanCoordinates();
+            productionPower.moveResourcesToOrigin(activePlayer);
         }
 
         listOfPaidProductionPowers.remove(productionPower);
@@ -620,23 +786,27 @@ public class Game  extends Observable implements Serializable, FaithPathListener
     }
 
     /**
-     * The method returns a list of Leader Production Powers.
+     * The method returns a list of Leader Production Powers and removes them from ListOfPaidProductionPower.
      * @return a list of Leader Production Powers.
      */
     public List<ProductionPower> checkForLeaderProductionPowerAbility(){
 
-        List<ProductionPower> productionPowerAbilityList = new ArrayList<>();
+        if(!listOfPaidProductionPowers.isEmpty()){
+            List<ProductionPower> productionPowerAbilityList = new ArrayList<>();
 
-        for(ProductionPower productionPower : listOfPaidProductionPowers){
-            for(Resource resource : productionPower.getResourceToPay()){
-                if(resource.equals(Resource.EMPTY)){
-                    productionPowerAbilityList.add(productionPower);
-                    listOfPaidProductionPowers.remove(productionPower);
+            for(ProductionPower productionPower : listOfPaidProductionPowers){
+                for(Resource resource : productionPower.getResourceToReceive()){
+                    if(resource.equals(Resource.EMPTY)){
+                        productionPowerAbilityList.add(productionPower);
+                    }
                 }
             }
+            for(ProductionPower productionPower : productionPowerAbilityList){
+                listOfPaidProductionPowers.remove(productionPower);
+            }
+            return productionPowerAbilityList;
         }
-
-        return productionPowerAbilityList;
+        else return null;
 
     }
 
@@ -658,10 +828,10 @@ public class Game  extends Observable implements Serializable, FaithPathListener
      * The method activates every production power the player chose. It also cleans the coordinates.
      * @return true if successful, false otherwise.
      */
-    public boolean activateProductionPowers(){
-        for(ProductionPower productionPower : listOfAffordableProductionPowers){
+    public boolean activateProductionPowers(Player player){
+        for(ProductionPower productionPower : listOfPaidProductionPowers){
             for(Resource resource : productionPower.getResourceToPay()){
-                activePlayer.getChest().addResourceToChest(resource, 1);
+                player.getChest().addResourceToChest(resource, 1);
             }
             productionPower.cleanCoordinates();
         }
@@ -688,7 +858,7 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
     /**
      * The method creates a list of every FaithPath in the game: both of players and Lawrence The Magnificent.
-     * @return
+     * @return a list of every FaithPath in the game: both of players and Lawrence The Magnificent.
      */
     private List<FaithPath> createFaithPathList(){
         List<FaithPath> faithPathList = new ArrayList<>();

@@ -8,7 +8,7 @@ import java.util.List;
 
 public class WhiteMarbleAbilityTest {
 
-    Player player = new Player("jacson");
+    Player player = new Player("john");
     ProductionPower productionPower;
     List<DevCardColour> list = new ArrayList<>();
 

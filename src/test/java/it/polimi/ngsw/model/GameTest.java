@@ -30,9 +30,7 @@ public class GameTest {
             catch (IndexOutOfBoundsException e){
                 fail();
             }
-            for(int j=0; j<4; j++){
-                System.out.println(list.get(j).getAbilityName());
-            }
+            assertEquals(4, list.size());
         }
     }
 
@@ -48,8 +46,8 @@ public class GameTest {
 
     @Test
     public void drawActionTokenTest(){
-        /*game.setNumberOfPlayers(1);
-        game.createPlayers();*/
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         for(int i=0; i<6; i++){
             ActionToken tempActionToken = game.getTokensDeque().getFirst();
             if( !(tempActionToken instanceof MoveAndScrum) ){
@@ -61,8 +59,8 @@ public class GameTest {
 
     @Test
     public void chooseProductionPowerTest() throws FileNotFoundException {
-        //game.setNumberOfPlayers(1);
-        //game.createPlayers();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
@@ -80,8 +78,8 @@ public class GameTest {
 
     @Test
     public void setBaseProductionPowerResourceListsTest() throws FileNotFoundException {
-        //game.setNumberOfPlayers(1);
-        //game.createPlayers();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
@@ -103,8 +101,8 @@ public class GameTest {
 
     @Test
     public void canBuyProductionPowerTestWithResourcesInChest() throws FileNotFoundException {
-        //game.setNumberOfPlayers(1);
-        //game.createPlayers();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
@@ -117,8 +115,8 @@ public class GameTest {
 
     @Test
     public void canBuyProductionPowerTestWithoutResourcesInChest() throws FileNotFoundException {
-        //game.setNumberOfPlayers(1);
-        //game.createPlayers();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
         List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
@@ -130,8 +128,9 @@ public class GameTest {
 
     @Test
     public void canBuyProductionPowerTestWithBaseProductionPowerWithResources(){
-        //game.setNumberOfPlayers(1);
-        //game.createPlayers();
+
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         Player player = game.getPlayerFromList(0);
         if( game.chooseProductionPower(player, 0).isBaseProductionPower){
             List<Resource> resourcesToPay = new ArrayList<>();
@@ -147,7 +146,7 @@ public class GameTest {
 
     }
 
-    public List<List<Object>> createChestCoordinates(Resource resourceToPayOne, Resource resourceToPayTwo, Player player){
+    public List<List<Object>> createChestCoordinates(Resource resourceToPayOne, Resource resourceToPayTwo){
         List<List<Object>> coordinates = new ArrayList<>();
         List<Object> objectList = new ArrayList<>();
         objectList.add(resourceToPayOne);
@@ -164,15 +163,105 @@ public class GameTest {
 
     @Test
     public void payProductionPowerTest() throws FileNotFoundException {
-        //game.setNumberOfPlayers(1);
-        //game.createPlayers();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
         Player player = game.getPlayerFromList(0);
         DevCardParser devCardParser = new DevCardParser();
         List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
         ProductionPower productionPower = devCardList.get(0).getProductionPower();
         player.getWarehouse().addResourceToWarehouse(1, Resource.MONEY);
-        List<List<Object>> coordinates = createChestCoordinates(Resource.MONEY, Resource.SHIELD, player);
+        List<List<Object>> coordinates = createChestCoordinates(Resource.MONEY, Resource.SHIELD);
         assertFalse(game.payProductionPower(player, coordinates, productionPower));
+    }
+
+    @Test
+    public void activateProductionPowersTest(){
+
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        Player player = game.getPlayerFromList(0);
+        randomChest(player.getChest());
+
+        int i=0;
+        for(LeaderCard leaderCard : game.getLeaderCards()){
+            if(leaderCard.getAbilityName().equals("production power") && i<2){
+                leaderCard.activateAbility(player);
+                i++;
+            }
+        }
+
+        List<List<Object>> coordinates = new ArrayList<>();
+        List<Object> objectList = new ArrayList<>();
+        objectList.add(game.chooseProductionPower(player, 4).getResourceToPay().get(0));
+        objectList.add(false);
+        objectList.add(0);
+        coordinates.add(objectList);
+
+        assertTrue(game.canBuyProductionPower(player, game.chooseProductionPower(player, 4)));
+        assertTrue(game.payProductionPower(player, coordinates, game.chooseProductionPower(player, 4)));
+        assertTrue(game.setResourceToReceiveFromLeaderProductionPowerAbility(player, Resource.MONEY, game.chooseProductionPower(player, 4)));
+        assertTrue(game.activateProductionPowers(player));
+
+    }
+
+    @Test
+    public void updateTest1(){
+
+        game.setNumberOfPlayers(3);
+        game.createPlayers();
+
+        for(int i=0; i<25; i++){
+            game.getPlayerFromList(0).getFaithPath().increaseCrossPosition();
+        }
+        for(int i=0; i<25; i++){
+            game.getPlayerFromList(1).getFaithPath().increaseCrossPosition();
+        }
+        for(int i=0; i<25; i++){
+            game.getPlayerFromList(2).getFaithPath().increaseCrossPosition();
+        }
+        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardOne());
+        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardTwo());
+        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardThree());
+        assertFalse(game.getPlayerFromList(1).getFaithPath().getPapalCardOne());
+        assertFalse(game.getPlayerFromList(1).getFaithPath().getPapalCardTwo());
+        assertFalse(game.getPlayerFromList(1).getFaithPath().getPapalCardThree());
+        assertFalse(game.getPlayerFromList(2).getFaithPath().getPapalCardOne());
+        assertFalse(game.getPlayerFromList(2).getFaithPath().getPapalCardTwo());
+        assertFalse(game.getPlayerFromList(2).getFaithPath().getPapalCardThree());
+    }
+
+    @Test
+    public void updateTest2(){
+
+        game.setNumberOfPlayers(3);
+        game.createPlayers();
+
+        for(int i=0; i<7; i++){
+            game.getPlayerFromList(0).getFaithPath().increaseCrossPosition();
+        }
+        for(int i=0; i<8; i++){
+            game.getPlayerFromList(1).getFaithPath().increaseCrossPosition();
+        }
+        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardOne());
+        assertTrue(game.getPlayerFromList(1).getFaithPath().getPapalCardOne());
+
+    }
+
+    @Test
+    public void updateTest3(){
+
+        game.setNumberOfPlayers(3);
+        game.createPlayers();
+
+        for(int i=0; i<9; i++){
+            game.getPlayerFromList(0).getFaithPath().increaseCrossPosition();
+            game.getPlayerFromList(1).getFaithPath().increaseCrossPosition();
+            game.getPlayerFromList(2).getFaithPath().increaseCrossPosition();
+        }
+        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardOne());
+        assertTrue(game.getPlayerFromList(1).getFaithPath().getPapalCardOne());
+        assertTrue(game.getPlayerFromList(2).getFaithPath().getPapalCardOne());
+
     }
 
 }

@@ -18,7 +18,7 @@ public class Board{
     private Marble[][] marketDashboard;
     private Marble singleMarble;
     private DevCardSpace[][] devDashboard;
-    private List<String> pathList = new ArrayList<String>();
+
     DevCardParser devCardParser = new DevCardParser();
 
     /**
@@ -67,6 +67,7 @@ public class Board{
      */
     private void initDevCardSpace() throws FileNotFoundException {
 
+        List<String> pathList = new ArrayList<String>();
         pathList.add("src/main/java/it/polimi/resources/green_level_three.json");
         pathList.add("src/main/java/it/polimi/resources/blue_level_three.json");
         pathList.add("src/main/java/it/polimi/resources/yellow_level_three.json");

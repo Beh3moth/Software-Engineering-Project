@@ -30,9 +30,7 @@ public class GameTest {
             catch (IndexOutOfBoundsException e){
                 fail();
             }
-            for(int j=0; j<4; j++){
-                System.out.println(list.get(j).getAbilityName());
-            }
+            assertEquals(4, list.size());
         }
     }
 
@@ -130,6 +128,7 @@ public class GameTest {
 
     @Test
     public void canBuyProductionPowerTestWithBaseProductionPowerWithResources(){
+
         game.setNumberOfPlayers(1);
         game.createPlayers();
         Player player = game.getPlayerFromList(0);
@@ -176,26 +175,18 @@ public class GameTest {
     }
 
     @Test
-    public void PowerAbilityTest(){
+    public void activateProductionPowersTest(){
 
         game.setNumberOfPlayers(1);
         game.createPlayers();
         Player player = game.getPlayerFromList(0);
-        assertTrue(player.receiveLeaderCards(game.removeAndReturnTheLastFourLeaderCards()));
         randomChest(player.getChest());
 
-        List<Integer> list = new ArrayList<>();
-        int i = 0;
-        for(LeaderCard leaderCard : player.getLeaderCards()){
-            if(!leaderCard.getAbilityName().equals("production power")){
-                list.add(i);
-            }
-            i++;
-        }
-        player.chooseLeaderCardsToDiscard(list.get(0), list.get(1));
-        for(LeaderCard leaderCard : player.getLeaderCards()){
-            if(leaderCard.getAbilityName().equals("production power")){
+        int i=0;
+        for(LeaderCard leaderCard : game.getLeaderCards()){
+            if(leaderCard.getAbilityName().equals("production power") && i<2){
                 leaderCard.activateAbility(player);
+                i++;
             }
         }
 
@@ -208,13 +199,7 @@ public class GameTest {
 
         assertTrue(game.canBuyProductionPower(player, game.chooseProductionPower(player, 4)));
         assertTrue(game.payProductionPower(player, coordinates, game.chooseProductionPower(player, 4)));
-
-        for(ProductionPower productionPower : game.checkForLeaderProductionPowerAbility()){
-            System.out.println(productionPower.getResourceToPay());
-        }
-
         assertTrue(game.setResourceToReceiveFromLeaderProductionPowerAbility(player, Resource.MONEY, game.chooseProductionPower(player, 4)));
-
         assertTrue(game.activateProductionPowers(player));
 
     }

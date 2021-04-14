@@ -717,6 +717,13 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
     }
 
     /**
+     * The method returns a list of Leader Cards.
+     */
+    public List<LeaderCard> getLeaderCards(){
+        return leaderCards;
+    }
+
+    /**
      * The method removes the last four LeaderCards from the leaderCards list of the player and returning them.
      * @return a list of LeaderCards.
      * @throws IndexOutOfBoundsException if the index is out of bounds.

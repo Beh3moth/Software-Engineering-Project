@@ -16,8 +16,7 @@ public class LeaderCardParserTest {
         leaderCardParser.initSpaceLeaderCards();
 
         for(LeaderCard leaderCard : leaderCardParser.returnSpaceAbilityList()){
-            System.out.println(leaderCard.getAbilityName());
-            System.out.println(leaderCard.getPV());
+            assertEquals("space", leaderCard.getAbilityName());
         }
 
     }
@@ -28,8 +27,7 @@ public class LeaderCardParserTest {
         leaderCardParser.initDiscountLeaderCards();
 
         for(LeaderCard leaderCard : leaderCardParser.returnDiscountAbilityList()){
-            System.out.println(leaderCard.getAbilityName());
-            System.out.println(leaderCard.getPV());
+            assertEquals("discount", leaderCard.getAbilityName());
         }
 
     }
@@ -40,8 +38,7 @@ public class LeaderCardParserTest {
         leaderCardParser.initWhiteMarbleLeaderCards();
 
         for(LeaderCard leaderCard : leaderCardParser.returnWhiteMarbleAbilityList()){
-            System.out.println(leaderCard.getAbilityName());
-            System.out.println(leaderCard.getPV());
+            assertEquals("white marble", leaderCard.getAbilityName());
         }
 
     }
@@ -52,8 +49,7 @@ public class LeaderCardParserTest {
         leaderCardParser.initProductionPowerLeaderCards();
 
         for(LeaderCard leaderCard : leaderCardParser.returnProductionPowerList()){
-            System.out.println(leaderCard.getAbilityName());
-            System.out.println(leaderCard.getPV());
+            assertEquals("production power", leaderCard.getAbilityName());
         }
 
     }

@@ -38,7 +38,6 @@ public class DevCardDashboardTest {
                 for (LeaderCard leaderCard : leaderCardList) {
                     devCardDashboard.activateProductionPowerAbility(leaderCard);
                 }
-                System.out.println(devCardDashboard.getProductionPower(4).getResourceToPay());
                 assertNotEquals(devCardDashboard.getProductionPower(4), null);
             }
             else assertTrue(true);

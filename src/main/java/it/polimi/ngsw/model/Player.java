@@ -1,12 +1,12 @@
 package it.polimi.ngsw.model;
 
-import it.polimi.observer.Observable;
+//import it.polimi.observer.Observable;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player extends Observable implements Serializable {
+public class Player /* extends Observable*/ implements Serializable {
 
     private String nickName;
     private Resource discountPowerOne;
@@ -37,6 +37,27 @@ public class Player extends Observable implements Serializable {
 
     public void setLeaderCard(List<LeaderCard> twoLeaderCard){
         this.leaderCards = twoLeaderCard;
+    }
+    /**
+     * this method allows the player to activate a leadercard
+     * @param leaderCardToActive
+     * @return true if the card is activeted, false otherwhise
+     */
+    public boolean activeLeaderCard(int leaderCardToActive){
+        if(this.leaderCards.get(leaderCardToActive).equals(null)){
+            return false; //l'intero passato non è valido
+        }
+        else{
+            if(!leaderCards.get(leaderCardToActive).isLeaderCardCostSatisfied(this)){
+                return false; //i requirements non sono soddisfatti
+            }
+            else{
+                leaderCards.get(leaderCardToActive).activateAbility(this);
+                leaderCards.remove(leaderCardToActive);
+                return true;
+            }
+        }
+
     }
     /**
      * The method receives a list of Leader Cards and initializes puts them in the player's Dashboard.
@@ -186,7 +207,7 @@ public class Player extends Observable implements Serializable {
             discountPowerOne = resource;
             return true;
         }
-        else if (discountPowerTwo.equals(Resource.EMPTY)) {
+        else if(discountPowerTwo.equals(Resource.EMPTY)) {
             discountPowerTwo = resource;
             return true;
         }

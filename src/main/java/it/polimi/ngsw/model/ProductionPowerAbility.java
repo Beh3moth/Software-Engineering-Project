@@ -36,22 +36,6 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
     }
 
     /**
-     * Method that return the leader card's cost.
-     * @return a list of Development Cards List<DevCard>
-     */
-    public DevCardColour getLeaderCardCost() {
-        return leaderCardCost;
-    }
-
-    /**
-     * The method returns the DevCardLevel required.
-     * @return the DevCardLevel required.
-     */
-    public int getDevCardLevel() {
-        return devCardLevel;
-    }
-
-    /**
      * The method activates the Leader Card's ability by calling the method @activateLeaderAbility
      * @param player is the player who decided to activate the Leader Card's ability.
      */
@@ -61,11 +45,52 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
     }
 
     /**
+     * The method returns the Input Resource required by the Leader Card Production Power.
+     * @return the Input Resource required by the Leader Card Production Power.
+     */
+    @Override
+    public Resource getInputResource(){
+        return inputResource;
+    }
+
+    /**
+     * Method that return the leader card's cost.
+     * @return a list of Development Cards List<DevCard>
+     */
+    public DevCardColour getLeaderCardCostDevCardColour() {
+        return leaderCardCost;
+    }
+
+    /**
+     * The method returns the DevCardLevel required by the Leader Card Cost.
+     * @return the DevCardLevel required.
+     */
+    public int getLeaderCardCostDevCardLevel() {
+        return devCardLevel;
+    }
+
+    /**
      * The method activates the Leader's production power calling the method Board's method activateLeaderProduction()
      * @param player the player who wants to activate the power.
      */
     public void activateLeaderAbility(Player player){
-        player.getDevCardDashboard().activateLeaderProduction(inputResource, player);
+        player.getDevCardDashboard().activateProductionPowerAbility(this);
+    }
+
+    /**
+     * The method returns true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     * @param player is the Player who wants to check if he can activate a Leader Card.
+     * @return true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     */
+    @Override
+    public boolean isLeaderCardCostSatisfied(Player player){
+        List<DevCard> devCardPlayerList = player.getDevCardDashboard().getActiveDevCards();
+        for(DevCard devCard : devCardPlayerList){
+            if(devCard.getCardColour().equals(getLeaderCardCostDevCardColour()) && devCard.getDevLevel()>=getLeaderCardCostDevCardLevel()){
+                return true;
+            }
+        }
+        return false;
     }
 
 }

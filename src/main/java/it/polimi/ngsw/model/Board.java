@@ -4,8 +4,6 @@ package it.polimi.ngsw.model;
 
 
 import java.io.FileNotFoundException;
-import java.io.IOException; //uhmmmm
-import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -56,7 +54,7 @@ public class Board{
          //testare se funziona questo codice sotto
         this.devDashboard = new DevCardSpace[MAX_ROWS_MARKET][MAX_COLUMNS_MARKET];
         try {
-            initDevDashboard();
+            initDevCardSpace();
         }
         catch (FileNotFoundException e) {
             System.err.println("File not found");
@@ -67,7 +65,7 @@ public class Board{
     /**
      * method that initialize the matrix of the Developing Cards
      */
-    private void initDevDashboard() throws FileNotFoundException {    //AGGIUNGERE SU UML
+    private void initDevCardSpace() throws FileNotFoundException {
 
         pathList.add("src/main/java/it/polimi/resources/green_level_three.json");
         pathList.add("src/main/java/it/polimi/resources/blue_level_three.json");
@@ -180,40 +178,44 @@ public class Board{
         int remove = 2;
         if(cardColour == DevCardColour.GREEN){
             if(devDashboard[2][0].getNumberOfCards() >= 2){
-                devDashboard[2][0].setNumberOfCards(remove);
+                devDashboard[2][0].removeFirstCard();
+                devDashboard[2][0].removeFirstCard();
                return;
             }
             else if(devDashboard[2][0].getNumberOfCards() == 1){
-                devDashboard[2][0].setNumberOfCards(1);
+                devDashboard[2][0].removeFirstCard();
                 remove = 1;
             }
             if(devDashboard[2][0].getNumberOfCards() == 0){
                 if(devDashboard[1][0].getNumberOfCards() >= 2 && remove == 2){
-                    devDashboard[1][0].setNumberOfCards(remove);
+                    devDashboard[1][0].removeFirstCard();
+                    devDashboard[1][0].removeFirstCard();
                     return;
                 }
                 else if(devDashboard[1][0].getNumberOfCards() >= 1 && remove == 1){
-                    devDashboard[1][0].setNumberOfCards(remove);
+                    devDashboard[1][0].removeFirstCard();
                     return;
 
                 }
                 else if(devDashboard[1][0].getNumberOfCards() == 1 && remove == 2){
-                    devDashboard[1][0].setNumberOfCards(1);
+                    devDashboard[1][0].removeFirstCard();
                     remove = 1;
 
                 }
                 if(devDashboard[1][0].getNumberOfCards() == 0){
                     if(devDashboard[0][0].getNumberOfCards() >=3 && remove == 2){
-                        devDashboard[0][0].setNumberOfCards(remove);
+                        devDashboard[0][0].removeFirstCard();
+                        devDashboard[0][0].removeFirstCard();
                         return;
                     }
                     else if(devDashboard[0][0].getNumberOfCards() == 2 && remove == 2){
-                        devDashboard[0][0].setNumberOfCards(remove);
+                        devDashboard[0][0].removeFirstCard();
+                        devDashboard[0][0].removeFirstCard();
                         //end of the game
                         return;
                     }
                     else if(devDashboard[0][0].getNumberOfCards() >= 1 && remove == 1){
-                        devDashboard[0][0].setNumberOfCards(remove);
+                        devDashboard[0][0].removeFirstCard();
                         return;
                     }
                     else if(devDashboard[0][0].getNumberOfCards() < 2 && remove == 2){
@@ -228,44 +230,48 @@ public class Board{
         }
         else if(cardColour == DevCardColour.BLUE){
             if(devDashboard[2][1].getNumberOfCards() >= 2){
-                devDashboard[2][1].setNumberOfCards(remove);
+                devDashboard[2][1].removeFirstCard();
+                devDashboard[2][1].removeFirstCard();
                 remove = 0;
                 return;
             }
             else if(devDashboard[2][1].getNumberOfCards() == 1){
-                devDashboard[2][1].setNumberOfCards(1);
+                devDashboard[2][1].removeFirstCard();
                 remove = 1;
             }
             if(devDashboard[2][1].getNumberOfCards() == 0){
                 if(devDashboard[1][1].getNumberOfCards() >= 2 && remove == 2){
-                    devDashboard[1][1].setNumberOfCards(remove);
+                    devDashboard[1][1].removeFirstCard();
+                    devDashboard[1][1].removeFirstCard();
                     return;
                 }
                 else if(devDashboard[1][1].getNumberOfCards() >= 1 && remove == 1){
-                    devDashboard[1][1].setNumberOfCards(remove);
+                    devDashboard[1][1].removeFirstCard();
                     remove = 0;
                     return;
 
                 }
                 else if(devDashboard[1][1].getNumberOfCards() == 1 && remove == 2){
-                    devDashboard[1][1].setNumberOfCards(1);
+                    devDashboard[1][1].removeFirstCard();
                     remove = 1;
 
                 }
                 if(devDashboard[1][1].getNumberOfCards() == 0){
                     if(devDashboard[0][1].getNumberOfCards() >=3 && remove == 2){
-                        devDashboard[0][1].setNumberOfCards(remove);
+                        devDashboard[0][1].removeFirstCard();
+                        devDashboard[0][1].removeFirstCard();
                         remove = 0;
                         return;
                     }
                     else if(devDashboard[0][1].getNumberOfCards() == 2 && remove == 2){
-                        devDashboard[0][1].setNumberOfCards(remove);
+                        devDashboard[0][1].removeFirstCard();
+                        devDashboard[0][1].removeFirstCard();
                         remove = 0;
                         //end of the game
                         return;
                     }
                     else if(devDashboard[0][1].getNumberOfCards() >= 1 && remove == 1){
-                        devDashboard[0][1].setNumberOfCards(remove);
+                        devDashboard[0][1].removeFirstCard();
                         remove = 0;
                         return;
                     }
@@ -281,7 +287,8 @@ public class Board{
         }
         else if(cardColour == DevCardColour.YELLOW){
             if(devDashboard[2][2].getNumberOfCards() >= 2){
-                devDashboard[2][2].setNumberOfCards(remove);
+                devDashboard[2][2].removeFirstCard();
+                devDashboard[2][2].removeFirstCard();
                 remove = 0;
                 return;
             }
@@ -291,34 +298,37 @@ public class Board{
             }
             if(devDashboard[2][2].getNumberOfCards() == 0){
                 if(devDashboard[1][2].getNumberOfCards() >= 2 && remove == 2){
-                    devDashboard[1][2].setNumberOfCards(remove);
+                    devDashboard[1][2].removeFirstCard();
+                    devDashboard[1][2].removeFirstCard();
                     return;
                 }
                 else if(devDashboard[1][2].getNumberOfCards() >= 1 && remove == 1){
-                    devDashboard[1][2].setNumberOfCards(remove);
+                    devDashboard[1][2].removeFirstCard();
                     remove = 0;
                     return;
 
                 }
                 else if(devDashboard[1][2].getNumberOfCards() == 1 && remove == 2){
-                    devDashboard[1][2].setNumberOfCards(1);
+                    devDashboard[1][2].removeFirstCard();
                     remove = 1;
 
                 }
                 if(devDashboard[1][2].getNumberOfCards() == 0){
                     if(devDashboard[0][2].getNumberOfCards() >=3 && remove == 2){
-                        devDashboard[0][2].setNumberOfCards(remove);
+                        devDashboard[0][2].removeFirstCard();
+                        devDashboard[0][2].removeFirstCard();
                         remove = 0;
                         return;
                     }
                     else if(devDashboard[0][2].getNumberOfCards() == 2 && remove == 2){
-                        devDashboard[0][2].setNumberOfCards(remove);
+                        devDashboard[0][2].removeFirstCard();
+                        devDashboard[0][2].removeFirstCard();
                         remove = 0;
                         //end of the game
                         return;
                     }
                     else if(devDashboard[0][2].getNumberOfCards() >= 1 && remove == 1){
-                        devDashboard[0][2].setNumberOfCards(remove);
+                        devDashboard[0][2].removeFirstCard();
                         remove = 0;
                         return;
                     }
@@ -334,45 +344,49 @@ public class Board{
         }
         else if(cardColour == DevCardColour.PURPLE){
             if(devDashboard[2][3].getNumberOfCards() >= 2){
-                devDashboard[2][3].setNumberOfCards(remove);
+                devDashboard[2][3].removeFirstCard();
+                devDashboard[2][3].removeFirstCard();
                 remove = 0;
                 return;
             }
 
             else if(devDashboard[2][3].getNumberOfCards() == 1){
-                devDashboard[2][3].setNumberOfCards(1);
+                devDashboard[2][3].removeFirstCard();
                 remove = 1;
             }
             if(devDashboard[2][3].getNumberOfCards() == 0){
                 if(devDashboard[1][3].getNumberOfCards() >= 2 && remove == 2){
-                    devDashboard[1][3].setNumberOfCards(remove);
+                    devDashboard[1][3].removeFirstCard();
+                    devDashboard[1][3].removeFirstCard();
                     return;
                 }
                 else if(devDashboard[1][3].getNumberOfCards() >= 1 && remove == 1){
-                    devDashboard[1][3].setNumberOfCards(remove);
+                    devDashboard[1][3].removeFirstCard();
                     remove = 0;
                     return;
 
                 }
                 else if(devDashboard[1][3].getNumberOfCards() == 1 && remove == 2){
-                    devDashboard[1][3].setNumberOfCards(1);
+                    devDashboard[1][3].removeFirstCard();
                     remove = 1;
 
                 }
                 if(devDashboard[1][3].getNumberOfCards() == 0){
                     if(devDashboard[0][3].getNumberOfCards() >=3 && remove == 2){
-                        devDashboard[0][3].setNumberOfCards(remove);
+                        devDashboard[0][3].removeFirstCard();
+                        devDashboard[0][3].removeFirstCard();
                         remove = 0;
                         return;
                     }
                     else if(devDashboard[0][3].getNumberOfCards() == 2 && remove == 2){
-                        devDashboard[0][3].setNumberOfCards(remove);
+                        devDashboard[0][3].removeFirstCard();
+                        devDashboard[0][3].removeFirstCard();
                         remove = 0;
                         //end of the game
                         return;
                     }
                     else if(devDashboard[0][3].getNumberOfCards() >= 1 && remove == 1){
-                        devDashboard[0][3].setNumberOfCards(remove);
+                        devDashboard[0][3].removeFirstCard();
                         remove = 0;
                         return;
                     }
@@ -386,4 +400,6 @@ public class Board{
                 }
             }
         }
-}}
+}
+
+}

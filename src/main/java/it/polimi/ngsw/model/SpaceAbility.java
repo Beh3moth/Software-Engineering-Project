@@ -5,10 +5,10 @@ import java.util.List;
 
 public class SpaceAbility extends LeaderCardBaseDecorator{
 
-    private int PV;
+    private final int PV;
     private final String abilityName = "space";
-    private List<Resource> leaderCardCost;
-    private Resource resourceToIncrease;
+    private final List<Resource> leaderCardCost;
+    private final Resource resourceToIncrease;
 
     public SpaceAbility(LeaderCard leaderCard, int PV, List<Resource> leaderCardCost, Resource resourceToIncrease) {
         super(leaderCard);
@@ -60,6 +60,35 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         if(!resourceToIncrease.equals(Resource.EMPTY)){
             player.getWarehouse().unlockLeaderLevel(resourceToIncrease);
         }
+    }
+
+    /**
+     * The method returns true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     * @param player is the Player who wants to check if he can activate a Leader Card.
+     * @return true if the Player satisfies the Leader Card Cost, otherwise it returns false.
+     */
+    @Override
+    public boolean isLeaderCardCostSatisfied(Player player){
+        List<Resource> resourceCostList = getLeaderCardCost();
+
+        Resource resourceType = Resource.EMPTY;
+        int resourceNumber = 5;
+
+        switch(resourceCostList.get(0)){
+            case STONE:
+                resourceType = Resource.STONE;
+            case SLAVE:
+                resourceType = Resource.SLAVE;
+            case MONEY:
+                resourceType = Resource.MONEY;
+            case SHIELD:
+                resourceType = Resource.SHIELD;
+        }
+
+        if(resourceType!=Resource.EMPTY){
+            return player.getChest().contains(resourceType, resourceNumber) || player.getWarehouse().contains(resourceNumber, resourceType);
+        }
+        else return false;
     }
 
 }

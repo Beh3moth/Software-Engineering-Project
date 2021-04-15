@@ -1,12 +1,10 @@
 package it.polimi.ngsw.model;
 
+import java.util.List;
 
 public interface LeaderCard {
 
-    void activateAbility(Player player);
-    int getPV();
-    String getAbilityName();
-    boolean isLeaderCardCostSatisfied(Player player);
-    Resource getInputResource();
-
+    public void activateAbility(Player player);
+    public int getPV();
+    public String getAbilityName();
 }

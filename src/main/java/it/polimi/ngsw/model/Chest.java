@@ -23,7 +23,7 @@ public class Chest {
      * @param resourceNumber is the parameter used as value to set the number of resources. It can't be negative.
      * @return true if the resource is added, false otherwise.
      */
-    public boolean addResourceToChest(Resource resourceType, Integer resourceNumber){
+    public boolean addResource(Resource resourceType, Integer resourceNumber){
         if(resourceNumber>=0) {
             chestResources.put(resourceType, chestResources.get(resourceType) + resourceNumber);
             return true;
@@ -38,7 +38,7 @@ public class Chest {
      * @param resourceNumber  is the parameter used as value to set the number of resources.
      * @return true if the resource is removed, false otherwise.
      */
-    public boolean removeResourceFromChest(Resource resourceType, Integer resourceNumber){
+    public boolean removeResource(Resource resourceType, Integer resourceNumber){
         if(chestResources.get(resourceType) - resourceNumber >= 0){
             chestResources.put(resourceType, chestResources.get(resourceType) - resourceNumber);
             return true;
@@ -50,7 +50,7 @@ public class Chest {
      * Method that returns the number of shield's resources in the Chest.
      * @return the int number of shields in the Chest.
      */
-    public int getShieldFromChest(){
+    public int getShield(){
         return chestResources.get(Resource.SHIELD);
     }
 
@@ -58,7 +58,7 @@ public class Chest {
      * Method that returns the number of stone's resources in the Chest.
      * @return the int number of stones in the Chest.
      */
-    public int getStoneFromChest(){
+    public int getStone(){
         return chestResources.get(Resource.STONE);
     }
 
@@ -66,7 +66,7 @@ public class Chest {
      * Method that returns the number of slave's resources in the Chest.
      * @return the int number of slaves in the Chest.
      */
-    public int getSlaveFromChest0(){
+    public int getSlave(){
         return chestResources.get(Resource.SLAVE);
     }
 
@@ -74,7 +74,7 @@ public class Chest {
      * Method that returns the number of money in the Chest.
      * @return the int number of money in the Chest.
      */
-    public int getMoneyFromChest(){
+    public int getMoney(){
         return chestResources.get(Resource.MONEY);
     }
 

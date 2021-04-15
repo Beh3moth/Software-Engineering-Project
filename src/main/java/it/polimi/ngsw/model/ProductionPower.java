@@ -169,7 +169,7 @@ public class ProductionPower {
                     return false;
                 }
             } else {
-                if(!activePlayer.getChest().addResourceToChest(resourceToPay, 1)){
+                if(!activePlayer.getChest().addResource(resourceToPay, 1)){
                     return false;
                 }
             }

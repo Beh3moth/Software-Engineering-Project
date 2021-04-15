@@ -12,10 +12,10 @@ public class ChestTest {
     Chest chest = new Chest();
 
     public void randomChest(){
-        chest.addResourceToChest(Resource.SHIELD, new Random().nextInt(100));
-        chest.addResourceToChest(Resource.STONE, new Random().nextInt(100));
-        chest.addResourceToChest(Resource.SLAVE, new Random().nextInt(100));
-        chest.addResourceToChest(Resource.MONEY, new Random().nextInt(100));
+        chest.addResource(Resource.SHIELD, new Random().nextInt(100));
+        chest.addResource(Resource.STONE, new Random().nextInt(100));
+        chest.addResource(Resource.SLAVE, new Random().nextInt(100));
+        chest.addResource(Resource.MONEY, new Random().nextInt(100));
     }
 
     @Test
@@ -23,16 +23,16 @@ public class ChestTest {
         randomChest();
         for(int i=0; i<100; i++){
             if( (new Random().nextInt(100))%2 == 0 ){
-                assertTrue(chest.addResourceToChest(Resource.SHIELD, new Random().nextInt(100)));
-                assertTrue(chest.addResourceToChest(Resource.STONE, new Random().nextInt(100)));
-                assertTrue(chest.addResourceToChest(Resource.SLAVE, new Random().nextInt(100)));
-                assertTrue(chest.addResourceToChest(Resource.MONEY, new Random().nextInt(100)));
+                assertTrue(chest.addResource(Resource.SHIELD, new Random().nextInt(100)));
+                assertTrue(chest.addResource(Resource.STONE, new Random().nextInt(100)));
+                assertTrue(chest.addResource(Resource.SLAVE, new Random().nextInt(100)));
+                assertTrue(chest.addResource(Resource.MONEY, new Random().nextInt(100)));
             }
             else{
-                assertTrue(chest.removeResourceFromChest(Resource.SHIELD, new Random().nextInt(chest.getShieldFromChest())));
-                assertTrue(chest.removeResourceFromChest(Resource.STONE, new Random().nextInt(chest.getStoneFromChest())));
-                assertTrue(chest.removeResourceFromChest(Resource.SLAVE, new Random().nextInt(chest.getSlaveFromChest0())));
-                assertTrue(chest.removeResourceFromChest(Resource.MONEY, new Random().nextInt(chest.getMoneyFromChest())));
+                assertTrue(chest.removeResource(Resource.SHIELD, new Random().nextInt(chest.getShield())));
+                assertTrue(chest.removeResource(Resource.STONE, new Random().nextInt(chest.getStone())));
+                assertTrue(chest.removeResource(Resource.SLAVE, new Random().nextInt(chest.getSlave())));
+                assertTrue(chest.removeResource(Resource.MONEY, new Random().nextInt(chest.getMoney())));
             }
         }
     }
@@ -44,13 +44,13 @@ public class ChestTest {
         for(int i = -5; i<5; i++){
             for(int j = -5; j<5; j++){
 
-                chest.addResourceToChest(Resource.SHIELD, i);
+                chest.addResource(Resource.SHIELD, i);
                 if(i>0)
                     x+=i;
-                chest.addResourceToChest(Resource.SHIELD, j);
+                chest.addResource(Resource.SHIELD, j);
                 if(j>0)
                     x+=j;
-                assertEquals( x, chest.getShieldFromChest());
+                assertEquals( x, chest.getShield());
 
             }
         }
@@ -62,50 +62,50 @@ public class ChestTest {
         int x = 0;
         for(int i = -5; i<5; i++) {
             for (int j = -5; j < 5; j++) {
-                chest.addResourceToChest(Resource.SHIELD, i);
+                chest.addResource(Resource.SHIELD, i);
                 if(i > 0){
                     x += i;
                 }
-                chest.removeResourceFromChest(Resource.SHIELD, j);
+                chest.removeResource(Resource.SHIELD, j);
                 if(x - j > 0){
                     x -= j;
                 } else x = 0;
-                assertEquals(x, chest.getShieldFromChest());
+                assertEquals(x, chest.getShield());
             }
         }
     }
 
     @Test
     public void getShieldFromChestTest(){
-        chest.addResourceToChest(Resource.SHIELD, 1);
-        chest.addResourceToChest(Resource.SHIELD, 2);
-        assertEquals(3, chest.getShieldFromChest());
+        chest.addResource(Resource.SHIELD, 1);
+        chest.addResource(Resource.SHIELD, 2);
+        assertEquals(3, chest.getShield());
     }
 
     @Test
     public void getStoneFromChestTest(){
-        chest.addResourceToChest(Resource.STONE, 1);
-        chest.addResourceToChest(Resource.STONE, 2);
-        assertEquals(3, chest.getStoneFromChest());
+        chest.addResource(Resource.STONE, 1);
+        chest.addResource(Resource.STONE, 2);
+        assertEquals(3, chest.getStone());
     }
 
     @Test
     public void getSlaveFromChestTest(){
-        chest.addResourceToChest(Resource.SLAVE, 1);
-        chest.addResourceToChest(Resource.SLAVE, 2);
-        assertEquals(3, chest.getSlaveFromChest0());
+        chest.addResource(Resource.SLAVE, 1);
+        chest.addResource(Resource.SLAVE, 2);
+        assertEquals(3, chest.getSlave());
     }
 
     @Test
     public void getMoneyFromChestTest(){
-        chest.addResourceToChest(Resource.MONEY, 1);
-        chest.addResourceToChest(Resource.MONEY, 2);
-        assertEquals(3, chest.getMoneyFromChest());
+        chest.addResource(Resource.MONEY, 1);
+        chest.addResource(Resource.MONEY, 2);
+        assertEquals(3, chest.getMoney());
     }
 
     @Test
     public void containsTest(){
-        chest.addResourceToChest(Resource.MONEY, 1);
+        chest.addResource(Resource.MONEY, 1);
         assertTrue(chest.contains(Resource.MONEY, 1));
         assertFalse(chest.contains(Resource.MONEY, 2));
         assertTrue(chest.contains(Resource.MONEY, 0));

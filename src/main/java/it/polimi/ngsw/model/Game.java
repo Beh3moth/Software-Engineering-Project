@@ -186,7 +186,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                 }
                 else{
                     //rimuovo da chest
-                    activePlayer.getChest().removeResourceFromChest(Resource.SHIELD, 1);
+                    activePlayer.getChest().removeResource(Resource.SHIELD, 1);
                 }
             }
             else {
@@ -203,7 +203,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                     }
                 }
                 else if (activePlayer.getChest().contains(Resource.SHIELD, 1)){
-                    activePlayer.getChest().removeResourceFromChest(Resource.SHIELD, 1);
+                    activePlayer.getChest().removeResource(Resource.SHIELD, 1);
                 }
                 else return false; //ulteriore controllo, se non se lo può permettere ritorna false
             }
@@ -232,7 +232,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                     }
                     else{
                         //rimuovo da chest
-                        activePlayer.getChest().removeResourceFromChest(Resource.SLAVE, 1);
+                        activePlayer.getChest().removeResource(Resource.SLAVE, 1);
                     }
                 }
                 else {
@@ -249,7 +249,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                         }
                     }
                     else if (activePlayer.getChest().contains(Resource.SLAVE, 1)){
-                        activePlayer.getChest().removeResourceFromChest(Resource.SLAVE, 1);
+                        activePlayer.getChest().removeResource(Resource.SLAVE, 1);
                     }
                     else return false; //ulteriore controllo, se non se lo può permettere ritorna false
                 }
@@ -278,7 +278,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                     }
                     else{
                         //rimuovo da chest
-                        activePlayer.getChest().removeResourceFromChest(Resource.MONEY, 1);
+                        activePlayer.getChest().removeResource(Resource.MONEY, 1);
                     }
                 }
                 else {
@@ -295,7 +295,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                         }
                     }
                     else if (activePlayer.getChest().contains(Resource.MONEY, 1)){
-                        activePlayer.getChest().removeResourceFromChest(Resource.MONEY, 1);
+                        activePlayer.getChest().removeResource(Resource.MONEY, 1);
                     }
                     else return false; //ulteriore controllo, se non se lo può permettere ritorna false
                 }
@@ -324,7 +324,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                     }
                     else{
                         //rimuovo da chest
-                        activePlayer.getChest().removeResourceFromChest(Resource.STONE, 1);
+                        activePlayer.getChest().removeResource(Resource.STONE, 1);
                     }
                 }
                 else {
@@ -341,7 +341,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                         }
                     }
                     else if (activePlayer.getChest().contains(Resource.STONE, 1)){
-                        activePlayer.getChest().removeResourceFromChest(Resource.STONE, 1);
+                        activePlayer.getChest().removeResource(Resource.STONE, 1);
                     }
                     else return false; //ulteriore controllo, se non se lo può permettere ritorna false
                 }
@@ -766,7 +766,6 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
      * @return true if it is successful.
      */
     public boolean shuffleActionTokensDeque(){
-        //Action tokens shuffle
         List<ActionToken> actionTokensList = new ArrayList<>(actionTokensDeque);
         Collections.shuffle(actionTokensList);
         for(int i=0; i<6; i++){
@@ -791,6 +790,10 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
     //Activate Production Power
 
     private List<ProductionPower> listOfPaidProductionPowers = new ArrayList<>();
+
+    public void addProductionPowerToPaidList(ProductionPower productionPower){
+        listOfPaidProductionPowers.add(productionPower);
+    }
 
     /**
      * The method allows the player to choose a Production power to use.
@@ -897,7 +900,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                 }
                 else {
                     productionPower.addSingleCoordinate(resource, false, 0, activePlayer);
-                    activePlayer.getChest().removeResourceFromChest(resource, 1);
+                    activePlayer.getChest().removeResource(resource, 1);
                 }
             }
 
@@ -934,6 +937,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
     public List<ProductionPower> checkForLeaderProductionPowerAbility(){
 
         if(!listOfPaidProductionPowers.isEmpty()){
+
             List<ProductionPower> productionPowerAbilityList = new ArrayList<>();
 
             for(ProductionPower productionPower : listOfPaidProductionPowers){
@@ -943,10 +947,13 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
                     }
                 }
             }
+
             for(ProductionPower productionPower : productionPowerAbilityList){
                 listOfPaidProductionPowers.remove(productionPower);
             }
+
             return productionPowerAbilityList;
+
         }
         else return null;
 
@@ -973,7 +980,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
     public boolean activateProductionPowers(Player player){
         for(ProductionPower productionPower : listOfPaidProductionPowers){
             for(Resource resource : productionPower.getResourceToPay()){
-                player.getChest().addResourceToChest(resource, 1);
+                player.getChest().addResource(resource, 1);
             }
             productionPower.cleanCoordinates();
         }
@@ -1022,7 +1029,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
         List<FaithPath> faithPathList = createFaithPathList();
 
         if(crossPosition>=8 && crossPosition<=15){
-            if(isVaticanReportOne(crossPosition, faithPathList)){
+            if(isVaticanReportOne(faithPathList)){
                 for(FaithPath faithPath : faithPathList){
                     if(faithPath.getCrossPosition()>=5 && faithPath.getCrossPosition()<=8){
                         faithPath.activatePapalCardOne();
@@ -1032,7 +1039,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
         }
 
         else if(crossPosition>=16 && crossPosition<=23){
-            if(isVaticanReportTwo(crossPosition, faithPathList)){
+            if(isVaticanReportTwo(faithPathList)){
                 for(FaithPath faithPath : faithPathList){
                     if(faithPath.getCrossPosition()>=12 && faithPath.getCrossPosition()<=16){
                         faithPath.activatePapalCardTwo();
@@ -1042,7 +1049,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
         }
 
         else if(crossPosition>=24){
-            if(isVaticanReportThree(crossPosition, faithPathList)){
+            if(isVaticanReportThree(faithPathList)){
                 for(FaithPath faithPath : faithPathList){
                     if(faithPath.getCrossPosition()>=19){
                         faithPath.activatePapalCardThree();
@@ -1055,11 +1062,10 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
 
     /**
      * The method verifies if the cross position requires a Vatican Report.
-     * @param crossPosition is the integer representing the cross position to check.
      * @param faithPathList is a list of every active FaithPath in the game.
      * @return In case the Vatican Report is required the method returns true, false otherwise.
      */
-    private boolean isVaticanReportOne(int crossPosition, List<FaithPath> faithPathList){
+    private boolean isVaticanReportOne(List<FaithPath> faithPathList){
         for(FaithPath faithpath : faithPathList){
             if(faithpath.getPapalCardOne()){
                 return false;
@@ -1070,11 +1076,10 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
 
     /**
      * The method verifies if the cross position requires a Vatican Report.
-     * @param crossPosition is the integer representing the cross position to check.
      * @param faithPathList is a list of every active FaithPath in the game.
      * @return In case the Vatican Report is required the method returns true, false otherwise.
      */
-    private boolean isVaticanReportTwo(int crossPosition, List<FaithPath> faithPathList){
+    private boolean isVaticanReportTwo(List<FaithPath> faithPathList){
         for(FaithPath faithpath : faithPathList){
             if(faithpath.getPapalCardTwo()){
                 return false;
@@ -1085,11 +1090,10 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
 
     /**
      * The method verifies if the cross position requires a Vatican Report.
-     * @param crossPosition is the integer representing the cross position to check.
      * @param faithPathList is a list of every active FaithPath in the game.
      * @return In case the Vatican Report is required the method returns true, false otherwise.
      */
-    private boolean isVaticanReportThree(int crossPosition, List<FaithPath> faithPathList){
+    private boolean isVaticanReportThree(List<FaithPath> faithPathList){
         for(FaithPath faithpath : faithPathList){
             if(faithpath.getPapalCardThree()){
                 return false;

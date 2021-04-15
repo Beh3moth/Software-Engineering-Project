@@ -14,10 +14,10 @@ public class GameTest {
     Game game = new Game();
 
     public void randomChest(Chest chest){
-        chest.addResourceToChest(Resource.SHIELD, new Random().nextInt(100));
-        chest.addResourceToChest(Resource.STONE, new Random().nextInt(100));
-        chest.addResourceToChest(Resource.SLAVE, new Random().nextInt(100));
-        chest.addResourceToChest(Resource.MONEY, new Random().nextInt(100));
+        chest.addResource(Resource.SHIELD, new Random().nextInt(100));
+        chest.addResource(Resource.STONE, new Random().nextInt(100));
+        chest.addResource(Resource.SLAVE, new Random().nextInt(100));
+        chest.addResource(Resource.MONEY, new Random().nextInt(100));
     }
 
     @Test
@@ -201,6 +201,33 @@ public class GameTest {
         assertTrue(game.payProductionPower(player, coordinates, game.chooseProductionPower(player, 4)));
         assertTrue(game.setResourceToReceiveFromLeaderProductionPowerAbility(player, Resource.MONEY, game.chooseProductionPower(player, 4)));
         assertTrue(game.activateProductionPowers(player));
+
+    }
+
+    @Test
+    public void checkForLeaderProductionPowerAbilityTest(){
+
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        Player player = game.getPlayerFromList(0);
+
+        assertNull(game.checkForLeaderProductionPowerAbility());
+
+        int i=0;
+        for(LeaderCard leaderCard : game.getLeaderCards()){
+            if(leaderCard.getAbilityName().equals("production power") && i<2){
+                leaderCard.activateAbility(player);
+                i++;
+            }
+        }
+
+
+        game.addProductionPowerToPaidList(player.getDevCardDashboard().getProductionPower(4));
+        game.addProductionPowerToPaidList(player.getDevCardDashboard().getProductionPower(5));
+
+        for(ProductionPower productionPower : game.checkForLeaderProductionPowerAbility()){
+            assertTrue(productionPower.equals(player.getDevCardDashboard().getProductionPower(4)) || productionPower.equals(player.getDevCardDashboard().getProductionPower(5)));
+        }
 
     }
 

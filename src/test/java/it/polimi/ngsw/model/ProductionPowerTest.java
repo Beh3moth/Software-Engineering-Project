@@ -26,7 +26,7 @@ public class ProductionPowerTest {
     public void addSingleCoordinateTest(){
         Player player = new Player("john");
         player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
-        player.getChest().addResourceToChest(Resource.SHIELD,10);
+        player.getChest().addResource(Resource.SHIELD,10);
         List<Resource> resourceList1 = new ArrayList<>();
         resourceList1.add(Resource.SHIELD);
         resourceList1.add(Resource.STONE);
@@ -45,7 +45,7 @@ public class ProductionPowerTest {
     public void removeCoordinateTest(){
         Player player = new Player("john");
         player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
-        player.getChest().addResourceToChest(Resource.SHIELD,10);
+        player.getChest().addResource(Resource.SHIELD,10);
         List<Resource> resourceList1 = new ArrayList<>();
         resourceList1.add(Resource.SHIELD);
         resourceList1.add(Resource.STONE);

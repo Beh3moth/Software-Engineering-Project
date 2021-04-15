@@ -103,7 +103,7 @@ public class DevCardDashboard {
         else if(leaderProductionPowerTwo==null){
             resourceList1.add(productionPowerAbility.getInputResource());
             resourceList2.add(Resource.EMPTY);
-            leaderProductionPowerOne = new ProductionPower(resourceList1, resourceList2);
+            leaderProductionPowerTwo = new ProductionPower(resourceList1, resourceList2);
             return true;
         }
         else return false;

@@ -31,24 +31,6 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         return this.board;
     }
 
-    /**
-     * this method initialize the Lawrence's FaithPath
-     */
-    public void initLawrenceFaithPath(){
-        this.lawrenceFaithPath = new FaithPath();
-    }
-
-    /**
-     * this method checks that the multiplayers' game is over
-     * @return true if the multiplayers' game is ended, false otherwise
-     */
-    public boolean isGameEndedMultiPlayers(){
-        for(int i = 0; i < playerNumbers; i++){
-            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
-                    (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
-        }
-        return false;
-    }
 
     /**
      * this method checks that the singleplayer's game is over

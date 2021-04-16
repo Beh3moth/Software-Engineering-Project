@@ -362,8 +362,11 @@ public class Warehouse {
                     return secondLevel;
                 case 3:
                     return thirdLevel;
-                default:
-                    return null;
+                case 4:
+                    return firstLeaderLevel;
+                case 5:
+                    return secondLeaderLevel;
+                default: return null;
             }
         }
 

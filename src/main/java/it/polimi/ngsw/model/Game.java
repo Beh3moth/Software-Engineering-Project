@@ -1,12 +1,10 @@
 package it.polimi.ngsw.model;
 
-import it.polimi.network.message.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.Serializable;
-import it.polimi.observer.Observable;
 
-public class Game  extends Observable implements Serializable, FaithPathListener{
+public class Game implements FaithPathListener{
     private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
@@ -56,50 +54,6 @@ public class Game  extends Observable implements Serializable, FaithPathListener
     }
 
     /**
-     * Adds a player to the game.
-     * Notifies all the views if the playersNumber is already set.
-     *
-     * @param player the player to add to the game.
-     */
-    public void addPlayer(Player player) {
-        players.add(player);
-        if (playerNumbers != 0) {
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
-        }
-    }
-    /**
-     * Removes a player from the game.
-     * Notifies all the views if the notifyEnabled argument is set to {@code true}.
-     *
-     * @param nickname      the nickname of the player to remove from the game.
-     * @param notifyEnabled set to {@code true} to enable a lobby disconnection message, {@code false} otherwise.
-     * @return {@code true} if the player is removed, {@code false} otherwise.
-     */
-    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
-        boolean result = players.remove(getPlayerByNickname(nickname));
-
-        if (notifyEnabled) {
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
-        }
-
-        return result;
-    }
-
-    /**
-     * Sets the max number of players chosen by the first player joining the game.
-     *
-     * @param chosenMaxPlayers the max players number. Value can be {@code 0 < x < MAX_PLAYERS}.
-     * @return {@code true} if the argument value is {@code 0 < x < MAX_PLAYERS}, {@code false} otherwise.
-     */
-    public boolean setChosenMaxPlayers(int chosenMaxPlayers) {
-        if (chosenMaxPlayers > 0 && chosenMaxPlayers <= MAX_PLAYERS) {
-            this.playerNumbers = chosenMaxPlayers;
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
-            return true;
-        }
-        return false;
-    }
-    /**
      * Returns a list of player nicknames that are already in-game.
      *
      * @return a list with all nicknames in the Game
@@ -111,6 +65,7 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         }
         return nicknames;
     }
+
     /**
      * Search a nickname in the current Game.
      *

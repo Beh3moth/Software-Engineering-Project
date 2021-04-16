@@ -25,7 +25,6 @@ public class DevCardSpace {
         return developDeck;
     }
 
-    public DevCard getDevCard(int i){return this.developDeck.get(i); }
     /**
      * Method that return the level of the Deck.
      * @return the level, value between 1 and 3.

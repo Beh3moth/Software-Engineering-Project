@@ -1,12 +1,12 @@
 package it.polimi.ngsw.model;
 
-import it.polimi.network.message.*;
+//import it.polimi.network.message.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.Serializable;
-import it.polimi.observer.Observable;
+//import it.polimi.observer.Observable;
 
-public class Game  extends Observable implements Serializable, FaithPathListener{
+public class Game  /*extends Observable*/ implements Serializable, FaithPathListener{
     private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
@@ -27,10 +27,62 @@ public class Game  extends Observable implements Serializable, FaithPathListener
         initActionTokensDeque();
         this.leaderCards = initLeaderCards();
     }
+
     public Board getBoard(){
         return this.board;
     }
 
+    //Init game
+
+    /**
+     * this method allows you to set the number of players
+     * @param numberOfPlayers
+     * @return true if the number of players is allowed
+     */
+    public boolean setNumberOfPlayers(int numberOfPlayers){
+        if(numberOfPlayers < 1 || numberOfPlayers > 4) return false;
+        else{
+            this.playerNumbers = numberOfPlayers;
+            return true;
+        }
+    }
+
+    /**
+     * this method create the player
+     */
+    public void createPlayers(){
+        for(int i = 0; i < this.playerNumbers; i++){
+            Player newPlayer = new Player("jhon");
+            players.add(newPlayer);
+            makeGameListenerOfPlayerFaithPath(players.get(i));
+        }
+        if(players.size()==1){
+            Player newPlayer = new Player("john");
+            players.add(newPlayer);
+            makeGameListenerOfPlayerFaithPath(players.get(0));
+            initLawrenceFaithPath();
+            makeGameListenerOfLawrenceFaithPath();
+        }
+    }
+
+    /**
+     * this method initialize the Lawrence's FaithPath
+     */
+    public void initLawrenceFaithPath(){
+        this.lawrenceFaithPath = new FaithPath();
+    }
+
+    /**
+     * this method checks that the multiplayers' game is over
+     * @return true if the multiplayers' game is ended, false otherwise
+     */
+    public boolean isGameEndedMultiPlayers(){
+        for(int i = 0; i < playerNumbers; i++){
+            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
+                    (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
+        }
+        return false;
+    }
 
     /**
      * this method checks that the singleplayer's game is over
@@ -50,17 +102,6 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
         if(this.players.get(0).getDevCardDashboard().getDevCardNumber() == 7)return true;
 
-        return false;
-    }
-    /**
-     * this method checks that the multiplayers' game is over
-     * @return true if the multiplayers' game is ended, false otherwise
-     */
-    public boolean isGameEndedMultiPlayers(){
-        for(int i = 0; i < playerNumbers; i++){
-            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
-                    (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
-        }
         return false;
     }
 
@@ -915,6 +956,7 @@ public class Game  extends Observable implements Serializable, FaithPathListener
 
         }
         else return null;
+
     }
 
 

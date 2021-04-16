@@ -25,6 +25,29 @@ public interface View {
 
     void askLeaderCard(List<LeaderCard> gods);
 
+
+    /**
+     * Shows a disconnection message.
+     *
+     * @param nicknameDisconnected the nickname of the player who has disconnected.
+     * @param text                 a generic info text message.
+     */
+    void showDisconnectionMessage(String nicknameDisconnected, String text);
+
+    /**
+     * Shows an error message.
+     *
+     * @param error the error message to be shown.
+     */
+    void showErrorAndExit(String error);
+
+    /**
+     * Shows the lobby with connected players.
+     *
+     * @param nicknameList list of players.
+     * @param numPlayers   number of players.
+     */
+    void showLobby(List<String> nicknameList, int numPlayers);
     /**
      * Shows to the user if the Login succeeded.
      *

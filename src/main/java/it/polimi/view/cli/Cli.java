@@ -239,6 +239,21 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Shows the lobby screen on the terminal.
+     *
+     * @param nicknameList list of players.
+     * @param numPlayers   number of players.
+     */
+    @Override
+    public void showLobby(List<String> nicknameList, int numPlayers) {
+        out.println("LOBBY:");
+        for (String nick : nicknameList) {
+            out.println(nick + "\n");
+        }
+        out.println("Current players in lobby: " + nicknameList.size() + " / " + numPlayers);
+    }
+
     @Override
     public void showWinMessage(String winner) {
 
@@ -346,9 +361,33 @@ public class Cli extends ViewObservable implements View {
            // showErrorAndExit("Could not contact server.");
         }
     }
+    /**
+     * Shows a player disconnection message and exit.
+     *
+     * @param nicknameDisconnected the nickname of the disconnected player.
+     * @param text                 the text to be shown.
+     */
+    @Override
+    public void showDisconnectionMessage(String nicknameDisconnected, String text) {
+        inputThread.interrupt();
+        out.println("\n" + nicknameDisconnected + text);
 
+        System.exit(1);
+    }
+    /**
+     * Shows an error message and exit.
+     *
+     * @param error the error to be shown.
+     */
+    @Override
+    public void showErrorAndExit(String error) {
+        inputThread.interrupt();
 
+        out.println("\nERROR: " + error);
+        out.println("EXIT.");
 
+        System.exit(1);
+    }
 
 
     /**

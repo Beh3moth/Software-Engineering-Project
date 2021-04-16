@@ -20,8 +20,6 @@ public class SocketServer implements Runnable {
         this.port = port;
     }
 
-
-
     @Override
     public void run() {
         try {
@@ -35,9 +33,7 @@ public class SocketServer implements Runnable {
         while (!Thread.currentThread().isInterrupted()) {
             try {
                 Socket client = serverSocket.accept();
-
                 client.setSoTimeout(5000);
-
                 SocketClientHandler clientHandler = new SocketClientHandler(this, client);
                 Thread thread = new Thread(clientHandler, "ss_handler" + client.getInetAddress());
                 thread.start();
@@ -46,14 +42,6 @@ public class SocketServer implements Runnable {
             }
         }
     }
-
-
-
-
-
-
-
-
 
     /**
      * Handles the addition of a new client.

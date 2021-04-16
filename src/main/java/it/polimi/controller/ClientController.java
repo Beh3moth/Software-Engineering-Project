@@ -148,6 +148,18 @@ public class ClientController implements ViewObserver, Observer{
                 DistribuiteInitialResourcesMessage resourceinitialMessage = (DistribuiteInitialResourcesMessage) message;
                 taskQueue.execute(() -> view.distribuiteInitialResources(resourceinitialMessage.getNumber()));
                 break;
+            case DISCONNECTION:
+                DisconnectionMessage dm = (DisconnectionMessage) message;
+                client.disconnect();
+                view.showDisconnectionMessage(dm.getNicknameDisconnected(), dm.getMessageStr());
+                break;
+            case ERROR:
+                ErrorMessage em = (ErrorMessage) message;
+                view.showErrorAndExit(em.getError());
+                break;
+            case PLAYERNUMBER_REQUEST:
+                taskQueue.execute(view::askPlayersNumber);
+                break;
             case PICK_FIRST_PLAYER:
                 FirstPlayerMessage playersMessage = (FirstPlayerMessage) message;
                 taskQueue.execute(() -> view.askFirstPlayer(playersMessage.getActivePlayers()));
@@ -159,6 +171,10 @@ public class ClientController implements ViewObserver, Observer{
             case LOGIN_REPLY:
                 LoginReply loginReply = (LoginReply) message;
                 taskQueue.execute(() -> view.showLoginResult(loginReply.isNicknameAccepted(), loginReply.isConnectionSuccessful(), this.nickname));
+                break;
+            case LOBBY:
+                LobbyMessage lobbyMessage = (LobbyMessage) message;
+                taskQueue.execute(() -> view.showLobby(lobbyMessage.getNicknameList(), lobbyMessage.getMaxPlayers()));
                 break;
 
             default: // Should never reach this condition

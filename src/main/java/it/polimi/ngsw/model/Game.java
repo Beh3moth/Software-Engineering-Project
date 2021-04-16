@@ -2,9 +2,11 @@ package it.polimi.ngsw.model;
 
 import java.io.FileNotFoundException;
 import java.util.*;
+import it.polimi.network.message.LobbyMessage;
+import it.polimi.observer.Observable;
 import java.io.Serializable;
 
-public class Game implements FaithPathListener{
+public class Game extends Observable implements FaithPathListener{
     private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
@@ -51,6 +53,23 @@ public class Game implements FaithPathListener{
                 .filter(player -> nickname.equals(player.getNickname()))
                 .findFirst()
                 .orElse(null);
+    }
+    /**
+     * Removes a player from the game.
+     * Notifies all the views if the notifyEnabled argument is set to {@code true}.
+     *
+     * @param nickname      the nickname of the player to remove from the game.
+     * @param notifyEnabled set to {@code true} to enable a lobby disconnection message, {@code false} otherwise.
+     * @return {@code true} if the player is removed, {@code false} otherwise.
+     */
+    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
+        boolean result = players.remove(getPlayerByNickname(nickname));
+
+        if (notifyEnabled) {
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+        }
+
+        return result;
     }
 
     /**
@@ -485,6 +504,18 @@ public class Game implements FaithPathListener{
     public void addProductionPowerToPaidList(ProductionPower productionPower){
         listOfPaidProductionPowers.add(productionPower);
     }
+    /**
+     * Adds a player to the game.
+     * Notifies all the views if the playersNumber is already set.
+     *
+     * @param player the player to add to the game.
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
+        if (playerNumbers != 0) {
+            //notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+        }
+    }
 
     /**
      * The method allows the player to choose a Production power to use.
@@ -799,6 +830,20 @@ public class Game implements FaithPathListener{
      */
     public int getNumCurrentPlayers() {
         return players.size();
+    }
+    /**
+     * Sets the max number of players chosen by the first player joining the game.
+     *
+     * @param chosenMaxPlayers the max players number. Value can be {@code 0 < x < MAX_PLAYERS}.
+     * @return {@code true} if the argument value is {@code 0 < x < MAX_PLAYERS}, {@code false} otherwise.
+     */
+    public boolean setChosenMaxPlayers(int chosenMaxPlayers) {
+        if (chosenMaxPlayers > 0 && chosenMaxPlayers <= MAX_PLAYERS) {
+            this.playerNumbers = chosenMaxPlayers;
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+            return true;
+        }
+        return false;
     }
 
     /**

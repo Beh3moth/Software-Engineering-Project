@@ -29,9 +29,6 @@ public class Server {
         this.lock = new Object();
     }
 
-
-
-
     /**
      * Adds a client to be managed by the server instance.
      *
@@ -48,9 +45,7 @@ public class Server {
             }
         } else {
             vv.showLoginResult(true, false, null);
-            clientHandler.disconnect();
-        }
-
+            clientHandler.disconnect(); }
     }
 
 

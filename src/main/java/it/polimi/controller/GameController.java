@@ -1,8 +1,7 @@
 package it.polimi.controller;
 
 import it.polimi.network.server.Server;
-import it.polimi.ngsw.model.Game;
-import it.polimi.ngsw.model.Player;
+import it.polimi.ngsw.model.*;
 import it.polimi.view.*;
 import it.polimi.ngsw.model.GameState;
 import it.polimi.network.message.*;
@@ -20,22 +19,12 @@ import static it.polimi.network.message.MessageType.PLAYERNUMBER_REPLY;
  */
 public class GameController implements Observer, Serializable {
     private static final long serialVersionUID = 4951303731052728724L;
-
     private Game game;
     private transient Map<String, VirtualView> virtualViewMap;
-
     private GameState gameState;
     private TurnController turnController;
     private InputController inputController;
-
-   // private transient List<ReducedGod> availableGods;
-    //private transient List<Color> availableColors;
-
     private static final String STR_INVALID_STATE = "Invalid game state!";
-
-
-    public static final String SAVED_GAME_FILE = "match.bless";
-
     /**
      * Controller of the Game.
      */
@@ -108,29 +97,15 @@ public class GameController implements Observer, Serializable {
         if (virtualViewMap.isEmpty()) { // First player logged. Ask number of players.
             addVirtualView(nickname, virtualView);
             game.addPlayer(new Player(nickname));
-
             virtualView.showLoginResult(true, true, Game.SERVER_NICKNAME);
             virtualView.askPlayersNumber();
-
         } else if (virtualViewMap.size() < game.getChosenPlayersNumber()) {
             addVirtualView(nickname, virtualView);
             game.addPlayer(new Player(nickname));
             virtualView.showLoginResult(true, true, Game.SERVER_NICKNAME);
 
             if (game.getNumCurrentPlayers() == game.getChosenPlayersNumber()) { // If all players logged
-
-                // check saved matches.
-               // StorageData storageData = new StorageData();
-               // GameController savedGameController = storageData.restore();
-               /* if (savedGameController != null &&
-                        game.getPlayersNicknames().containsAll(savedGameController.getTurnController().getNicknameQueue())) {
-                    restoreControllers(savedGameController);
-                    broadcastRestoreMessages();
-                    Server.LOGGER.info("Saved Match restored.");
-                    turnController.newTurn();
-                } else {*/
                     initGame();
-                //}
             }
         } else {
             virtualView.showLoginResult(true, false, Game.SERVER_NICKNAME);
@@ -270,7 +245,7 @@ public class GameController implements Observer, Serializable {
      */
     private void startGame() {
         setGameState(GameState.IN_GAME);
-        broadcastGenericMessage("Game Started!");   //porcodiooo aggiungi su client controller nickname scelto
+        broadcastGenericMessage("Game Started!");   //aggiungi su client controller nickname scelto
 
         //turnController.broadcastMatchInfo();
         //turnController.newTurn();
@@ -288,7 +263,6 @@ public class GameController implements Observer, Serializable {
     public void addVirtualView(String nickname, VirtualView virtualView) {
         virtualViewMap.put(nickname, virtualView);
         game.addObserver(virtualView);
-        //game.getBoard().addObserver(virtualView);
     }
 
 

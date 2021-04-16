@@ -293,7 +293,7 @@ public class Board{
                 return;
             }
             else if(devDashboard[2][2].getNumberOfCards() == 1){
-                devDashboard[2][2].setNumberOfCards(1);
+                devDashboard[2][2].removeFirstCard();
                 remove = 1;
             }
             if(devDashboard[2][2].getNumberOfCards() == 0){

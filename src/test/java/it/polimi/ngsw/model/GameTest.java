@@ -5,9 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class GameTest {
 
@@ -291,4 +289,50 @@ public class GameTest {
 
     }
 
+    @Test
+    public void canBuyDevCardTest(){
+        Game game = new Game();
+        Map<Resource, Integer> costTest = new HashMap<>();
+        game.setNumberOfPlayers(2);
+        game.createPlayers();
+        game.getPlayerFromList(0).getWarehouse().addResourceToWarehouse(1, Resource.SHIELD);
+        costTest.put(Resource.SHIELD, 1);
+        assertEquals(game.canBuyDevCard(game.getPlayerFromList(0), costTest), true);
+        costTest.put(Resource.SHIELD, 2);
+        assertEquals(game.canBuyDevCard(game.getPlayerFromList(0), costTest), false);
+        game.getPlayerFromList(0).getChest().addResource(Resource.SHIELD, 5);
+        costTest.put(Resource.SHIELD, 6);
+        assertEquals(game.canBuyDevCard(game.getPlayerFromList(0), costTest), true);
+        costTest.put(Resource.MONEY, 2);
+        game.getPlayerFromList(0).getChest().addResource(Resource.MONEY, 1);
+        assertEquals(game.canBuyDevCard(game.getPlayerFromList(0), costTest), false);
+        game.getPlayerFromList(0).getWarehouse().addResourceToWarehouse(2, Resource.MONEY);
+        assertEquals(game.canBuyDevCard(game.getPlayerFromList(0), costTest), true);
+        game.getPlayerFromList(0).getChest().addResource(Resource.SLAVE,20);
+        costTest.put(Resource.SLAVE, 7);
+        assertEquals(game.canBuyDevCard(game.getPlayerFromList(0), costTest), true);
+        costTest.put(Resource.SLAVE, 21);
+        assertEquals(game.canBuyDevCard(game.getPlayerFromList(0), costTest), false);
+        game.getPlayerFromList(0).getWarehouse().unlockLeaderLevel(Resource.STONE);
+        game.getPlayerFromList(0).getWarehouse().addResourceToSpecialLevel(1,Resource.STONE);
+        game.getPlayerFromList(0).getWarehouse().addResourceToSpecialLevel(1,Resource.STONE);
+        costTest.put(Resource.SLAVE, 20);
+        costTest.put(Resource.STONE, 2);
+        assertEquals(game.canBuyDevCard(game.getPlayerFromList(0), costTest), true);
+    }
+
+    @Test
+    public void chooseDevCardTest(){
+
+    }
+
+    @Test
+    public void buyDevCardTest(){
+
+    }
+
+    @Test
+    public void canBuyDevCardWithList(){
+
+    }
 }

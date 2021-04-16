@@ -1,7 +1,8 @@
 package it.polimi.ngsw.model;
 
+import java.io.Serializable;
 
-public interface LeaderCard {
+public interface LeaderCard extends Serializable {
 
     void activateAbility(Player player);
     int getPV();

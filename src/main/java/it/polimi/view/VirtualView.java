@@ -45,6 +45,7 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new LeaderCardListMessage(Game.SERVER_NICKNAME, leaderCards));
     }
 
+
     @Override
     public void showLoginResult(boolean nicknameAccepted, boolean connectionSuccessful, String nickname) {
         clientHandler.sendMessage(new LoginReply(nicknameAccepted, connectionSuccessful));

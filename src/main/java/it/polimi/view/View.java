@@ -20,10 +20,11 @@ public interface View {
     /**
      * Allows the user to choose his LeaderCards.
      *
-     * @param gods    the list of the available LeaderCards.
+     * @param leaderCards    the list of the available LeaderCards.
      */
 
-    void askLeaderCard(List<LeaderCard> gods);
+    void askLeaderCard(List<LeaderCard> leaderCards);
+
 
 
     /**

@@ -13,6 +13,7 @@ public class ClientStarter {
 
         boolean doYouWantCli= false; // default value
 
+
         for (String arg : args) {
             if (arg.equals("--cli") || arg.equals("-c")) {
                 doYouWantCli = true;

@@ -1,6 +1,8 @@
 package it.polimi.ngsw.model;
 
-public class LeaderCardBaseDecorator implements LeaderCard{
+import java.io.Serializable;
+
+public class LeaderCardBaseDecorator implements LeaderCard {
 
     private LeaderCard wrapper;
 

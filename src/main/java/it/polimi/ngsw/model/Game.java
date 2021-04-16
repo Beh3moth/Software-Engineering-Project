@@ -28,6 +28,9 @@ public class Game extends Observable implements FaithPathListener{
         this.leaderCards = initLeaderCards();
     }
 
+    public int getLeader(){
+        return leaderCards.get(7).getPV();
+    }
     public Board getBoard(){
         return this.board;
     }
@@ -513,7 +516,7 @@ public class Game extends Observable implements FaithPathListener{
     public void addPlayer(Player player) {
         players.add(player);
         if (playerNumbers != 0) {
-            //notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
         }
     }
 

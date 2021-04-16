@@ -2,6 +2,8 @@ package it.polimi.network.message;
 import it.polimi.ngsw.model.Resource;
 import java.util.List;
 public class DistribuiteInitialResourcesMessage extends Message {
+
+    private static final long serialVersionUID = -6428105731449076513L;
     private int resourcesNumber;
     private Resource firstRes;
     private Resource secondRes;

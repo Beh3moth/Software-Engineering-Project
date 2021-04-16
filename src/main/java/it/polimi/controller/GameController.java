@@ -25,6 +25,7 @@ public class GameController implements Observer, Serializable {
     private TurnController turnController;
     private InputController inputController;
     private static final String STR_INVALID_STATE = "Invalid game state!";
+    private int contSituation;
     /**
      * Controller of the Game.
      */
@@ -39,6 +40,7 @@ public class GameController implements Observer, Serializable {
         this.game = Game.getInstance();
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.inputController = new InputController(virtualViewMap, this);
+        this.contSituation = 0;
         setGameState(GameState.LOGIN);
     }
 
@@ -169,10 +171,8 @@ public class GameController implements Observer, Serializable {
      */
     private void loginState(Message receivedMessage) {
         if (receivedMessage.getMessageType() == PLAYERNUMBER_REPLY) {
-            if (inputController.verifyReceivedData(receivedMessage)) {
                 game.setChosenMaxPlayers(((PlayerNumberReply) receivedMessage).getPlayerNumber());
                 broadcastGenericMessage("Waiting for other Players . . .");
-            }
         } else {
             Server.LOGGER.warning("Wrong message received from client.");
         }
@@ -215,8 +215,8 @@ public class GameController implements Observer, Serializable {
         turnController.setActivePlayer(firstPlayerNick);
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " ", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.showGenericMessage("");
         for(int i = 0; i < game.getChosenPlayersNumber(); i++){
+            contSituation++;
             if(i == 1) {
                 virtualView.distribuiteInitialResources(1);
             }
@@ -230,7 +230,6 @@ public class GameController implements Observer, Serializable {
             turnController.next();
             virtualView = virtualViewMap.get(turnController.getActivePlayer());
         }
-        startGame();
     }
 
     private void distribuiteResourceHandler(DistribuiteInitialResourcesMessage message){
@@ -238,6 +237,10 @@ public class GameController implements Observer, Serializable {
         player.getWarehouse().addResourceToWarehouse(message.getFirstPosition(), message.getFirstResource());
         if(message.getSecondPosition() > 0){
             player.getWarehouse().addResourceToWarehouse(message.getSecondPosition(), message.getSecondResource());
+        }
+        if(contSituation == game.getChosenPlayersNumber()){
+            contSituation = 0;
+            startGame();
         }
     }
     /**

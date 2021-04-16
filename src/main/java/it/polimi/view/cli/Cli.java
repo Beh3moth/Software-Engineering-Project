@@ -115,7 +115,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void askPlayersNumber() {
         int playerNumber;
-        String question = "How many players are going to play? (You can choose between 2 or 3 players): ";
+        String question = "How many players are going to play? (You can choose between 1 or 4 players): ";
 
         try {
             playerNumber = numberInput(1, 4,  question);
@@ -168,7 +168,7 @@ public class Cli extends ViewObservable implements View {
 
                     chosenCard.add(LeaderCards.get(IdChoosen));
                 out.println("Please, enter one ID confirm with ENTER.");
-                IdChoosen = numberInput(1, LeaderCards.size(), (1) + "° LeaderCard ID: ") - 1;
+                IdChoosen = numberInput(1, LeaderCards.size(), (2) + "° LeaderCard ID: ") - 1;
 
                 chosenCard.add(LeaderCards.get(IdChoosen));
 
@@ -259,9 +259,14 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Shows a Generic Message from Server
+     *
+     * @param genericMessage Generic Message from Server.
+     */
     @Override
     public void showGenericMessage(String genericMessage) {
-
+        out.println(genericMessage);
     }
 
     /**

@@ -1,6 +1,4 @@
 package it.polimi.network.message;
-
-import it.polimi.ngsw.model.Game;
 import it.polimi.ngsw.model.LeaderCard;
 
 import java.util.List;
@@ -10,8 +8,8 @@ import java.util.List;
  */
 public class LeaderCardListMessage extends Message {
 
-    private static final long serialVersionUID = -1116045089001448271L;
-    private final List<LeaderCard> leaderCardList;
+    private static final long serialVersionUID = 1702048859156758477L;
+    private List<LeaderCard> leaderCardList;
 
     /**
      * Default constructor.
@@ -31,9 +29,9 @@ public class LeaderCardListMessage extends Message {
 
     @Override
     public String toString() {
-        return "LeaderCardList{" +
+        return "LeaderCardMessage{" +
                 "nickname=" + getNickname() +
-                ", godList=" + leaderCardList +
+                ", messageType=" + getMessageType() +
                 '}';
     }
 }

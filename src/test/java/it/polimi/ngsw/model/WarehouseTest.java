@@ -8,7 +8,6 @@ public class WarehouseTest {
 
     Warehouse warehouse = new Warehouse();
 
-
     @Test
     public void addResourceToWarehouseTest(){
         //test legalità primo piano

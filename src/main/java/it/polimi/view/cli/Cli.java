@@ -228,7 +228,7 @@ public class Cli extends ViewObservable implements View {
                 do {
                     System.out.println("Chose where to put it (must be different) 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
                     Pos = numberInput(1, 3, "Floor");
-                    if(Pos != FirstPos){goneRight = true}
+                    if(Pos != FirstPos){goneRight = true;}
                 }while(!goneRight);
                 SecondPos = Pos;
                 notifyObserver(obs -> obs.onUpdatePickedResources(number, resourceOne, resourceTwo, FirstPos, SecondPos));
@@ -238,6 +238,17 @@ public class Cli extends ViewObservable implements View {
             }
         }
     }
+
+    @Override
+    public void showWinMessage(String winner) {
+
+    }
+
+    @Override
+    public void showGenericMessage(String genericMessage) {
+
+    }
+
     /**
      * Print a list of gods
      *

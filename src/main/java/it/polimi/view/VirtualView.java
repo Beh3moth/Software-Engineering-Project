@@ -4,6 +4,7 @@ import it.polimi.ngsw.model.*;
 import it.polimi.network.message.*;
 import it.polimi.network.server.ClientHandler;
 import it.polimi.observer.Observer;
+import it.polimi.view.View;
 
 import java.util.List;
 
@@ -64,14 +65,19 @@ public class VirtualView implements View, Observer {
     }
     public void distribuiteInitialResources(int resourcesNumber){
         clientHandler.sendMessage(new DistribuiteInitialResourcesMessage(Game.SERVER_NICKNAME, MessageType.PICK_INITIAL_RESOURCES, resourcesNumber, null, null , 0, 0));
-    };
+    }
 
     @Override
+    public void showWinMessage(String winner) {
+
+    }
+
+    ;
+
     public void showDisconnectionMessage(String nicknameDisconnected, String text) {
         clientHandler.sendMessage(new DisconnectionMessage(nicknameDisconnected, text));
     }
 
-    @Override
     public void showErrorAndExit(String error) {
         clientHandler.sendMessage(new ErrorMessage(Game.SERVER_NICKNAME, error));
     }
@@ -88,8 +94,4 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(message);
     }
 
-    @Override
-    public void showWinMessage(String winner) {
-        clientHandler.sendMessage(new WinMessage(winner));
-    }
 }

@@ -6,6 +6,7 @@ import it.polimi.ngsw.model.Player;
 import it.polimi.view.*;
 import it.polimi.ngsw.model.GameState;
 import it.polimi.network.message.*;
+import it.polimi.observer.Observer;
 
 import java.io.Serializable;
 import java.util.*;
@@ -343,6 +344,25 @@ public class GameController implements Observer, Serializable {
     }
 
 
+    /**
+     * Receives an update message from the effect model.
+     *
+     * @param message the update message.
+     */
+    @Override
+    public void update(Message message) {
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        switch (message.getMessageType()) {
+            case ERROR:
+                ErrorMessage errMsg = (ErrorMessage) message;
+                Server.LOGGER.warning(errMsg.getError());
+                break;
+            default:
+                Server.LOGGER.warning("Invalid effect request!");
+                break;
+        }
+
+    }
     /**
      * Reset the Game Instance and re-initialize GameController Class.
      */

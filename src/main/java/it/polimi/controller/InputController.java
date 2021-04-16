@@ -66,28 +66,8 @@ public class InputController implements Serializable {
     public boolean verifyReceivedData(Message message) {
 
         switch (message.getMessageType()) {
-            case BOARD: // server doesn't never receive a BOARD.
-                return false;
-           /* case BUILD:
-                return buildCheck(message);
-            case INIT_COLORS:
-                return colorCheck(message);
-            case GENERIC_MESSAGE: // server doesn't receive a GENERIC_MESSAGE.
-                return false;
-            case GODLIST:
-                return godListCheck(message);
             case LOGIN_REPLY: // server doesn't receive a LOGIN_REPLY.
                 return false;
-            case MOVE:
-                return moveCheck(message);
-            case PICK_MOVING_WORKER:
-                return pickMovingCheck(message);
-            case PLAYERNUMBER_REPLY:
-                return playerNumberReplyCheck(message);
-            case PLAYERNUMBER_REQUEST: // server doesn't receive a GenericErrorMessage.
-                return false;
-            case INIT_WORKERSPOSITIONS:
-                return workerPositionsCheck(message);*/
             default: // Never should reach this statement.
                 return false;
         }

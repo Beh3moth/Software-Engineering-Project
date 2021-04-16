@@ -63,13 +63,6 @@ public class TurnController implements Serializable {
      * Set next active player.
      */
     public void next() {
-
-        /*if (null != appliedEffect) {
-            appliedEffect.clear(activeWorker);
-            appliedEffect = null;
-        }
-
-         */
         int currentActive = nicknameQueue.indexOf(activePlayer);
         if (currentActive + 1 < game.getNumCurrentPlayers()) {
             currentActive = currentActive + 1;
@@ -77,7 +70,6 @@ public class TurnController implements Serializable {
             currentActive = 0;
         }
         activePlayer = nicknameQueue.get(currentActive);
-        phaseType = PhaseType.YOUR_MOVE;
     }
 
     /**

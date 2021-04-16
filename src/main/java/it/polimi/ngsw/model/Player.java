@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Player /* extends Observable implements Serializable */{
+public class Player /* extends Observable*/ implements Serializable {
 
     private String nickName;
     private Resource discountPowerOne;
@@ -80,7 +80,7 @@ public class Player /* extends Observable implements Serializable */{
      */
     public boolean chooseLeaderCardsToDiscard(int leaderCardToDiscard1, int leaderCardToDiscard2){
         return ( discardLeaderCard(leaderCardToDiscard1) && discardLeaderCard(leaderCardToDiscard2) );
-    }
+    }// non serve
 
     /**
      * this method allows you to change the nickName attribute
@@ -90,13 +90,6 @@ public class Player /* extends Observable implements Serializable */{
         nickName = name;
     }
 
-    /**
-     * this method returns the string: nickName
-     * @return nickName
-     */
-    public String getNickName(){
-        return nickName;
-    }
 
     /**
      * this method returns the Integer: PV
@@ -244,5 +237,14 @@ public class Player /* extends Observable implements Serializable */{
      */
     public DevCardDashboard getDevCardDashboard(){
         return devCardDashboard;
+    }
+
+    /**
+     * Return the nickname of the Player.
+     *
+     * @return nickname of the Player.
+     */
+    public String getNickname() {
+        return nickName;
     }
 }

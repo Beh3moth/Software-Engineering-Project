@@ -149,11 +149,11 @@ public class ProductionPower {
     }
 
     /**
-     * The method removes the coordinates of a Production Power and puts the Resources to the origin locations.
+     * The method removes the coordinates of a Production Power and it puts the Resources to the resource locations.
      * @param activePlayer is the player who decided to renounce to a Production Power activated previously.
      * @return true if the method is successful.
      */
-    public boolean moveResourcesToOrigin(Player activePlayer){
+    public boolean removeSingleCoordinate(Player activePlayer){
 
         Resource resourceToPay;
         boolean warehouse;
@@ -176,7 +176,6 @@ public class ProductionPower {
 
         }
 
-        cleanCoordinates();
         return true;
 
     }

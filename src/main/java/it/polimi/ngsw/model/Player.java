@@ -38,6 +38,15 @@ public class Player /* extends Observable implements Serializable */{
     public void setLeaderCard(List<LeaderCard> twoLeaderCard){
         this.leaderCards = twoLeaderCard;
     }
+
+    /**
+     * Return the nickname of the Player.
+     *
+     * @return nickname of the Player.
+     */
+    public String getNickname() {
+        return nickName;
+    }
     /**
      * this method allows the player to activate a leadercard
      * @param leaderCardToActive

@@ -1,16 +1,15 @@
 package it.polimi.ngsw.model;
 
-//import it.polimi.network.message.*;
+import it.polimi.network.message.*;
 import java.io.FileNotFoundException;
 import java.util.*;
 import java.io.Serializable;
-//import it.polimi.observer.Observable;
+import it.polimi.observer.Observable;
 
-public class Game  /*extends Observable*/ implements Serializable, FaithPathListener{
+public class Game  extends Observable implements Serializable, FaithPathListener{
     private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
-
 
     private Board board = new Board();
     private Player activePlayer;
@@ -30,6 +29,105 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
 
     public Board getBoard(){
         return this.board;
+    }
+    /**
+     * @return the singleton instance.
+     */
+    public static Game getInstance() {
+        if (instance == null)
+            instance = new Game();
+        return instance;
+    }
+    /**
+     * Returns a player given his {@code nickname}.
+     * Only the first occurrence is returned because
+     * the player nickname is considered to be unique.
+     * If no player is found {@code null} is returned.
+     *
+     * @param nickname the nickname of the player to be found.
+     * @return Returns the player given his {@code nickname}, {@code null} otherwise.
+     */
+    public Player getPlayerByNickname(String nickname) {
+        return players.stream()
+                .filter(player -> nickname.equals(player.getNickname()))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * Adds a player to the game.
+     * Notifies all the views if the playersNumber is already set.
+     *
+     * @param player the player to add to the game.
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
+        if (playerNumbers != 0) {
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+        }
+    }
+    /**
+     * Removes a player from the game.
+     * Notifies all the views if the notifyEnabled argument is set to {@code true}.
+     *
+     * @param nickname      the nickname of the player to remove from the game.
+     * @param notifyEnabled set to {@code true} to enable a lobby disconnection message, {@code false} otherwise.
+     * @return {@code true} if the player is removed, {@code false} otherwise.
+     */
+    public boolean removePlayerByNickname(String nickname, boolean notifyEnabled) {
+        boolean result = players.remove(getPlayerByNickname(nickname));
+
+        if (notifyEnabled) {
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+        }
+
+        return result;
+    }
+
+    /**
+     * Sets the max number of players chosen by the first player joining the game.
+     *
+     * @param chosenMaxPlayers the max players number. Value can be {@code 0 < x < MAX_PLAYERS}.
+     * @return {@code true} if the argument value is {@code 0 < x < MAX_PLAYERS}, {@code false} otherwise.
+     */
+    public boolean setChosenMaxPlayers(int chosenMaxPlayers) {
+        if (chosenMaxPlayers > 0 && chosenMaxPlayers <= MAX_PLAYERS) {
+            this.playerNumbers = chosenMaxPlayers;
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+            return true;
+        }
+        return false;
+    }
+    /**
+     * Returns a list of player nicknames that are already in-game.
+     *
+     * @return a list with all nicknames in the Game
+     */
+    public List<String> getPlayersNicknames() {
+        List<String> nicknames = new ArrayList<>();
+        for (Player p : players) {
+            nicknames.add(p.getNickname());
+        }
+        return nicknames;
+    }
+    /**
+     * Search a nickname in the current Game.
+     *
+     * @param nickname the nickname of the player.
+     * @return {@code true} if the nickname is found, {@code false} otherwise.
+     */
+    public boolean isNicknameTaken(String nickname) {
+        return players.stream()
+                .anyMatch(p -> nickname.equals(p.getNickname()));
+    }
+
+    /**
+     * Returns the number of players chosen by the first player.
+     *
+     * @return the number of players chosen by the first player.
+     */
+    public int getChosenPlayersNumber() {
+        return playerNumbers;
     }
 
     //Init game
@@ -419,278 +517,7 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
             activePlayer.getWarehouse().removeFromWhiteStock();
         }
     }
-    /**
-     * Method that permit to take resources from the market, it asks the user if column or row, and which one
-     * @param activePlayer the player that do the action
-     */
-    public void getBoardResources(Player activePlayer){
-        //chiedo al client se riga o colonna
-        boolean allRight = false;
-        do{
 
-            System.out.println("Choose between column and row: 1 = column  2 = row"); //ovviamente qusti metodi lli buttero nel CLI
-            Scanner input = new Scanner(System.in);
-            int sector = input.nextInt();
-            if(sector == 1){
-                allRight = true;
-                int column;
-                boolean allRightTwo = false;
-                do{
-                    System.out.println("Choose between 1 and 4");
-                    column= input.nextInt();
-                    if(column > 0 && column < 5){
-                        allRightTwo = true;
-                    }
-                }while(!allRightTwo);
-                this.board.getMarbleColumn(column, activePlayer);
-            }
-            else if(sector == 2){
-                allRight = true;
-                int row;
-                boolean allRightTwo = false;
-                do{
-                    System.out.println("Choose between 1 and 3");
-                    row= input.nextInt();
-                    if(row > 0 && row < 4){
-                        allRightTwo = true;
-                    }
-                }while(!allRightTwo);
-                this.board.getMarbleRow(row, activePlayer);
-            }
-        } while (!allRight);
-
-        Scanner input = new Scanner(System.in);
-        int up = activePlayer.getWarehouse().getStockResourceNumber();
-        int j = 0;
-        while (j < up) {
-            boolean generalValidator = false;
-            do {
-                System.out.println("Choose what to do with this resource " + activePlayer.getWarehouse().getStockResource(j));
-                boolean validator = false;
-                int choosen;
-                do {
-                    System.out.println("1) Discard 2)Add Warehouse 3)Add special warehouse 4) reorder warehouse"); //potrei aggiungere
-                    choosen = input.nextInt();
-                    if (0 < choosen && choosen < 5) {
-                        validator = true;
-                    }
-                    if (choosen == 3 && (activePlayer.getWarehouse().getLeaderLevelType(1) == Resource.EMPTY)) {
-                        validator = false;
-                        System.out.println("You don't have leader card shelf");
-                    }
-                }
-                while (!validator);
-                int level;
-                if (choosen == 1) {
-                    generalValidator = activePlayer.getWarehouse().removeFirstResourceFromStock();
-                    //addOtherFaithPoint(activePlayer);
-                    j--;
-                    up--;
-                } else if (choosen == 2) {
-                    System.out.println("Choose wich shelf of the warehouse");
-                    boolean goneRight = false;
-                    do {
-                        level = input.nextInt();
-                        if (0 < level && level < 4) {
-                            goneRight = true;
-                        }else{System.out.println("Not valid, choose again");}
-
-                    } while (!goneRight);
-                    generalValidator = activePlayer.getWarehouse().addResourceToWarehouse(level, activePlayer.getWarehouse().getStockResource(0)); //devo controllare poi se una volta dentro la inserisco veramente
-                    if(generalValidator == true){activePlayer.getWarehouse().removeFirstResourceFromStock();
-                        j--;
-                        up--;}
-                    //QUA DEVO METTERE SOLO SE è ANDATO POSITIVOOOOOOO
-                } else if (choosen == 3) {
-                    int levelUp = 1;
-                    if (activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY) {
-                        levelUp = 2;
-                    }
-                    System.out.println("Choose wich specialshelf of the warehouse");
-                    boolean goneRight = false;
-                    do {
-                        level = input.nextInt();
-                        if (0 < level && level <= levelUp) {
-                            goneRight = true;
-                        }
-                    } while (!goneRight);
-                    generalValidator = activePlayer.getWarehouse().addResourceToSpecialLevel(level, activePlayer.getWarehouse().getStockResource(0));
-                    if(generalValidator == true){
-                        activePlayer.getWarehouse().removeFirstResourceFromStock();
-                        j--;
-                        up--;}
-
-                } else if (choosen == 4) { //da finireeeeeeeeeee
-                    reorderWarehouse(activePlayer);
-                }
-            } while (!generalValidator);
-            j++;
-
-        }
-        System.out.println(activePlayer.getWarehouse().getShelf(1).getResourceType() + " " +  activePlayer.getWarehouse().getShelf(1).getResourceNumber() + "  " + "  " + activePlayer.getWarehouse().getShelf(2).getResourceType() +  " " +  activePlayer.getWarehouse().getShelf(2).getResourceNumber() + "  " + "  " + " " + activePlayer.getWarehouse().getShelf(3).getResourceType() + "  " + " " +  activePlayer.getWarehouse().getShelf(3).getResourceNumber() + "  " + "  ");
-        reorderWarehouse(activePlayer);
-    }
-
-    public void reorderWarehouse(Player activePlayer) {
-        Scanner input = new Scanner(System.in);
-        int quantityOfElementSupport = 0;
-        int choosen;
-        boolean verifier = false; //se true, finish process
-        List<Resource> support = new ArrayList<Resource>();
-        do{
-            System.out.println("The situation: First shelf " + activePlayer.getWarehouse().getShelf(1).getResourceType() + " " + activePlayer.getWarehouse().getShelf(1).getResourceNumber());
-            System.out.println("Second shelf " + activePlayer.getWarehouse().getShelf(2).getResourceType() + " " + activePlayer.getWarehouse().getShelf(2).getResourceNumber());
-            System.out.println("Third shelf " + activePlayer.getWarehouse().getShelf(3).getResourceType() + " " + activePlayer.getWarehouse().getShelf(3).getResourceNumber());
-            System.out.println("First special shelf " + activePlayer.getWarehouse().getLeaderShelf(1).getResourceType()+ " " + activePlayer.getWarehouse().getLeaderShelf(1).getResourceNumber());
-            System.out.println("Second special shelf " + activePlayer.getWarehouse().getLeaderShelf(2).getResourceType()+ " " + activePlayer.getWarehouse().getLeaderShelf(2).getResourceNumber());
-            System.out.println("Chose what to do: 1)Finish process 2)Throw away a resource 3) throw away a leader resource 4)Move resources to Stock 5)RePut resource to warehouse");
-            choosen = input.nextInt();
-
-            boolean goneWell = false; //if true, adds others faithpoint
-
-
-            if(choosen == 1){
-                if(support.isEmpty()){
-                    verifier = true;}
-                else{ System.out.println("You still have some resources to manage ");
-                    //qua potrei elencare quali
-                }
-            }
-            else if(choosen == 2){
-                System.out.println("Chose a shelf to remove from (between 1 and 3");
-                int choosenTwo = input.nextInt();
-
-                if(choosenTwo < 4 && 0 < choosenTwo){
-                    goneWell = activePlayer.getWarehouse().discardResourceFromWarehouse(choosenTwo);
-                }
-                if(goneWell == false){
-                    System.out.println("Nothing was throw away");
-                }
-            }
-            else if(choosen == 3){
-                int levelUp = 0;
-                int level = 0;
-                if (activePlayer.getWarehouse().getLeaderLevelType(1) != Resource.EMPTY) {
-                    levelUp = 1;
-                }
-                if (activePlayer.getWarehouse().getLeaderLevelType(1) != Resource.EMPTY && activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY) {
-                    levelUp = 2;
-                }
-                boolean goneRight = false;
-                if(levelUp == 0){
-                    System.out.println("You don't have special shelf");
-                }
-                else if(levelUp > 0) {
-                    System.out.println("Choose wich specialshelf of the warehouse");
-                    do {
-                        level = input.nextInt();
-                        if (0 < level && level <= levelUp) {
-                            goneRight = true;
-                        }
-
-                    } while (!goneRight);
-                }
-                goneWell = activePlayer.getWarehouse().discardResourceFromSpecialLevel(level);
-            }
-            else if(choosen == 4){
-                System.out.println("Choose a floor to take resource from 1-3 normal shelf, 4-5 leader shelf");
-                int choosenTwo = input.nextInt();
-                boolean okParam = false;
-                if(choosenTwo < 4 && 0 < choosenTwo){
-                    if(activePlayer.getWarehouse().getShelf(choosenTwo).getResourceType() != Resource.EMPTY) {
-                        support.add(activePlayer.getWarehouse().getShelf(choosenTwo).getResourceType());
-                        quantityOfElementSupport++;
-                    }
-                    okParam = activePlayer.getWarehouse().removeResourceWarehouse(choosenTwo);
-                    if(okParam == false){
-                        System.out.println("Not valid");
-                        //support.remove(quantityOfElementSupport - 1);
-                    }
-
-                }
-                else if(choosenTwo == 4 && activePlayer.getWarehouse().getLeaderLevelType(1) != Resource.EMPTY){
-                    if(activePlayer.getWarehouse().getLeaderShelf(1).getResourceType() != Resource.EMPTY) {
-                        support.add(activePlayer.getWarehouse().getLeaderShelf(1).getResourceType());
-                        quantityOfElementSupport++;
-                    }
-                    okParam = activePlayer.getWarehouse().removeSpecialResourceWarehouse(1);
-                    if(okParam == false){
-                        System.out.println("Not valid");
-                        //if(activePlayer.getWarehouse().getLeaderShelf(1).getResourceType() != Resource.EMPTY) {
-                        //support.remove(quantityOfElementSupport - 1);
-                        //}
-                    }
-                }
-                else if(choosenTwo == 5 && activePlayer.getWarehouse().getLeaderLevelType(2) != Resource.EMPTY){
-                    if(activePlayer.getWarehouse().getLeaderShelf(2).getResourceType() != Resource.EMPTY) {
-                        support.add(activePlayer.getWarehouse().getLeaderShelf(2).getResourceType());
-                        quantityOfElementSupport++;
-                    }
-                    okParam = activePlayer.getWarehouse().removeSpecialResourceWarehouse(2);
-                    if(okParam == false){
-                        System.out.println("Not valid");
-                        //if(activePlayer.getWarehouse().getLeaderShelf(2).getResourceType() != Resource.EMPTY) {
-                        // support.remove(quantityOfElementSupport - 1);}
-                    }
-                }
-                else{
-                    System.out.println("Not valid");
-                }
-            }
-            else if(choosen == 5){
-                System.out.println("All the resources that you have to manage: ");
-                // if(quantityOfElementSupport == 0){
-                //     System.out.println("Nothing");
-                // }
-                for(int i = 0; i < quantityOfElementSupport; i++){
-                    System.out.println(support.get(i));
-                }
-                int i = 0;
-                while(i < quantityOfElementSupport){
-                    System.out.println("What do you want to do with this?  " + support.get(i) + " 1) Put inside Warehouse 2) Discard completaly   (Others do nothing)");
-                    int choosenTwo = input.nextInt();
-                    boolean Validator = false;
-                    if(choosenTwo == 2){
-                        support.remove(i);
-                        addOtherFaithPoint(activePlayer);
-                        System.out.println("Aggiunta agli altri dei faith point");
-                        i--;
-                        quantityOfElementSupport--;
-                    }
-                    else if(choosenTwo == 1){
-                        System.out.println("Inside wich shelf 1-3 normal, 4-5");
-                        int choosenThree = input.nextInt();
-                        if(choosenThree > 0 && choosenThree < 4) {
-                            Validator = activePlayer.getWarehouse().addResourceToWarehouse(choosenThree, support.get(i)); //devo controllare poi se una volta dentro la inserisco veramente
-                        }
-                        else if(choosenThree < 6 && choosenThree > 3){
-                            Validator = activePlayer.getWarehouse().addResourceToSpecialLevel(choosenThree - 3, support.get(i));
-                        }
-                        if(Validator == true){
-                            support.remove(i);
-                            i--;
-                            quantityOfElementSupport--;
-                        }else {
-                            System.out.println("Failed, not valid to insert, chose again what to do with this resource");
-                            i--;
-                        }
-                    }
-                    else{
-                        System.out.println("Resource skipped, remember to go back again later");
-                    }
-                    i++;
-
-                }
-
-            }
-
-            if(goneWell == true){
-                addOtherFaithPoint(activePlayer);
-                System.out.println("Aggiunta agli altri dei faith point");
-            }
-
-        }while(!verifier);
-    }
 
     public void addOtherFaithPoint(Player activePlayer){
         for(int i = 0; i < this.playerNumbers; i++){
@@ -1101,5 +928,19 @@ public class Game  /*extends Observable*/ implements Serializable, FaithPathList
         }
         return true;
     }
+    /**
+     * Number of current players added in the game.
+     *
+     * @return the number of players.
+     */
+    public int getNumCurrentPlayers() {
+        return players.size();
+    }
 
+    /**
+     * Resets the game instance. After this operations, all the game data is lost.
+     */
+    public static void resetInstance() {
+        Game.instance = null;
+    }
 }

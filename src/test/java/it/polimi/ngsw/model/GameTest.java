@@ -62,7 +62,7 @@ public class GameTest {
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/blue_level_one.json");
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json");
         devCardDashboard.putDevCardIn(0, devCardList.get(0));
         devCardDashboard.putDevCardIn(1, devCardList.get(1));
         devCardDashboard.putDevCardIn(2, devCardList.get(2));
@@ -81,7 +81,7 @@ public class GameTest {
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/blue_level_one.json");
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json");
         devCardDashboard.putDevCardIn(0, devCardList.get(0));
         devCardDashboard.putDevCardIn(1, devCardList.get(1));
         devCardDashboard.putDevCardIn(2, devCardList.get(2));
@@ -104,7 +104,7 @@ public class GameTest {
         randomChest(game.getPlayerFromList(0).getChest());
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/green_level_one.json");
         devCardDashboard.putDevCardIn(0, devCardList.get(0));
         devCardDashboard.putDevCardIn(1, devCardList.get(1));
         devCardDashboard.putDevCardIn(2, devCardList.get(2));
@@ -117,7 +117,7 @@ public class GameTest {
         game.createPlayers();
         DevCardDashboard devCardDashboard = game.getPlayerFromList(0).getDevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/green_level_one.json");
         devCardDashboard.putDevCardIn(0, devCardList.get(0));
         devCardDashboard.putDevCardIn(1, devCardList.get(1));
         devCardDashboard.putDevCardIn(2, devCardList.get(2));
@@ -165,7 +165,7 @@ public class GameTest {
         game.createPlayers();
         Player player = game.getPlayerFromList(0);
         DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/green_level_one.json");
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/green_level_one.json");
         ProductionPower productionPower = devCardList.get(0).getProductionPower();
         player.getWarehouse().addResourceToWarehouse(1, Resource.MONEY);
         List<List<Object>> coordinates = createChestCoordinates(Resource.MONEY, Resource.SHIELD);

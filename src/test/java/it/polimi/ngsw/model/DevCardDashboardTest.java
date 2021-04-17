@@ -77,7 +77,7 @@ public class DevCardDashboardTest {
     public void getProductionPowerTestWithInitialization() throws FileNotFoundException {
         DevCardDashboard devCardDashboard = new DevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/resources/blue_level_one.json");
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json");
         devCardDashboard.putDevCardIn(0, devCardList.get(0));
         devCardDashboard.putDevCardIn(1, devCardList.get(1));
         devCardDashboard.putDevCardIn(2, devCardList.get(2));

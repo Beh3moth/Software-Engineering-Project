@@ -28,9 +28,6 @@ public class Game extends Observable implements FaithPathListener{
         this.leaderCards = initLeaderCards();
     }
 
-    public int getLeader(){
-        return leaderCards.get(7).getPV();
-    }
     public Board getBoard(){
         return this.board;
     }
@@ -57,6 +54,7 @@ public class Game extends Observable implements FaithPathListener{
                 .findFirst()
                 .orElse(null);
     }
+
     /**
      * Removes a player from the game.
      * Notifies all the views if the notifyEnabled argument is set to {@code true}.
@@ -507,6 +505,7 @@ public class Game extends Observable implements FaithPathListener{
     public void addProductionPowerToPaidList(ProductionPower productionPower){
         listOfPaidProductionPowers.add(productionPower);
     }
+
     /**
      * Adds a player to the game.
      * Notifies all the views if the playersNumber is already set.

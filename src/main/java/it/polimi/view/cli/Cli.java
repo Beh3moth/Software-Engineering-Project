@@ -158,6 +158,7 @@ public class Cli extends ViewObservable implements View {
     public void askLeaderCard(List<LeaderCard> LeaderCards) {
         clearCli();
         int IdChoosen;
+        int IdChoosenTwo;
         if (LeaderCards.size() == 4) {
                 List<LeaderCard> chosenCard = new ArrayList<>();
                 out.println("Select two Leader Cards from the list.");
@@ -167,8 +168,14 @@ public class Cli extends ViewObservable implements View {
                     IdChoosen = numberInput(1, LeaderCards.size(), (1) + "° LeaderCard ID: ") - 1;
 
                     chosenCard.add(LeaderCards.get(IdChoosen));
-                out.println("Please, enter one ID confirm with ENTER.");
-                IdChoosen = numberInput(1, LeaderCards.size(), (2) + "° LeaderCard ID: ") - 1;
+                out.println("Please, enter one ID confirm with ENTER."); //non scegli lo stesso cojone
+                boolean goneRight = false;
+                do{
+                IdChoosenTwo = numberInput(1, LeaderCards.size(), (2) + "° LeaderCard ID: ") - 1;
+                if(IdChoosen != IdChoosenTwo){
+                    goneRight = true;
+                } }
+                while(!goneRight);
 
                 chosenCard.add(LeaderCards.get(IdChoosen));
 

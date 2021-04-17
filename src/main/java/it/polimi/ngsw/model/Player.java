@@ -1,6 +1,6 @@
 package it.polimi.ngsw.model;
 
-//import it.polimi.observer.Observable;
+//import it.polimi.ngsw.observer.Observable;
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -2,9 +2,8 @@ package it.polimi.ngsw.model;
 
 import java.io.FileNotFoundException;
 import java.util.*;
-import it.polimi.network.message.LobbyMessage;
-import it.polimi.observer.Observable;
-import java.io.Serializable;
+import it.polimi.ngsw.network.message.LobbyMessage;
+import it.polimi.ngsw.observer.Observable;
 
 public class Game extends Observable implements FaithPathListener{
     private static Game instance;

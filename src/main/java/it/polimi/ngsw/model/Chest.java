@@ -47,6 +47,15 @@ public class Chest {
     }
 
     /**
+     * The method returns the number of resources requested.
+     * @param resource is the type of resource requested.
+     * @return the number of a certain type of resources requested.
+     */
+    public int getResourceNumber(Resource resource){
+        return chestResources.get(resource);
+    }
+
+    /**
      * Method that returns the number of shield's resources in the Chest.
      * @return the int number of shields in the Chest.
      */

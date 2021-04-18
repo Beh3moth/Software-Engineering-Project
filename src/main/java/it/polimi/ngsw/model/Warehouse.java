@@ -1,7 +1,9 @@
 package it.polimi.ngsw.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Warehouse {
     private Shelf firstLevel;
@@ -570,4 +572,20 @@ public class Warehouse {
         else if(secondLeaderLevel.getResourceType() == resource && secondLeaderLevel.getResourceNumber() >= 1)return 5;
         else return 0;
     }
+
+    //Fede
+
+    //To test
+    public Map<Resource, Integer> getResourcesAsMap(){
+
+        Map<Resource, Integer> map = new HashMap<>();
+        for(Resource resource : Resource.values()){
+            if(resource.equals(Resource.EMPTY)){
+                map.put(resource, getShelf(getLevel(resource)).getResourceNumber());
+            }
+        }
+
+        return map;
+    }
+
 }

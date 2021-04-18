@@ -568,23 +568,39 @@ public class Warehouse {
         if(firstLevel.getResourceType() == resource )return 1;
         else if(secondLevel.getResourceType() == resource)return 2;
         else if(thirdLevel.getResourceType() == resource)return 3;
-        else if(firstLeaderLevel.getResourceType() == resource && firstLeaderLevel.getResourceNumber() >= 1)return 4;
-        else if(secondLeaderLevel.getResourceType() == resource && secondLeaderLevel.getResourceNumber() >= 1)return 5;
+        //else if(firstLeaderLevel.getResourceType() == resource && firstLeaderLevel.getResourceNumber() >= 1)return 4;
+        //else if(secondLeaderLevel.getResourceType() == resource && secondLeaderLevel.getResourceNumber() >= 1)return 5;
         else return 0;
     }
 
     //Fede
 
     //To test
-    public Map<Resource, Integer> getResourcesAsMap(){
 
-        Map<Resource, Integer> map = new HashMap<>();
-        for(Resource resource : Resource.values()){
-            if(resource.equals(Resource.EMPTY)){
-                map.put(resource, getShelf(getLevel(resource)).getResourceNumber());
-            }
+    /**
+     * this method return the number of the resource
+     * @param resource
+     * @return the number of the resource
+     */
+    public int getNumberOf(Resource resource){
+        int nResource = 0;
+        if(getShelf(getLevel(resource)) != null){
+        nResource = getShelf(getLevel(resource)).getResourceNumber();}
+        for(int i = 1; i < 3; i++){
+            if(getLeaderLevelType(i) == resource)nResource += getLeaderShelf(i).getResourceNumber();
         }
+        return nResource;
+    }
 
+    /**
+     * this method create a map with the resource in the warehouse and the number the resource
+     * @return this map
+     */
+    public Map<Resource, Integer> getResourcesAsMap(){
+        Map<Resource, Integer> map = new HashMap<>();
+        for(Resource resource : Resource.values()) {
+            map.put(resource, getNumberOf(resource));
+        }
         return map;
     }
 

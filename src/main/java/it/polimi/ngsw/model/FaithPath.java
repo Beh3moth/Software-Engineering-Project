@@ -25,9 +25,13 @@ public class FaithPath {
     /**
      *  Increase crossPosition of one.
      */
-    public void increaseCrossPosition() {
+    public void increaseCrossPosition(){
         crossPosition++;
         events.notify(crossPosition);
+    }
+
+    public void increaseCrossPosition(int increase){
+        crossPosition += increase;
     }
 
     /**

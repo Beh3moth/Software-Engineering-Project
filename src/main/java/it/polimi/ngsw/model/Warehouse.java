@@ -405,10 +405,6 @@ public class Warehouse {
     }
 
 
-
-
-
-
     //AARON
 
 
@@ -424,6 +420,7 @@ public class Warehouse {
         warehouseStock.remove(0);
         return true;
     }
+
     public int getStockResourceNumber(){
         return warehouseStock.size();
     }
@@ -599,7 +596,9 @@ public class Warehouse {
     public Map<Resource, Integer> getResourcesAsMap(){
         Map<Resource, Integer> map = new HashMap<>();
         for(Resource resource : Resource.values()) {
-            map.put(resource, getNumberOf(resource));
+            if(!resource.equals(Resource.EMPTY) && !resource.equals(Resource.FAITHPOINT)){
+                map.put(resource, getNumberOf(resource));
+            }
         }
         return map;
     }

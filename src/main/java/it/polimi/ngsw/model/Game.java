@@ -6,19 +6,17 @@ import it.polimi.ngsw.network.message.LobbyMessage;
 import it.polimi.ngsw.observer.Observable;
 
 public class Game extends Observable implements FaithPathListener{
+
     private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
-
-
     private Board board = new Board();
     private Player activePlayer;
     private List<Player> players;
     private int playerNumbers;
     private FaithPath lawrenceFaithPath = null;
     private Deque<ActionToken> actionTokensDeque = new ArrayDeque<>(6);
-
-    private List<LeaderCard> leaderCards = new ArrayList<>();
+    private List<LeaderCard> leaderCards;
     private LeaderCardParser leaderCardParser = new LeaderCardParser();
     
     public Game(){
@@ -105,8 +103,6 @@ public class Game extends Observable implements FaithPathListener{
         return playerNumbers;
     }
 
-    //Init game
-
     /**
      * this method allows you to set the number of players
      * @param numberOfPlayers
@@ -137,6 +133,44 @@ public class Game extends Observable implements FaithPathListener{
             makeGameListenerOfLawrenceFaithPath();
         }
     }
+
+    /**
+     * Adds a player to the game.
+     * Notifies all the views if the playersNumber is already set.
+     *
+     * @param player the player to add to the game.
+     */
+    public void addPlayer(Player player) {
+        players.add(player);
+        if (playerNumbers != 0) {
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+        }
+    }
+
+    /**
+     * Number of current players added in the game.
+     *
+     * @return the number of players.
+     */
+    public int getNumCurrentPlayers() {
+        return players.size();
+    }
+    /**
+     * Sets the max number of players chosen by the first player joining the game.
+     *
+     * @param chosenMaxPlayers the max players number. Value can be {@code 0 < x < MAX_PLAYERS}.
+     * @return {@code true} if the argument value is {@code 0 < x < MAX_PLAYERS}, {@code false} otherwise.
+     */
+    public boolean setChosenMaxPlayers(int chosenMaxPlayers) {
+        if (chosenMaxPlayers > 0 && chosenMaxPlayers <= MAX_PLAYERS) {
+            this.playerNumbers = chosenMaxPlayers;
+            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
+            return true;
+        }
+        return false;
+    }
+
+    //Init game
 
     /**
      * this method initialize the Lawrence's FaithPath
@@ -401,15 +435,33 @@ public class Game extends Observable implements FaithPathListener{
         }
     }
 
+    /**
+     * The method increases the FaithPoints of every player excluded the active player given as a parameter.
+     * @param activePlayer is the Player to not add FaithPoints.
+     * @param increase is the amount of FaithPoints to give to the other players.
+     */
+    public void increaseOtherFaithPoints(Player activePlayer, int increase){
 
-    public void addOtherFaithPoint(Player activePlayer){
-        for(int i = 0; i < this.playerNumbers; i++){
-            if(players.get(i) != activePlayer){
-                players.get(i).getFaithPath().increaseCrossPosition();
+        for(int i=0; i<increase; i++){
+            int maxPos = 0;
+            for(Player player : players){
+                if(!player.equals(activePlayer)){
+                    player.getFaithPath().increaseCrossPosition(1);
+                    if(player.getFaithPath().getCrossPosition()>maxPos){
+                        maxPos = player.getFaithPath().getCrossPosition();
+                    }
+                }
             }
+            if(lawrenceFaithPath!=null){
+                lawrenceFaithPath.increaseCrossPosition(1);
+                if(lawrenceFaithPath.getCrossPosition()>maxPos){
+                    maxPos = lawrenceFaithPath.getCrossPosition();
+                }
+            }
+            update(maxPos);
         }
-    }
 
+    }
 
     //LeaderCard methods
 
@@ -497,222 +549,9 @@ public class Game extends Observable implements FaithPathListener{
     }
 
 
-    //Activate Production Power
-
-    private List<ProductionPower> listOfPaidProductionPowers = new ArrayList<>();
-
-    public void addProductionPowerToPaidList(ProductionPower productionPower){
-        listOfPaidProductionPowers.add(productionPower);
-    }
-
-    /**
-     * Adds a player to the game.
-     * Notifies all the views if the playersNumber is already set.
-     *
-     * @param player the player to add to the game.
-     */
-    public void addPlayer(Player player) {
-        players.add(player);
-        if (playerNumbers != 0) {
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
-        }
-    }
-
-    /**
-     * The method allows the player to choose a Production power to use.
-     * @param activePlayer the player who decided to activate a Production Power.
-     * @param productionPowerChosen an int that indicates which Production Power the player wants to activate.
-     * @return the Production Power chosen if it exists, null if it doesn't.
-     */
-    public ProductionPower chooseProductionPower(Player activePlayer, int productionPowerChosen) {
-        if(productionPowerChosen>=0 && productionPowerChosen<=5 && activePlayer!=null){
-            return activePlayer.getDevCardDashboard().getProductionPower(productionPowerChosen);
-        }
-        else return null;
-    }
-
-    /**
-     * The method allows a player to set the resources to pay and the ones to receive.
-     * @param resourceToPay is a List of Resources.
-     * @param resourceToReceive is a List of Resources.
-     * @param baseProductionPower is the Base Production Power.
-     * @return return false if one of the parameters is null or if the procedure fails, true otherwise.
-     */
-    public boolean setBaseProductionPowerResourceLists(List<Resource> resourceToPay, List<Resource> resourceToReceive, ProductionPower baseProductionPower){
-        if(baseProductionPower!=null && resourceToPay!=null && resourceToReceive!=null){
-            return baseProductionPower.setBaseProductionPowerLists(resourceToPay, resourceToReceive);
-        }
-        else return false;
-    }
-
-    /**
-     * The method ensures the player can afford the Production Power.
-     * @param activePlayer the player who decided to activate the Production Power.
-     * @param productionPower is the Production Power the player wants to activate.
-     * @return true if the player can buy the Production Power, false otherwise.
-     */
-    public boolean canBuyProductionPower(Player activePlayer, ProductionPower productionPower){
-
-        List<Resource> resourceToPay = productionPower.getResourceToPay();
-
-        Resource[] resourcesArray = new Resource[4];
-        resourcesArray[0] = Resource.SHIELD;
-        resourcesArray[1] = Resource.MONEY;
-        resourcesArray[2] = Resource.SLAVE;
-        resourcesArray[3] = Resource.STONE;
-
-        int[] numberOfResourcesToPay = new int[4];
-
-        for (Resource resource : resourceToPay) {
-            for(int j=0; j<4; j++){
-                if (resource.equals(resourcesArray[j])) {
-                    numberOfResourcesToPay[j]++;
-                }
-            }
-        }
-
-        int i=0;
-        for(Resource resourceType : resourcesArray){
-            boolean chestContains = activePlayer.getChest().contains(resourceType, numberOfResourcesToPay[i]);
-            boolean warehouseContains = activePlayer.getWarehouse().contains(numberOfResourcesToPay[i], resourceType);
-            if(!chestContains && !warehouseContains){
-                if(productionPower.isBaseProductionPower()){
-                    productionPower.removeBaseProductionPowerLists();
-                }
-                return false;
-            }
-            i++;
-        }
-
-        return true;
-
-    }
-
-    /**
-     * The method allows the player to pay the production power. If the player gives wrong coordinates nothing change in the Warehouse or Chest.
-     * @param activePlayer is the player who wants to pay a production power.
-     * @param coordinates are the coordinates of the resources that the player chooses.
-     * @param productionPower is the Production Power the player wants to pay.
-     * @return true if the player manage to pay the production power, false otherwise.
-     */
-    public boolean payProductionPower(Player activePlayer, List<List<Object>> coordinates, ProductionPower productionPower){
-
-        Resource resource;
-        boolean warehouse;
-        int shelfLevel;
-
-        for(List<Object> coordinate : coordinates) {
-
-            resource = (Resource) coordinate.get(0);
-            warehouse = (boolean) coordinate.get(1);
-            shelfLevel = (int) coordinate.get(2);
-
-            if(warehouse){
-                if (!activePlayer.getWarehouse().hasResource(shelfLevel, resource)) {
-                    rejectProductionPower(activePlayer, productionPower);
-                    return false;
-                }
-                else {
-                    productionPower.addSingleCoordinate(resource, true, shelfLevel, activePlayer);
-                    activePlayer.getWarehouse().removeResourceWarehouse(shelfLevel);
-                }
-            } else {
-                if (!activePlayer.getChest().contains(resource, 1)) {
-                    rejectProductionPower(activePlayer, productionPower);
-                    return false;
-                }
-                else {
-                    productionPower.addSingleCoordinate(resource, false, 0, activePlayer);
-                    activePlayer.getChest().removeResource(resource, 1);
-                }
-            }
-
-        }
-
-        listOfPaidProductionPowers.add(productionPower);
-        return true;
-
-    }
-
-    /**
-     * The method puts the resources of a production power back in their origin and deletes the Production Power.
-     * @param activePlayer is the Player who has the Production Power.
-     * @param productionPower is the Production Power that has the coordinates of the resources.
-     */
-    public void rejectProductionPower(Player activePlayer, ProductionPower productionPower){
-
-        if(productionPower.getCoordinates()!=null){
-            productionPower.moveResourcesToOrigin(activePlayer);
-        }
-
-        listOfPaidProductionPowers.remove(productionPower);
-
-        if(productionPower.isBaseProductionPower()){
-            productionPower.removeBaseProductionPowerLists();
-        }
-
-    }
-
-    /**
-     * The method returns a list of Leader Production Powers and removes them from ListOfPaidProductionPower.
-     * @return a list of Leader Production Powers.
-     */
-    public List<ProductionPower> checkForLeaderProductionPowerAbility(){
-
-        if(!listOfPaidProductionPowers.isEmpty()){
-
-            List<ProductionPower> productionPowerAbilityList = new ArrayList<>();
-
-            for(ProductionPower productionPower : listOfPaidProductionPowers){
-                for(Resource resource : productionPower.getResourceToReceive()){
-                    if(resource.equals(Resource.EMPTY)){
-                        productionPowerAbilityList.add(productionPower);
-                    }
-                }
-            }
-
-            for(ProductionPower productionPower : productionPowerAbilityList){
-                listOfPaidProductionPowers.remove(productionPower);
-            }
-
-            return productionPowerAbilityList;
-
-        }
-        else return null;
-
-    }
-
-
-    /**
-     * The method sets the resource to receive from leader production power. It also give a faith point to the player.
-     * @param activePlayer is the player who has to choose the resource to receive.
-     * @param resource is the resource chosen by the player.
-     * @param leaderProductionPower is the Leader Production Power.
-     * @return true if successful, false otherwise.
-     */
-    public boolean setResourceToReceiveFromLeaderProductionPowerAbility(Player activePlayer, Resource resource, ProductionPower leaderProductionPower){
-        activePlayer.addPV(1);
-        listOfPaidProductionPowers.add(leaderProductionPower);
-        return leaderProductionPower.setLeaderProductionPowerResourceToReceive(resource);
-    }
-
-    /**
-     * The method activates every production power the player chose. It also cleans the coordinates.
-     * @return true if successful, false otherwise.
-     */
-    public boolean activateProductionPowers(Player player){
-        for(ProductionPower productionPower : listOfPaidProductionPowers){
-            for(Resource resource : productionPower.getResourceToPay()){
-                player.getChest().addResource(resource, 1);
-            }
-            productionPower.cleanCoordinates();
-        }
-        listOfPaidProductionPowers.clear();
-        return true;
-    }
-
-
     //Vatican Report management
+
+    List<FaithPath> faithPathList = createFaithPathList();
 
     /**
      * The method makes the class Game listener of a player FaithPath.
@@ -749,9 +588,7 @@ public class Game extends Observable implements FaithPathListener{
     @Override
     public void update(int crossPosition){
 
-        List<FaithPath> faithPathList = createFaithPathList();
-
-        if(crossPosition>=8 && crossPosition<=15){
+        if(crossPosition>=8){
             if(isVaticanReportOne(faithPathList)){
                 for(FaithPath faithPath : faithPathList){
                     if(faithPath.getCrossPosition()>=5 && faithPath.getCrossPosition()<=8){
@@ -761,7 +598,7 @@ public class Game extends Observable implements FaithPathListener{
             }
         }
 
-        else if(crossPosition>=16 && crossPosition<=23){
+        if(crossPosition>=16){
             if(isVaticanReportTwo(faithPathList)){
                 for(FaithPath faithPath : faithPathList){
                     if(faithPath.getCrossPosition()>=12 && faithPath.getCrossPosition()<=16){
@@ -771,7 +608,7 @@ public class Game extends Observable implements FaithPathListener{
             }
         }
 
-        else if(crossPosition>=24){
+        if(crossPosition>=24){
             if(isVaticanReportThree(faithPathList)){
                 for(FaithPath faithPath : faithPathList){
                     if(faithPath.getCrossPosition()>=19){
@@ -824,28 +661,7 @@ public class Game extends Observable implements FaithPathListener{
         }
         return true;
     }
-    /**
-     * Number of current players added in the game.
-     *
-     * @return the number of players.
-     */
-    public int getNumCurrentPlayers() {
-        return players.size();
-    }
-    /**
-     * Sets the max number of players chosen by the first player joining the game.
-     *
-     * @param chosenMaxPlayers the max players number. Value can be {@code 0 < x < MAX_PLAYERS}.
-     * @return {@code true} if the argument value is {@code 0 < x < MAX_PLAYERS}, {@code false} otherwise.
-     */
-    public boolean setChosenMaxPlayers(int chosenMaxPlayers) {
-        if (chosenMaxPlayers > 0 && chosenMaxPlayers <= MAX_PLAYERS) {
-            this.playerNumbers = chosenMaxPlayers;
-            notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
-            return true;
-        }
-        return false;
-    }
+
 
     /**
      * Resets the game instance. After this operations, all the game data is lost.

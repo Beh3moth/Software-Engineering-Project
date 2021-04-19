@@ -137,5 +137,18 @@ public class DevCardDashboard {
     public int getDevCardNumber(){
         return this.devCardNumber;
     }
+
+    /**
+     * The method allows the player to choose a Production power to use.
+     * @param productionPowerChosen a integer from 0 to 5 included.
+     * @return the Production Power chosen if it exists, null if it doesn't or if the input is wrong.
+     */
+    public ProductionPower chooseProductionPower(int productionPowerChosen){
+        if(productionPowerChosen>=0 && productionPowerChosen<=5){
+            return this.getProductionPower(productionPowerChosen);
+        }
+        else return null;
+    }
+
 }
 

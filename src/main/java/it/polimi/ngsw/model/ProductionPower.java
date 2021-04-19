@@ -1,7 +1,9 @@
 package it.polimi.ngsw.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class that describe a production situation, it describe the resource that you need to produce some resources
@@ -9,7 +11,9 @@ import java.util.List;
 public class ProductionPower {
     private List<Resource> resourceToPay;
     private List<Resource> resourceToProduce;
-    private List<List<Object> > coordinates = new ArrayList<>();
+    private List<Boolean> isWarehouse = new ArrayList<>();
+    private List<Integer> shelfLevel = new ArrayList<>();
+    private List<Resource> resourceType = new ArrayList<>();
     boolean isBaseProductionPower = false;
 
     /**
@@ -30,6 +34,27 @@ public class ProductionPower {
      */
     public List<Resource> getResourceToPay(){
         return resourceToPay;
+    }
+
+    /**
+     * The method returns the resources to pay as a Map where the Resource is the key and the Integer is the value.
+     * @return a Map<Resource, Integer>
+     */
+    public Map<Resource, Integer> getResourceToPayAsMap(){
+
+        Map<Resource, Integer> resourceToPayMap = new HashMap<>();
+
+        for(Resource resource : Resource.values()){
+            if(!resource.equals(Resource.EMPTY) && !resource.equals(Resource.FAITHPOINT)){
+                resourceToPayMap.put(resource, 0);
+            }
+        }
+
+        for(Resource resource : resourceToPay){
+            resourceToPayMap.put(resource, resourceToPayMap.get(resource)+1);
+        }
+
+        return resourceToPayMap;
     }
 
     /**
@@ -76,9 +101,13 @@ public class ProductionPower {
     /**
      * Clear the lists of resources to receive and to pay from a Base Production Power.
      */
-    public void removeBaseProductionPowerLists(){
-        resourceToPay.clear();
-        resourceToProduce.clear();
+    public boolean removeBaseProductionPowerLists(){
+        if(isBaseProductionPower && resourceToPay!=null && resourceToProduce!=null){
+            resourceToPay.clear();
+            resourceToProduce.clear();
+            return true;
+        }
+        else return false;
     }
 
     //Leader Production Power methods
@@ -92,61 +121,65 @@ public class ProductionPower {
     public boolean setLeaderProductionPowerResourceToReceive(Resource resource){
         List<Resource> resourceList = new ArrayList<>();
         resourceList.add(resource);
-        resourceToProduce.clear();
         resourceToProduce = resourceList;
         return resourceToProduce.equals(resourceList);
     }
 
     //Coordinates methods
 
-    /**
-     * The method returns the coordinates of a Production Power.
-     * @return null if the coordinates are empty, the coordinates otherwise.
-     */
-    public List<List<Object>> getCoordinates(){
-        if(coordinates.isEmpty()){
-            return null;
-        } else return coordinates;
+    public List<Boolean> getIsWarehouse(){
+        return this.isWarehouse;
     }
+
+    public List<Integer> getShelfLevel(){
+        return this.shelfLevel;
+    }
+
+    public List<Resource> getResourceType(){
+        return this.resourceType;
+    }
+
 
     /**
      * The method adds the coordinates of a certain source at the end of a list of coordinates.
      * It also check if the coordinates are correct or not.
-     * @param resourceToPay is the resourceToPay type to add.
-     * @param warehouse is the location of the resourceToPay. It is Warehouse if true, Chest otherwise.
+     * @param resourceType is the resourceToPay type to add.
+     * @param isWarehouse is the location of the resourceToPay. It is Warehouse if true, Chest otherwise.
      * @param shelfLevel is the number of shelfLevel of the Warehouse. It is 0 if warehouse it's false.
-     * @param activePlayer is the player who's  saving the coordinates.
      * @return true if the coordinates are correct and correctly added in the list, false otherwise.
      */
-    public boolean addSingleCoordinate(Resource resourceToPay, boolean warehouse, int shelfLevel, Player activePlayer){
+    public boolean addSingleCoordinate(Resource resourceType, boolean isWarehouse, int shelfLevel){
 
-        List<Object> tempList = new ArrayList<>(3);
-
-        if(resourceToPay!=Resource.EMPTY && shelfLevel<6){
-            if(warehouse){
-                if(activePlayer.getWarehouse().hasResource(shelfLevel, resourceToPay)){
-                    tempList.add(0, resourceToPay);
-                    tempList.add(1, true);
-                    tempList.add(2, shelfLevel);
-                    coordinates.add(tempList);
-                    return (coordinates.contains(tempList));
-                }
-                else return false;
-            }
-            else {
-                if(activePlayer.getChest().contains(resourceToPay, 1)){
-                    tempList.add(0, resourceToPay);
-                    tempList.add(1, false);
-                    tempList.add(2, 0);
-                    coordinates.add(tempList);
-                    return (coordinates.contains(tempList));
-                }
-                else return false;
-            }
-
+        if(resourceType!=Resource.EMPTY && shelfLevel<6 && shelfLevel>=0){
+            this.resourceType.add(resourceType);
+            this.isWarehouse.add(isWarehouse);
+            this.shelfLevel.add(shelfLevel);
+            return true;
         } else return false;
 
     }
+
+
+    /**
+     * The method adds the coordinates of a certain source at the end of a list of coordinates and
+     * also check if the coordinates are correct or not.
+     * @param resourcesTypes is the type of resource coordinate.
+     * @param isWarehouse is the location (Warehouse or Chest) coordinate.
+     * @param shelfLevel is the location coordinate in Warehouse.
+     * @return true if successful, false otherwise.
+     */
+    public boolean addCoordinates(Resource[] resourcesTypes, Boolean[] isWarehouse, Integer[] shelfLevel){
+        for(int i=0; i<resourcesTypes.length; i++){
+            if(resourcesTypes[i].equals(Resource.EMPTY) || ( shelfLevel[i]<0 || shelfLevel[i]>5 ) ){
+                return false;
+            }
+            this.resourceType.add(resourcesTypes[i]);
+            this.isWarehouse.add(isWarehouse[i]);
+            this.shelfLevel.add(shelfLevel[i]);
+        }
+        return true;
+    }
+
 
     /**
      * The method removes the coordinates of a Production Power and puts the Resources to the origin locations.
@@ -155,21 +188,14 @@ public class ProductionPower {
      */
     public boolean moveResourcesToOrigin(Player activePlayer){
 
-        Resource resourceToPay;
-        boolean warehouse;
-        int shelfLevel;
+        for(int i=0; i<this.isWarehouse.size(); i++){
 
-        for (List<Object> coordinate : coordinates) {
-
-            resourceToPay = (Resource) coordinate.get(0);
-            warehouse = (boolean) coordinate.get(1);
-            if (warehouse) {
-                shelfLevel = (int) coordinate.get(2);
-                if(!activePlayer.getWarehouse().addResourceToWarehouse(shelfLevel, resourceToPay)){
+            if (isWarehouse.get(i)) {
+                if(!activePlayer.getWarehouse().addResourceToWarehouse(shelfLevel.get(i), resourceType.get(i))){
                     return false;
                 }
             } else {
-                if(!activePlayer.getChest().addResource(resourceToPay, 1)){
+                if(!activePlayer.getChest().addResource(resourceType.get(i), 1)){
                     return false;
                 }
             }
@@ -183,9 +209,16 @@ public class ProductionPower {
 
     /**
      * Removes every coordinate without putting the resources to the resource location.
+     * @return true if the isWarehouse, resourceType and shelfLevel aren't null, false otherwise.
      */
-    public void cleanCoordinates(){
-        coordinates.clear();
+    public boolean cleanCoordinates(){
+        if(isWarehouse!=null && resourceType!=null && shelfLevel!=null){
+            this.isWarehouse.clear();
+            this.resourceType.clear();
+            this.shelfLevel.clear();
+            return true;
+        }
+        else return false;
     }
 
 

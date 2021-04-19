@@ -5,9 +5,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ProductionPowerTest {
+
+    ProductionPower productionPower = new ProductionPower(null, null);
 
     @Test
     public void setBaseProductionPowerListsTest(){
@@ -23,64 +27,71 @@ public class ProductionPowerTest {
     }
 
     @Test
-    public void addSingleCoordinateTest(){
-        Player player = new Player("john");
-        player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
-        player.getChest().addResource(Resource.SHIELD,10);
-        List<Resource> resourceList1 = new ArrayList<>();
-        resourceList1.add(Resource.SHIELD);
-        resourceList1.add(Resource.STONE);
-        resourceList1.add(Resource.MONEY);
-        List<Resource> resourceList2 = new ArrayList<>();
-        resourceList2.add(Resource.MONEY);
-        resourceList2.add(Resource.SLAVE);
-        resourceList2.add(Resource.STONE);
-        ProductionPower productionPower = new ProductionPower(resourceList1, resourceList2);
-        assertTrue(productionPower.addSingleCoordinate(Resource.SHIELD, true, 3, player));
-        assertTrue(productionPower.addSingleCoordinate(Resource.SHIELD, false, 0, player));
-        assertFalse(productionPower.addSingleCoordinate(Resource.MONEY, false, 0, player));
+    public void getResourceToPayAsMapTest(){
+        List<Resource> list1 = new ArrayList<>();
+        List<Resource> list2 = new ArrayList<>();
+        list1.add(Resource.STONE);
+        list1.add(Resource.STONE);
+        list1.add(Resource.STONE);
+        list2.add(Resource.STONE);
+        list2.add(Resource.STONE);
+        ProductionPower productionPower = new ProductionPower(list1, list2);
+        Map<Resource, Integer> map = new HashMap<>();
+        map = productionPower.getResourceToPayAsMap();
+        assertEquals(3, map.get(Resource.STONE));
     }
 
     @Test
-    public void removeCoordinateTest(){
-        Player player = new Player("john");
-        player.getWarehouse().addResourceToWarehouse(3, Resource.SHIELD);
-        player.getChest().addResource(Resource.SHIELD,10);
-        List<Resource> resourceList1 = new ArrayList<>();
-        resourceList1.add(Resource.SHIELD);
-        resourceList1.add(Resource.STONE);
-        resourceList1.add(Resource.MONEY);
-        List<Resource> resourceList2 = new ArrayList<>();
-        resourceList2.add(Resource.MONEY);
-        resourceList2.add(Resource.SLAVE);
-        resourceList2.add(Resource.STONE);
-        ProductionPower productionPower = new ProductionPower(resourceList1, resourceList2);
-        productionPower.addSingleCoordinate(Resource.SHIELD, true, 3, player);
-        productionPower.addSingleCoordinate(Resource.SHIELD, false, 0, player);
+    public void removeBaseProductionPowerListsTest(){
+        List<Resource> list1 = new ArrayList<>();
+        List<Resource> list2 = new ArrayList<>();
+        list1.add(Resource.STONE);
+        list1.add(Resource.STONE);
+        list2.add(Resource.STONE);
+        ProductionPower productionPower = new ProductionPower(null, null);
+        productionPower.setBaseProductionPowerToTrue();
+        assertFalse(productionPower.removeBaseProductionPowerLists());
+        assertTrue(productionPower.setBaseProductionPowerLists(list1, list2));
+        assertTrue(productionPower.removeBaseProductionPowerLists());
+    }
+
+    @Test
+    public void setLeaderProductionPowerResourceToReceiveTest(){
+        Resource resource = Resource.STONE;
+        ProductionPower productionPower = new ProductionPower(null, null);
+        assertTrue(productionPower.setLeaderProductionPowerResourceToReceive(resource));
+    }
+
+    @Test
+    public void addCoordinatesTest(){
+
+        Resource[] resourceType = {Resource.STONE,Resource.STONE, Resource.STONE};
+        Boolean[] isWarehouse = {true, false, true};
+        Integer[] shelfLevel = {0, 1, 2};
+        assertTrue( productionPower.addCoordinates(resourceType, isWarehouse, shelfLevel));
+
+        for(int i=0; i<3; i++){
+            assertEquals(productionPower.getShelfLevel().get(i), shelfLevel[i]);
+            assertEquals(productionPower.getResourceType().get(i), resourceType[i]);
+            assertEquals(productionPower.getIsWarehouse().get(i), isWarehouse[i]);
+        }
+
+        Resource[] resourceType2 = {Resource.EMPTY,Resource.STONE, Resource.STONE};
+        Boolean[] isWarehouse2 = {true, false, true};
+        Integer[] shelfLevel2 = {0, 1, 2};
+        assertFalse( productionPower.addCoordinates(resourceType2, isWarehouse2, shelfLevel2));
+
+    }
+
+    @Test
+    public void moveResourcesToOriginTest(){
+        Player player = new Player("Jhon");
+        Resource[] resourceType = {Resource.STONE,Resource.STONE, Resource.MONEY};
+        Boolean[] isWarehouse = {true, false, true};
+        Integer[] shelfLevel = {1, 0, 2};
+        assertTrue( productionPower.addCoordinates(resourceType, isWarehouse, shelfLevel));
         assertTrue(productionPower.moveResourcesToOrigin(player));
-        assertTrue(player.getChest().contains(Resource.SHIELD, 10));
+        assertTrue(productionPower.cleanCoordinates());
     }
 
-    @Test
-    public void cleanCoordinatesTest(){
-        Player player = new Player("john");
-        List<Resource> resourceList1 = new ArrayList<>();
-        resourceList1.add(Resource.SHIELD);
-        resourceList1.add(Resource.STONE);
-        resourceList1.add(Resource.MONEY);
-        List<Resource> resourceList2 = new ArrayList<>();
-        resourceList2.add(Resource.MONEY);
-        resourceList2.add(Resource.SLAVE);
-        resourceList2.add(Resource.STONE);
-        ProductionPower productionPower = new ProductionPower(resourceList1, resourceList2);
-        productionPower.addSingleCoordinate(Resource.SHIELD, true, 3, player);
-        productionPower.addSingleCoordinate(Resource.SHIELD, false, 0, player);
-        productionPower.addSingleCoordinate(Resource.MONEY, false, 0, player);
-        productionPower.addSingleCoordinate(Resource.SHIELD, true, 3, player);
-        productionPower.addSingleCoordinate(Resource.SHIELD, false, 0, player);
-        productionPower.addSingleCoordinate(Resource.MONEY, false, 0, player);
-        productionPower.cleanCoordinates();
-        assertNull(productionPower.getCoordinates());
-
-    }
 }

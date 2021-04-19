@@ -98,4 +98,9 @@ public class Chest {
         return (resources != null && resources >= numberOfResource);
     }
 
+
+    public Map<Resource, Integer> getResourcesAsMap(){
+        return chestResources;
+    }
+
 }

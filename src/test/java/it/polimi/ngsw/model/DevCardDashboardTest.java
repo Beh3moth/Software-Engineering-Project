@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DevCardDashboardTest {
@@ -91,5 +92,25 @@ public class DevCardDashboardTest {
         assertNull(devCardDashboard.getProductionPower(4));
         assertNull(devCardDashboard.getProductionPower(5));
     }
+
+    @Test
+    public void chooseProductionPowerTest() throws FileNotFoundException {
+        DevCardDashboard devCardDashboard = new DevCardDashboard();
+        DevCardParser devCardParser = new DevCardParser();
+
+        for(int i=0; i<3;i++){
+            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json").get(i));
+        }
+
+        for(int i=0; i<4;i++){
+            assertNotNull(devCardDashboard.chooseProductionPower(i));
+        }
+
+        for(int i=4; i<8;i++){
+            assertNull(devCardDashboard.chooseProductionPower(i));
+        }
+
+    }
+
 
 }

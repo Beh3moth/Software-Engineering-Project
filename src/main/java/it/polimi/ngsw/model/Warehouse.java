@@ -603,4 +603,40 @@ public class Warehouse {
         return map;
     }
 
-}
+    //can buy
+
+
+    public boolean controlResource(Resource[] resources, boolean[] warehouse, int[] level, Resource resource){
+        if((resource == Resource.EMPTY) || (resource == Resource.FAITHPOINT)){
+            return false;
+        }
+
+        for(int l = 1; l < 6; l++){
+            int n = 0;
+            for(int i = 0; i < resources.length; i++){
+                if((resources[i] == resource) && (l == level[i])){
+                    n++;
+                }
+            }
+            if(n < getShelf(l).getResourceNumber())return false;
+        }
+
+        return true;
+    }
+
+    public boolean canBuy(Resource[] resources, boolean[] warehouse, int[] level){
+
+        for(int i = 0; i < level.length; i++){
+            if(getShelf(level[i]).getResourceType() != resources[i] )return false;
+        }
+
+        for(Resource resource : Resource.values()) {
+                if (!controlResource(resources, warehouse, level, resource))return false;
+            }
+
+        return true;
+        }
+
+
+    }
+

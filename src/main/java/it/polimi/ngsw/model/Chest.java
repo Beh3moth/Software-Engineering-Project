@@ -103,4 +103,24 @@ public class Chest {
         return chestResources;
     }
 
+    //canBuyDevCard methods
+    public int getNumberOfResourceInArray(Resource[] resources, boolean[] warehouse, Resource resource){
+        int n = 0;
+        for(int i = 0; i < resources.length; i++){
+            if((!warehouse[i]) && (resources[i] == resource))n++;
+        }
+        return n;
+    }
+
+    public boolean controlResource(Resource[] resources, boolean[] warehouse, Resource resource){
+        if(getNumberOfResourceInArray(resources, warehouse, resource) < getResourceNumber(resource))return false;
+        else return true;
+    }
+
+    public boolean canBuy(Resource[] resources, boolean[] warehouse){
+        for(Resource resource : Resource.values()){
+            if(!controlResource(resources, warehouse, resource))return false;
+        }
+        return true;
+    }
 }

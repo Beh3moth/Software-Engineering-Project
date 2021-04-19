@@ -3,6 +3,7 @@ package it.polimi.ngsw.model;
 import it.polimi.ngsw.observer.Observable;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -372,6 +373,72 @@ public class Player extends Observable implements Serializable {
         return !abilityList.isEmpty();
 
     }
+
+    //buyDevCard methods
+
+    /**
+     * this method permit to choose a devCard if it is legal this method remove the card at the dashboard
+     * @param board
+     * @param level
+     * @param colour
+     * @param slotToPut
+     * @return DevCard if is legal and if is remove correctly
+     */
+    public DevCard chooseDevCard(Board board, int level, DevCardColour colour, int slotToPut){
+        int devColumn = board.getDevCardColumn(colour);
+        Map<Resource, Integer> Cost = new HashMap<>();
+        DevCard devCard;
+
+        if(board.getDevCardSpace(level - 1, devColumn).getNumberOfCards() == 0){
+            return null;
+        }
+
+        else{
+            if(level != this.getDevCardDashboard().getLevel(slotToPut) + 1)return null;
+            Cost = board.getDevCardSpace(level-1, devColumn).firstDevCard().getDevCostAsMap();
+            if(!canAfford(Cost))return null;
+            devCard = board.getDevCardSpace(level - 1,devColumn).firstDevCard();
+            board.getDevCardSpace(level, devColumn).removeFirstCard();
+            return devCard;
+        }
+    }
+
+    /**
+     * this method permit to buy a devCard
+     * @param devCard
+     * @param resource
+     * @param warehouse
+     * @param level
+     * @param slotToPut
+     * @return true id the card is buyed correctly
+     */
+    public boolean buyDevCard(DevCard devCard,Resource[] resource, boolean[] warehouse, int[] level, int slotToPut){
+        if(!canBuyDevCard(resource, warehouse, level))return false;
+        for(int i = 0; i < resource.length; i++){
+            if(warehouse[i]) {
+                this.getWarehouse().removeResourceWarehouse(level[i]);
+            }
+            else{
+                this.getChest().removeResource(resource[i], 1);
+            }
+        }
+        this.getDevCardDashboard().putDevCardIn(slotToPut, devCard);
+        return true;
+    }
+
+    /**
+     * this method control that the crard can is buyed by the player
+     * @param resource
+     * @param warehouse
+     * @param level
+     * @return true id the card can is buyed
+     */
+    public boolean canBuyDevCard(Resource[] resource, boolean[] warehouse, int[] level){
+        if(!this.getWarehouse().canBuy(resource, warehouse, level))return false;
+        if(!this.getChest().canBuy(resource, warehouse))return false;
+        return true;
+    }
+
 
     /**
      * The method set the resource to receive from a Leader Production Power beyond the FaithPoint.

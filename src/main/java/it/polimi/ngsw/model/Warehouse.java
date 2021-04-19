@@ -603,9 +603,16 @@ public class Warehouse {
         return map;
     }
 
-    //can buy
+    //canBuy methods
 
-
+    /**
+     * this method control a resource end three resource
+     * @param resources
+     * @param warehouse
+     * @param level
+     * @param resource
+     * @return true if this resource is legal
+     */
     public boolean controlResource(Resource[] resources, boolean[] warehouse, int[] level, Resource resource){
         if((resource == Resource.EMPTY) || (resource == Resource.FAITHPOINT)){
             return false;
@@ -624,6 +631,13 @@ public class Warehouse {
         return true;
     }
 
+    /**
+     * this method control if in the warehouse there are the resource in "resources" list
+     * @param resources
+     * @param warehouse
+     * @param level
+     * @return true if the player can pay with this three array false otherwise
+     */
     public boolean canBuy(Resource[] resources, boolean[] warehouse, int[] level){
 
         for(int i = 0; i < level.length; i++){
@@ -636,7 +650,6 @@ public class Warehouse {
 
         return true;
         }
-
 
     }
 

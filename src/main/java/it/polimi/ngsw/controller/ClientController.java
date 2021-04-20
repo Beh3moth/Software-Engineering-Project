@@ -137,6 +137,11 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new DistribuiteInitialResourcesMessage(this.nickname, MessageType.PICK_INITIAL_RESOURCES, number, resourceOne, resourceTwo, firstPos, secondPos));
     };
 
+    @Override
+    public void onUpdateLeaderCardActivation(int chosenCard, int turnZone){
+        client.sendMessage(new LeaderCardActivationMessage(this.nickname, chosenCard, turnZone));
+    };
+
 
     public void update(Message message) {
 
@@ -176,7 +181,9 @@ public class ClientController implements ViewObserver, Observer{
                 LobbyMessage lobbyMessage = (LobbyMessage) message;
                 taskQueue.execute(() -> view.showLobby(lobbyMessage.getNicknameList(), lobbyMessage.getMaxPlayers()));
                 break;
-
+            case START_TURN:
+                StartTurnMessage start = (StartTurnMessage) message;
+                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders()));
             default: // Should never reach this condition
                 break;
         }

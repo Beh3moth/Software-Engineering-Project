@@ -37,6 +37,8 @@ public class DistribuiteInitialResourcesMessage extends Message {
     @Override
     public String toString() {
         return "InitialDistribuitionMesssage{" +
+                " nickname: " + getNickname() +
+                " quantity: " + getNumber() +
 
                 '}';
     }

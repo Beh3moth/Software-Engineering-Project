@@ -63,6 +63,8 @@ public class VirtualView implements View, Observer {
     public void askFirstPlayer(List<String> players) {
         clientHandler.sendMessage(new FirstPlayerMessage(Game.SERVER_NICKNAME, MessageType.PICK_FIRST_PLAYER, players, null ));
     }
+
+    @Override
     public void distribuiteInitialResources(int resourcesNumber){
         clientHandler.sendMessage(new DistribuiteInitialResourcesMessage(Game.SERVER_NICKNAME, MessageType.PICK_INITIAL_RESOURCES, resourcesNumber, null, null , 0, 0));
     }
@@ -83,6 +85,11 @@ public class VirtualView implements View, Observer {
     @Override
     public void showErrorAndExit(String error) {
         clientHandler.sendMessage(new ErrorMessage(Game.SERVER_NICKNAME, error));
+    }
+
+    @Override
+    public void startTurnMessage(List<LeaderCard> Leaders) {
+        clientHandler.sendMessage(new StartTurnMessage(Game.SERVER_NICKNAME, Leaders));
     }
 
     /**

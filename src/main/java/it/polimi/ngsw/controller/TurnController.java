@@ -1,6 +1,6 @@
 package it.polimi.ngsw.controller;
 
-import it.polimi.ngsw.model.Game;
+import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.model.PhaseType;
 import it.polimi.ngsw.view.VirtualView;
 
@@ -71,6 +71,39 @@ public class TurnController implements Serializable {
         activePlayer = nicknameQueue.get(currentActive);
     }
 
+    /**
+     * Initialize a new Turn.
+     */
+    public void newTurn() {
+        turnControllerNotify("Turn of " + activePlayer, activePlayer);
+        VirtualView vv = virtualViewMap.get(getActivePlayer());
+        setPhaseType(PhaseType.START_TURN);
+        List<LeaderCard> Leaders = game.getPlayerByNickname(getActivePlayer()).getLeaderCards();
+        vv.startTurnMessage(Leaders);
+    }
+    /**
+     * Sends a Match Info Message to all the players.
+     * Sends a Generic Message which contains Turn Information to all players but the one specified in the second argument.
+     *
+     * @param messageToNotify Message to send.
+     * @param excludeNickname name of the player to be excluded from the broadcast.
+     */
+    public void turnControllerNotify(String messageToNotify, String excludeNickname) {
+        virtualViewMap.entrySet().stream()
+                .filter(entry -> !excludeNickname.equals(entry.getKey()))
+                .map(Map.Entry::getValue)
+                .forEach(vv -> vv.showGenericMessage(messageToNotify));
+    }
+
+
+    /**
+     * Set the current Phase Type.
+     *
+     * @param turnPhaseType Phase Type.
+     */
+    public void setPhaseType(PhaseType turnPhaseType) {
+        this.phaseType = turnPhaseType;
+    }
     /**
      * Returns a list of Players' nicknames.
      *

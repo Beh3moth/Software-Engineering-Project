@@ -115,7 +115,7 @@ public class GameController implements Observer, Serializable {
 
 
     /**
-     * Change gameState into INIT. Initialize TurnController and asks a player to pick the gods
+     * Change gameState into INIT. Initialize TurnController and asks a player to pick the leadercards
      */
     private void initGame() {
         setGameState(GameState.INIT);
@@ -125,14 +125,15 @@ public class GameController implements Observer, Serializable {
                 + " is choosing two leadercards ");
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        for(int i = 0; i < game.getChosenPlayersNumber(); i++) {
-            virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
-            turnController.next();
-            virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        }
+        //for(int i = 0; i < game.getChosenPlayersNumber(); i++) {
+        this.contSituation++;
+        virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
+            //turnController.next();
+           // virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        //}
         //turnController.next();
         //virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.askFirstPlayer(turnController.getNicknameQueue());
+        //virtualView.askFirstPlayer(turnController.getNicknameQueue());
     }
 
     /**
@@ -148,13 +149,11 @@ public class GameController implements Observer, Serializable {
                 loginState(receivedMessage);
                 break;
             case INIT:
-                if (inputController.checkUser(receivedMessage)) {
                     initState(receivedMessage, virtualView);
-                }
                 break;
             case IN_GAME:
                 if (inputController.checkUser(receivedMessage)) {
-                    //inGameState(receivedMessage);
+                    inGameState(receivedMessage);
                 }
                 break;
             default: // Should never reach this condition
@@ -187,22 +186,33 @@ public class GameController implements Observer, Serializable {
     private void initState(Message receivedMessage, VirtualView virtualView) {
         switch (receivedMessage.getMessageType()) {
             case LEADERCARDREQUEST:
-                    leaderCardHandler((LeaderCardListMessage) receivedMessage, virtualView);
+                    leaderCardHandler((LeaderCardListMessage) receivedMessage);
                 break;
             case PICK_FIRST_PLAYER:
                     pickFirstPlayerHandler(((FirstPlayerMessage) receivedMessage).getActivePlayerNickname());
                 break;
             case PICK_INITIAL_RESOURCES:
                     distribuiteResourceHandler((DistribuiteInitialResourcesMessage) receivedMessage);
+                break;
             default:
-                Server.LOGGER.warning(STR_INVALID_STATE);
+                Server.LOGGER.warning("Noooot Valid");
                 break;
         }
     }
 
 
-    private  void leaderCardHandler(LeaderCardListMessage receivedMessage,VirtualView virtualview){
-        game.getPlayerByNickname(turnController.getActivePlayer()).setLeaderCard(receivedMessage.getLeaderCardList());
+    private  void leaderCardHandler(LeaderCardListMessage receivedMessage){
+        game.getPlayerByNickname(receivedMessage.getNickname()).setLeaderCard(receivedMessage.getLeaderCardList());
+        turnController.next();
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        this.contSituation++; // parte da 1, passa a 2 e chiede al secondo le leadercard, diventa tre e chiede al terzo
+        if(contSituation <= game.getChosenPlayersNumber()){
+            virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
+        }
+        if(contSituation == game.getChosenPlayersNumber() + 1){
+            this.contSituation = 0;
+            virtualView.askFirstPlayer(turnController.getNicknameQueue());
+        }
     };
 
     /**
@@ -213,31 +223,37 @@ public class GameController implements Observer, Serializable {
     private void pickFirstPlayerHandler(String firstPlayerNick) {
         turnController.setActivePlayer(firstPlayerNick);
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " ", turnController.getActivePlayer());
-        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        for(int i = 0; i < game.getChosenPlayersNumber(); i++){
-            contSituation++;
-            if(i == 1) {
-                virtualView.distribuiteInitialResources(1);
-            }
-            else if(i == 2){
-                virtualView.distribuiteInitialResources(1);
-                game.getPlayerByNickname(turnController.getActivePlayer()).getFaithPath().increaseCrossPosition();
-            } else if(i == 3){
-                virtualView.distribuiteInitialResources(2);
-                game.getPlayerByNickname(turnController.getActivePlayer()).getFaithPath().increaseCrossPosition();
-            }
+        VirtualView virtualView;
+        this.contSituation = 0;
+        contSituation++; // va a 1
+        if(game.getChosenPlayersNumber() > 1){
+            contSituation++; // va a 2
             turnController.next();
             virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        }
+            virtualView.distribuiteInitialResources(1);
+        }// caso multiplayer
+        else{contSituation = 0;}
     }
+
 
     private void distribuiteResourceHandler(DistribuiteInitialResourcesMessage message){
         Player player = game.getPlayerByNickname(message.getNickname());
-        player.getWarehouse().addResourceToWarehouse(message.getFirstPosition(), message.getFirstResource());
+        player.getWarehouse().addResourceToWarehouse(message.getFirstPosition(), message.getFirstResource()); //contSituation arriva prima volta con valore 2
         if(message.getSecondPosition() > 0){
             player.getWarehouse().addResourceToWarehouse(message.getSecondPosition(), message.getSecondResource());
         }
-        if(contSituation == game.getChosenPlayersNumber()){
+        turnController.next();
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        this.contSituation++;
+        if(this.contSituation <= game.getChosenPlayersNumber() && this.contSituation == 3){
+            virtualView.distribuiteInitialResources(1);
+            game.getPlayerByNickname(turnController.getActivePlayer()).getFaithPath().increaseCrossPosition();
+        }
+        else if(contSituation == game.getChosenPlayersNumber() && contSituation == 4){
+            virtualView.distribuiteInitialResources(2);
+            game.getPlayerByNickname(turnController.getActivePlayer()).getFaithPath().increaseCrossPosition();
+        }
+        if(contSituation == game.getChosenPlayersNumber() + 1){
             contSituation = 0;
             startGame();
         }
@@ -248,12 +264,30 @@ public class GameController implements Observer, Serializable {
     private void startGame() {
         setGameState(GameState.IN_GAME);
         broadcastGenericMessage("Game Started!");   //aggiungi su client controller nickname scelto
-
         //turnController.broadcastMatchInfo();
-        //turnController.newTurn();
+        turnController.newTurn();
     }
 
+    /**
+     * Switch on Game Messages' Types.
+     *
+     * @param receivedMessage Message from Active Player.
+     */
+    private void inGameState(Message receivedMessage) {
+        switch (receivedMessage.getMessageType()) {
+            case LEADER_CARD_RESPONSE:
+                    activateLeaderCard(receivedMessage);
+                break;
 
+            default:
+                Server.LOGGER.warning(STR_INVALID_STATE);
+                break;
+        }
+    }
+
+    public void activateLeaderCard(Message received){
+
+    }
     /**
      * Adds a Player VirtualView to the controller if the first player max_players is not exceeded.
      * Then adds a controller observer to the view.

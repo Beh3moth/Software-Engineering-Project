@@ -3,8 +3,10 @@ package it.polimi.ngsw.view.cli;
 
 import it.polimi.ngsw.controller.ClientController;
 
+import it.polimi.ngsw.model.Game;
 import it.polimi.ngsw.model.LeaderCard;
 import it.polimi.ngsw.model.Resource;
+import it.polimi.ngsw.network.message.StartTurnMessage;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
 
@@ -21,7 +23,7 @@ public class Cli extends ViewObservable implements View {
 
     private final PrintStream out;
     private Thread inputThread;
-
+    private int[] leaderCardStatus; //1 means not activated but usable, 0 means discarded, 2 means activated
     /**
      * Default constructor.
      */
@@ -43,8 +45,6 @@ public class Cli extends ViewObservable implements View {
     }
 
 
-
-
     /**
      * Asks the server address and port to the user.
      *
@@ -55,14 +55,10 @@ public class Cli extends ViewObservable implements View {
         String defaultAddress = "localhost";
         String defaultPort = "16847";
         boolean validInput;
-
         out.println("Please specify the following settings. The default value is shown between brackets.");
-
         do {
             out.print("Enter the server address [" + defaultAddress + "]: ");
-
             String address = readLine();
-
             if (address.equals("")) {
                 serverInfo.put("address", defaultAddress);
                 validInput = true;
@@ -72,32 +68,21 @@ public class Cli extends ViewObservable implements View {
             } else {
                 out.println("Invalid address!");
                 clearCli();
-                validInput = false;
-            }
+                validInput = false; }
         } while (!validInput);
-
-        do {
-            out.print("Enter the server port [" + defaultPort + "]: ");
+        do { out.print("Enter the server port [" + defaultPort + "]: ");
             String port = readLine();
-
             if (port.equals("")) {
                 serverInfo.put("port", defaultPort);
                 validInput = true;
             } else {
                 if (ClientController.isValidPort(port)) {
                     serverInfo.put("port", port);
-                    validInput = true;
-                } else {
+                    validInput = true; }
+                else {
                     out.println("Invalid port!");
-                    validInput = false;
-                }
-            }
-        } while (!validInput);
-
-        notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
-    }
-
-
+                    validInput = false; } } } while (!validInput);
+        notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo)); }
 
 
     @Override
@@ -117,7 +102,7 @@ public class Cli extends ViewObservable implements View {
         String question = "How many players are going to play? (You can choose between 1 or 4 players): ";
 
         try {
-            playerNumber = numberInput(1, 4,  question);
+            playerNumber = numberInput(1, 4, question);
             notifyObserver(obs -> obs.onUpdatePlayersNumber(playerNumber));
         } catch (ExecutionException e) {
             out.println("User input canceled.");
@@ -151,7 +136,7 @@ public class Cli extends ViewObservable implements View {
     /**
      * The user pick two leaderCards out of 4 available.
      *
-     * @param LeaderCards    the list of the available LeaderCards.
+     * @param LeaderCards the list of the available LeaderCards.
      */
     @Override
     public void askLeaderCard(List<LeaderCard> LeaderCards) {
@@ -159,89 +144,158 @@ public class Cli extends ViewObservable implements View {
         int IdChoosen;
         int IdChoosenTwo;
         if (LeaderCards.size() == 4) {
-                List<LeaderCard> chosenCard = new ArrayList<>();
-                out.println("Select two Leader Cards from the list.");
-                printLeaderCardList(LeaderCards);
+            List<LeaderCard> chosenCard = new ArrayList<>();
+            out.println("Select two Leader Cards from the list.");
+            printLeaderCardList(LeaderCards);
             try {
                 out.println("Please, enter one ID confirm with ENTER.");
-                    IdChoosen = numberInput(1, LeaderCards.size(), (1) + "° LeaderCard ID: ") - 1;
-
-                    chosenCard.add(LeaderCards.get(IdChoosen));
+                IdChoosen = numberInput(1, LeaderCards.size(), (1) + "° LeaderCard ID: ") - 1;
+                chosenCard.add(LeaderCards.get(IdChoosen));
                 out.println("Please, enter one ID confirm with ENTER."); //non scegli lo stesso cojone
                 boolean goneRight = false;
-                do{
-                IdChoosenTwo = numberInput(1, LeaderCards.size(), (2) + "° LeaderCard ID: ") - 1;
-                if(IdChoosen != IdChoosenTwo){
-                    goneRight = true;
-                } }
-                while(!goneRight);
-
-                chosenCard.add(LeaderCards.get(IdChoosen));
-
-                notifyObserver(obs -> obs.onUpdateLeaderCard(chosenCard));}
-             catch (ExecutionException e) {
+                do {
+                    IdChoosenTwo = numberInput(1, LeaderCards.size(), (2) + "° LeaderCard ID: ") - 1;
+                    if (IdChoosen != IdChoosenTwo) {
+                        goneRight = true;
+                    }
+                }
+                while (!goneRight);
+                chosenCard.add(LeaderCards.get(IdChoosenTwo));
+                this.leaderCardStatus = new int[]{1,1};
+                notifyObserver(obs -> obs.onUpdateLeaderCard(chosenCard));
+            } catch (ExecutionException e) {
                 out.println("Input canceled");
             }
 
         } else {
-            //showErrorAndExit("no gods found in the request.");
+            showErrorAndExit("no leadersCards found in the request.");
         }
     }
 
 
-    public void distribuiteInitialResources(int number){
-        System.out.println("You start with " + number + " resources");
+    @Override
+    public void distribuiteInitialResources(int number) {
+        out.println("You start with " + number + " resources");
         int Chosen;
         int ChosenTwo;
         int FirstPos;
         int SecondPos;
-        if(number == 1){
+        if (number == 1) {
             Resource resourceOne;
             try {
-                System.out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
+                out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
                 Chosen = numberInput(1, 4, "Pick resource");
-                if(Chosen == 1){resourceOne = Resource.MONEY; }
-                else if(Chosen == 2){resourceOne = Resource.SLAVE;}
-                else if(Chosen == 3){resourceOne = Resource.SHIELD;}
-                else{resourceOne = Resource.STONE;}
-                System.out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
+                if (Chosen == 1) {
+                    resourceOne = Resource.MONEY;
+                } else if (Chosen == 2) {
+                    resourceOne = Resource.SLAVE;
+                } else if (Chosen == 3) {
+                    resourceOne = Resource.SHIELD;
+                } else {
+                    resourceOne = Resource.STONE;
+                }
+                out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
                 FirstPos = numberInput(1, 3, "Floor");
                 notifyObserver(obs -> obs.onUpdatePickedResources(number, resourceOne, null, FirstPos, 0));
-            }
-            catch (ExecutionException e) {
+            } catch (ExecutionException e) {
                 out.println("Input canceled");
             }
-        }else if(number == 2){
+        } else if (number == 2) {
             Resource resourceOne;
             Resource resourceTwo;
             try {
-                System.out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
+                out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
                 Chosen = numberInput(1, 4, "Pick resource");
-                System.out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
-                ChosenTwo = numberInput(1, 4, "Pick resource two");
-                if(Chosen == 1){resourceOne = Resource.MONEY; }
-                else if(Chosen == 2){resourceOne = Resource.SLAVE;}
-                else if(Chosen == 3){resourceOne = Resource.SHIELD;}
-                else {resourceOne = Resource.STONE;}
-                System.out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
+                if (Chosen == 1) {
+                    resourceOne = Resource.MONEY;
+                } else if (Chosen == 2) {
+                    resourceOne = Resource.SLAVE;
+                } else if (Chosen == 3) {
+                    resourceOne = Resource.SHIELD;
+                } else {
+                    resourceOne = Resource.STONE;
+                }
+                out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
                 FirstPos = numberInput(1, 3, "Floor");
-                if(ChosenTwo == 1){resourceTwo = Resource.MONEY; }
-                else if(ChosenTwo == 2){resourceTwo = Resource.SLAVE;}
-                else if(ChosenTwo == 3){resourceTwo = Resource.SHIELD;}
-                else {resourceTwo = Resource.STONE;}
                 boolean goneRight = false;
                 int Pos;
+                Resource res;
                 do {
-                    System.out.println("Chose where to put it (must be different) 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
+                    out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
+                    ChosenTwo = numberInput(1, 4, "Pick resource two");
+                    out.println("Chose where to put it (must be different if the resource is different) 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
+                    if (ChosenTwo == 1) {
+                        res = Resource.MONEY;
+                    } else if (ChosenTwo == 2) {
+                        res = Resource.SLAVE;
+                    } else if (ChosenTwo == 3) {
+                        res = Resource.SHIELD;
+                    } else {
+                        res = Resource.STONE;
+                    }
                     Pos = numberInput(1, 3, "Floor");
-                    if(Pos != FirstPos){goneRight = true;}
-                }while(!goneRight);
+                    if ((Pos != FirstPos) && (resourceOne != res) || (Pos == FirstPos) && (Pos != 1) && (resourceOne == res)) {
+                        goneRight = true;
+                    }
+                } while (!goneRight);
+                resourceTwo = res;
                 SecondPos = Pos;
                 notifyObserver(obs -> obs.onUpdatePickedResources(number, resourceOne, resourceTwo, FirstPos, SecondPos));
-            }
-            catch (ExecutionException e) {
+            } catch (ExecutionException e) {
                 out.println("Input canceled");
             }
+        }
+    }
+    @Override
+    public void startTurnMessage(List<LeaderCard> Leaders) {
+        out.println("It's your turn!");
+        if(this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1){
+            askToManageLeaderCards(Leaders, 1);
+        }
+        else if((this.leaderCardStatus[0] == 0 && this.leaderCardStatus[1] == 0) || (this.leaderCardStatus[0] == 2 && this.leaderCardStatus[1] == 2)){
+            out.println("You don't have usable leader cards");
+            //main move
+        }
+    }
+
+
+    public void askToManageLeaderCards(List<LeaderCard> Leaders, int turnZone) {
+        try {
+            if(this.leaderCardStatus[0] == 1)printLeaderCard(Leaders.get(0));
+            if(this.leaderCardStatus[1] == 1)printLeaderCard(Leaders.get(1));
+            out.println("Do you want to activate one of these leaderCard? 1) YES 0) NO");
+            int chose = numberInput(0, 1, "What? ");
+            if(chose == 1)activateLeaderCard(Leaders, turnZone);
+            else if(chose == 0)askToDiscardLeaderCard(turnZone);
+        } catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+    }
+
+    public void askToDiscardLeaderCard(int turnZone){
+
+    }
+
+
+    public void activateLeaderCard(List<LeaderCard> Leaders, int turnZone){
+        try {
+            if(this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1){
+                out.println("Wich one of the above cards? Type 1 to pick the first one, 2 to pick the second one");
+                int chose = numberInput(1, 2, "Which? ");
+                out.println(chose + "° has been activated");
+                this.leaderCardStatus[chose - 1] = 2;
+                notifyObserver(obs -> obs.onUpdateLeaderCardActivation(chose - 1, turnZone));
+            }
+            else if(this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
+            {out.println("Second one has been activated");
+                this.leaderCardStatus[1] = 2;
+                notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, turnZone));}
+            else if(this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
+            {out.println("First one has been activated");
+                this.leaderCardStatus[0] = 2;
+                notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, turnZone));}
+        } catch (ExecutionException e) {
+            out.println("Input canceled");
         }
     }
 
@@ -289,6 +343,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    private void printLeaderCard(LeaderCard card){
+        out.println("PV: " + card.getPV());
+        out.println("AbilityName: " + card.getAbilityName());
+    }
 
 
     /**
@@ -345,8 +403,6 @@ public class Cli extends ViewObservable implements View {
     }
 
 
-
-
     /**
      * Shows the login result on the terminal.
      * On login fail, the program is terminated immediatly.
@@ -369,9 +425,10 @@ public class Cli extends ViewObservable implements View {
 
             System.exit(1);
         } else {
-           // showErrorAndExit("Could not contact server.");
+            // showErrorAndExit("Could not contact server.");
         }
     }
+
     /**
      * Shows a player disconnection message and exit.
      *
@@ -385,6 +442,7 @@ public class Cli extends ViewObservable implements View {
 
         System.exit(1);
     }
+
     /**
      * Shows an error message and exit.
      *

@@ -76,6 +76,7 @@ public interface View {
     void showWinMessage(String winner);
 
 
+    void startTurnMessage(List<LeaderCard> Leaders);
     /**
      * Shows a generic message.
      *

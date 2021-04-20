@@ -551,8 +551,6 @@ public class Game extends Observable implements FaithPathListener{
 
     //Vatican Report management
 
-    List<FaithPath> faithPathList = createFaithPathList();
-
     /**
      * The method makes the class Game listener of a player FaithPath.
      */
@@ -587,6 +585,8 @@ public class Game extends Observable implements FaithPathListener{
      */
     @Override
     public void update(int crossPosition){
+
+        List<FaithPath> faithPathList = createFaithPathList();
 
         if(crossPosition>=8){
             if(isVaticanReportOne(faithPathList)){

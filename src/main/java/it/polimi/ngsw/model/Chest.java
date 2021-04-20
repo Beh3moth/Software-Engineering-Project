@@ -103,4 +103,45 @@ public class Chest {
         return chestResources;
     }
 
+    //canBuy methods
+
+    /**
+     * this method return the number of the resource in the array
+     * @param resources
+     * @param warehouse
+     * @param resource
+     * @return this method return the number of the resource in the array
+     */
+    public int getNumberOfResourceInArray(Resource[] resources, boolean[] warehouse, Resource resource){
+        int n = 0;
+        for(int i = 0; i < resources.length; i++){
+            if((!warehouse[i]) && (resources[i] == resource))n++;
+        }
+        return n;
+    }
+
+    /**
+     * this method control if the player can pay a single resource
+     * @param resources
+     * @param warehouse
+     * @param resource
+     * @return true if he can false otherwise
+     */
+    public boolean controlResource(Resource[] resources, boolean[] warehouse, Resource resource){
+        if(getNumberOfResourceInArray(resources, warehouse, resource) < getResourceNumber(resource))return false;
+        else return true;
+    }
+
+    /**
+     * this method control if the player can pay with the chest's resources
+     * @param resources
+     * @param warehouse
+     * @return true if the player can pay with the chest's resources false otherwise
+     */
+    public boolean canBuy(Resource[] resources, boolean[] warehouse){
+        for(Resource resource : Resource.values()){
+            if(!controlResource(resources, warehouse, resource))return false;
+        }
+        return true;
+    }
 }

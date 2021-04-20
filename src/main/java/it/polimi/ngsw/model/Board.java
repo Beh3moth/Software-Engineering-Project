@@ -402,4 +402,16 @@ public class Board{
         }
 }
 
+    public int getDevCardColumn(DevCardColour colour){
+        int devColumn = -1;
+        switch(colour){
+            case GREEN: devColumn = 0;
+            case BLUE: devColumn = 1;
+            case YELLOW: devColumn = 2;
+            case PURPLE: devColumn = 3;
+            case EMPTY: devColumn = -1;
+        }
+        return devColumn;
+    }
+
 }

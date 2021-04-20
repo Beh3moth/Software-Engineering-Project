@@ -254,7 +254,37 @@ public class Cli extends ViewObservable implements View {
         }
         else if((this.leaderCardStatus[0] == 0 && this.leaderCardStatus[1] == 0) || (this.leaderCardStatus[0] == 2 && this.leaderCardStatus[1] == 2)){
             out.println("You don't have usable leader cards");
-            //main move
+            //mainMove();
+        }
+    }
+
+    @Override
+    public void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders) {
+        if(turnZone == 1) { //inizio turno
+            if (actionTypology == 1) { //1 vuol dire che era stata chiamata una leadercard request, 2 una discard card
+                if (goneRight == 0) {  //0 vuol dire non attivata, quindi richiedi, 1 attivata
+                    askToManageLeaderCards(Leaders, turnZone);
+                } else if (goneRight == 1) {
+                    this.leaderCardStatus[wichCard] = 2;
+                    //mainMove();
+                }
+            }
+            else if(actionTypology == 2){
+                this.leaderCardStatus[wichCard] = 0;
+                //mainMove();
+            }
+        }else if(turnZone == 2){
+            if(actionTypology == 1){
+                if(goneRight == 1){
+                    this.leaderCardStatus[wichCard] = 2;
+                    //endTurn();
+                }else if(goneRight == 0){}//leadercard choice. middle turn
+            }
+            else if(actionTypology == 2){
+                this.leaderCardStatus[wichCard] = 0;
+                //endTurn();
+            }
+            //fine turno
         }
     }
 
@@ -273,27 +303,46 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void askToDiscardLeaderCard(int turnZone){
-
+        try{
+        out.println("Do you want to discard a leadercard? 1) YES 0) NO");
+        int chose = numberInput(0, 1, "What? ");
+            if(chose == 1)discardCard(turnZone);
+            else if(chose == 0){}//mainMove();
+        }
+        catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+        //mainMove();
+        //CHIEDO SE VOGLI SCARTARE, SE NO, VADO AL MAIN
     }
 
+    public void discardCard(int turnZone){
+        try {
+            if(this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1){
+                out.println("Wich one of the above cards? Type 1 to pick the first one, 2 to pick the second one");
+                int chose = numberInput(1, 2, "Which? ");
+                notifyObserver(obs -> obs.onUpdateDiscardCard(chose - 1, turnZone));
+            }
+            else if(this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
+                notifyObserver(obs -> obs.onUpdateDiscardCard(1, turnZone));
+            else if(this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
+                notifyObserver(obs -> obs.onUpdateDiscardCard(0, turnZone));
+        } catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+    }
 
     public void activateLeaderCard(List<LeaderCard> Leaders, int turnZone){
         try {
             if(this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1){
                 out.println("Wich one of the above cards? Type 1 to pick the first one, 2 to pick the second one");
                 int chose = numberInput(1, 2, "Which? ");
-                out.println(chose + "° has been activated");
-                this.leaderCardStatus[chose - 1] = 2;
                 notifyObserver(obs -> obs.onUpdateLeaderCardActivation(chose - 1, turnZone));
             }
             else if(this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
-            {out.println("Second one has been activated");
-                this.leaderCardStatus[1] = 2;
-                notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, turnZone));}
+                notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, turnZone));
             else if(this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
-            {out.println("First one has been activated");
-                this.leaderCardStatus[0] = 2;
-                notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, turnZone));}
+                notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, turnZone));
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }

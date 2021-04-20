@@ -77,6 +77,8 @@ public interface View {
 
 
     void startTurnMessage(List<LeaderCard> Leaders);
+
+    void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders);
     /**
      * Shows a generic message.
      *

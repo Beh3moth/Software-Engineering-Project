@@ -1,15 +1,11 @@
 package it.polimi.ngsw.network.message;
 
-import it.polimi.ngsw.model.LeaderCard;
-
-import java.util.List;
-
-public class LeaderCardActivationMessage extends Message{
-    private static final long serialVersionUID = -3735443375793802589L;
+public class DiscardLeaderMessage extends Message{
+    private static final long serialVersionUID = 130412160057182598L;
     private int leaderCardChosen;
     private int turnZone;
-    public LeaderCardActivationMessage(String nickname,  int chosen, int turnZone) {
-        super(nickname, MessageType.LEADER_CARD_RESPONSE);
+    public DiscardLeaderMessage(String nickname,  int chosen, int turnZone) {
+        super(nickname, MessageType.DISCARD_CARD);
         this.leaderCardChosen = chosen;
         this.turnZone = turnZone;
     }

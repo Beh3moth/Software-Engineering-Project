@@ -45,6 +45,8 @@ public interface ViewObserver {
 
 
     void onUpdateLeaderCardActivation(int chosenCard, int turnZone);
+
+    void onUpdateDiscardCard(int wichCard,int turnZone);
     /**
      * Handles a disconnection wanted by the user.
      * (e.g. a click on the back button into the GUI).

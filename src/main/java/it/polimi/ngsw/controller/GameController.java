@@ -278,7 +278,9 @@ public class GameController implements Observer, Serializable {
             case LEADER_CARD_RESPONSE:
                     activateLeaderCard(receivedMessage);
                 break;
-
+            case DISCARD_CARD:
+                discardCard(receivedMessage);
+                break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
@@ -286,7 +288,21 @@ public class GameController implements Observer, Serializable {
     }
 
     public void activateLeaderCard(Message received){
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        if(game.getPlayerByNickname(turnController.getActivePlayer()).activeLeaderCard(((LeaderCardActivationMessage) received).getCardChosen()) == true){
+            if(((LeaderCardActivationMessage) received).getTurnZone() == 1)virtualView.continueTurn(1,1,1, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //inizio turno, tipo leadercard, andato a segno
+            else if(((LeaderCardActivationMessage) received).getTurnZone() == 2)virtualView.continueTurn(2,1,1, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //fine turno, tipo leadercard, andato a segno
+        }
+        else{
+            if(((LeaderCardActivationMessage) received).getTurnZone() == 1)virtualView.continueTurn(1,1,0, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //inizio turno, tipo leadercard, non andato a segno
+            else if(((LeaderCardActivationMessage) received).getTurnZone() == 2)virtualView.continueTurn(2,1,0, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //fine turno, tipo leadercard, non andato a segno
+        }
+    }
 
+    public void discardCard(Message received){
+        game.getPlayerByNickname(received.getNickname()).getFaithPath().increaseCrossPosition();
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        virtualView.continueTurn(((LeaderCardActivationMessage) received).getTurnZone(),2,1, ((DiscardLeaderMessage) received).getCardChosen(), null);
     }
     /**
      * Adds a Player VirtualView to the controller if the first player max_players is not exceeded.

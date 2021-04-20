@@ -4,10 +4,6 @@ package it.polimi.ngsw.model;
 //import le enum delle risorse
 //import libreria player
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 public class RedMarble extends Marble{
     private Resource typeResource;
     private MarbleColour marbleColour;

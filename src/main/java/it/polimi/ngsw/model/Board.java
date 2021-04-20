@@ -67,18 +67,18 @@ public class Board{
      */
     private void initDevCardSpace() throws FileNotFoundException {
 
-        pathList.add("src/main/java/it/polimi/resources/green_level_three.json");
-        pathList.add("src/main/java/it/polimi/resources/blue_level_three.json");
-        pathList.add("src/main/java/it/polimi/resources/yellow_level_three.json");
-        pathList.add("src/main/java/it/polimi/resources/purple_level_three.json");
-        pathList.add("src/main/java/it/polimi/resources/green_level_two.json");
-        pathList.add("src/main/java/it/polimi/resources/blue_level_two.json");
-        pathList.add("src/main/java/it/polimi/resources/yellow_level_two.json");
-        pathList.add("src/main/java/it/polimi/resources/purple_level_two.json");
-        pathList.add("src/main/java/it/polimi/resources/green_level_one.json");
-        pathList.add("src/main/java/it/polimi/resources/blue_level_one.json");
-        pathList.add("src/main/java/it/polimi/resources/yellow_level_one.json");
-        pathList.add("src/main/java/it/polimi/resources/purple_level_one.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/green_level_three.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/blue_level_three.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/yellow_level_three.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/purple_level_three.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/green_level_two.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/blue_level_two.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/yellow_level_two.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/purple_level_two.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/green_level_one.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/blue_level_one.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/yellow_level_one.json");
+        pathList.add("src/main/java/it/polimi/ngsw/resources/purple_level_one.json");
 
 
         int z = 0;
@@ -401,5 +401,17 @@ public class Board{
             }
         }
 }
+
+    public int getDevCardColumn(DevCardColour colour){
+        int devColumn = -1;
+        switch(colour){
+            case GREEN: devColumn = 0;
+            case BLUE: devColumn = 1;
+            case YELLOW: devColumn = 2;
+            case PURPLE: devColumn = 3;
+            case EMPTY: devColumn = -1;
+        }
+        return devColumn;
+    }
 
 }

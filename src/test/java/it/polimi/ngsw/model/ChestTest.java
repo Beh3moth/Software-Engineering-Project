@@ -38,6 +38,15 @@ public class ChestTest {
     }
 
     @Test
+    public void getResourceNumberTest(){
+        randomChest();
+        assertEquals(chest.getResourceNumber(Resource.MONEY), chest.getMoney());
+        assertEquals(chest.getResourceNumber(Resource.SHIELD), chest.getShield());
+        assertEquals(chest.getResourceNumber(Resource.SLAVE), chest.getSlave());
+        assertEquals(chest.getResourceNumber(Resource.STONE), chest.getStone());
+    }
+
+    @Test
     public void addResourceToChestTest() {
 
         int x = 0;
@@ -59,6 +68,7 @@ public class ChestTest {
 
     @Test
     public void removeResourceToChestTest() {
+        assertFalse(chest.removeResource(Resource.SHIELD, 4));
         int x = 0;
         for(int i = -5; i<5; i++) {
             for (int j = -5; j < 5; j++) {

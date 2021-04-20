@@ -1,7 +1,9 @@
 package it.polimi.ngsw.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Warehouse {
     private Shelf firstLevel;
@@ -403,10 +405,6 @@ public class Warehouse {
     }
 
 
-
-
-
-
     //AARON
 
 
@@ -422,6 +420,7 @@ public class Warehouse {
         warehouseStock.remove(0);
         return true;
     }
+
     public int getStockResourceNumber(){
         return warehouseStock.size();
     }
@@ -566,8 +565,91 @@ public class Warehouse {
         if(firstLevel.getResourceType() == resource )return 1;
         else if(secondLevel.getResourceType() == resource)return 2;
         else if(thirdLevel.getResourceType() == resource)return 3;
-        else if(firstLeaderLevel.getResourceType() == resource && firstLeaderLevel.getResourceNumber() >= 1)return 4;
-        else if(secondLeaderLevel.getResourceType() == resource && secondLeaderLevel.getResourceNumber() >= 1)return 5;
+        //else if(firstLeaderLevel.getResourceType() == resource && firstLeaderLevel.getResourceNumber() >= 1)return 4;
+        //else if(secondLeaderLevel.getResourceType() == resource && secondLeaderLevel.getResourceNumber() >= 1)return 5;
         else return 0;
     }
-}
+
+    //Fede
+
+    //To test
+
+    /**
+     * this method return the number of the resource
+     * @param resource
+     * @return the number of the resource
+     */
+    public int getNumberOf(Resource resource){
+        int nResource = 0;
+        if(getShelf(getLevel(resource)) != null){
+        nResource = getShelf(getLevel(resource)).getResourceNumber();}
+        for(int i = 1; i < 3; i++){
+            if(getLeaderLevelType(i) == resource)nResource += getLeaderShelf(i).getResourceNumber();
+        }
+        return nResource;
+    }
+
+    /**
+     * this method create a map with the resource in the warehouse and the number the resource
+     * @return this map
+     */
+    public Map<Resource, Integer> getResourcesAsMap(){
+        Map<Resource, Integer> map = new HashMap<>();
+        for(Resource resource : Resource.values()) {
+            if(!resource.equals(Resource.EMPTY) && !resource.equals(Resource.FAITHPOINT)){
+                map.put(resource, getNumberOf(resource));
+            }
+        }
+        return map;
+    }
+
+    //canBuy methods
+
+    /**
+     * this method control a resource end three resource
+     * @param resources
+     * @param warehouse
+     * @param level
+     * @param resource
+     * @return true if this resource is legal
+     */
+    public boolean controlResource(Resource[] resources, boolean[] warehouse, int[] level, Resource resource){
+        if((resource == Resource.EMPTY) || (resource == Resource.FAITHPOINT)){
+            return false;
+        }
+
+        for(int l = 1; l < 6; l++){
+            int n = 0;
+            for(int i = 0; i < resources.length; i++){
+                if((resources[i] == resource) && (l == level[i])){
+                    n++;
+                }
+            }
+            if(n < getShelf(l).getResourceNumber())return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * this method control if in the warehouse there are the resource in "resources" list
+     * @param resources
+     * @param warehouse
+     * @param level
+     * @return true if the player can pay with this three array false otherwise
+     */
+    public boolean canBuy(Resource[] resources, boolean[] warehouse, int[] level){
+
+        for(int i = 0; i < level.length; i++){
+            if(getShelf(level[i]).getResourceType() != resources[i] )return false;
+        }
+
+        for(Resource resource : Resource.values()) {
+                if (!controlResource(resources, warehouse, level, resource))return false;
+            }
+
+        return true;
+        }
+
+    }
+

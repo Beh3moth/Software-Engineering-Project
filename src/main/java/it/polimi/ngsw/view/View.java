@@ -1,6 +1,7 @@
 package it.polimi.ngsw.view;
 
 import it.polimi.ngsw.model.LeaderCard;
+import it.polimi.ngsw.model.Marble;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public interface View {
     void showWinMessage(String winner);
 
 
-    void startTurnMessage(List<LeaderCard> Leaders);
+    void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow );
 
     void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders);
     /**

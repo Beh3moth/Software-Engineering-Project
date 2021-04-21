@@ -88,8 +88,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders) {
-        clientHandler.sendMessage(new StartTurnMessage(Game.SERVER_NICKNAME, Leaders));
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow,Marble[] thirdRow ) {
+        clientHandler.sendMessage(new StartTurnMessage(Game.SERVER_NICKNAME, Leaders, singleMarble,firstRow,secondRow,thirdRow));
     }
 
     @Override

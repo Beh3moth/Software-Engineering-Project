@@ -33,11 +33,16 @@ public class Warehouse {
         return true;
     }
     public void removeFromWhiteStock(){
-        whitemarbleStock.remove(0);
+        whitemarbleStock.clear();
+    }
+    public List<Resource> getWhiteStock(){
+        return whitemarbleStock;
     }
     public int numberOfWhiteStock(){
         return whitemarbleStock.size();
     }
+    public List<Resource> getWarehouseStock(){return warehouseStock; }
+
     /**
      *this method adds a resource to the warehouse checking that it is legal
      * @param level

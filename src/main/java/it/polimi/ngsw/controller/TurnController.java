@@ -79,7 +79,16 @@ public class TurnController implements Serializable {
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         setPhaseType(PhaseType.START_TURN);
         List<LeaderCard> Leaders = game.getPlayerByNickname(getActivePlayer()).getLeaderCards();
-        vv.startTurnMessage(Leaders);
+        Marble singleMarble = game.getBoard().getSingleMarble();
+        Marble[] firstRow = new Marble[4];
+        Marble[] secondRow = new Marble[4];
+        Marble[] thirdRow = new Marble[4];
+        for(int i = 0; i < 4; i++){
+            firstRow[i] = game.getBoard().getMarble(0,i);
+            secondRow[i] = game.getBoard().getMarble(1,i);
+            thirdRow[i] = game.getBoard().getMarble(2,i);
+        }
+        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow,thirdRow);
     }
     /**
      * Sends a Match Info Message to all the players.

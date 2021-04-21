@@ -281,6 +281,9 @@ public class GameController implements Observer, Serializable {
             case DISCARD_CARD:
                 discardCard(receivedMessage);
                 break;
+            case BUY_MARKET:
+                buyFromMarket(receivedMessage);
+                break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
@@ -303,6 +306,14 @@ public class GameController implements Observer, Serializable {
         game.getPlayerByNickname(received.getNickname()).getFaithPath().increaseCrossPosition();
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         virtualView.continueTurn(((DiscardLeaderMessage) received).getTurnZone(),2,1, ((DiscardLeaderMessage) received).getCardChosen(), null);
+    }
+
+    public void buyFromMarket(Message received){
+        Player activePlayer = game.getPlayerByNickname(received.getNickname());
+        game.buyFromMarket(((BuyFromMarketMessage) received).getRowOrColumn(),((BuyFromMarketMessage) received).getWichOne(), activePlayer);
+        game.manageWhiteResources(activePlayer);
+        VirtualView virtualView = virtualViewMap.get(received.getNickname()); //arrivo che ho una lista di risorse (anche white) nello stock, prima cosa è dare valore a tutte,
+        //poi posso scartarle, oppure riordinare magazzino
     }
     /**
      * Adds a Player VirtualView to the controller if the first player max_players is not exceeded.

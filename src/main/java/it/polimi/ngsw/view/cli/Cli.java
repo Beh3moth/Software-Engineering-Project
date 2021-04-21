@@ -5,6 +5,7 @@ import it.polimi.ngsw.controller.ClientController;
 
 import it.polimi.ngsw.model.Game;
 import it.polimi.ngsw.model.LeaderCard;
+import it.polimi.ngsw.model.Marble;
 import it.polimi.ngsw.model.Resource;
 import it.polimi.ngsw.network.message.StartTurnMessage;
 import it.polimi.ngsw.observer.ViewObservable;
@@ -24,6 +25,11 @@ public class Cli extends ViewObservable implements View {
     private final PrintStream out;
     private Thread inputThread;
     private int[] leaderCardStatus; //1 means not activated but usable, 0 means discarded, 2 means activated
+    private Marble singleMarble;
+    private Marble[] firstRow;
+    private Marble[] secondRow;
+    private Marble[] thirdRow;
+
     /**
      * Default constructor.
      */
@@ -68,9 +74,11 @@ public class Cli extends ViewObservable implements View {
             } else {
                 out.println("Invalid address!");
                 clearCli();
-                validInput = false; }
+                validInput = false;
+            }
         } while (!validInput);
-        do { out.print("Enter the server port [" + defaultPort + "]: ");
+        do {
+            out.print("Enter the server port [" + defaultPort + "]: ");
             String port = readLine();
             if (port.equals("")) {
                 serverInfo.put("port", defaultPort);
@@ -78,11 +86,15 @@ public class Cli extends ViewObservable implements View {
             } else {
                 if (ClientController.isValidPort(port)) {
                     serverInfo.put("port", port);
-                    validInput = true; }
-                else {
+                    validInput = true;
+                } else {
                     out.println("Invalid port!");
-                    validInput = false; } } } while (!validInput);
-        notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo)); }
+                    validInput = false;
+                }
+            }
+        } while (!validInput);
+        notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
+    }
 
 
     @Override
@@ -161,7 +173,7 @@ public class Cli extends ViewObservable implements View {
                 }
                 while (!goneRight);
                 chosenCard.add(LeaderCards.get(IdChoosenTwo));
-                this.leaderCardStatus = new int[]{1,1};
+                this.leaderCardStatus = new int[]{1, 1};
                 notifyObserver(obs -> obs.onUpdateLeaderCard(chosenCard));
             } catch (ExecutionException e) {
                 out.println("Input canceled");
@@ -246,41 +258,44 @@ public class Cli extends ViewObservable implements View {
             }
         }
     }
+
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow) {
         out.println("It's your turn!");
-        if(this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1){
+        this.singleMarble = singleMarble;
+        this.firstRow = firstRow;
+        this.secondRow = secondRow;
+        this.thirdRow = thirdRow;
+        if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             askToManageLeaderCards(Leaders, 1);
-        }
-        else if((this.leaderCardStatus[0] == 0 && this.leaderCardStatus[1] == 0) || (this.leaderCardStatus[0] == 2 && this.leaderCardStatus[1] == 2)){
+        } else {
             out.println("You don't have usable leader cards");
-            //mainMove();
+            mainMove();
         }
     }
 
     @Override
     public void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders) {
-        if(turnZone == 1) { //inizio turno
+        if (turnZone == 1) { //inizio turno
             if (actionTypology == 1) { //1 vuol dire che era stata chiamata una leadercard request, 2 una discard card
                 if (goneRight == 0) {  //0 vuol dire non attivata, quindi richiedi, 1 attivata
                     askToManageLeaderCards(Leaders, turnZone);
                 } else if (goneRight == 1) {
                     this.leaderCardStatus[wichCard] = 2;
-                    //mainMove();
+                    mainMove();
                 }
-            }
-            else if(actionTypology == 2){
+            } else if (actionTypology == 2) {
                 this.leaderCardStatus[wichCard] = 0;
-                //mainMove();
+                mainMove();
             }
-        }else if(turnZone == 2){
-            if(actionTypology == 1){
-                if(goneRight == 1){
+        } else if (turnZone == 2) {
+            if (actionTypology == 1) {
+                if (goneRight == 1) {
                     this.leaderCardStatus[wichCard] = 2;
                     //endTurn();
-                }else if(goneRight == 0){}//leadercard choice. middle turn
-            }
-            else if(actionTypology == 2){
+                } else if (goneRight == 0) {
+                }//leadercard choice. middle turn
+            } else if (actionTypology == 2) {
                 this.leaderCardStatus[wichCard] = 0;
                 //endTurn();
             }
@@ -291,61 +306,115 @@ public class Cli extends ViewObservable implements View {
 
     public void askToManageLeaderCards(List<LeaderCard> Leaders, int turnZone) {
         try {
-            if(this.leaderCardStatus[0] == 1)printLeaderCard(Leaders.get(0));
-            if(this.leaderCardStatus[1] == 1)printLeaderCard(Leaders.get(1));
+            if (this.leaderCardStatus[0] == 1) printLeaderCard(Leaders.get(0));
+            if (this.leaderCardStatus[1] == 1) printLeaderCard(Leaders.get(1));
             out.println("Do you want to activate one of these leaderCard? 1) YES 0) NO");
             int chose = numberInput(0, 1, "What? ");
-            if(chose == 1)activateLeaderCard(Leaders, turnZone);
-            else if(chose == 0)askToDiscardLeaderCard(turnZone);
+            if (chose == 1) activateLeaderCard(Leaders, turnZone);
+            else if (chose == 0) askToDiscardLeaderCard(turnZone);
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
     }
 
-    public void askToDiscardLeaderCard(int turnZone){
-        try{
-        out.println("Do you want to discard a leadercard? 1) YES 0) NO");
-        int chose = numberInput(0, 1, "What? ");
-            if(chose == 1)discardCard(turnZone);
-            else if(chose == 0){}//mainMove();
-        }
-        catch (ExecutionException e) {
+    public void askToDiscardLeaderCard(int turnZone) {
+        try {
+            out.println("Do you want to discard a leadercard? 1) YES 0) NO");
+            int chose = numberInput(0, 1, "What? ");
+            if (chose == 1) discardCard(turnZone);
+            else if (chose == 0) {
+                mainMove();
+            }
+        } catch (ExecutionException e) {
             out.println("Input canceled");
         }
-        //mainMove();
-        //CHIEDO SE VOGLI SCARTARE, SE NO, VADO AL MAIN
+
     }
 
-    public void discardCard(int turnZone){
+    public void discardCard(int turnZone) {
         try {
-            if(this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1){
+            if (this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1) {
                 out.println("Wich one of the above cards? Type 1 to pick the first one, 2 to pick the second one");
                 int chose = numberInput(1, 2, "Which? ");
                 notifyObserver(obs -> obs.onUpdateDiscardCard(chose - 1, turnZone));
-            }
-            else if(this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
+            } else if (this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
                 notifyObserver(obs -> obs.onUpdateDiscardCard(1, turnZone));
-            else if(this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
+            else if (this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
                 notifyObserver(obs -> obs.onUpdateDiscardCard(0, turnZone));
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
     }
 
-    public void activateLeaderCard(List<LeaderCard> Leaders, int turnZone){
+    public void activateLeaderCard(List<LeaderCard> Leaders, int turnZone) {
         try {
-            if(this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1){
+            if (this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1) {
                 out.println("Wich one of the above cards? Type 1 to pick the first one, 2 to pick the second one");
                 int chose = numberInput(1, 2, "Which? ");
                 notifyObserver(obs -> obs.onUpdateLeaderCardActivation(chose - 1, turnZone));
-            }
-            else if(this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
+            } else if (this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
                 notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, turnZone));
-            else if(this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
+            else if (this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
                 notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, turnZone));
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
+    }
+
+
+    public void mainMove() {
+        try {
+            printMarket();
+            out.println("Chose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a develop Card 4) Start production");
+            int chose = numberInput(1, 4, "Which move? ");
+            if (chose == 1) {/*reoderWarehouse();*/} else if (chose == 2) {
+                takeResourcesFromMarket();
+            } else if (chose == 3) {/*buyDevCard();*/} else if (chose == 4) {/*startProduction();*/}
+        } catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+    }
+
+    public void takeResourcesFromMarket() {
+        try{out.println("Do you want to take a column or a row? 1) Column 2) Row");
+            int chose = numberInput(1, 2, "Which sector? ");
+            if(chose == 1){out.println("Chose a column ( 1 - 2 - 3 - 4 ) ");
+                int choseColumn = numberInput(1, 4, "Which column? ");
+                Marble support = this.singleMarble;
+                this.singleMarble = this.firstRow[choseColumn - 1];
+                this.firstRow[choseColumn - 1] = this.secondRow[choseColumn - 1];
+                this.secondRow[choseColumn - 1] = this.thirdRow[choseColumn - 1];
+                this.thirdRow[choseColumn - 1] = support;
+                printMarket();
+                notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, choseColumn));
+            }else if(chose == 2){out.println("Chose a row ( 1 - 2 - 3 ) ");
+                int choseRow = numberInput(1, 3, "Which row? ");
+                Marble support = this.singleMarble;
+                if(choseRow == 1){this.singleMarble = this.firstRow[0]; this.firstRow[0] = this.firstRow[1]; this.firstRow[1] = this.firstRow[2];
+                    this.firstRow[2] = this.firstRow[3]; this.firstRow[3] = support;}
+                else if(choseRow == 2){this.singleMarble = this.secondRow[0]; this.secondRow[0] = this.secondRow[1]; this.secondRow[1] = this.secondRow[2];
+                    this.secondRow[2] = this.secondRow[3]; this.secondRow[3] = support;}
+                else if(choseRow == 3){this.singleMarble = this.thirdRow[0]; this.thirdRow[0] = this.thirdRow[1]; this.thirdRow[1] = this.thirdRow[2];
+                    this.thirdRow[2] = this.thirdRow[3]; this.thirdRow[3] = support;}
+                printMarket();
+                notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, choseRow));
+            }
+        } catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+
+        //aggiunge subito risorse allo stock e white marble allo stock white, poi ritorno un messaggio con situazione stock (se ha whitre ability, butta le white dentro,
+        //se no le cancella.... con lo stock decido risorsa per risorsa che fare, se buttare dentro al mercato o scartare, salvo lo stock dentro alla cli, posso passare al riordina
+        //magazzino e poi ritornare allom stock, alla fine di tutto devo avere uno stock VUOTO.
+    }
+
+    public void printMarket() {
+        out.println("                   MARKET  ");
+        out.print("SINGLE MARBLE:                                     ");
+        out.println(this.singleMarble.getResource().toString());
+        for (int j = 0; j < 4; j++) { out.print("  " + this.firstRow[j].getResource().toString() + "    "); } out.println("");
+        for (int j = 0; j < 4; j++) { out.print("  " + this.secondRow[j].getResource().toString() + "    "); } out.println("");
+        for (int j = 0; j < 4; j++) { out.print("  " + this.secondRow[j].getResource().toString() + "    "); } out.println("");
     }
 
     /**
@@ -392,7 +461,7 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
-    private void printLeaderCard(LeaderCard card){
+    private void printLeaderCard(LeaderCard card) {
         out.println("PV: " + card.getPV());
         out.println("AbilityName: " + card.getAbilityName());
     }

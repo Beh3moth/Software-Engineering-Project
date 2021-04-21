@@ -4,6 +4,7 @@ package it.polimi.ngsw.model;
 
 
 import java.io.FileNotFoundException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.List;
  * Class of the Board with the single marble, the market e the matrix of develop cards, this class has methods for taking column or rows
  * of resource, and than resetting the market
  */
-public class Board{
+public class Board implements Serializable {
+
     public static final int MAX_ROWS_MARKET = 3;
     public static final int MAX_COLUMNS_MARKET = 4;
+    private static final long serialVersionUID = -3970141292246921016L;
     private Marble[][] marketDashboard;
     private Marble singleMarble;
     private DevCardSpace[][] devDashboard;
@@ -81,18 +84,9 @@ public class Board{
         pathList.add("src/main/java/it/polimi/ngsw/resources/purple_level_one.json");
 
 
-        int z = 0;
         int k = 0;
-        DevCardColour spaceColour = DevCardColour.EMPTY;
         for (int i = 0; i < MAX_ROWS_MARKET; i++) {
             for (int j = 0; j < MAX_COLUMNS_MARKET; j++) {
-                if(i == 0){z=3;}
-                else if(i == 1){z=2;}
-                else if(i == 2){z=1;}
-                if(j == 0){spaceColour = DevCardColour.GREEN;}
-                else if(j == 1){spaceColour = DevCardColour.BLUE;}
-                else if(j == 2){spaceColour = DevCardColour.YELLOW;}
-                else if(j == 3){spaceColour = DevCardColour.PURPLE;}
                 devDashboard[i][j] = new DevCardSpace(devCardParser.parseDevDeck(pathList.get(k)));
                 k++;
             }

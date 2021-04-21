@@ -147,6 +147,11 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new DiscardLeaderMessage(this.nickname, wichCard, turnZone));
     }
 
+    @Override
+    public void onUpdateBuyFromMarket(int rowOrColumn, int wichOne){
+        client.sendMessage(new BuyFromMarketMessage(this.nickname, rowOrColumn, wichOne));
+    };
+
     public void update(Message message) {
 
         switch (message.getMessageType()) {
@@ -187,7 +192,7 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case START_TURN:
                 StartTurnMessage start = (StartTurnMessage) message;
-                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders()));
+                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow()));
                 break;
             case CONTINUE_TURN:
                 ContinueTurnMessage continueMessage = (ContinueTurnMessage) message;

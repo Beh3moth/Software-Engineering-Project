@@ -5,13 +5,15 @@ import it.polimi.ngsw.model.Resource;
 
 import java.util.List;
 
-public class ContinueTurnMessage extends Message{
+public class ContinueTurnMessage extends Message {
+    private static final long serialVersionUID = -3139552725958120485L;
     private int turnZone;
     private int actionTypology;
     private int goneRight;
     private int wichCard;
     private List<LeaderCard> Leaders;
-    public ContinueTurnMessage(String senderNickname,  int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders ) {
+
+    public ContinueTurnMessage(String senderNickname, int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders) {
         super(senderNickname, MessageType.CONTINUE_TURN);
         this.turnZone = turnZone;
         this.actionTypology = actionTypology;
@@ -21,24 +23,28 @@ public class ContinueTurnMessage extends Message{
 
     }
 
-    public int getTurnZone(){
+    public int getTurnZone() {
         return turnZone;
     }
-    public int getActionTypology(){
+
+    public int getActionTypology() {
         return actionTypology;
     }
-    public int getGoneRight(){
+
+    public int getGoneRight() {
         return goneRight;
     }
 
-    public int getCard(){
+    public int getCard() {
         return wichCard;
     }
-    public List<LeaderCard> getLeaders(){
+
+    public List<LeaderCard> getLeaders() {
         return this.Leaders;
     }
-        @Override
-        public String toString() {
-            return "the turn continue";
-        }
+
+    @Override
+    public String toString() {
+        return "the turn continue";
+    }
 }

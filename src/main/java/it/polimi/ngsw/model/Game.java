@@ -252,7 +252,7 @@ public class Game extends Observable implements FaithPathListener{
                     maxPos = lawrenceFaithPath.getCrossPosition();
                 }
             }
-            update(maxPos);
+            checkForVaticanReport(maxPos);
         }
 
     }
@@ -378,7 +378,7 @@ public class Game extends Observable implements FaithPathListener{
      * The method receives the cross position upgraded, verify if the position requires a Vatican Report and in case activates the Papal Cards of the players in the right range.
      */
     @Override
-    public void update(int crossPosition){
+    public void checkForVaticanReport(int crossPosition){
 
         List<FaithPath> faithPathList = createFaithPathList();
 

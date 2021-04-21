@@ -77,4 +77,23 @@ public class PlayerTest {
 
     }
 
+    @Test
+    public void getPVFromLeaderCardsTest(){
+        player.receiveLeaderCards(game.removeAndReturnTheLastFourLeaderCards());
+        player.discardLeaderCard(0);
+        player.discardLeaderCard(0);
+        int PV = 0;
+        for(LeaderCard leaderCard : player.getLeaderCards()){
+            PV += leaderCard.getPV();
+        }
+        assertEquals(PV, player.getPVFromLeaderCards());
+    }
+
+    @Test
+    public void getPVFromResourcesTest(){
+        player.getChest().addResource(Resource.SHIELD, 20);
+        player.getWarehouse().addResourceToWarehouse(1, Resource.MONEY);
+        assertEquals(4, player.getPVFormResources());
+    }
+
 }

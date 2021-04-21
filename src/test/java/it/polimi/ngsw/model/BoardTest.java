@@ -17,7 +17,7 @@ public class BoardTest {
     public void removeDevCardTest(){
         for(DevCardColour devCardColour : DevCardColour.values()){
             if(!devCardColour.equals(DevCardColour.EMPTY)){
-                assertTrue(game.getBoard().removeTwoDevCards(devCardColour));
+                assertTrue(game.getBoard().removeTwoDevCard(devCardColour));
                 assertEquals(2, game.getBoard().getDevCardSpace(2, game.getBoard().getDevCardColumn(devCardColour)).getNumberOfCards());
             }
         }

@@ -150,5 +150,21 @@ public class DevCardDashboard {
         else return null;
     }
 
+    /**
+     * The method returns the number of Victory Points (PV) of the DevCardDashboard. The result is a sum of the Victory Points of every Development Card.
+     * @return the number of Victory Points given by the Player's Development Cards.
+     */
+    public int getPV(){
+        int PV = 0;
+        for(int i=0; i<MAX_SLOT; i++){
+            for(DevCard devCard : devCards[i]){
+                if(devCard!=null){
+                    PV += devCard.getPV();
+                }
+            }
+        }
+        return PV;
+    }
+
 }
 

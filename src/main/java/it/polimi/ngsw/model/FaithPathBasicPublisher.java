@@ -21,7 +21,7 @@ public class FaithPathBasicPublisher {
 
     public void notify(int crossPosition){
         for(FaithPathListener faithPathListener : listeners){
-            faithPathListener.update(crossPosition);
+            faithPathListener.checkForVaticanReport(crossPosition);
         }
     }
 

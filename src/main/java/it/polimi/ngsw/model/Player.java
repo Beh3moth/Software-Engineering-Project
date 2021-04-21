@@ -55,19 +55,36 @@ public class Player extends Observable implements Serializable {
     }
 
     /**
-     * this method returns the Integer: PV
-     * @return PV
+     * The method returns the total number of Victory Points owned by the Player.
+     * It includes the Victory Points of the FaithPath, the DevCardDashboard, the Leader Cards and the total number of PLayer's resources.
+     * @return an integer representing the number of Victory Points.
      */
-    public int GetPV(){
+    public int getPV(){
+        int PV = 0;
+        PV += this.getPVFromLeaderCards();
+        PV += this.devCardDashboard.getPV();
+        PV += this.faithPath.getPV();
+        PV += getPVFormResources();
         return PV;
     }
 
     /**
-     * this method receives as a parameter the life points to be added to the players and adds them
-     * @param adderPV
+     * The method returns the Victory Points given by the Player's Leader Cards.
+     * @return an integer representing the number of Victory Points.
      */
-    public void addPV(int adderPV){
-        PV += adderPV;
+    public int getPVFromLeaderCards(){
+        int PV = 0;
+        for(LeaderCard leaderCard : leaderCards){
+            PV += leaderCard.getPV();
+        }
+        return PV;
+    }
+
+    public int getPVFormResources(){
+        int PV = 0;
+        int totalNumberOfResources = this.getChest().getTotalNumberOfResources() + this.getWarehouse().getTotalNumberOfResources();
+        PV = totalNumberOfResources/5;
+        return PV;
     }
 
     /**

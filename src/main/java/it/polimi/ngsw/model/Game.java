@@ -143,6 +143,7 @@ public class Game extends Observable implements FaithPathListener {
      */
     public void addPlayer(Player player) {
         players.add(player);
+        makeGameListenerOfPlayerFaithPath(player);
         if (playerNumbers != 0) {
             notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
         }
@@ -258,7 +259,7 @@ public class Game extends Observable implements FaithPathListener {
                     maxPos = lawrenceFaithPath.getCrossPosition();
                 }
             }
-            update(maxPos);
+            checkForVaticanReport(maxPos);
         }
 
     }

@@ -184,18 +184,13 @@ public class Player extends Observable implements Serializable {
      * @return true if the card is activeted, false otherwhise
      */
     public boolean activeLeaderCard(int leaderCardToActive){
-        if(this.leaderCards.get(leaderCardToActive).equals(null)){
-            return false; //l'intero passato non è valido
+        if(!leaderCards.get(leaderCardToActive).isLeaderCardCostSatisfied(this)){
+            return false; //i requirements non sono soddisfatti
         }
         else{
-            if(!leaderCards.get(leaderCardToActive).isLeaderCardCostSatisfied(this)){
-                return false; //i requirements non sono soddisfatti
-            }
-            else{
-                leaderCards.get(leaderCardToActive).activateAbility(this);
-                leaderCards.remove(leaderCardToActive);
-                return true;
-            }
+            leaderCards.get(leaderCardToActive).activateAbility(this);
+            //leaderCards.remove(leaderCardToActive);   non penso di rimuovere, alla fine ho controllo su cli, meglio tenerle, da pensare
+            return true;
         }
     }
 

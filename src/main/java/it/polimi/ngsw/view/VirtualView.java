@@ -92,6 +92,12 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new StartTurnMessage(Game.SERVER_NICKNAME, Leaders));
     }
 
+    @Override
+    public void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders){
+        clientHandler.sendMessage(new ContinueTurnMessage(Game.SERVER_NICKNAME, turnZone, actionTypology, goneRight, wichCard, Leaders));
+    };
+
+
     /**
      * Receives an update message from the model.
      * The message is sent over the network to the client.

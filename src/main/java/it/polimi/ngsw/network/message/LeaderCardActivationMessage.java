@@ -5,6 +5,7 @@ import it.polimi.ngsw.model.LeaderCard;
 import java.util.List;
 
 public class LeaderCardActivationMessage extends Message{
+    private static final long serialVersionUID = -3735443375793802589L;
     private int leaderCardChosen;
     private int turnZone;
     public LeaderCardActivationMessage(String nickname,  int chosen, int turnZone) {

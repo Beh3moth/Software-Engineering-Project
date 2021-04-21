@@ -302,7 +302,7 @@ public class GameController implements Observer, Serializable {
     public void discardCard(Message received){
         game.getPlayerByNickname(received.getNickname()).getFaithPath().increaseCrossPosition();
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.continueTurn(((LeaderCardActivationMessage) received).getTurnZone(),2,1, ((DiscardLeaderMessage) received).getCardChosen(), null);
+        virtualView.continueTurn(((DiscardLeaderMessage) received).getTurnZone(),2,1, ((DiscardLeaderMessage) received).getCardChosen(), null);
     }
     /**
      * Adds a Player VirtualView to the controller if the first player max_players is not exceeded.

@@ -20,6 +20,6 @@ public class DiscardLeaderMessage extends Message{
 
     @Override
     public String toString() {
-        return " Activation " + getCardChosen() + "° LeaderCard ";
+        return " Discard " + getCardChosen() + "° LeaderCard ";
     }
 }

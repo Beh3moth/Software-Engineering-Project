@@ -188,9 +188,11 @@ public class ClientController implements ViewObserver, Observer{
             case START_TURN:
                 StartTurnMessage start = (StartTurnMessage) message;
                 taskQueue.execute(() -> view.startTurnMessage(start.getLeaders()));
+                break;
             case CONTINUE_TURN:
                 ContinueTurnMessage continueMessage = (ContinueTurnMessage) message;
                 taskQueue.execute(() -> view.continueTurn(continueMessage.getTurnZone(), continueMessage.getActionTypology(), continueMessage.getGoneRight(), continueMessage.getCard(), continueMessage.getLeaders()));
+                break;
             default: // Should never reach this condition
                 break;
         }

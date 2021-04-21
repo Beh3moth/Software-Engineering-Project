@@ -103,6 +103,7 @@ public class Game extends Observable implements FaithPathListener{
         return playerNumbers;
     }
 
+
     /**
      * this method allows you to set the number of players
      * @param numberOfPlayers

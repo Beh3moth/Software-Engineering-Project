@@ -17,7 +17,7 @@ public class DiscardDevCard implements ActionToken {
      */
     @Override
     public void applyToken(FaithPath lawrenceFaithPath, Board board, Game game) {
-        board.removeDevCard(devCardColour);
+        board.removeTwoDevCard(devCardColour);
     }
 
     @Override

@@ -112,5 +112,15 @@ public class DevCardDashboardTest {
 
     }
 
+    @Test
+    public void getPVTest() throws FileNotFoundException {
+        DevCardDashboard devCardDashboard = new DevCardDashboard();
+        DevCardParser devCardParser = new DevCardParser();
+        for(int i=0; i<3;i++){
+            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json").get(i));
+        }
+        assertEquals(8, devCardDashboard.getPV());
+    }
+
 
 }

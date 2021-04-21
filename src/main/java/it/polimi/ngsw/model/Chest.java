@@ -56,6 +56,14 @@ public class Chest {
     }
 
     /**
+     * The method returns the total number of resources of the Chest.
+     * @return an integer representing the total number of resources of the Chest.
+     */
+    public int getTotalNumberOfResources(){
+        return getShield() + getStone() + getSlave() + getMoney();
+    }
+
+    /**
      * Method that returns the number of shield's resources in the Chest.
      * @return the int number of shields in the Chest.
      */

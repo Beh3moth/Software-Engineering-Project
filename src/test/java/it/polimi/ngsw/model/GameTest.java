@@ -18,6 +18,33 @@ public class GameTest {
     }
 
     @Test
+    public void increaseOtherFaithPointsTest(){
+        Player player1 = new Player("jhon");
+        Player player2 = new Player("william");
+        Player player3 = new Player("peter");
+        game.addPlayer(player1);
+        game.addPlayer(player2);
+        game.addPlayer(player3);
+        for(int i=0; i<9; i++){
+            player2.getFaithPath().increaseCrossPosition();
+            player3.getFaithPath().increaseCrossPosition();
+        }
+        for(int i=0; i<4; i++){
+            player2.getFaithPath().increaseCrossPosition();
+        }
+        assertEquals(13, player2.getFaithPath().getCrossPosition());
+        assertEquals(9, player3.getFaithPath().getCrossPosition());
+
+        game.increaseOtherFaithPoints(player1, 3);
+
+        assertTrue(player3.getFaithPath().getPapalCardOne());
+        assertTrue(player2.getFaithPath().getPapalCardOne());
+        assertTrue(player3.getFaithPath().getPapalCardTwo());
+        assertTrue(player2.getFaithPath().getPapalCardTwo());
+
+    }
+
+    @Test
     public void removeAndReturnTheLastFourLeaderCardsTest(){
         for(int i=0; i<4; i++){
             List<LeaderCard> list = new ArrayList<>();

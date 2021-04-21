@@ -60,7 +60,7 @@ public class DevCardSpace {
      * @param activePlayer the player
      * @param slot wich slot
      */
-    public void removeDevCard(Player activePlayer, int slot){
+    public void removeDevCardFromDevelopDeck(Player activePlayer, int slot){
         activePlayer.getDevCardDashboard().putDevCardIn(slot, developDeck.get(numberOfCards - 1) );
         this.numberOfCards--;
     }
@@ -72,6 +72,16 @@ public class DevCardSpace {
 
     public DevCard firstDevCard(){
         return this.developDeck.get(0);
+    }
+
+    public int removeDevCardFromDevelopDeck(){
+        int removedCards = 0;
+        int numberOfCards = getNumberOfCards();
+        for(int i = 0; i < numberOfCards-1 && removedCards<2; i++){
+            removeFirstCard();
+            removedCards++;
+        }
+        return removedCards;
     }
 
 }

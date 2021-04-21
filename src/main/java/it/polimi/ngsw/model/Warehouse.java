@@ -28,6 +28,20 @@ public class Warehouse {
         this.secondLeaderLevelType = Resource.EMPTY;
     }
 
+    /**
+     * The method calculates the total number of resources
+     * @return the total number of resources
+     */
+    public int getTotalNumberOfResources(){
+        int nResource = 0;
+        for(Resource resource : Resource.values()){
+            if(!resource.equals(Resource.EMPTY)){
+                nResource += this.getNumberOf(resource);
+            }
+        }
+        return nResource;
+    }
+
     public boolean addResourceToWhiteStock(Resource resource){
         whitemarbleStock.add(resource);
         return true;

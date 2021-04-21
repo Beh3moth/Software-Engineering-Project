@@ -17,11 +17,10 @@ public class Board implements Serializable {
 
     public static final int MAX_ROWS_MARKET = 3;
     public static final int MAX_COLUMNS_MARKET = 4;
-    private static final long serialVersionUID = -3970141292246921016L;
     private Marble[][] marketDashboard;
     private Marble singleMarble;
     private DevCardSpace[][] devDashboard;
-    private List<String> pathList = new ArrayList<String>();
+    private List<String> pathList = new ArrayList<>();
     DevCardParser devCardParser = new DevCardParser();
 
     /**
@@ -30,7 +29,7 @@ public class Board implements Serializable {
      */
     public Board(){
         marketDashboard = new Marble[3][4];
-        List<Marble> marbles = new ArrayList<Marble>();
+        List<Marble> marbles = new ArrayList<>();
         marbles.add(new RedMarble());
         marbles.add(new BlueMarble());
         marbles.add(new BlueMarble());
@@ -97,7 +96,7 @@ public class Board implements Serializable {
      * Method that return the single Marble
      * @return singleMarble
      */
-    public Marble getSingleMarble(){   //probabilmente intutile, non ci accedo mai da esterno
+    public Marble getSingleMarble(){
         return singleMarble;
     }
 
@@ -106,14 +105,14 @@ public class Board implements Serializable {
      * Method that change the single Marble
      * @param newSingleMarble the new single Marble
      */
-    public void setSingleMarble(Marble newSingleMarble){  //probabilmente intutile, non ci accedo mai da esterno
+    public void setSingleMarble(Marble newSingleMarble){
         this.singleMarble = newSingleMarble;
     }
 
     /**
      * Method that permit to take a space of the dashboard
-     * @param row wich row
-     * @param column wich column
+     * @param row which row
+     * @param column which column
      * @return the space
      */
    public DevCardSpace getDevCardSpace(int row, int column){  //CAMBIARE NOME SU UML
@@ -164,248 +163,42 @@ public class Board implements Serializable {
         return marketDashboard[row][column];
     }
 
-    /**
-     * Method that remove two cards of a color, it search until it find to remove two cards, or end of the game
-     * @param cardColour wich colour
-     */
-    public void removeDevCard(DevCardColour cardColour){
-        int remove = 2;
-        if(cardColour == DevCardColour.GREEN){
-            if(devDashboard[2][0].getNumberOfCards() >= 2){
-                devDashboard[2][0].removeFirstCard();
-                devDashboard[2][0].removeFirstCard();
-               return;
-            }
-            else if(devDashboard[2][0].getNumberOfCards() == 1){
-                devDashboard[2][0].removeFirstCard();
-                remove = 1;
-            }
-            if(devDashboard[2][0].getNumberOfCards() == 0){
-                if(devDashboard[1][0].getNumberOfCards() >= 2 && remove == 2){
-                    devDashboard[1][0].removeFirstCard();
-                    devDashboard[1][0].removeFirstCard();
-                    return;
-                }
-                else if(devDashboard[1][0].getNumberOfCards() >= 1 && remove == 1){
-                    devDashboard[1][0].removeFirstCard();
-                    return;
-
-                }
-                else if(devDashboard[1][0].getNumberOfCards() == 1 && remove == 2){
-                    devDashboard[1][0].removeFirstCard();
-                    remove = 1;
-
-                }
-                if(devDashboard[1][0].getNumberOfCards() == 0){
-                    if(devDashboard[0][0].getNumberOfCards() >=3 && remove == 2){
-                        devDashboard[0][0].removeFirstCard();
-                        devDashboard[0][0].removeFirstCard();
-                        return;
-                    }
-                    else if(devDashboard[0][0].getNumberOfCards() == 2 && remove == 2){
-                        devDashboard[0][0].removeFirstCard();
-                        devDashboard[0][0].removeFirstCard();
-                        //end of the game
-                        return;
-                    }
-                    else if(devDashboard[0][0].getNumberOfCards() >= 1 && remove == 1){
-                        devDashboard[0][0].removeFirstCard();
-                        return;
-                    }
-                    else if(devDashboard[0][0].getNumberOfCards() < 2 && remove == 2){
-                        //call end of game
-                        return;
-                    } else if (devDashboard[0][0].getNumberOfCards() < 1 && remove == 1){
-                        //call end of game
-                        return;
-                    }
-                }
-            }
-        }
-        else if(cardColour == DevCardColour.BLUE){
-            if(devDashboard[2][1].getNumberOfCards() >= 2){
-                devDashboard[2][1].removeFirstCard();
-                devDashboard[2][1].removeFirstCard();
-                remove = 0;
-                return;
-            }
-            else if(devDashboard[2][1].getNumberOfCards() == 1){
-                devDashboard[2][1].removeFirstCard();
-                remove = 1;
-            }
-            if(devDashboard[2][1].getNumberOfCards() == 0){
-                if(devDashboard[1][1].getNumberOfCards() >= 2 && remove == 2){
-                    devDashboard[1][1].removeFirstCard();
-                    devDashboard[1][1].removeFirstCard();
-                    return;
-                }
-                else if(devDashboard[1][1].getNumberOfCards() >= 1 && remove == 1){
-                    devDashboard[1][1].removeFirstCard();
-                    remove = 0;
-                    return;
-
-                }
-                else if(devDashboard[1][1].getNumberOfCards() == 1 && remove == 2){
-                    devDashboard[1][1].removeFirstCard();
-                    remove = 1;
-
-                }
-                if(devDashboard[1][1].getNumberOfCards() == 0){
-                    if(devDashboard[0][1].getNumberOfCards() >=3 && remove == 2){
-                        devDashboard[0][1].removeFirstCard();
-                        devDashboard[0][1].removeFirstCard();
-                        remove = 0;
-                        return;
-                    }
-                    else if(devDashboard[0][1].getNumberOfCards() == 2 && remove == 2){
-                        devDashboard[0][1].removeFirstCard();
-                        devDashboard[0][1].removeFirstCard();
-                        remove = 0;
-                        //end of the game
-                        return;
-                    }
-                    else if(devDashboard[0][1].getNumberOfCards() >= 1 && remove == 1){
-                        devDashboard[0][1].removeFirstCard();
-                        remove = 0;
-                        return;
-                    }
-                    else if(devDashboard[0][1].getNumberOfCards() < 2 && remove == 2){
-                        //call end of game
-                        return;
-                    } else if (devDashboard[0][1].getNumberOfCards() < 1 && remove == 1){
-                        //call end of game
-                        return;
-                    }
-                }
-            }
-        }
-        else if(cardColour == DevCardColour.YELLOW){
-            if(devDashboard[2][2].getNumberOfCards() >= 2){
-                devDashboard[2][2].removeFirstCard();
-                devDashboard[2][2].removeFirstCard();
-                remove = 0;
-                return;
-            }
-            else if(devDashboard[2][2].getNumberOfCards() == 1){
-                devDashboard[2][2].removeFirstCard();
-                remove = 1;
-            }
-            if(devDashboard[2][2].getNumberOfCards() == 0){
-                if(devDashboard[1][2].getNumberOfCards() >= 2 && remove == 2){
-                    devDashboard[1][2].removeFirstCard();
-                    devDashboard[1][2].removeFirstCard();
-                    return;
-                }
-                else if(devDashboard[1][2].getNumberOfCards() >= 1 && remove == 1){
-                    devDashboard[1][2].removeFirstCard();
-                    remove = 0;
-                    return;
-
-                }
-                else if(devDashboard[1][2].getNumberOfCards() == 1 && remove == 2){
-                    devDashboard[1][2].removeFirstCard();
-                    remove = 1;
-
-                }
-                if(devDashboard[1][2].getNumberOfCards() == 0){
-                    if(devDashboard[0][2].getNumberOfCards() >=3 && remove == 2){
-                        devDashboard[0][2].removeFirstCard();
-                        devDashboard[0][2].removeFirstCard();
-                        remove = 0;
-                        return;
-                    }
-                    else if(devDashboard[0][2].getNumberOfCards() == 2 && remove == 2){
-                        devDashboard[0][2].removeFirstCard();
-                        devDashboard[0][2].removeFirstCard();
-                        remove = 0;
-                        //end of the game
-                        return;
-                    }
-                    else if(devDashboard[0][2].getNumberOfCards() >= 1 && remove == 1){
-                        devDashboard[0][2].removeFirstCard();
-                        remove = 0;
-                        return;
-                    }
-                    else if(devDashboard[0][2].getNumberOfCards() < 2 && remove == 2){
-                        //call end of game
-                        return;
-                    } else if (devDashboard[0][2].getNumberOfCards() < 1 && remove == 1){
-                        //call end of game
-                        return;
-                    }
-                }
-            }
-        }
-        else if(cardColour == DevCardColour.PURPLE){
-            if(devDashboard[2][3].getNumberOfCards() >= 2){
-                devDashboard[2][3].removeFirstCard();
-                devDashboard[2][3].removeFirstCard();
-                remove = 0;
-                return;
-            }
-
-            else if(devDashboard[2][3].getNumberOfCards() == 1){
-                devDashboard[2][3].removeFirstCard();
-                remove = 1;
-            }
-            if(devDashboard[2][3].getNumberOfCards() == 0){
-                if(devDashboard[1][3].getNumberOfCards() >= 2 && remove == 2){
-                    devDashboard[1][3].removeFirstCard();
-                    devDashboard[1][3].removeFirstCard();
-                    return;
-                }
-                else if(devDashboard[1][3].getNumberOfCards() >= 1 && remove == 1){
-                    devDashboard[1][3].removeFirstCard();
-                    remove = 0;
-                    return;
-
-                }
-                else if(devDashboard[1][3].getNumberOfCards() == 1 && remove == 2){
-                    devDashboard[1][3].removeFirstCard();
-                    remove = 1;
-
-                }
-                if(devDashboard[1][3].getNumberOfCards() == 0){
-                    if(devDashboard[0][3].getNumberOfCards() >=3 && remove == 2){
-                        devDashboard[0][3].removeFirstCard();
-                        devDashboard[0][3].removeFirstCard();
-                        remove = 0;
-                        return;
-                    }
-                    else if(devDashboard[0][3].getNumberOfCards() == 2 && remove == 2){
-                        devDashboard[0][3].removeFirstCard();
-                        devDashboard[0][3].removeFirstCard();
-                        remove = 0;
-                        //end of the game
-                        return;
-                    }
-                    else if(devDashboard[0][3].getNumberOfCards() >= 1 && remove == 1){
-                        devDashboard[0][3].removeFirstCard();
-                        remove = 0;
-                        return;
-                    }
-                    else if(devDashboard[0][3].getNumberOfCards() < 2 && remove == 2){
-                        //call end of game
-                        return;
-                    } else if (devDashboard[0][3].getNumberOfCards() < 1 && remove == 1){
-                        //call end of game
-                        return;
-                    }
-                }
-            }
-        }
-}
-
     public int getDevCardColumn(DevCardColour colour){
-        int devColumn = -1;
         switch(colour){
-            case GREEN: devColumn = 0;
-            case BLUE: devColumn = 1;
-            case YELLOW: devColumn = 2;
-            case PURPLE: devColumn = 3;
-            case EMPTY: devColumn = -1;
+            case GREEN: return 0;
+            case BLUE: return 1;
+            case YELLOW: return 2;
+            case PURPLE: return 3;
+            default: return  -1;
         }
-        return devColumn;
+    }
+
+    /**
+     * The method receives a Development Card Colour to delete and try to delete two Development Cards of that colour starting from the cards of a lower level.
+     * @param cardColour is the colour to delete.
+     * @return the number of cards deleted.
+     */
+    public boolean removeTwoDevCard(DevCardColour cardColour){
+
+        int col = getDevCardColumn(cardColour);
+
+        if(col==-1){
+            return false;
+        }
+
+        int deletedDevCards = 0;
+
+        for(int i=2; (i>=0 && deletedDevCards<2); i--){
+
+            deletedDevCards += devDashboard[i][col].removeDevCardFromDevelopDeck();
+            if(i==0 && deletedDevCards<2){
+                return true;
+            }
+
+        }
+
+        return true;
+
     }
 
 }

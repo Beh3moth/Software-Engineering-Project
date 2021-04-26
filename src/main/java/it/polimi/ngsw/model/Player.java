@@ -96,6 +96,21 @@ public class Player extends Observable implements Serializable {
     }
 
     /**
+     * The method returns every resource the player has as a Map.
+     * @return a Map in which the Resource is the key and the Integer is the value.
+     */
+    public Map<Resource, Integer> getMapFromChestAndWarehouse(){
+        Map<Resource, Integer> warehouseMap = this.getWarehouse().getResourcesAsMap();
+        Map<Resource, Integer> chestMap = this.getChest().getResourcesAsMap();
+        for(Resource resource : Resource.values()){
+            if(!resource.equals(Resource.EMPTY) && !resource.equals(Resource.FAITHPOINT)){
+                warehouseMap.put(resource, chestMap.get(resource) + warehouseMap.get(resource));
+            }
+        }
+        return warehouseMap;
+    }
+
+    /**
      * this method returns the Resource: DiscountPowerOne
      * @return DiscountPowerOne
      */
@@ -281,21 +296,6 @@ public class Player extends Observable implements Serializable {
     //setBaseProductionPowerLists moved in Production Power
 
     /**
-     * The method returns every resource the player has as a Map.
-     * @return a Map in which the Resource is the key and the Integer is the value.
-     */
-    public Map<Resource, Integer> getMapFromChestAndWarehouse(){
-        Map<Resource, Integer> warehouseMap = this.getWarehouse().getResourcesAsMap();
-        Map<Resource, Integer> chestMap = this.getChest().getResourcesAsMap();
-        for(Resource resource : Resource.values()){
-            if(!resource.equals(Resource.EMPTY) && !resource.equals(Resource.FAITHPOINT)){
-                warehouseMap.put(resource, chestMap.get(resource) + warehouseMap.get(resource));
-            }
-        }
-        return warehouseMap;
-    }
-
-    /**
      * The method ensures the player can afford the Production Power.
      * @param costMap is Map map where the keys are the resources (Resource.EMPTY excluded) and the Integers are the valuse.
      * @return true if the player can afford the Map, false otherwise.
@@ -327,24 +327,17 @@ public class Player extends Observable implements Serializable {
     public boolean payProductionPower(ProductionPower productionPower, Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType){
 
         for(int i=0; i < resourceType.length; i++){
-
             if(isWarehouse[i]){
-                if (!this.getWarehouse().removeResourceWarehouse(shelfLevel[i])) {
-                    rejectProductionPower(productionPower);
-                    return false;
-                }
-            } else {
-                if (!this.getChest().removeResource(resourceType[i], 1)) {
-                    rejectProductionPower(productionPower);
-                    return false;
-                }
-            }
+                if(!this.getWarehouse().removeResourceWarehouse(shelfLevel[i])) return false;
+                if(!productionPower.addSingleCoordinate(resourceType[i], true, shelfLevel[i])) return false;
 
+            } else {
+                if(!this.getChest().removeResource(resourceType[i], 1)) return false;
+                if(!productionPower.addSingleCoordinate(resourceType[i], false, 0)) return false;
+            }
         }
 
-        productionPower.addCoordinates(resourceType, isWarehouse, shelfLevel);
-        paidList.add(productionPower);
-        return true;
+        return paidList.add(productionPower);
 
     }
 
@@ -384,6 +377,19 @@ public class Player extends Observable implements Serializable {
 
         return !abilityList.isEmpty();
 
+    }
+
+    /**
+     * The method put the resources to receive from the Production Powers in the paidList in the player's chest.
+     * @return true if successful, false otherwise.
+     */
+    public boolean getResourcesFromProductionPowers(){
+        for(ProductionPower productionPower : paidList){
+            for (Resource resource : productionPower.getResourceToReceive()){
+                if(!this.getChest().addResource(resource, 1)) return false;
+            }
+        }
+        return true;
     }
 
     //buyDevCard methods

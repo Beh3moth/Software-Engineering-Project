@@ -120,9 +120,14 @@ public class ProductionPower {
      */
     public boolean setLeaderProductionPowerResourceToReceive(Resource resource){
         List<Resource> resourceList = new ArrayList<>();
-        resourceList.add(resource);
-        resourceToProduce = resourceList;
-        return resourceToProduce.equals(resourceList);
+        if(resource.equals(Resource.EMPTY)){
+            return false;
+        }
+        else{
+            resourceList.add(resource);
+            resourceToProduce = resourceList;
+            return resourceToProduce.equals(resourceList);
+        }
     }
 
     //Coordinates methods

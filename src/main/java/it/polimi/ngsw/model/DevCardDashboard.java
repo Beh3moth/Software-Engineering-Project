@@ -81,6 +81,21 @@ public class DevCardDashboard {
         return  devCardList;
     }
 
+    /**
+     * The method returns a list of the active Production Powers.
+     * @return a list of the active Production Powers or null if it is empty.
+     */
+    public List<ProductionPower> getActiveLeaderProductionPowerList(){
+        List<ProductionPower> productionPowerList = new ArrayList<>();
+        if(leaderProductionPowerOne!=null){
+            productionPowerList.add(leaderProductionPowerOne);
+        }
+        if(leaderProductionPowerOne!=null){
+            productionPowerList.add(leaderProductionPowerTwo);
+        }
+        return productionPowerList;
+    }
+
 
     //Methods to manage production powers
 

@@ -120,9 +120,14 @@ public class ProductionPower {
      */
     public boolean setLeaderProductionPowerResourceToReceive(Resource resource){
         List<Resource> resourceList = new ArrayList<>();
-        resourceList.add(resource);
-        resourceToProduce = resourceList;
-        return resourceToProduce.equals(resourceList);
+        if(resource.equals(Resource.EMPTY)){
+            return false;
+        }
+        else{
+            resourceList.add(resource);
+            resourceToProduce = resourceList;
+            return resourceToProduce.equals(resourceList);
+        }
     }
 
     //Coordinates methods
@@ -148,7 +153,7 @@ public class ProductionPower {
      * @param shelfLevel is the number of shelfLevel of the Warehouse. It is 0 if warehouse it's false.
      * @return true if the coordinates are correct and correctly added in the list, false otherwise.
      */
-    public boolean addSingleCoordinate(Resource resourceType, boolean isWarehouse, int shelfLevel){
+    public boolean addSingleCoordinate(Resource resourceType, Boolean isWarehouse, Integer shelfLevel){
 
         if(resourceType!=Resource.EMPTY && shelfLevel<6 && shelfLevel>=0){
             this.resourceType.add(resourceType);

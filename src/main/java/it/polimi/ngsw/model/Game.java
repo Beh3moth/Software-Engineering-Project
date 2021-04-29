@@ -258,7 +258,7 @@ public class Game extends Observable implements FaithPathListener {
                     maxPos = lawrenceFaithPath.getCrossPosition();
                 }
             }
-            update(maxPos);
+            checkForVaticanReport(maxPos);
         }
 
     }

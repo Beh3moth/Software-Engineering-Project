@@ -313,7 +313,7 @@ public class GameController implements Observer, Serializable {
         game.buyFromMarket(((BuyFromMarketMessage) received).getRowOrColumn(),((BuyFromMarketMessage) received).getWichOne(), activePlayer);
         game.manageWhiteResources(activePlayer);
         VirtualView virtualView = virtualViewMap.get(received.getNickname()); //arrivo che ho una lista di risorse (anche white) nello stock, prima cosa è dare valore a tutte,
-        //poi posso scartarle, oppure riordinare magazzino
+        //virtualView.buyMarketResource(game.getPlayerByNickname(received.getNickname()).getWarehouse().getWarehouseStock());
     }
     /**
      * Adds a Player VirtualView to the controller if the first player max_players is not exceeded.

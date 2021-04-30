@@ -211,7 +211,7 @@ public class Player extends Observable implements Serializable {
     }
 
     /**
-     * this method allows the player to activate a leadercard
+     *e this mthod allows the player to activate a leadercard
      * @param leaderCardToActive
      * @return true if the card is activeted, false otherwhise
      */

@@ -328,7 +328,7 @@ public class Player extends Observable implements Serializable {
 
         for(int i=0; i < resourceType.length; i++){
             if(isWarehouse[i]){
-                if(!this.getWarehouse().removeResourceWarehouse(shelfLevel[i])) return false;
+                if(!this.getWarehouse().discardResourceFromWarehouse(shelfLevel[i])) return false;
                 if(!productionPower.addSingleCoordinate(resourceType[i], true, shelfLevel[i])) return false;
 
             } else {
@@ -416,7 +416,7 @@ public class Player extends Observable implements Serializable {
             Cost = board.getDevCardSpace(level-1, devColumn).firstDevCard().getDevCostAsMap();
             if(!canAfford(Cost))return null;
             devCard = board.getDevCardSpace(level - 1,devColumn).firstDevCard();
-            board.getDevCardSpace(level, devColumn).removeFirstCard();
+            board.getDevCardSpace(level-1, devColumn).removeFirstCard();
             return devCard;
         }
     }
@@ -434,7 +434,7 @@ public class Player extends Observable implements Serializable {
         if(!canBuyDevCard(resource, warehouse, level))return false;
         for(int i = 0; i < resource.length; i++){
             if(warehouse[i]) {
-                this.getWarehouse().removeResourceWarehouse(level[i]);
+                this.getWarehouse().discardResourceFromWarehouse(level[i]);
             }
             else{
                 this.getChest().removeResource(resource[i], 1);

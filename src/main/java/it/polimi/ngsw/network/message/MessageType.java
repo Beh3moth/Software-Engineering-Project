@@ -17,7 +17,10 @@ public enum MessageType {
     BUY_MARKET,
     DISCARD_CARD,
     DISCONNECTION,
+    NEWRESOURCE,
+    REORDER_WAREHOUSE,
     GENERIC_MESSAGE,
     PING,
     ERROR,
+   NEW_WAREHOUSE;
 }

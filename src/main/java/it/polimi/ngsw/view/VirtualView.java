@@ -6,6 +6,7 @@ import it.polimi.ngsw.network.server.ClientHandler;
 import it.polimi.ngsw.observer.Observer;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Hides the network implementation from the controller.
@@ -96,7 +97,15 @@ public class VirtualView implements View, Observer {
     public void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders){
         clientHandler.sendMessage(new ContinueTurnMessage(Game.SERVER_NICKNAME, turnZone, actionTypology, goneRight, wichCard, Leaders));
     };
+    @Override
+    public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite){
+        clientHandler.sendMessage(new NewResourcesMessage(Game.SERVER_NICKNAME, resources, firstWhite, secondWhite));
+    }
 
+    @Override
+    public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
+        clientHandler.sendMessage(new ReorderWarehouseMessage(Game.SERVER_NICKNAME, mapResources, firstLevel, secondLevel));
+    }
 
     /**
      * Receives an update message from the model.

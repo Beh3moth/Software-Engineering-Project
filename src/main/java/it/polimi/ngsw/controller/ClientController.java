@@ -120,6 +120,12 @@ public class ClientController implements ViewObserver, Observer{
         client.disconnect();
     }
 
+    @Override
+    public void onUpdateNewWarehouse(Resource newFirstShelf, List<Resource> newSecondShelf, List<Resource> newThirdShelf, List<Resource> newFirstSpecialShelf, List<Resource> newSecondSpecialShelf, List<Resource> discardList) {
+        client.sendMessage(new NewWarehouseMessage(this.nickname, newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList));
+
+    }
+
     /**
      * Sends a message to the server with the updated nickname.
      * The nickname is also stored locally for later usages.
@@ -150,7 +156,14 @@ public class ClientController implements ViewObserver, Observer{
     @Override
     public void onUpdateBuyFromMarket(int rowOrColumn, int wichOne){
         client.sendMessage(new BuyFromMarketMessage(this.nickname, rowOrColumn, wichOne));
-    };
+    }
+
+    @Override
+    public void onUpdateReorderWarehouse() {
+        client.sendMessage(new ReorderWarehouseMessage(this.nickname, null, null, null));
+    }
+
+    ;
 
     public void update(Message message) {
 
@@ -197,6 +210,14 @@ public class ClientController implements ViewObserver, Observer{
             case CONTINUE_TURN:
                 ContinueTurnMessage continueMessage = (ContinueTurnMessage) message;
                 taskQueue.execute(() -> view.continueTurn(continueMessage.getTurnZone(), continueMessage.getActionTypology(), continueMessage.getGoneRight(), continueMessage.getCard(), continueMessage.getLeaders()));
+                break;
+            case NEWRESOURCE:
+                NewResourcesMessage resourceMessage = (NewResourcesMessage) message;
+                taskQueue.execute(() -> view.buyMarketResource(resourceMessage.getResources(), resourceMessage.getFirstResource(), resourceMessage.getSecondResource()));
+                break;
+            case REORDER_WAREHOUSE:
+                ReorderWarehouseMessage reorderWarehouseMessage = (ReorderWarehouseMessage) message;
+                taskQueue.execute(() -> view.reorderWarehouse(reorderWarehouseMessage.getMapResources(),reorderWarehouseMessage.getFirstLevel(), reorderWarehouseMessage.getSecondLevel()));
                 break;
             default: // Should never reach this condition
                 break;

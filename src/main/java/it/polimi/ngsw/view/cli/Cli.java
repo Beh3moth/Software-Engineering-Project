@@ -29,6 +29,13 @@ public class Cli extends ViewObservable implements View {
     private Marble[] firstRow;
     private Marble[] secondRow;
     private Marble[] thirdRow;
+    private List<Resource> newResources;
+    private Resource newFirstShelf;
+    private List<Resource> newSecondShelf;
+    private List<Resource> newThirdShelf;
+    private List<Resource> newFirstSpecialShelf;
+    private List<Resource> newSecondSpecialShelf;
+    private List<Resource> discardList;
 
     /**
      * Default constructor.
@@ -303,6 +310,195 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    @Override
+    public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
+        for (int i = 0; i < resources.size(); i++) {
+            if (resources.get(i) == Resource.EMPTY) this.newResources.set(i, choseResource(firstWhite, secondWhite));
+        }
+        out.println("You have this new resources to manage : ");
+        for (int i = 0; i < resources.size(); i++) {
+            out.print(resources.get(i).toString() + " ");
+        }
+        out.println(" ");
+        notifyObserver(obs -> obs.onUpdateReorderWarehouse());
+    }
+
+    private void resetCliWarehouse() {
+        this.newFirstShelf = Resource.EMPTY;
+        this.newSecondShelf.clear();
+        this.newThirdShelf.clear();
+        this.newFirstSpecialShelf.clear();
+        this.newSecondSpecialShelf.clear();
+    }
+
+    @Override
+    public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
+        resetCliWarehouse();
+        out.println("You have this resources in your warehouse at the moment: ");
+        mapResources.forEach((key, value) -> out.println(key + ":" + value));
+        if (firstLevel != Resource.EMPTY)
+            out.println("You have a special shelf with this resource: " + firstLevel.toString());
+        if (secondLevel != Resource.EMPTY)
+            out.println("You have a special shelf with this resource: " + secondLevel.toString());
+        buildWarehouse(mapResources, firstLevel, secondLevel);
+        printWarehouse();
+        askToSendNewWarehouse(mapResources, firstLevel, secondLevel);
+    }
+
+    private void askToSendNewWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
+        try{
+            out.println("Do you want this new warehouse and discard this resources? ");
+            int chose = numberInput(0, 1, "Chose 0)No, reorder warehouse 1) Yes");
+            if(chose == 0){
+                reorderWarehouse(mapResources,firstLevel,secondLevel);
+            }else{
+                newResources.clear();
+                notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList));
+            }
+        }catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+    }
+
+    private void buildWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
+        try {
+            for (Map.Entry<Resource, Integer> entry : mapResources.entrySet()) {
+                for (int i = 0; i < entry.getValue().intValue(); i++) {
+                    int chose = 0;
+                    boolean goneRight = false;
+                    do {
+                        out.println("Chose where to put this resources " + entry.getKey().toString());
+                        if (firstLevel == Resource.EMPTY && secondLevel == Resource.EMPTY) {
+                            chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third");
+                        } else if (firstLevel != Resource.EMPTY && secondLevel == Resource.EMPTY) {
+                            chose = numberInput(0, 4, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial");
+                        } else if (firstLevel != Resource.EMPTY && secondLevel != Resource.EMPTY) {
+                            chose = numberInput(0, 5, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial 5) SecondSpecial");
+                        }
+                        if (chose == 0) {
+                            this.discardList.add(entry.getKey());
+                            goneRight = true;
+                        } else if (controllFloor(chose, entry.getKey(), firstLevel, secondLevel) && chose != 0) {
+                            goneRight = true;
+                        }
+                    }
+                    while (!goneRight);
+                }
+                for (int i = 0; i < newResources.size(); i++) {
+                    int chose = 0;
+                    boolean goneRight = false;
+                    do { out.println("Chose where to put this resources " + newResources.get(i).toString());
+                        if (firstLevel == Resource.EMPTY && secondLevel == Resource.EMPTY) {
+                            chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third");
+                        } else if (firstLevel != Resource.EMPTY && secondLevel == Resource.EMPTY) {
+                            chose = numberInput(0, 4, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial");
+                        } else if (firstLevel != Resource.EMPTY && secondLevel != Resource.EMPTY) {
+                            chose = numberInput(0, 5, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial 5) SecondSpecial"); }
+                        if (chose == 0) { this.discardList.add(entry.getKey());goneRight = true;
+                        } else if (controllFloor(chose, entry.getKey(), firstLevel, secondLevel) && chose != 0) { goneRight = true; } }
+                    while (!goneRight);
+                }
+            }
+        } catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+    }
+
+    private void printWarehouse() {
+        out.println("Warehouse");
+        out.println("First shelf ");//DA PRINTARE TUTTOOOO
+    }
+
+    private boolean controllFloor(int chose, Resource resource, Resource firstFloor, Resource secondFloor) {
+        if (chose == 1) {
+            if (this.newFirstShelf == Resource.EMPTY) {
+                this.newFirstShelf = resource;
+                out.println("Resource " + resource.toString() + " added to the first shelf");
+                return true;
+            } else {
+                out.println("First shelf already full ");
+                return false;
+            }
+        } else if (chose == 2) {
+            if (this.newSecondShelf.size() == 0) {
+                this.newSecondShelf.set(0, resource);
+                out.println("Added a " + resource.toString() + " to the second floor");
+                return true;
+            } else {
+                if (this.newSecondShelf.get(0) == resource && this.newSecondShelf.size() < 2) {
+                    this.newSecondShelf.set(this.newSecondShelf.size(), resource);
+                    out.println("Added a " + resource.toString() + " to the second floor");
+                    return true;
+                } else if (this.newSecondShelf.get(0) == resource && this.newSecondShelf.size() == 2) {
+                    out.println("Second floor is full");
+                    return false;
+                } else if (this.newSecondShelf.get(0) != resource) {
+                    out.println("Wrong resource ");
+                    return false;
+                }
+            }
+        } else if (chose == 3)
+            if (this.newThirdShelf.size() == 0) {
+                this.newThirdShelf.set(0, resource);
+                out.println("Added a " + resource.toString() + " to the third floor");
+                return true;
+            } else {
+                if (this.newThirdShelf.get(0) == resource && this.newThirdShelf.size() < 3) {
+                    this.newThirdShelf.set(this.newThirdShelf.size(), resource);
+                    out.println("Added a " + resource.toString() + " to the third floor");
+                    return true;
+                } else if (this.newThirdShelf.get(0) == resource && this.newThirdShelf.size() == 3) {
+                    out.println("Third floor is full");
+                    return false;
+                } else if (this.newThirdShelf.get(0) != resource) {
+                    out.println("Wrong resource ");
+                    return false;
+                }
+            }
+        else if (chose == 4) {
+            if (newFirstSpecialShelf.size() < 2 && firstFloor == resource) {
+                this.newFirstSpecialShelf.set(this.newFirstSpecialShelf.size(), resource);
+                out.println("Added a " + resource.toString() + " to the first special shelf");
+                return true;
+            } else if (newFirstSpecialShelf.size() == 0 && firstFloor != resource) {
+                out.println("Wrong resource ");
+                return false;
+            } else if (newFirstSpecialShelf.size() == 2) {
+                out.println("Already filled! ");
+                return false;
+            }
+        } else if (chose == 5) {
+            if (newSecondSpecialShelf.size() < 2 && secondFloor == resource) {
+                this.newSecondSpecialShelf.set(this.newSecondSpecialShelf.size(), resource);
+                out.println("Added a " + resource.toString() + " to the second special shelf");
+                return true;
+            } else if (newSecondSpecialShelf.size() == 0 && secondFloor != resource) {
+                out.println("Wrong resource ");
+                return false;
+            } else if (newSecondSpecialShelf.size() == 2) {
+                out.println("Already filled! ");
+                return false;
+            }
+        }
+        return false;
+    }
+
+
+    public Resource choseResource(Resource firstWhite, Resource secondWhite) {
+        Resource chosen = Resource.EMPTY;
+        try {
+            if (firstWhite != Resource.EMPTY && secondWhite != Resource.EMPTY) {
+                out.println("Chose between this two possibility: 1) " + firstWhite.toString() + " and 2)" + secondWhite.toString() + " ");
+                int chose = numberInput(1, 2, "What? ");
+                if (chose == 1) chosen = firstWhite;
+                else chosen = secondWhite;
+            } else if (firstWhite != Resource.EMPTY && secondWhite == Resource.EMPTY) chosen = firstWhite;
+            return chosen;
+        } catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+        return chosen;
+    }
 
     public void askToManageLeaderCards(List<LeaderCard> Leaders, int turnZone) {
         try {
@@ -376,9 +572,11 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void takeResourcesFromMarket() {
-        try{out.println("Do you want to take a column or a row? 1) Column 2) Row");
+        try {
+            out.println("Do you want to take a column or a row? 1) Column 2) Row");
             int chose = numberInput(1, 2, "Which sector? ");
-            if(chose == 1){out.println("Chose a column ( 1 - 2 - 3 - 4 ) ");
+            if (chose == 1) {
+                out.println("Chose a column ( 1 - 2 - 3 - 4 ) ");
                 int choseColumn = numberInput(1, 4, "Which column? ");
                 Marble support = this.singleMarble;
                 this.singleMarble = this.firstRow[choseColumn - 1];
@@ -387,15 +585,29 @@ public class Cli extends ViewObservable implements View {
                 this.thirdRow[choseColumn - 1] = support;
                 printMarket();
                 notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, choseColumn));
-            }else if(chose == 2){out.println("Chose a row ( 1 - 2 - 3 ) ");
+            } else if (chose == 2) {
+                out.println("Chose a row ( 1 - 2 - 3 ) ");
                 int choseRow = numberInput(1, 3, "Which row? ");
                 Marble support = this.singleMarble;
-                if(choseRow == 1){this.singleMarble = this.firstRow[0]; this.firstRow[0] = this.firstRow[1]; this.firstRow[1] = this.firstRow[2];
-                    this.firstRow[2] = this.firstRow[3]; this.firstRow[3] = support;}
-                else if(choseRow == 2){this.singleMarble = this.secondRow[0]; this.secondRow[0] = this.secondRow[1]; this.secondRow[1] = this.secondRow[2];
-                    this.secondRow[2] = this.secondRow[3]; this.secondRow[3] = support;}
-                else if(choseRow == 3){this.singleMarble = this.thirdRow[0]; this.thirdRow[0] = this.thirdRow[1]; this.thirdRow[1] = this.thirdRow[2];
-                    this.thirdRow[2] = this.thirdRow[3]; this.thirdRow[3] = support;}
+                if (choseRow == 1) {
+                    this.singleMarble = this.firstRow[0];
+                    this.firstRow[0] = this.firstRow[1];
+                    this.firstRow[1] = this.firstRow[2];
+                    this.firstRow[2] = this.firstRow[3];
+                    this.firstRow[3] = support;
+                } else if (choseRow == 2) {
+                    this.singleMarble = this.secondRow[0];
+                    this.secondRow[0] = this.secondRow[1];
+                    this.secondRow[1] = this.secondRow[2];
+                    this.secondRow[2] = this.secondRow[3];
+                    this.secondRow[3] = support;
+                } else if (choseRow == 3) {
+                    this.singleMarble = this.thirdRow[0];
+                    this.thirdRow[0] = this.thirdRow[1];
+                    this.thirdRow[1] = this.thirdRow[2];
+                    this.thirdRow[2] = this.thirdRow[3];
+                    this.thirdRow[3] = support;
+                }
                 printMarket();
                 notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, choseRow));
             }
@@ -412,9 +624,18 @@ public class Cli extends ViewObservable implements View {
         out.println("                   MARKET  ");
         out.print("SINGLE MARBLE:                                     ");
         out.println(this.singleMarble.getResource().toString());
-        for (int j = 0; j < 4; j++) { out.print("  " + this.firstRow[j].getResource().toString() + "    "); } out.println("");
-        for (int j = 0; j < 4; j++) { out.print("  " + this.secondRow[j].getResource().toString() + "    "); } out.println("");
-        for (int j = 0; j < 4; j++) { out.print("  " + this.secondRow[j].getResource().toString() + "    "); } out.println("");
+        for (int j = 0; j < 4; j++) {
+            out.print("  " + this.firstRow[j].getResource().toString() + "    ");
+        }
+        out.println("");
+        for (int j = 0; j < 4; j++) {
+            out.print("  " + this.secondRow[j].getResource().toString() + "    ");
+        }
+        out.println("");
+        for (int j = 0; j < 4; j++) {
+            out.print("  " + this.secondRow[j].getResource().toString() + "    ");
+        }
+        out.println("");
     }
 
     /**

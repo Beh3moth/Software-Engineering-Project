@@ -284,10 +284,31 @@ public class GameController implements Observer, Serializable {
             case BUY_MARKET:
                 buyFromMarket(receivedMessage);
                 break;
+            case REORDER_WAREHOUSE:
+                reorderWarehouseGetter(receivedMessage);
+                break;
+            case NEW_WAREHOUSE:
+                newWarehouse(receivedMessage);
+                break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
         }
+    }
+
+    private void newWarehouse(Message receivedMessage) {
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        for(int i=0; i < ((NewWarehouseMessage) receivedMessage).getDiscardList().size(); i++){
+            //game.increaseOtherFaithPoints(turnController.getActivePlayer(), 1);
+        }
+        //game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().
+        //metodi che aggiornano warehouse
+        //continua gioco, posso usare il turnzone 2 fallito tipo leadercard?
+    }
+
+    private void reorderWarehouseGetter(Message receivedMessage) {
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        virtualView.reorderWarehouse(game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getResourcesAsMap(), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(1), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(2));
     }
 
     public void activateLeaderCard(Message received){
@@ -313,7 +334,7 @@ public class GameController implements Observer, Serializable {
         game.buyFromMarket(((BuyFromMarketMessage) received).getRowOrColumn(),((BuyFromMarketMessage) received).getWichOne(), activePlayer);
         game.manageWhiteResources(activePlayer);
         VirtualView virtualView = virtualViewMap.get(received.getNickname()); //arrivo che ho una lista di risorse (anche white) nello stock, prima cosa è dare valore a tutte,
-        //virtualView.buyMarketResource(game.getPlayerByNickname(received.getNickname()).getWarehouse().getWarehouseStock());
+        virtualView.buyMarketResource(game.getPlayerByNickname(received.getNickname()).getWarehouse().getWarehouseStock(),game.getPlayerByNickname(received.getNickname()).getWhiteMarblePowerOne(), game.getPlayerByNickname(received.getNickname()).getWhiteMarblePowerTwo() );
     }
     /**
      * Adds a Player VirtualView to the controller if the first player max_players is not exceeded.

@@ -30,7 +30,6 @@ public class DevCardDashboard {
         this.devCardNumber = 0;
     }
 
-
     //Methods to manage DevCard
 
     private void initDevCardStat() {
@@ -95,7 +94,6 @@ public class DevCardDashboard {
         }
         return productionPowerList;
     }
-
 
     //Methods to manage production powers
 

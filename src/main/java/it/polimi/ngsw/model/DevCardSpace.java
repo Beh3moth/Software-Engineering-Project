@@ -7,11 +7,8 @@ import java.util.List;
  *Class that contains a matrix of mini deck of 4 cards, it has a specific level and colour
  */
 public class DevCardSpace {
-    //level of the deck, it can be 3 or 2 or 1 and it doesn't change in the game
     private int deckLevel;
-    //colour of the deck, it doesn't change during the game
     private DevCardColour deckColour;
-    //number of cards in that moment, it starts with 4
     private int numberOfCards;
     private List<DevCard> developDeck;
 

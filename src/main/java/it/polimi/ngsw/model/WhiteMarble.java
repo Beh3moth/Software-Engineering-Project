@@ -19,11 +19,6 @@ public class WhiteMarble extends Marble{
         this.marbleColour = MarbleColour.WHITE;
     }
 
-
-    //IDEA, butto tutto sullo stock magazzino,
-    // che avrà al massimo quattro elementi alla volta, finito di prendere col ciclo for gli elementi, sempre dentro al metodo chiamo 
-    //un metodo gestiscimagazzino() che prima mi fa vedere situazione magazzino e stock, e per ogni elemento dello stock decido se scartare o fare cosa
-
     /**
      * Method that gives the player a the choice between two leader white marble, or just one, and than put the resources inside the warehouse's stock
      * @param player the player

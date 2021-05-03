@@ -17,10 +17,6 @@ public class BlueMarble extends Marble{
         this.marbleColour = MarbleColour.BLUE;
     }
 
-    //IDEA, butto tutto sullo stock magazzino,
-    // che avrà al massimo quattro elementi alla volta, finito di prendere col ciclo for gli elementi, sempre dentro al metodo chiamo 
-    //un metodo gestiscimagazzino() che prima mi fa vedere situazione magazzino e stock, e per ogni elemento dello stock decido se scartare o fare cosa
-
     /**
      * Method that gives the player a shield and put it into the stock
      * @param player the player

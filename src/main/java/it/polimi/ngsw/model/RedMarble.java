@@ -18,8 +18,8 @@ public class RedMarble extends Marble{
      */
     @Override
     public void actionMarble(Player player){
-        player.getFaithPath().increaseCrossPosition();  //bisogna aggiungere il metodo getTraceFait() ragaaaaaa
-    }  //cambiare addposition in increase cross position etc
+        player.getFaithPath().increaseCrossPosition();
+    }
 
     /**
      * Method that return the colour of the marble

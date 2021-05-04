@@ -3,13 +3,11 @@ package it.polimi.ngsw.view.cli;
 
 import it.polimi.ngsw.controller.ClientController;
 
-import it.polimi.ngsw.model.Game;
-import it.polimi.ngsw.model.LeaderCard;
-import it.polimi.ngsw.model.Marble;
-import it.polimi.ngsw.model.Resource;
+import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.network.message.StartTurnMessage;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
+import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -21,6 +19,8 @@ import java.util.concurrent.FutureTask;
  * This class offers a User Interface to the user via terminal. It is an implementation of the {@link View}.
  */
 public class Cli extends ViewObservable implements View {
+
+    ResourcesArt resourcesArt = new ResourcesArt();
 
     private final PrintStream out;
     private Thread inputThread;
@@ -36,6 +36,8 @@ public class Cli extends ViewObservable implements View {
     private List<Resource> newFirstSpecialShelf;
     private List<Resource> newSecondSpecialShelf;
     private List<Resource> discardList;
+    List<ProductionPower> leaderProductionPowerList;
+    List<DevCard> activeDevCardList;
 
     /**
      * Default constructor.
@@ -273,12 +275,14 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList) {
         out.println("It's your turn!");
         this.singleMarble = singleMarble;
         this.firstRow = firstRow;
         this.secondRow = secondRow;
         this.thirdRow = thirdRow;
+        this.leaderProductionPowerList = leaderProductionPowerList;
+        this.activeDevCardList = activeDevCardList;
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             askToManageLeaderCards(Leaders, 1);
         } else {
@@ -625,13 +629,18 @@ public class Cli extends ViewObservable implements View {
     public void mainMove() {
         try {
             printMarket();
-            out.println("Chose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a develop Card 4) Start production");
+            out.println("Chose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers");
             int chose = numberInput(1, 4, "Which move? ");
             if (chose == 1) {
                 notifyObserver(obs -> obs.onUpdateReorderWarehouse(true));
             } else if (chose == 2) {
                 takeResourcesFromMarket();
-            } else if (chose == 3) {/*buyDevCard();*/} else if (chose == 4) {/*startProduction();*/}
+            }
+            else if (chose == 3) {/*buyDevCard();*/}
+            else if (chose == 4) {
+                activateProductionPower();
+            }
+
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
@@ -873,7 +882,7 @@ public class Cli extends ViewObservable implements View {
      * @param error the error to be shown.
      */
     @Override
-    public void showErrorAndExit(String error) {
+    public void showErrorAndExit (String error) {
         inputThread.interrupt();
 
         out.println("\nERROR: " + error);
@@ -886,9 +895,78 @@ public class Cli extends ViewObservable implements View {
     /**
      * Clears the CLI terminal.
      */
-    public void clearCli() {
+    public void clearCli(){
         //out.print(ColorCli.CLEAR);
         out.flush();
+    }
+
+    //Activate Production Powers
+
+    public boolean activateProductionPower() throws ExecutionException {
+
+        printProductionPowerList();
+
+        try{
+            int chose = numberInput(0, 5, "Which Production Power? ");
+        }
+        catch (ExecutionException e){
+            out.println("Wrong input");
+        }
+
+        //notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, choseRow));
+
+        return true;
+    }
+
+    public void printProductionPowerList(){
+
+        out.println("0 - Base Production Power:");
+        out.println("? --> ? + ?");
+
+        int devCardCounter = 1;
+        out.println("List of your Development Card Production Powers:");
+        for (DevCard devCard : activeDevCardList) {
+            out.print(devCardCounter + " - ");
+            for(Resource resource : devCard.getProductionPower().getResourceToPay()){
+                printResource(resource);
+                out.print(" + ");
+            }
+            out.print(" --> ");
+            for(Resource resource : devCard.getProductionPower().getResourceToReceive()){
+                printResource(resource);
+                out.print(" + ");
+            }
+            out.println("");
+            devCardCounter++;
+        }
+
+        int leaderProductionPowerCounter = 4;
+        out.println("List of your Leader Production Powers:");
+        for (ProductionPower productionPower : leaderProductionPowerList) {
+            out.print(leaderProductionPowerCounter + " - ");
+            for(Resource resource : productionPower.getResourceToPay()){
+                printResource(resource);
+                out.print(" + ");
+            }
+            out.print(" --> ");
+            for(Resource resource : productionPower.getResourceToReceive()){
+                printResource(resource);
+                out.print(" + ");
+            }
+            out.println("");
+            leaderProductionPowerCounter++;
+        }
+
+    }
+
+    public void printResource (Resource resource) {
+        switch (resource){
+            case SLAVE: out.print(resourcesArt.slave() + " ");
+            case STONE: out.print(resourcesArt.stone() + " ");
+            case MONEY: out.print(resourcesArt.money() + " ");
+            case SHIELD: out.print(resourcesArt.shield() + " ");
+            case EMPTY: out.print("? ");
+        }
     }
 
 }

@@ -457,4 +457,7 @@ public class GameController implements Observer, Serializable {
         initGameController();
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
     }
+
+    //Production Power methods
+
 }

@@ -84,7 +84,7 @@ public class DevCardDashboard {
      * The method returns a list of the active Production Powers.
      * @return a list of the active Production Powers or null if it is empty.
      */
-    public List<ProductionPower> getActiveLeaderProductionPowerList(){
+    public List<ProductionPower> getLeaderProductionPowerList(){
         List<ProductionPower> productionPowerList = new ArrayList<>();
         if(leaderProductionPowerOne!=null){
             productionPowerList.add(leaderProductionPowerOne);
@@ -95,7 +95,26 @@ public class DevCardDashboard {
         return productionPowerList;
     }
 
+
     //Methods to manage production powers
+
+    /**
+     * The method returns a list of the active Production Powers.
+     * @return a list of the active Production Powers or null if it is empty.
+     */
+    public List<ProductionPower> getActiveProductionPowerList(){
+        List<ProductionPower> productionPowerList = new ArrayList<>();
+        if(leaderProductionPowerOne!=null){
+            productionPowerList.add(leaderProductionPowerOne);
+        }
+        if(leaderProductionPowerOne!=null){
+            productionPowerList.add(leaderProductionPowerTwo);
+        }
+        for(DevCard devCard : this.getActiveDevCards()){
+            productionPowerList.add(devCard.getProductionPower());
+        }
+        return productionPowerList;
+    }
 
     /**
      * The method activates a Production Power Ability of a Leader Card. It initializes a new Production Power.

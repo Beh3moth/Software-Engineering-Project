@@ -75,6 +75,7 @@ public class TurnController implements Serializable {
      * Initialize a new Turn.
      */
     public void newTurn() {
+
         turnControllerNotify("Turn of " + activePlayer, activePlayer);
         VirtualView vv = virtualViewMap.get(getActivePlayer());
         setPhaseType(PhaseType.START_TURN);
@@ -88,7 +89,13 @@ public class TurnController implements Serializable {
             secondRow[i] = game.getBoard().getMarble(1,i);
             thirdRow[i] = game.getBoard().getMarble(2,i);
         }
-        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow,thirdRow);
+
+        //Import DevCardDashboard active cards
+        List<ProductionPower> leaderProductionPowerList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getLeaderProductionPowerList();
+        List<DevCard> activeDevCardList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getActiveDevCards();
+
+        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList);
+
     }
     /**
      * Sends a Match Info Message to all the players.

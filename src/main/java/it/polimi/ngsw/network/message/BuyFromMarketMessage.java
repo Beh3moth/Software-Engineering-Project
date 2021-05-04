@@ -19,6 +19,6 @@ public class BuyFromMarketMessage extends Message {
     }
     @Override
     public String toString() {
-        return "Player " + this.getNickname() + " chose to buy from the market";
+        return "Player " + this.getNickname() + " chose to buy from the market " + getWichOne();
     }
 }

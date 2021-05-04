@@ -121,9 +121,14 @@ public class ClientController implements ViewObserver, Observer{
     }
 
     @Override
-    public void onUpdateNewWarehouse(Resource newFirstShelf, List<Resource> newSecondShelf, List<Resource> newThirdShelf, List<Resource> newFirstSpecialShelf, List<Resource> newSecondSpecialShelf, List<Resource> discardList) {
-        client.sendMessage(new NewWarehouseMessage(this.nickname, newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList));
+    public void onUpdateNewWarehouse(Resource newFirstShelf, List<Resource> newSecondShelf, List<Resource> newThirdShelf, List<Resource> newFirstSpecialShelf, List<Resource> newSecondSpecialShelf, List<Resource> discardList, Boolean isIndependent) {
+        client.sendMessage(new NewWarehouseMessage(this.nickname, newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndependent));
 
+    }
+
+    @Override
+    public void onEndTurn() {
+        client.sendMessage(new EndTurnMessage(this.nickname));
     }
 
     /**
@@ -159,11 +164,10 @@ public class ClientController implements ViewObserver, Observer{
     }
 
     @Override
-    public void onUpdateReorderWarehouse() {
-        client.sendMessage(new ReorderWarehouseMessage(this.nickname, null, null, null));
+    public void onUpdateReorderWarehouse(boolean isIndipendent) {
+        client.sendMessage(new ReorderWarehouseMessage(this.nickname, null, null, null, isIndipendent));
     }
 
-    ;
 
     public void update(Message message) {
 
@@ -217,7 +221,11 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case REORDER_WAREHOUSE:
                 ReorderWarehouseMessage reorderWarehouseMessage = (ReorderWarehouseMessage) message;
-                taskQueue.execute(() -> view.reorderWarehouse(reorderWarehouseMessage.getMapResources(),reorderWarehouseMessage.getFirstLevel(), reorderWarehouseMessage.getSecondLevel()));
+                taskQueue.execute(() -> view.reorderWarehouse(reorderWarehouseMessage.getMapResources(),reorderWarehouseMessage.getFirstLevel(), reorderWarehouseMessage.getSecondLevel(), reorderWarehouseMessage.getIsIndependent()));
+                break;
+            case AFTER_REORDER:
+                AfterReorderMessage received = (AfterReorderMessage) message;
+                taskQueue.execute(() -> view.afterReorder(received.getIsIndependent(), received.getLeaders()));
                 break;
             default: // Should never reach this condition
                 break;

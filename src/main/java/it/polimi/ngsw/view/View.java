@@ -84,11 +84,13 @@ public interface View {
     void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders);
 
     void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite);
-    void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel);
+    void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent);
     /**
      * Shows a generic message.
      *
      * @param genericMessage the generic message to be shown.
      */
     void showGenericMessage(String genericMessage);
+
+    void afterReorder(int i, List<LeaderCard> Leaders);
 }

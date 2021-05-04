@@ -50,12 +50,14 @@ public interface ViewObserver {
 
     void onUpdateBuyFromMarket(int rowOrColumn, int wichOne);
 
-    void onUpdateReorderWarehouse();
+    void onUpdateReorderWarehouse(boolean isIndipendent);
     /**
      * Handles a disconnection wanted by the user.
      * (e.g. a click on the back button into the GUI).
      */
     void onDisconnection();
 
-    void onUpdateNewWarehouse(Resource newFirstShelf, List<Resource> newSecondShelf, List<Resource> newThirdShelf, List<Resource> newFirstSpecialShelf, List<Resource> newSecondSpecialShelf, List<Resource> discardList);
+    void onUpdateNewWarehouse(Resource newFirstShelf, List<Resource> newSecondShelf, List<Resource> newThirdShelf, List<Resource> newFirstSpecialShelf, List<Resource> newSecondSpecialShelf, List<Resource> discardList, Boolean isIndependent);
+
+    void onEndTurn();
 }

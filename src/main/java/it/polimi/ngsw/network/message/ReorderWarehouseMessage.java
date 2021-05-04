@@ -11,11 +11,13 @@ public class ReorderWarehouseMessage extends Message{
     private Map<Resource, Integer> mapResources;
     private Resource firstLevel;
     private Resource secondLevel;
-    public ReorderWarehouseMessage(String nickname, Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel){
+    private Boolean isIndependent;
+    public ReorderWarehouseMessage(String nickname, Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndependent){
         super(nickname, MessageType.REORDER_WAREHOUSE);
         this.mapResources = mapResources;
         this.firstLevel =firstLevel;
         this.secondLevel = secondLevel;
+        this.isIndependent = isIndependent;
     }
 
     public Map<Resource, Integer> getMapResources() {
@@ -28,6 +30,9 @@ public class ReorderWarehouseMessage extends Message{
         return secondLevel;
     }
 
+    public Boolean getIsIndependent(){
+        return isIndependent;
+    }
     @Override
     public String toString() {
         return "ReorderWarehouse{" +

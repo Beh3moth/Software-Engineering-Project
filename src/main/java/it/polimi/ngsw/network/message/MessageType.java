@@ -22,5 +22,7 @@ public enum MessageType {
     GENERIC_MESSAGE,
     PING,
     ERROR,
-   NEW_WAREHOUSE;
+    NEW_WAREHOUSE,
+    AFTER_REORDER,
+    END_TURN,
 }

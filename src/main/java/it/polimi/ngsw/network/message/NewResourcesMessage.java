@@ -26,6 +26,8 @@ public class NewResourcesMessage extends Message{
     public Resource getSecondResource(){
         return secondResource;
     }
+
+
     @Override
     public String toString() {
         return "NewResourcesMessage{" +

@@ -268,6 +268,11 @@ public class GameController implements Observer, Serializable {
         turnController.newTurn();
     }
 
+    private void continueGame(){
+        turnController.next();
+        turnController.newTurn();
+    }
+
     /**
      * Switch on Game Messages' Types.
      *
@@ -290,6 +295,9 @@ public class GameController implements Observer, Serializable {
             case NEW_WAREHOUSE:
                 newWarehouse(receivedMessage);
                 break;
+            case END_TURN:
+                continueGame();
+                break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
@@ -298,17 +306,33 @@ public class GameController implements Observer, Serializable {
 
     private void newWarehouse(Message receivedMessage) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        for(int i=0; i < ((NewWarehouseMessage) receivedMessage).getDiscardList().size(); i++){
-            //game.increaseOtherFaithPoints(turnController.getActivePlayer(), 1);
+        if(((NewWarehouseMessage) receivedMessage).getDiscardList() != null) {
+            for (int i = 0; i < ((NewWarehouseMessage) receivedMessage).getDiscardList().size(); i++) {
+                //game.increaseOtherFaithPoints(turnController.getActivePlayer(), 1);
+            }
         }
-        //game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().
-        //metodi che aggiornano warehouse
-        //continua gioco, posso usare il turnzone 2 fallito tipo leadercard?
+        if(((NewWarehouseMessage) receivedMessage).getNewFirstShelf() != Resource.EMPTY){
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstShelf(((NewWarehouseMessage) receivedMessage).getNewFirstShelf()); }
+        if (((NewWarehouseMessage) receivedMessage).getNewSecondShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewSecondShelf().isEmpty()) {
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newSecondShelf(((NewWarehouseMessage) receivedMessage).getNewSecondShelf()); }
+        if (((NewWarehouseMessage) receivedMessage).getNewThirdShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewThirdShelf().isEmpty()) {
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newThirdShelf(((NewWarehouseMessage) receivedMessage).getNewThirdShelf()); }
+        if (((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf().isEmpty()) {
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstSpecialShelf(((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf()); }
+        if (((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf().isEmpty()) {
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newSecondSpecialShelf(((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf()); }
+        List<LeaderCard> Leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
+        if(((NewWarehouseMessage) receivedMessage).getIsIndependent() == true){ //se io l'ho chiamata all'inizio, prima di qualsiasi mossa (buy market)
+            virtualView.afterReorder(0, Leaders);
+        }
+        else{
+            virtualView.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
+        }
     }
 
     private void reorderWarehouseGetter(Message receivedMessage) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        virtualView.reorderWarehouse(game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getResourcesAsMap(), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(1), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(2));
+        virtualView.reorderWarehouse(game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getResourcesAsMap(), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(1), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(2), ((ReorderWarehouseMessage) receivedMessage).getIsIndependent());
     }
 
     public void activateLeaderCard(Message received){

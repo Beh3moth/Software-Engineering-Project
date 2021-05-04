@@ -11,7 +11,8 @@ public class NewWarehouseMessage extends Message{
     private List<Resource> newFirstSpecialShelf;
     private List<Resource> newSecondSpecialShelf;
     private List<Resource> discardList;
-    public NewWarehouseMessage(String nickname, Resource newFirstShelf, List<Resource> newSecondShelf, List<Resource> newThirdShelf, List<Resource> newFirstSpecialShelf, List<Resource> newSecondSpecialShelf, List<Resource> discardList){
+    private Boolean isIndependent;
+    public NewWarehouseMessage(String nickname, Resource newFirstShelf, List<Resource> newSecondShelf, List<Resource> newThirdShelf, List<Resource> newFirstSpecialShelf, List<Resource> newSecondSpecialShelf, List<Resource> discardList, Boolean isIndependent){
         super(nickname, MessageType.NEW_WAREHOUSE);
         this.newFirstShelf = newFirstShelf;
         this.newSecondShelf = newSecondShelf;
@@ -19,6 +20,7 @@ public class NewWarehouseMessage extends Message{
         this.newFirstSpecialShelf = newFirstSpecialShelf;
         this.newSecondSpecialShelf = newSecondSpecialShelf;
         this.discardList = discardList;
+        this.isIndependent = isIndependent;
     }
 
     public Resource getNewFirstShelf() {
@@ -43,6 +45,10 @@ public class NewWarehouseMessage extends Message{
 
     public List<Resource> getNewThirdShelf() {
         return newThirdShelf;
+    }
+
+    public Boolean getIsIndependent(){
+        return isIndependent;
     }
 
     @Override

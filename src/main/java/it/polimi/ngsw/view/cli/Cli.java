@@ -42,6 +42,12 @@ public class Cli extends ViewObservable implements View {
      */
     public Cli() {
         out = System.out;
+        this.newResources = new ArrayList<>();
+        this.newSecondShelf = new ArrayList<>();
+        this.newThirdShelf = new ArrayList<>();
+        this.newFirstSpecialShelf = new ArrayList<>();
+        this.newSecondSpecialShelf = new ArrayList<>();
+        this.discardList = new ArrayList<>();
     }
 
     /**
@@ -203,7 +209,7 @@ public class Cli extends ViewObservable implements View {
             Resource resourceOne;
             try {
                 out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
-                Chosen = numberInput(1, 4, "Pick resource");
+                Chosen = numberInput(1, 4, "Pick resource  ");
                 if (Chosen == 1) {
                     resourceOne = Resource.MONEY;
                 } else if (Chosen == 2) {
@@ -214,7 +220,7 @@ public class Cli extends ViewObservable implements View {
                     resourceOne = Resource.STONE;
                 }
                 out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
-                FirstPos = numberInput(1, 3, "Floor");
+                FirstPos = numberInput(1, 3, "Floor  ");
                 notifyObserver(obs -> obs.onUpdatePickedResources(number, resourceOne, null, FirstPos, 0));
             } catch (ExecutionException e) {
                 out.println("Input canceled");
@@ -299,12 +305,13 @@ public class Cli extends ViewObservable implements View {
             if (actionTypology == 1) {
                 if (goneRight == 1) {
                     this.leaderCardStatus[wichCard] = 2;
-                    //endTurn();
+                    endTurn();
                 } else if (goneRight == 0) {
+                    askToManageLeaderCards(Leaders, turnZone);
                 }//leadercard choice. middle turn
             } else if (actionTypology == 2) {
                 this.leaderCardStatus[wichCard] = 0;
-                //endTurn();
+                endTurn();
             }
             //fine turno
         }
@@ -313,49 +320,53 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
         for (int i = 0; i < resources.size(); i++) {
-            if (resources.get(i) == Resource.EMPTY) this.newResources.set(i, choseResource(firstWhite, secondWhite));
+            if (resources.get(i) == Resource.EMPTY) this.newResources.add(choseResource(firstWhite, secondWhite));
+            else {
+                this.newResources.add(resources.get(i));
+            }
         }
         out.println("You have this new resources to manage : ");
         for (int i = 0; i < resources.size(); i++) {
             out.print(resources.get(i).toString() + " ");
         }
         out.println(" ");
-        notifyObserver(obs -> obs.onUpdateReorderWarehouse());
+        notifyObserver(obs -> obs.onUpdateReorderWarehouse(false));
     }
 
     private void resetCliWarehouse() {
         this.newFirstShelf = Resource.EMPTY;
-        this.newSecondShelf.clear();
-        this.newThirdShelf.clear();
-        this.newFirstSpecialShelf.clear();
-        this.newSecondSpecialShelf.clear();
+        if (this.newSecondShelf != null) this.newSecondShelf.clear();
+        if (this.newThirdShelf != null) this.newThirdShelf.clear();
+        ;
+        if (this.newFirstSpecialShelf != null) this.newFirstSpecialShelf.clear();
+        if (this.newSecondSpecialShelf != null) this.newSecondSpecialShelf.clear();
     }
 
     @Override
-    public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
+    public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         resetCliWarehouse();
         out.println("You have this resources in your warehouse at the moment: ");
-        mapResources.forEach((key, value) -> out.println(key + ":" + value));
+        mapResources.forEach((key, value) -> out.println(key + " : " + value));
         if (firstLevel != Resource.EMPTY)
-            out.println("You have a special shelf with this resource: " + firstLevel.toString());
+            out.println("You have a special shelf with this resource ability: " + firstLevel.toString());
         if (secondLevel != Resource.EMPTY)
-            out.println("You have a special shelf with this resource: " + secondLevel.toString());
+            out.println("You have a special shelf with this resource ability: " + secondLevel.toString());
         buildWarehouse(mapResources, firstLevel, secondLevel);
         printWarehouse();
-        askToSendNewWarehouse(mapResources, firstLevel, secondLevel);
+        askToSendNewWarehouse(mapResources, firstLevel, secondLevel, isIndipendent);
     }
 
-    private void askToSendNewWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
-        try{
+    private void askToSendNewWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
+        try {
             out.println("Do you want this new warehouse and discard this resources? ");
-            int chose = numberInput(0, 1, "Chose 0)No, reorder warehouse 1) Yes");
-            if(chose == 0){
-                reorderWarehouse(mapResources,firstLevel,secondLevel);
-            }else{
-                newResources.clear();
-                notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList));
+            int chose = numberInput(0, 1, "Chose 0)No, reorder warehouse 1) Yes ");
+            if (chose == 0) {
+                reorderWarehouse(mapResources, firstLevel, secondLevel, isIndipendent);
+            } else {
+                if (newResources != null) newResources.clear();
+                notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndipendent));
             }
-        }catch (ExecutionException e) {
+        } catch (ExecutionException e) {
             out.println("Input canceled");
         }
     }
@@ -367,7 +378,7 @@ public class Cli extends ViewObservable implements View {
                     int chose = 0;
                     boolean goneRight = false;
                     do {
-                        out.println("Chose where to put this resources " + entry.getKey().toString());
+                        out.println("Chose where to put this resource " + entry.getKey().toString());
                         if (firstLevel == Resource.EMPTY && secondLevel == Resource.EMPTY) {
                             chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third");
                         } else if (firstLevel != Resource.EMPTY && secondLevel == Resource.EMPTY) {
@@ -384,18 +395,27 @@ public class Cli extends ViewObservable implements View {
                     }
                     while (!goneRight);
                 }
+            }
+            if (this.newResources != null) {
                 for (int i = 0; i < newResources.size(); i++) {
                     int chose = 0;
                     boolean goneRight = false;
-                    do { out.println("Chose where to put this resources " + newResources.get(i).toString());
+                    do {
+                        out.println("Chose where to put this resources " + newResources.get(i).toString());
                         if (firstLevel == Resource.EMPTY && secondLevel == Resource.EMPTY) {
                             chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third");
                         } else if (firstLevel != Resource.EMPTY && secondLevel == Resource.EMPTY) {
                             chose = numberInput(0, 4, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial");
                         } else if (firstLevel != Resource.EMPTY && secondLevel != Resource.EMPTY) {
-                            chose = numberInput(0, 5, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial 5) SecondSpecial"); }
-                        if (chose == 0) { this.discardList.add(entry.getKey());goneRight = true;
-                        } else if (controllFloor(chose, entry.getKey(), firstLevel, secondLevel) && chose != 0) { goneRight = true; } }
+                            chose = numberInput(0, 5, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial 5) SecondSpecial");
+                        }
+                        if (chose == 0) {
+                            this.discardList.add(newResources.get(i));
+                            goneRight = true;
+                        } else if (controllFloor(chose, newResources.get(i), firstLevel, secondLevel) && chose != 0) {
+                            goneRight = true;
+                        }
+                    }
                     while (!goneRight);
                 }
             }
@@ -406,27 +426,56 @@ public class Cli extends ViewObservable implements View {
 
     private void printWarehouse() {
         out.println("Warehouse");
-        out.println("First shelf ");//DA PRINTARE TUTTOOOO
+        out.println("First shelf " + this.newFirstShelf.toString());
+        out.println("Second shelf " + this.newSecondShelf.toString());
+        out.println("Third shelf " + this.newThirdShelf.toString());
+        out.println("First Special shelf " + this.newFirstSpecialShelf.toString());
+        out.println("Second Special shelf " + this.newSecondSpecialShelf.toString());
     }
 
     private boolean controllFloor(int chose, Resource resource, Resource firstFloor, Resource secondFloor) {
         if (chose == 1) {
-            if (this.newFirstShelf == Resource.EMPTY) {
+            Resource evitateOne = Resource.EMPTY;
+            Resource evitateTwo = Resource.EMPTY;
+            if (newSecondShelf != null && !newSecondShelf.isEmpty()) {
+                evitateOne = newSecondShelf.get(0);
+            }
+            if (newThirdShelf != null && !newThirdShelf.isEmpty()) {
+                evitateTwo = newThirdShelf.get(0);
+            }
+            if (this.newFirstShelf == Resource.EMPTY && resource != evitateOne && resource != evitateTwo) {
                 this.newFirstShelf = resource;
                 out.println("Resource " + resource.toString() + " added to the first shelf");
                 return true;
-            } else {
+            }
+            else if(this.newFirstShelf == Resource.EMPTY && (resource == evitateOne || resource == evitateTwo)){
+                out.println("Resources already putted in another floor");
+                return false;
+            }else {
                 out.println("First shelf already full ");
                 return false;
             }
         } else if (chose == 2) {
-            if (this.newSecondShelf.size() == 0) {
-                this.newSecondShelf.set(0, resource);
+            Resource evitateOne = Resource.EMPTY;
+            Resource evitateTwo = Resource.EMPTY;
+            if (newFirstShelf != null) {
+                evitateOne = newFirstShelf;
+            }
+            if (newThirdShelf != null && !newThirdShelf.isEmpty()) {
+                evitateTwo = newThirdShelf.get(0);
+            }
+            if (this.newSecondShelf.size() == 0 && resource != evitateOne && resource != evitateTwo) {
+                this.newSecondShelf.add(resource);
                 out.println("Added a " + resource.toString() + " to the second floor");
                 return true;
-            } else {
+            }
+            else if(this.newSecondShelf.size() == 0 && (resource == evitateOne || resource == evitateTwo)){
+                out.println("Resources already putted in another floor");
+                return false;
+            }
+            else {
                 if (this.newSecondShelf.get(0) == resource && this.newSecondShelf.size() < 2) {
-                    this.newSecondShelf.set(this.newSecondShelf.size(), resource);
+                    this.newSecondShelf.add(resource);
                     out.println("Added a " + resource.toString() + " to the second floor");
                     return true;
                 } else if (this.newSecondShelf.get(0) == resource && this.newSecondShelf.size() == 2) {
@@ -437,14 +486,27 @@ public class Cli extends ViewObservable implements View {
                     return false;
                 }
             }
-        } else if (chose == 3)
-            if (this.newThirdShelf.size() == 0) {
-                this.newThirdShelf.set(0, resource);
+        } else if (chose == 3) {
+            Resource evitateOne = Resource.EMPTY;
+            Resource evitateTwo = Resource.EMPTY;
+            if (newFirstShelf != null) {
+                evitateOne = newFirstShelf;
+            }
+            if (newSecondShelf != null && !newSecondShelf.isEmpty()) {
+                evitateTwo = newSecondShelf.get(0);
+            }
+            if (this.newThirdShelf.size() == 0 && resource != evitateOne && resource != evitateTwo) {
+                this.newThirdShelf.add(resource);
                 out.println("Added a " + resource.toString() + " to the third floor");
                 return true;
-            } else {
+            }
+            else if(this.newThirdShelf.size() == 0 && (resource == evitateOne || resource == evitateTwo)){
+                out.println("Resources already putted in another floor");
+                return false;
+            }
+            else {
                 if (this.newThirdShelf.get(0) == resource && this.newThirdShelf.size() < 3) {
-                    this.newThirdShelf.set(this.newThirdShelf.size(), resource);
+                    this.newThirdShelf.add(resource);
                     out.println("Added a " + resource.toString() + " to the third floor");
                     return true;
                 } else if (this.newThirdShelf.get(0) == resource && this.newThirdShelf.size() == 3) {
@@ -455,9 +517,10 @@ public class Cli extends ViewObservable implements View {
                     return false;
                 }
             }
+        }
         else if (chose == 4) {
             if (newFirstSpecialShelf.size() < 2 && firstFloor == resource) {
-                this.newFirstSpecialShelf.set(this.newFirstSpecialShelf.size(), resource);
+                this.newFirstSpecialShelf.add(resource);
                 out.println("Added a " + resource.toString() + " to the first special shelf");
                 return true;
             } else if (newFirstSpecialShelf.size() == 0 && firstFloor != resource) {
@@ -469,7 +532,7 @@ public class Cli extends ViewObservable implements View {
             }
         } else if (chose == 5) {
             if (newSecondSpecialShelf.size() < 2 && secondFloor == resource) {
-                this.newSecondSpecialShelf.set(this.newSecondSpecialShelf.size(), resource);
+                this.newSecondSpecialShelf.add(resource);
                 out.println("Added a " + resource.toString() + " to the second special shelf");
                 return true;
             } else if (newSecondSpecialShelf.size() == 0 && secondFloor != resource) {
@@ -504,7 +567,7 @@ public class Cli extends ViewObservable implements View {
         try {
             if (this.leaderCardStatus[0] == 1) printLeaderCard(Leaders.get(0));
             if (this.leaderCardStatus[1] == 1) printLeaderCard(Leaders.get(1));
-            out.println("Do you want to activate one of these leaderCard? 1) YES 0) NO");
+            out.println("Do you want to activate one of these leaderCard? 1) YES 0) NO ");
             int chose = numberInput(0, 1, "What? ");
             if (chose == 1) activateLeaderCard(Leaders, turnZone);
             else if (chose == 0) askToDiscardLeaderCard(turnZone);
@@ -515,11 +578,12 @@ public class Cli extends ViewObservable implements View {
 
     public void askToDiscardLeaderCard(int turnZone) {
         try {
-            out.println("Do you want to discard a leadercard? 1) YES 0) NO");
+            out.println("Do you want to discard a leadercard? 1) YES 0) NO ");
             int chose = numberInput(0, 1, "What? ");
             if (chose == 1) discardCard(turnZone);
             else if (chose == 0) {
-                mainMove();
+                if(turnZone == 1) mainMove();
+                else endTurn();
             }
         } catch (ExecutionException e) {
             out.println("Input canceled");
@@ -563,7 +627,9 @@ public class Cli extends ViewObservable implements View {
             printMarket();
             out.println("Chose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a develop Card 4) Start production");
             int chose = numberInput(1, 4, "Which move? ");
-            if (chose == 1) {/*reoderWarehouse();*/} else if (chose == 2) {
+            if (chose == 1) {
+                notifyObserver(obs -> obs.onUpdateReorderWarehouse(true));
+            } else if (chose == 2) {
                 takeResourcesFromMarket();
             } else if (chose == 3) {/*buyDevCard();*/} else if (chose == 4) {/*startProduction();*/}
         } catch (ExecutionException e) {
@@ -633,7 +699,7 @@ public class Cli extends ViewObservable implements View {
         }
         out.println("");
         for (int j = 0; j < 4; j++) {
-            out.print("  " + this.secondRow[j].getResource().toString() + "    ");
+            out.print("  " + this.thirdRow[j].getResource().toString() + "    ");
         }
         out.println("");
     }
@@ -668,6 +734,20 @@ public class Cli extends ViewObservable implements View {
         out.println(genericMessage);
     }
 
+    @Override
+    public void afterReorder(int i, List<LeaderCard> leaders) {
+        if (i == 1) {
+            if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
+                askToManageLeaderCards(leaders, 2);
+            } else {
+                out.println("You don't have usable leader cards");
+                endTurn();
+            }
+        } else {
+            mainMove();
+        }
+    }
+
     /**
      * Print a list of gods
      *
@@ -687,6 +767,11 @@ public class Cli extends ViewObservable implements View {
         out.println("AbilityName: " + card.getAbilityName());
     }
 
+
+    public void endTurn() {
+        out.println("Your turn is ended! ");
+        notifyObserver(obs -> obs.onEndTurn());
+    }
 
     /**
      * Reads a line from the standard input.

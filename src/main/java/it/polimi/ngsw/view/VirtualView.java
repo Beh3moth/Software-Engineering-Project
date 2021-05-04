@@ -55,6 +55,12 @@ public class VirtualView implements View, Observer {
     public void showGenericMessage(String genericMessage) {
         clientHandler.sendMessage(new GenericMessage(genericMessage));
     }
+
+    @Override
+    public void afterReorder(int i, List<LeaderCard> Leaders) {
+        clientHandler.sendMessage(new AfterReorderMessage(Game.SERVER_NICKNAME, i, Leaders));
+    }
+
     @Override
     public void askPlayersNumber() {
         clientHandler.sendMessage(new PlayerNumberRequest());
@@ -103,8 +109,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
-        clientHandler.sendMessage(new ReorderWarehouseMessage(Game.SERVER_NICKNAME, mapResources, firstLevel, secondLevel));
+    public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
+        clientHandler.sendMessage(new ReorderWarehouseMessage(Game.SERVER_NICKNAME, mapResources, firstLevel, secondLevel, isIndipendent));
     }
 
     /**

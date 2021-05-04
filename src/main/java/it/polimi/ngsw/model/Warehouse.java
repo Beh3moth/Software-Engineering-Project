@@ -366,5 +366,27 @@ public class Warehouse {
         return true;
     }
 
+
+    public void newFirstShelf(Resource newResource){
+        this.firstLevel.setResourceType(newResource);
+        this.firstLevel.setResourceNumber(1);
+    }
+
+    public void newSecondShelf(List<Resource> newResources){
+        this.secondLevel.setResourceType(newResources.get(0));
+        this.secondLevel.setResourceNumber(newResources.size());
+    }
+    public void newThirdShelf(List<Resource> newResources){
+        this.thirdLevel.setResourceType(newResources.get(0));
+        this.thirdLevel.setResourceNumber(newResources.size());
+    }
+    public void newFirstSpecialShelf(List<Resource> newResources){
+        this.firstLeaderLevel.setResourceType(newResources.get(0));
+        this.firstLeaderLevel.setResourceNumber(newResources.size());
+    }
+    public void newSecondSpecialShelf(List<Resource> newResources){
+        this.secondLeaderLevel.setResourceType(newResources.get(0));
+        this.secondLeaderLevel.setResourceNumber(newResources.size());
+    }
 }
 

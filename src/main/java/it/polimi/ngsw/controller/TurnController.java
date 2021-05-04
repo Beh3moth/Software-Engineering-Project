@@ -93,8 +93,9 @@ public class TurnController implements Serializable {
         //Import DevCardDashboard active cards
         List<ProductionPower> leaderProductionPowerList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getLeaderProductionPowerList();
         List<DevCard> activeDevCardList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getActiveDevCards();
+        List<ProductionPower> productionPowerList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getActiveProductionPowerList();
 
-        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList);
+        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, productionPowerList);
 
     }
     /**

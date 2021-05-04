@@ -38,6 +38,7 @@ public class Cli extends ViewObservable implements View {
     private List<Resource> discardList;
     List<ProductionPower> leaderProductionPowerList;
     List<DevCard> activeDevCardList;
+    List<ProductionPower> productionPowerList;
 
     /**
      * Default constructor.
@@ -275,7 +276,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList) {
         out.println("It's your turn!");
         this.singleMarble = singleMarble;
         this.firstRow = firstRow;
@@ -283,6 +284,7 @@ public class Cli extends ViewObservable implements View {
         this.thirdRow = thirdRow;
         this.leaderProductionPowerList = leaderProductionPowerList;
         this.activeDevCardList = activeDevCardList;
+        this.productionPowerList = productionPowerList;
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             askToManageLeaderCards(Leaders, 1);
         } else {

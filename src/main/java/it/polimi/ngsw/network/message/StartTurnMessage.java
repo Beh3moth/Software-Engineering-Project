@@ -18,8 +18,9 @@ public class StartTurnMessage extends Message{
     //DevCardDashboard attributes
     private List<ProductionPower> leaderProductionPowerList;
     private List<DevCard> activeDevCardList;
+    private List<ProductionPower> productionPowerList;
 
-    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList) {
+    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList) {
         super(nickname, MessageType.START_TURN);
         this.leaderCards = Leaders;
         this.singleMarble = singleMarble;
@@ -28,6 +29,11 @@ public class StartTurnMessage extends Message{
         this.thirdRow = thirdRow;
         this.leaderProductionPowerList = leaderProductionPowerList;
         this.activeDevCardList = activeDevCardList;
+    }
+
+    @Override
+    public String toString() {
+        return " Turn starter ";
     }
 
     public List<LeaderCard> getLeaders(){
@@ -41,13 +47,15 @@ public class StartTurnMessage extends Message{
     public Marble[] getFirstRow(){
         return this.firstRow;
     }
-
     public Marble[] getSecondRow(){
         return this.secondRow;
     }
+
     public Marble[] getThirdRow(){
         return this.thirdRow;
     }
+
+    //Activate Production Power Methods
 
     public List<ProductionPower> getLeaderProductionPowerList() {
         return leaderProductionPowerList;
@@ -57,8 +65,7 @@ public class StartTurnMessage extends Message{
         return activeDevCardList;
     }
 
-    @Override
-    public String toString() {
-        return " Turn starter ";
+    public List<ProductionPower> getProductionPowerList() {
+        return productionPowerList;
     }
 }

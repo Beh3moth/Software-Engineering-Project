@@ -925,27 +925,10 @@ public class Cli extends ViewObservable implements View {
         out.println("0 - Base Production Power:");
         out.println("? --> ? + ?");
 
-        int devCardCounter = 1;
-        out.println("List of your Development Card Production Powers:");
-        for (DevCard devCard : activeDevCardList) {
-            out.print(devCardCounter + " - ");
-            for(Resource resource : devCard.getProductionPower().getResourceToPay()){
-                printResource(resource);
-                out.print(" + ");
-            }
-            out.print(" --> ");
-            for(Resource resource : devCard.getProductionPower().getResourceToReceive()){
-                printResource(resource);
-                out.print(" + ");
-            }
-            out.println("");
-            devCardCounter++;
-        }
+        int productionPowerCounter =1;
 
-        int leaderProductionPowerCounter = 4;
-        out.println("List of your Leader Production Powers:");
-        for (ProductionPower productionPower : leaderProductionPowerList) {
-            out.print(leaderProductionPowerCounter + " - ");
+        for(ProductionPower productionPower : productionPowerList){
+            out.print(productionPowerCounter + " - ");
             for(Resource resource : productionPower.getResourceToPay()){
                 printResource(resource);
                 out.print(" + ");
@@ -956,7 +939,7 @@ public class Cli extends ViewObservable implements View {
                 out.print(" + ");
             }
             out.println("");
-            leaderProductionPowerCounter++;
+            productionPowerCounter++;
         }
 
     }

@@ -14,4 +14,12 @@ public class ProductionPowerResponseMessage extends ResponseMessage {
     public ProductionPower getProductionPower() {
         return productionPower;
     }
+
+    @Override
+    public String toString() {
+        return "ProductionPowerResponseMessage{" +
+                "nickname=" + getNickname() +
+                ", messageType=" + getMessageType() +
+                '}';
+    }
 }

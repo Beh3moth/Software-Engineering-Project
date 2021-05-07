@@ -18,4 +18,13 @@ public class ResponseMessage extends Message {
     public boolean isResponse() {
         return response;
     }
+
+    @Override
+    public String toString() {
+        return "ResponseMessage{" +
+                "nickname=" + getNickname() +
+                ", messageType=" + getMessageType() +
+                '}';
+    }
+
 }

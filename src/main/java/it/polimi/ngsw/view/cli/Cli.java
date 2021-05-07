@@ -7,7 +7,6 @@ import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
 import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
-import org.w3c.dom.css.CSSStyleSheet;
 
 import java.io.PrintStream;
 import java.util.*;

@@ -104,15 +104,20 @@ public class DevCardDashboard {
      */
     public List<ProductionPower> getActiveProductionPowerList(){
         List<ProductionPower> productionPowerList = new ArrayList<>();
+
+        productionPowerList.add(baseProductionPower);
+
+        for(DevCard devCard : this.getActiveDevCards()){
+            productionPowerList.add(devCard.getProductionPower());
+        }
+
         if(leaderProductionPowerOne!=null){
             productionPowerList.add(leaderProductionPowerOne);
         }
         if(leaderProductionPowerOne!=null){
             productionPowerList.add(leaderProductionPowerTwo);
         }
-        for(DevCard devCard : this.getActiveDevCards()){
-            productionPowerList.add(devCard.getProductionPower());
-        }
+
         return productionPowerList;
     }
 
@@ -130,12 +135,14 @@ public class DevCardDashboard {
             resourceList1.add(productionPowerAbility.getInputResource());
             resourceList2.add(Resource.EMPTY);
             leaderProductionPowerOne = new ProductionPower(resourceList1, resourceList2);
+            leaderProductionPowerOne.setIsLeaderProductionPower();
             return true;
         }
         else if(leaderProductionPowerTwo==null){
             resourceList1.add(productionPowerAbility.getInputResource());
             resourceList2.add(Resource.EMPTY);
             leaderProductionPowerTwo = new ProductionPower(resourceList1, resourceList2);
+            leaderProductionPowerTwo.setIsLeaderProductionPower();
             return true;
         }
         else return false;

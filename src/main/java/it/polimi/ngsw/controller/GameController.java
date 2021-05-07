@@ -273,6 +273,7 @@ public class GameController implements Observer, Serializable {
         turnController.newTurn();
     }
 
+    //mettere il case
     /**
      * Switch on Game Messages' Types.
      *
@@ -281,7 +282,7 @@ public class GameController implements Observer, Serializable {
     private void inGameState(Message receivedMessage) {
         switch (receivedMessage.getMessageType()) {
             case LEADER_CARD_RESPONSE:
-                    activateLeaderCard(receivedMessage);
+                activateLeaderCard(receivedMessage);
                 break;
             case DISCARD_CARD:
                 discardCard(receivedMessage);
@@ -297,6 +298,20 @@ public class GameController implements Observer, Serializable {
                 break;
             case END_TURN:
                 continueGame();
+                break;
+            case INTEGER:
+                integerChosenAction((IntegerMessage) receivedMessage);
+                break;
+            case TWO_LIST_OF_RESOURCES:
+                twoResourceListAction((TwoResourceListMessage) receivedMessage);
+            case PRODUCTION_POWER_LIST:
+                productionPowerListAction((ProductionPowerListMessage) receivedMessage);
+                break;
+            case PRODUCTION_POWER_COORDINATES_MESSAGE:
+                payProductionPower((ProductionPowerCoordinatesMessage) receivedMessage);
+                break;
+            case PRODUCTION_POWER_RESOURCE:
+                setLeaderProductionPower((ProductionPowerResourceMessage) receivedMessage);
                 break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
@@ -459,5 +474,80 @@ public class GameController implements Observer, Serializable {
     }
 
     //Production Power methods
+
+    public void productionPowerListAction (ProductionPowerListMessage receivedMessage) {
+        if(receivedMessage.getAction().equals("productionPowerChosen")){
+            productionPowerCheck(receivedMessage.getProductionPowerList().get(0), receivedMessage.getNickname());
+        }
+    }
+
+    public void productionPowerCheck (ProductionPower productionPower, String nickName) {
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        Player player =  game.getPlayerByNickname(nickName);
+        virtualView.productionPowerResponse(player.canAfford(productionPower.getResourceToPayAsMap()), "productionPowerCheck", productionPower);
+    }
+
+    public void integerChosenAction (IntegerMessage receivedMessage) {
+    }
+
+    public void twoResourceListAction (TwoResourceListMessage receivedMessage) {
+        if (receivedMessage.getAction().equals("setBaseProductionPower")) {
+            setBaseProductionPower(receivedMessage);
+        }
+    }
+
+    public void setLeaderProductionPower(ProductionPowerResourceMessage receivedMessage){
+
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
+        for (ProductionPower productionPower : player.getDevCardDashboard().getLeaderProductionPowerList()) {
+            if(productionPower.equals(receivedMessage.getProductionPower())){
+                productionPower.setLeaderProductionPowerResourceToReceive(receivedMessage.getResource());
+            }
+        }
+
+    }
+
+    public void setBaseProductionPower (TwoResourceListMessage receivedMessage) {
+
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
+        ProductionPower baseProductionPower = player.getDevCardDashboard().getProductionPower(0);
+        List<Resource> resourceToPay = receivedMessage.getResourcesToPay();
+        List<Resource> resourceToReceive = receivedMessage.getResourcesToReceive();
+
+        if( ! baseProductionPower.setBaseProductionPowerLists(resourceToPay, resourceToReceive) ) {
+            virtualView.productionPowerResponse(false, "setBaseProductionPower", null);
+        }
+        else {
+            if (player.canAfford(baseProductionPower.getResourceToPayAsMap())) {
+                virtualView.productionPowerResponse(true, "setBaseProductionPower", baseProductionPower);
+            }
+            else{
+                virtualView.productionPowerResponse(false, "setBaseProductionPower", null);
+                baseProductionPower.resetBaseProductionPower();
+            }
+
+        }
+
+    }
+
+    public void payProductionPower(ProductionPowerCoordinatesMessage receivedMessage){
+
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
+        ProductionPower productionPower = player.getDevCardDashboard().getProductionPower(0);
+
+        boolean success = player.payProductionPower(productionPower, receivedMessage.getIsWarehouse(), receivedMessage.getShelfLevel(), receivedMessage.getResourceType());
+
+        if (success) {
+            virtualView.productionPowerResponse(true, "payProductionPower", productionPower);
+        }
+        else {
+            player.rejectProductionPower(productionPower);
+            virtualView.productionPowerResponse(false, "payProductionPower", productionPower);
+        }
+
+    }
 
 }

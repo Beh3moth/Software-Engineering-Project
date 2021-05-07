@@ -1,5 +1,6 @@
 package it.polimi.ngsw.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +9,14 @@ import java.util.Map;
 /**
  * Class that describe a production situation, it describe the resource that you need to produce some resources
  */
-public class ProductionPower {
+public class ProductionPower implements Serializable {
     private List<Resource> resourceToPay;
     private List<Resource> resourceToProduce;
     private List<Boolean> isWarehouse = new ArrayList<>();
     private List<Integer> shelfLevel = new ArrayList<>();
     private List<Resource> resourceType = new ArrayList<>();
-    boolean isBaseProductionPower = false;
+    private boolean isBaseProductionPower = false;
+    private boolean isLeaderProductionPower = false;
 
     /**
      * Constructor method: receive a list of resources and describe the production power of every cards
@@ -98,6 +100,11 @@ public class ProductionPower {
         }
     }
 
+    public void resetBaseProductionPower(){
+        resourceToPay = null;
+        resourceToProduce = null;
+    }
+
     /**
      * Clear the lists of resources to receive and to pay from a Base Production Power.
      */
@@ -111,6 +118,14 @@ public class ProductionPower {
     }
 
     //Leader Production Power methods
+
+    public void setIsLeaderProductionPower(){
+        isLeaderProductionPower = true;
+    }
+
+    public boolean isLeaderProductionPower(){
+        return isLeaderProductionPower;
+    }
 
     /**
      * The method sets a single resource to receive form a Production Power.
@@ -128,6 +143,12 @@ public class ProductionPower {
             resourceToProduce = resourceList;
             return resourceToProduce.equals(resourceList);
         }
+    }
+
+    public void resetLeaderProductionPower(){
+        List<Resource> resourceList = new ArrayList<>();
+        resourceList.add(Resource.EMPTY);
+        resourceToProduce = resourceList;
     }
 
     //Coordinates methods

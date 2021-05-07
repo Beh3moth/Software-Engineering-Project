@@ -1,10 +1,12 @@
 package it.polimi.ngsw.model;
 
-public enum Resource {
+import java.io.Serializable;
+
+public enum Resource implements Serializable {
     MONEY,
     STONE,
     SHIELD,
     SLAVE,
     FAITHPOINT,
-    EMPTY;
+    EMPTY
 }

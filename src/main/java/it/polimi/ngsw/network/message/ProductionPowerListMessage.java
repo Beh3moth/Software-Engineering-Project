@@ -7,10 +7,12 @@ import java.util.List;
 public class ProductionPowerListMessage extends Message {
 
     private List<ProductionPower> productionPowerList;
+    private String action;
 
-    ProductionPowerListMessage(String nickname, MessageType messageType, List<ProductionPower> productionPowerList) {
-        super(nickname, messageType);
+    public ProductionPowerListMessage(String nickname, List<ProductionPower> productionPowerList, String action) {
+        super(nickname, MessageType.PRODUCTION_POWER_LIST);
         this.productionPowerList = productionPowerList;
+        this.action = action;
     }
 
     public List<ProductionPower> getProductionPowerList() {
@@ -25,4 +27,7 @@ public class ProductionPowerListMessage extends Message {
                 '}';
     }
 
+    public String getAction() {
+        return action;
+    }
 }

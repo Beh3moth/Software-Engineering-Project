@@ -379,10 +379,11 @@ public class Player extends Observable implements Serializable {
 
     }
 
-    /**
+    /*
+
      * The method put the resources to receive from the Production Powers in the paidList in the player's chest.
      * @return true if successful, false otherwise.
-     */
+
     public boolean getResourcesFromProductionPowers(){
         for(ProductionPower productionPower : paidList){
             for (Resource resource : productionPower.getResourceToReceive()){
@@ -391,6 +392,7 @@ public class Player extends Observable implements Serializable {
         }
         return true;
     }
+    */
 
     //buyDevCard methods
 
@@ -477,9 +479,20 @@ public class Player extends Observable implements Serializable {
     public boolean activateProductionPowers(){
         for(ProductionPower productionPower : paidList){
             for(Resource resource : productionPower.getResourceToReceive()){
-                this.getChest().addResource(resource, 1);
+                if(productionPower.isLeaderProductionPower()){
+                    this.getFaithPath().increaseCrossPosition();
+                }
+                if(!resource.equals(Resource.EMPTY)){
+                    this.getChest().addResource(resource, 1);
+                }
             }
             productionPower.cleanCoordinates();
+            if(productionPower.isLeaderProductionPower()){
+                productionPower.resetLeaderProductionPower();
+            }
+            if(productionPower.isBaseProductionPower()){
+                productionPower.resetBaseProductionPower();
+            }
         }
         paidList.clear();
         abilityList.clear();

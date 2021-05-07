@@ -14,6 +14,7 @@ import java.util.Map;
  * Instead, a network protocol is used to communicate with the real view on the client side.
  */
 public class VirtualView implements View, Observer {
+
     private final ClientHandler clientHandler;
 
     /**
@@ -112,6 +113,18 @@ public class VirtualView implements View, Observer {
     @Override
     public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         clientHandler.sendMessage(new ReorderWarehouseMessage(Game.SERVER_NICKNAME, mapResources, firstLevel, secondLevel, isIndipendent));
+    }
+
+    //Activate Production Power Methods
+
+    @Override
+    public void productionPowerList(List<ProductionPower> productionPowerList, String action) {
+        clientHandler.sendMessage(new ProductionPowerListMessage(Game.SERVER_NICKNAME, productionPowerList, action));
+    }
+
+    @Override
+    public void productionPowerResponse(boolean response, String action, ProductionPower baseProductionPower) {
+        clientHandler.sendMessage(new ProductionPowerResponseMessage(Game.SERVER_NICKNAME, response, action, baseProductionPower));
     }
 
     /**

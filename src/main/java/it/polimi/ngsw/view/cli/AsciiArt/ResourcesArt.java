@@ -23,6 +23,7 @@ public class ResourcesArt {
     public String slave(){
         return (Color.ANSI_MAGENTA.escape() + "@");
     }
+
     public String shield(){
         return (Color.ANSI_CYAN.escape() + "@");
     }

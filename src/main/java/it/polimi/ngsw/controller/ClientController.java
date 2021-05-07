@@ -1,5 +1,6 @@
 package it.polimi.ngsw.controller;
 
+import it.polimi.ngsw.model.ProductionPower;
 import it.polimi.ngsw.network.client.Client;
 import it.polimi.ngsw.network.client.SocketClient;
 import it.polimi.ngsw.network.message.*;
@@ -168,6 +169,32 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new ReorderWarehouseMessage(this.nickname, null, null, null, isIndipendent));
     }
 
+    @Override
+    public void onUpdateIntegerChosen(int integerChosen, String action) {
+        client.sendMessage(new IntegerMessage(this.nickname, integerChosen, action));
+    }
+
+    @Override
+    public void onUpdateTwoResourceList(List<Resource> resourcesToPay, List<Resource> resourcesToReceive, String action) {
+        client.sendMessage(new TwoResourceListMessage(this.nickname, resourcesToPay, resourcesToReceive, action));
+    }
+
+    @Override
+    public void onUpdatePayProductionPower(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, ProductionPower productionPower) {
+        client.sendMessage(new ProductionPowerCoordinatesMessage(this.nickname, isWarehouse, shelfLevel, resourceType, productionPower));
+    }
+
+    @Override
+    public void onUpdateProductionPowerList(List<ProductionPower> productionPowerList, String action){
+        client.sendMessage(new ProductionPowerListMessage(this.nickname, productionPowerList, action));
+    }
+
+    @Override
+    public void onUpdateProductionPowerResource(Resource resource, ProductionPower productionPower) {
+        client.sendMessage(new ProductionPowerResourceMessage(this.nickname, resource, productionPower));
+    }
+
+
 
     public void update(Message message) {
 
@@ -227,6 +254,13 @@ public class ClientController implements ViewObserver, Observer{
                 AfterReorderMessage received = (AfterReorderMessage) message;
                 taskQueue.execute(() -> view.afterReorder(received.getIsIndependent(), received.getLeaders()));
                 break;
+            case PRODUCTION_POWER_LIST:
+                ProductionPowerListMessage productionPowerListMessage = (ProductionPowerListMessage) message;
+                taskQueue.execute(() -> view.productionPowerList(productionPowerListMessage.getProductionPowerList(), productionPowerListMessage.getAction()));
+                break;
+            case PRODUCTION_POWER_RESPONSE_MESSAGE:
+                ProductionPowerResponseMessage baseProductionPowerResponse = (ProductionPowerResponseMessage) message;
+                taskQueue.execute(() -> view.productionPowerResponse(baseProductionPowerResponse.isResponse(), baseProductionPowerResponse.getAction(), baseProductionPowerResponse.getProductionPower()));
             default: // Should never reach this condition
                 break;
         }

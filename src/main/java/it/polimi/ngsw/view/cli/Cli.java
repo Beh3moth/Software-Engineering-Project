@@ -4,10 +4,10 @@ package it.polimi.ngsw.view.cli;
 import it.polimi.ngsw.controller.ClientController;
 
 import it.polimi.ngsw.model.*;
-import it.polimi.ngsw.network.message.StartTurnMessage;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
 import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
+import org.w3c.dom.css.CSSStyleSheet;
 
 import java.io.PrintStream;
 import java.util.*;
@@ -36,9 +36,6 @@ public class Cli extends ViewObservable implements View {
     private List<Resource> newFirstSpecialShelf;
     private List<Resource> newSecondSpecialShelf;
     private List<Resource> discardList;
-    List<ProductionPower> leaderProductionPowerList;
-    List<DevCard> activeDevCardList;
-    List<ProductionPower> productionPowerList;
 
     /**
      * Default constructor.
@@ -640,7 +637,7 @@ public class Cli extends ViewObservable implements View {
             }
             else if (chose == 3) {/*buyDevCard();*/}
             else if (chose == 4) {
-                activateProductionPower();
+                productionPowerMove();
             }
 
         } catch (ExecutionException e) {
@@ -902,32 +899,187 @@ public class Cli extends ViewObservable implements View {
         out.flush();
     }
 
+
+
+
+
+
+
+
+
+
+
     //Activate Production Powers
 
-    public boolean activateProductionPower() throws ExecutionException {
+    List<ProductionPower> leaderProductionPowerList = new ArrayList<>();
+    List<DevCard> activeDevCardList = new ArrayList<>();
+    List<ProductionPower> productionPowerList = new ArrayList<>();
 
-        printProductionPowerList();
+    List<ProductionPower> paidProductionPowerList = new ArrayList<>();
+
+    public void productionPowerMove() {
+
+        printProductionPowerList(productionPowerList);
+        printProductionPowerList(paidProductionPowerList);
+
+        int choseAction = 0;
+        out.println("Chose your action");
+        out.println("Type '0' if you want to chose a Production Power, '1' to activate the Production Powers.");
 
         try{
-            int chose = numberInput(0, 5, "Which Production Power? ");
+            choseAction = numberInput(0, 1, "Which action? ");
         }
         catch (ExecutionException e){
             out.println("Wrong input");
         }
 
-        //notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, choseRow));
+        if (choseAction == 0) {
+            choseProductionPower();
+        }
+        else if (choseAction == 1) {
+            for(ProductionPower productionPower : paidProductionPowerList){
+                //activate
+            }
+        }
 
-        return true;
     }
 
-    public void printProductionPowerList(){
+    public void choseProductionPower(){
+        int productionPowerChosen = 0;
 
-        out.println("0 - Base Production Power:");
-        out.println("? --> ? + ?");
+        try {
+            productionPowerChosen = numberInput(0, productionPowerList.size(), "Which Production Power? ");
+        }
+        catch (ExecutionException e) {
+            out.println("Wrong input");
+        }
 
-        int productionPowerCounter =1;
+        if (productionPowerChosen == 0) {
+            setBaseProductionPower();
+        }
+        else {
+            if (productionPowerList.get(productionPowerChosen).isLeaderProductionPower()){
+                setLeaderProductionPower(productionPowerList.get(productionPowerChosen));
+            }
+            List<ProductionPower> productionPower = new ArrayList<>();
+            productionPower.add(productionPowerList.get(productionPowerChosen));
+            notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPower, "productionPowerChosen"));
+        }
+    }
 
-        for(ProductionPower productionPower : productionPowerList){
+    public void payProductionPower(ProductionPower productionPower){
+
+        out.println("Pay the Production Power chosen.");
+        out.print("[ ");
+        for(Resource resource : productionPower.getResourceToPay()){
+            printResource(resource);
+            out.print("  ");
+        }
+        out.println(" ]");
+
+        List<Boolean> isWarehouse = new ArrayList<>();
+        List<Integer> shelfLevel = new ArrayList<>();
+        List<Resource> resourceType = new ArrayList<>();
+
+        for(Resource resource : productionPower.getResourceToPay()){
+
+            out.print("What deposit do you want to pay for the resource ");
+            printResource(resource);
+            out.println(" 1)Warehouse - 2)Chest");
+
+            int fromWhere = 0;
+            try {
+                fromWhere = numberInput(1, 2, "Warehouse or Chest? ");
+            }
+            catch (ExecutionException e) {
+                out.println("Wrong input");
+            }
+
+            if (fromWhere == 1) {
+                isWarehouse.add(true);
+            }
+            else {
+                isWarehouse.add(false);
+            }
+
+            if (fromWhere == 1) {
+                out.println("Which shelf? 1) 2) 3) 4) 5): ");
+                int shelf = 0;
+                try {
+                    shelf = numberInput(1, 5, "Warehouse or Chest? ");
+                }
+                catch (ExecutionException e) {
+                    out.println("Wrong input");
+                }
+                shelfLevel.add(shelf);
+            }
+            else {
+                shelfLevel.add(0);
+            }
+
+            resourceType.add(resource);
+
+        }
+
+        notifyObserver(obs -> obs.onUpdatePayProductionPower(isWarehouse.toArray(new Boolean[0]), shelfLevel.toArray(new Integer[0]), resourceType.toArray(new Resource[0]), productionPower));
+
+    }
+
+    public void setLeaderProductionPower(ProductionPower prodProductionPower){
+        out.println("You have chosen a Leader Production Power. Choose a resource to receive.");
+        Resource resourceChosen = choseResource();
+        notifyObserver(obs -> obs.onUpdateProductionPowerResource(resourceChosen, prodProductionPower));
+        prodProductionPower.setLeaderProductionPowerResourceToReceive(resourceChosen);
+    }
+
+    public void setBaseProductionPower(){
+        out.println("Set the Base Production Power Resources");
+        List<Resource> resourcesToPayList = new ArrayList<>();
+        List<Resource> resourceToReceiveList = new ArrayList<>();
+        for( int i=0; i<2; i++){
+            out.println("Set the resource " + (i+1) + " to pay");
+            resourcesToPayList.add( choseResource() );
+        }
+        out.println("Set the resource to receive");
+        resourceToReceiveList.add( choseResource() );
+        notifyObserver(obs -> obs.onUpdateTwoResourceList(resourcesToPayList, resourceToReceiveList, "setBaseProductionPower"));
+    }
+
+    public Resource choseResource(){
+        int resource = 0;
+        out.println("Type: 0)MONEY - 1)STONE - 2)SLAVE - 3)SHIELD");
+        try {
+            resource = numberInput(0, 3, "Which resource? ");
+        }
+        catch (ExecutionException e) {
+            out.println("Wrong input");
+        }
+        switch (resource) {
+            case 0:
+                return Resource.MONEY;
+            case 1:
+                return Resource.STONE;
+            case 2:
+                return Resource.SLAVE;
+            case 3:
+                return Resource.SHIELD;
+            default :
+                break;
+        }
+        return null;
+    }
+
+    public void printProductionPowerList(List<ProductionPower> list){
+
+        int productionPowerCounter = 0;
+
+        for(ProductionPower productionPower : list){
+            if(productionPower.isBaseProductionPower()){
+                out.println("Base Production Power:");
+            }
+            else if(productionPower.isLeaderProductionPower()){
+                out.println("Leader Production Power:");
+            }
             out.print(productionPowerCounter + " - ");
             for(Resource resource : productionPower.getResourceToPay()){
                 printResource(resource);
@@ -938,7 +1090,7 @@ public class Cli extends ViewObservable implements View {
                 printResource(resource);
                 out.print(" + ");
             }
-            out.println("");
+            out.println();
             productionPowerCounter++;
         }
 
@@ -951,6 +1103,49 @@ public class Cli extends ViewObservable implements View {
             case MONEY: out.print(resourcesArt.money() + " ");
             case SHIELD: out.print(resourcesArt.shield() + " ");
             case EMPTY: out.print("? ");
+            default: out.print("? ");
+        }
+    }
+
+    @Override
+    public void productionPowerList (List<ProductionPower> productionPowerList, String action) {
+    }
+
+    @Override
+    public void productionPowerResponse (boolean response, String action, ProductionPower productionPower) {
+        switch (action) {
+            case "setBaseProductionPower":
+                if (response) {
+                    out.println("the resources have been set up.");
+                    productionPowerList.get(0).setBaseProductionPowerLists(productionPower.getResourceToPay(), productionPower.getResourceToReceive());
+                    payProductionPower(productionPower);
+                } else {
+                    out.println("the resources haven't been set up.");
+                    choseProductionPower();
+                }
+                break;
+            case "productionPowerCheck":
+                if (response) {
+                    out.println("Production Power have been chosen.");
+                    payProductionPower(productionPower);
+                } else {
+                    out.println("Production Power have been chosen, but you can't afford it.");
+                    choseProductionPower();
+                }
+                break;
+            case "payProductionPower":
+                if (response) {
+                    out.println("You have successfully paid the Production Power.");
+                    productionPowerList.remove(productionPower);
+                    paidProductionPowerList.add(productionPower);
+                    choseProductionPower();
+                } else {
+                    out.println("You haven't successfully paid the Production Power chosen.");
+                    payProductionPower(productionPower);
+                }
+                break;
+            default:
+                break;
         }
     }
 

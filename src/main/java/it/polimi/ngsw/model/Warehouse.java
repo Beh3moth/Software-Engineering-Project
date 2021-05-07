@@ -366,6 +366,7 @@ public class Warehouse {
         return true;
     }
 
+    //Reorder Warehouse methods
 
     public void newFirstShelf(Resource newResource){
         this.firstLevel.setResourceType(newResource);
@@ -388,5 +389,6 @@ public class Warehouse {
         this.secondLeaderLevel.setResourceType(newResources.get(0));
         this.secondLeaderLevel.setResourceNumber(newResources.size());
     }
+
 }
 

@@ -2,7 +2,10 @@ package it.polimi.ngsw.observer;
 
 
 import it.polimi.ngsw.model.LeaderCard;
+import it.polimi.ngsw.model.ProductionPower;
 import it.polimi.ngsw.model.Resource;
+import it.polimi.ngsw.network.message.ProductionPowerResourceMessage;
+
 import java.util.List;
 import java.util.Map;
 
@@ -62,5 +65,15 @@ public interface ViewObserver {
     void onEndTurn();
 
     //Production power methods
+
+    void onUpdateProductionPowerList(List<ProductionPower> productionPowerList, String action);
+
+    void onUpdateIntegerChosen(int productionPowerChosen, String action);
+
+    void onUpdateTwoResourceList(List<Resource> resourcesToPay, List<Resource> resourcesToReceive, String action);
+
+    void onUpdatePayProductionPower(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, ProductionPower productionPower);
+
+    void onUpdateProductionPowerResource(Resource resource, ProductionPower productionPower);
 
 }

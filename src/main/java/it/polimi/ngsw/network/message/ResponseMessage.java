@@ -5,8 +5,8 @@ public class ResponseMessage extends Message {
     private boolean response;
     private String action;
 
-    public ResponseMessage(String nickname, boolean response, String action) {
-        super(nickname, MessageType.PRODUCTION_POWER_RESPONSE_MESSAGE);
+    public ResponseMessage(String nickname, boolean response, String action, MessageType messageType) {
+        super(nickname, messageType);
         this.response = response;
         this.action = action;
     }

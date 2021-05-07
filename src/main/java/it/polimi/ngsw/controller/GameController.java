@@ -517,14 +517,14 @@ public class GameController implements Observer, Serializable {
         List<Resource> resourceToReceive = receivedMessage.getResourcesToReceive();
 
         if( ! baseProductionPower.setBaseProductionPowerLists(resourceToPay, resourceToReceive) ) {
-            virtualView.productionPowerResponse(false, "setBaseProductionPower", null);
+            virtualView.productionPowerResponse(false, "setBaseProductionPower", baseProductionPower);
         }
         else {
             if (player.canAfford(baseProductionPower.getResourceToPayAsMap())) {
                 virtualView.productionPowerResponse(true, "setBaseProductionPower", baseProductionPower);
             }
             else{
-                virtualView.productionPowerResponse(false, "setBaseProductionPower", null);
+                virtualView.productionPowerResponse(false, "setBaseProductionPower", baseProductionPower);
                 baseProductionPower.resetBaseProductionPower();
             }
 

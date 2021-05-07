@@ -259,8 +259,9 @@ public class ClientController implements ViewObserver, Observer{
                 taskQueue.execute(() -> view.productionPowerList(productionPowerListMessage.getProductionPowerList(), productionPowerListMessage.getAction()));
                 break;
             case PRODUCTION_POWER_RESPONSE_MESSAGE:
-                ProductionPowerResponseMessage baseProductionPowerResponse = (ProductionPowerResponseMessage) message;
-                taskQueue.execute(() -> view.productionPowerResponse(baseProductionPowerResponse.isResponse(), baseProductionPowerResponse.getAction(), baseProductionPowerResponse.getProductionPower()));
+                ProductionPowerResponseMessage productionPowerResponse = (ProductionPowerResponseMessage) message;
+                taskQueue.execute(() -> view.productionPowerResponse(productionPowerResponse.isResponse(), productionPowerResponse.getAction(), productionPowerResponse.getProductionPower()));
+                break;
             default: // Should never reach this condition
                 break;
         }

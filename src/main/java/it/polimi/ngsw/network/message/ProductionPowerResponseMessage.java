@@ -7,7 +7,7 @@ public class ProductionPowerResponseMessage extends ResponseMessage {
     private ProductionPower productionPower;
 
     public ProductionPowerResponseMessage(String nickname, boolean response, String action, ProductionPower productionPower) {
-        super(nickname, response, action);
+        super(nickname, response, action, MessageType.PRODUCTION_POWER_RESPONSE_MESSAGE);
         this.productionPower = productionPower;
     }
 

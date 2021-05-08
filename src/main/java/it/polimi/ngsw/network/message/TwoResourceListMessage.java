@@ -17,11 +17,6 @@ public class TwoResourceListMessage extends Message {
         this.action = action;
     }
 
-    @Override
-    public String toString() {
-        return "Player has chosen two lists of resources ";
-    }
-
     public List<Resource> getResourcesToPay() {
         return resourcesToPay;
     }
@@ -32,5 +27,10 @@ public class TwoResourceListMessage extends Message {
 
     public String getAction() {
         return action;
+    }
+
+    @Override
+    public String toString() {
+        return "Player has chosen two lists of resources ";
     }
 }

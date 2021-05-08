@@ -13,19 +13,19 @@ public class ResourcesArt {
     }
 
     public String money(){
-        return (Color.ANSI_BRIGHT_BOLD_YELLOW.escape() + "@");
+        return (Color.ANSI_BRIGHT_BOLD_YELLOW.escape() + "@" + Color.RESET);
     }
 
     public String stone(){
-        return (Color.ANSI_BRIGHT_BLACK.escape() + "@");
+        return (Color.ANSI_BRIGHT_BLACK.escape() + "@" + Color.RESET);
     }
 
     public String slave(){
-        return (Color.ANSI_MAGENTA.escape() + "@");
+        return (Color.ANSI_MAGENTA.escape() + "@" + Color.RESET);
     }
 
     public String shield(){
-        return (Color.ANSI_CYAN.escape() + "@");
+        return (Color.ANSI_CYAN.escape() + "@" + Color.RESET);
     }
 
 }

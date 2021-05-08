@@ -918,6 +918,10 @@ public class Cli extends ViewObservable implements View {
 
     public void productionPowerMove() {
 
+        ProductionPower productionPower = new ProductionPower(null, null);
+        productionPower.setBaseProductionPowerToTrue();
+        productionPowerList.add(productionPower);
+
         printProductionPowerList(productionPowerList);
         printProductionPowerList(paidProductionPowerList);
 
@@ -936,7 +940,7 @@ public class Cli extends ViewObservable implements View {
             choseProductionPower();
         }
         else if (choseAction == 1) {
-            for(ProductionPower productionPower : paidProductionPowerList){
+            for(ProductionPower productionPowerOfList : paidProductionPowerList){
                 //activate
             }
         }
@@ -1005,7 +1009,7 @@ public class Cli extends ViewObservable implements View {
                 out.println("Which shelf? 1) 2) 3) 4) 5): ");
                 int shelf = 0;
                 try {
-                    shelf = numberInput(1, 5, "Warehouse or Chest? ");
+                    shelf = numberInput(1, 5, "Choose: ");
                 }
                 catch (ExecutionException e) {
                     out.println("Wrong input");
@@ -1075,34 +1079,46 @@ public class Cli extends ViewObservable implements View {
         for(ProductionPower productionPower : list){
             if(productionPower.isBaseProductionPower()){
                 out.println("Base Production Power:");
+                out.println("? + ? --> ?");
             }
-            else if(productionPower.isLeaderProductionPower()){
-                out.println("Leader Production Power:");
+            else {
+                if(productionPower.isLeaderProductionPower()){
+                    out.println("Leader Production Power:");
+                }
+                out.print(productionPowerCounter + " - ");
+                for(Resource resource : productionPower.getResourceToPay()){
+                    printResource(resource);
+                    out.print(" + ");
+                }
+                out.print(" --> ");
+                for(Resource resource : productionPower.getResourceToReceive()){
+                    printResource(resource);
+                    out.print(" + ");
+                }
+                out.println();
+                productionPowerCounter++;
             }
-            out.print(productionPowerCounter + " - ");
-            for(Resource resource : productionPower.getResourceToPay()){
-                printResource(resource);
-                out.print(" + ");
-            }
-            out.print(" --> ");
-            for(Resource resource : productionPower.getResourceToReceive()){
-                printResource(resource);
-                out.print(" + ");
-            }
-            out.println();
-            productionPowerCounter++;
         }
 
     }
 
     public void printResource (Resource resource) {
         switch (resource){
-            case SLAVE: out.print(resourcesArt.slave() + " ");
-            case STONE: out.print(resourcesArt.stone() + " ");
-            case MONEY: out.print(resourcesArt.money() + " ");
-            case SHIELD: out.print(resourcesArt.shield() + " ");
-            case EMPTY: out.print("? ");
-            default: out.print("? ");
+            case SLAVE:
+                out.print(resourcesArt.slave() + " ");
+                break;
+            case STONE:
+                out.print(resourcesArt.stone() + " ");
+                break;
+            case MONEY:
+                out.print(resourcesArt.money() + " ");
+                break;
+            case SHIELD:
+                out.print(resourcesArt.shield() + " ");
+                break;
+            default:
+                out.print("? ");
+                break;
         }
     }
 

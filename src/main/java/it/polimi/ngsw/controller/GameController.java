@@ -304,6 +304,7 @@ public class GameController implements Observer, Serializable {
                 break;
             case TWO_LIST_OF_RESOURCES:
                 twoResourceListAction((TwoResourceListMessage) receivedMessage);
+                break;
             case PRODUCTION_POWER_LIST:
                 productionPowerListAction((ProductionPowerListMessage) receivedMessage);
                 break;
@@ -312,6 +313,8 @@ public class GameController implements Observer, Serializable {
                 break;
             case PRODUCTION_POWER_RESOURCE:
                 setLeaderProductionPower((ProductionPowerResourceMessage) receivedMessage);
+                break;
+            case PRODUCTION_POWER_RESPONSE_MESSAGE:
                 break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
@@ -532,7 +535,7 @@ public class GameController implements Observer, Serializable {
 
     }
 
-    public void payProductionPower(ProductionPowerCoordinatesMessage receivedMessage){
+    public void payProductionPower(ProductionPowerCoordinatesMessage receivedMessage) {
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(receivedMessage.getNickname());

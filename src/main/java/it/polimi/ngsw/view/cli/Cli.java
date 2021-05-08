@@ -630,6 +630,7 @@ public class Cli extends ViewObservable implements View {
     public void mainMove() {
         try {
             printMarket();
+            printProductionPowerList(productionPowerList);
             out.println("Chose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers");
             int chose = numberInput(1, 4, "Which move? ");
             if (chose == 1) {
@@ -972,7 +973,7 @@ public class Cli extends ViewObservable implements View {
     public void payProductionPower(ProductionPower productionPower){
 
         out.println("Pay the Production Power chosen.");
-        out.print("[ ");
+        out.print("[   ");
         for(Resource resource : productionPower.getResourceToPay()){
             printResource(resource);
             out.print("  ");
@@ -1072,6 +1073,9 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void printProductionPowerList(List<ProductionPower> list){
+
+        out.println();
+        out.println("Production Powers:");
 
         int productionPowerCounter = 1;
 

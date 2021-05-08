@@ -29,6 +29,7 @@ public class StartTurnMessage extends Message{
         this.thirdRow = thirdRow;
         this.leaderProductionPowerList = leaderProductionPowerList;
         this.activeDevCardList = activeDevCardList;
+        this.productionPowerList = productionPowerList;
     }
 
     @Override

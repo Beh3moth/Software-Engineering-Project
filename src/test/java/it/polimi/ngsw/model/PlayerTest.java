@@ -43,7 +43,6 @@ public class PlayerTest {
         Integer[] shelfLevel = {1, 0, 0};
         Resource[] resources = {Resource.MONEY, Resource.STONE, Resource.SLAVE};
         assertTrue(player.payProductionPower(productionPower, isWarehouse, shelfLevel, resources));
-        player.checkForLeaderProductionPowerAbility();
         assertTrue(player.getAbilityList().isEmpty());
         assertFalse(player.getPaidList().isEmpty());
         player.rejectProductionPower(productionPower);
@@ -63,7 +62,6 @@ public class PlayerTest {
 
         player.addProductionPowerToPaidList(player.getDevCardDashboard().getProductionPower(4));
         player.addProductionPowerToPaidList(player.getDevCardDashboard().getProductionPower(5));
-        assertTrue(player.checkForLeaderProductionPowerAbility());
 
         for(ProductionPower productionPower : player.getAbilityList()){
             assertTrue(productionPower.equals(player.getDevCardDashboard().getProductionPower(4)) || productionPower.equals(player.getDevCardDashboard().getProductionPower(5)));

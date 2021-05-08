@@ -194,6 +194,10 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new ProductionPowerResourceMessage(this.nickname, resource, productionPower));
     }
 
+    @Override
+    public void onUpdateProductionPowerActivation() {
+        client.sendMessage(new ActivateProductionPowersMessage(this.nickname));
+    }
 
 
     public void update(Message message) {

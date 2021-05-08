@@ -316,6 +316,9 @@ public class GameController implements Observer, Serializable {
                 break;
             case PRODUCTION_POWER_RESPONSE_MESSAGE:
                 break;
+            case ACTIVATE_PRODUCTION_POWERS:
+                activateProductionPowers((ActivateProductionPowersMessage) receivedMessage);
+                break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
@@ -477,6 +480,13 @@ public class GameController implements Observer, Serializable {
     }
 
     //Production Power methods
+
+    public void activateProductionPowers(ActivateProductionPowersMessage message){
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        Player player =  game.getPlayerByNickname(message.getNickname());
+        boolean success = player.activateProductionPowers();
+        virtualView.productionPowerResponse(success, "activation", null);
+    }
 
     public void productionPowerListAction (ProductionPowerListMessage receivedMessage) {
         if(receivedMessage.getAction().equals("productionPowerChosen")){

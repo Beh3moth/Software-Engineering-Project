@@ -76,4 +76,6 @@ public interface ViewObserver {
 
     void onUpdateProductionPowerResource(Resource resource, ProductionPower productionPower);
 
+    void onUpdateProductionPowerActivation();
+
 }

@@ -912,12 +912,13 @@ public class Cli extends ViewObservable implements View {
 
     List<ProductionPower> leaderProductionPowerList = new ArrayList<>();
     List<DevCard> activeDevCardList = new ArrayList<>();
-    List<ProductionPower> productionPowerList = new ArrayList<>();
 
+    List<ProductionPower> productionPowerList = new ArrayList<>();
     List<ProductionPower> paidProductionPowerList = new ArrayList<>();
 
     public void productionPowerMove() {
 
+        //to try
         ProductionPower productionPower = new ProductionPower(null, null);
         productionPower.setBaseProductionPowerToTrue();
         productionPowerList.add(productionPower);
@@ -941,9 +942,15 @@ public class Cli extends ViewObservable implements View {
         }
         else if (choseAction == 1) {
             for(ProductionPower productionPowerOfList : paidProductionPowerList){
-                //activate
+                activateProductionPowers();
             }
         }
+
+    }
+
+    public void activateProductionPowers(){
+        out.println("You have paid these Production Powers:");
+        printProductionPowerList(paidProductionPowerList);
 
     }
 
@@ -1136,7 +1143,7 @@ public class Cli extends ViewObservable implements View {
                     payProductionPower(productionPower);
                 } else {
                     out.println("the resources haven't been set up.");
-                    choseProductionPower();
+                    productionPowerMove();
                 }
                 break;
             case "productionPowerCheck":
@@ -1145,7 +1152,7 @@ public class Cli extends ViewObservable implements View {
                     payProductionPower(productionPower);
                 } else {
                     out.println("Production Power have been chosen, but you can't afford it.");
-                    choseProductionPower();
+                    productionPowerMove();
                 }
                 break;
             case "payProductionPower":
@@ -1153,10 +1160,20 @@ public class Cli extends ViewObservable implements View {
                     out.println("You have successfully paid the Production Power.");
                     productionPowerList.remove(productionPower);
                     paidProductionPowerList.add(productionPower);
-                    choseProductionPower();
+                    productionPowerMove();
                 } else {
                     out.println("You haven't successfully paid the Production Power chosen.");
-                    payProductionPower(productionPower);
+                    payProductionPower(productionPower); //to check (loop?)
+                }
+                break;
+            case "activation":
+                if (response) {
+                    out.println("Successfully activate the Production Powers.");
+                    productionPowerList.clear();
+                    paidProductionPowerList.clear();
+                }
+                else {
+                    out.println("Activation FAIL.");
                 }
                 break;
             default:

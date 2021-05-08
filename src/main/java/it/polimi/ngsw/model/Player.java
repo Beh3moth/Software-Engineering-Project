@@ -328,12 +328,23 @@ public class Player extends Observable implements Serializable {
 
         for(int i=0; i < resourceType.length; i++){
             if(isWarehouse[i]){
-                if(!this.getWarehouse().discardResourceFromWarehouse(shelfLevel[i])) return false;
-                if(!productionPower.addSingleCoordinate(resourceType[i], true, shelfLevel[i])) return false;
-
+                if(!this.getWarehouse().discardResourceFromWarehouse(shelfLevel[i])) {
+                    productionPower.moveResourcesToOrigin(this);
+                    return false;
+                }
+                if(!productionPower.addSingleCoordinate(resourceType[i], true, shelfLevel[i])){
+                    productionPower.moveResourcesToOrigin(this);
+                    return false;
+                }
             } else {
-                if(!this.getChest().removeResource(resourceType[i], 1)) return false;
-                if(!productionPower.addSingleCoordinate(resourceType[i], false, 0)) return false;
+                if(!this.getChest().removeResource(resourceType[i], 1)){
+                    productionPower.moveResourcesToOrigin(this);
+                    return false;
+                }
+                if(!productionPower.addSingleCoordinate(resourceType[i], false, 0)) {
+                    productionPower.moveResourcesToOrigin(this);
+                    return false;
+                }
             }
         }
 
@@ -358,9 +369,36 @@ public class Player extends Observable implements Serializable {
     }
 
     /**
+     * The method activates every production power the player chose. It also cleans the coordinates.
+     * @return true if successful, false otherwise.
+     */
+    public boolean activateProductionPowers(){
+        for(ProductionPower productionPower : paidList){
+            for(Resource resource : productionPower.getResourceToReceive()){
+                if(productionPower.isLeaderProductionPower()){
+                    this.getFaithPath().increaseCrossPosition();
+                }
+                if(!resource.equals(Resource.EMPTY)){
+                    this.getChest().addResource(resource, 1);
+                }
+            }
+            productionPower.cleanCoordinates();
+            if(productionPower.isLeaderProductionPower()){
+                productionPower.resetLeaderProductionPower();
+            }
+            if(productionPower.isBaseProductionPower()){
+                productionPower.resetBaseProductionPower();
+            }
+        }
+        paidList.clear();
+        abilityList.clear();
+        return true;
+    }
+
+    /*
      * The method puts the Leader Production Powers int the abilityList and removes them from paidList.
      * @return true if the abilityList is not empty, false otherwise.
-     */
+
     public boolean checkForLeaderProductionPowerAbility(){
 
         for(ProductionPower productionPower : paidList){
@@ -379,7 +417,7 @@ public class Player extends Observable implements Serializable {
 
     }
 
-    /*
+
 
      * The method put the resources to receive from the Production Powers in the paidList in the player's chest.
      * @return true if successful, false otherwise.
@@ -470,33 +508,6 @@ public class Player extends Observable implements Serializable {
         leaderProductionPower.setLeaderProductionPowerResourceToReceive(resource);
         paidList.add(leaderProductionPower);
         abilityList.remove(leaderProductionPower);
-    }
-
-    /**
-     * The method activates every production power the player chose. It also cleans the coordinates.
-     * @return true if successful, false otherwise.
-     */
-    public boolean activateProductionPowers(){
-        for(ProductionPower productionPower : paidList){
-            for(Resource resource : productionPower.getResourceToReceive()){
-                if(productionPower.isLeaderProductionPower()){
-                    this.getFaithPath().increaseCrossPosition();
-                }
-                if(!resource.equals(Resource.EMPTY)){
-                    this.getChest().addResource(resource, 1);
-                }
-            }
-            productionPower.cleanCoordinates();
-            if(productionPower.isLeaderProductionPower()){
-                productionPower.resetLeaderProductionPower();
-            }
-            if(productionPower.isBaseProductionPower()){
-                productionPower.resetBaseProductionPower();
-            }
-        }
-        paidList.clear();
-        abilityList.clear();
-        return true;
     }
 
 }

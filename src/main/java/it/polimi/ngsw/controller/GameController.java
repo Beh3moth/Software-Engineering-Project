@@ -484,8 +484,10 @@ public class GameController implements Observer, Serializable {
     public void activateProductionPowers(ActivateProductionPowersMessage message){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(message.getNickname());
+        List<LeaderCard> leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
         boolean success = player.activateProductionPowers();
         virtualView.productionPowerResponse(success, "activation", null);
+        virtualView.afterReorder(1, leaders);
     }
 
     public void productionPowerListAction (ProductionPowerListMessage receivedMessage) {

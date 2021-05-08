@@ -35,6 +35,9 @@ public class Cli extends ViewObservable implements View {
     private List<Resource> newFirstSpecialShelf;
     private List<Resource> newSecondSpecialShelf;
     private List<Resource> discardList;
+    private List<ProductionPower> leaderProductionPowerList = new ArrayList<>();
+    private List<DevCard> activeDevCardList = new ArrayList<>();
+    private List<ProductionPower> productionPowerList = new ArrayList<>();
 
     /**
      * Default constructor.
@@ -910,18 +913,9 @@ public class Cli extends ViewObservable implements View {
 
     //Activate Production Powers
 
-    List<ProductionPower> leaderProductionPowerList = new ArrayList<>();
-    List<DevCard> activeDevCardList = new ArrayList<>();
-
-    List<ProductionPower> productionPowerList = new ArrayList<>();
     List<ProductionPower> paidProductionPowerList = new ArrayList<>();
 
     public void productionPowerMove() {
-
-        //to try
-        ProductionPower productionPower = new ProductionPower(null, null);
-        productionPower.setBaseProductionPowerToTrue();
-        productionPowerList.add(productionPower);
 
         printProductionPowerList(productionPowerList);
         printProductionPowerList(paidProductionPowerList);
@@ -941,9 +935,7 @@ public class Cli extends ViewObservable implements View {
             choseProductionPower();
         }
         else if (choseAction == 1) {
-            for(ProductionPower productionPowerOfList : paidProductionPowerList){
-                activateProductionPowers();
-            }
+            activateProductionPowers();
         }
 
     }
@@ -951,7 +943,7 @@ public class Cli extends ViewObservable implements View {
     public void activateProductionPowers(){
         out.println("You have paid these Production Powers:");
         printProductionPowerList(paidProductionPowerList);
-
+        notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
     }
 
     public void choseProductionPower(){
@@ -1081,12 +1073,12 @@ public class Cli extends ViewObservable implements View {
 
     public void printProductionPowerList(List<ProductionPower> list){
 
-        int productionPowerCounter = 0;
+        int productionPowerCounter = 1;
 
         for(ProductionPower productionPower : list){
             if(productionPower.isBaseProductionPower()){
                 out.println("Base Production Power:");
-                out.println("? + ? --> ?");
+                out.println("0 - ? + ? --> ?");
             }
             else {
                 if(productionPower.isLeaderProductionPower()){
@@ -1168,7 +1160,7 @@ public class Cli extends ViewObservable implements View {
                 break;
             case "activation":
                 if (response) {
-                    out.println("Successfully activate the Production Powers.");
+                    out.println("Successfully activated the Production Powers.");
                     productionPowerList.clear();
                     paidProductionPowerList.clear();
                 }

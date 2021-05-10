@@ -911,16 +911,6 @@ public class Cli extends ViewObservable implements View {
         out.flush();
     }
 
-
-
-
-
-
-
-
-
-
-
     //Activate Production Powers
 
     List<ProductionPower> paidProductionPowerList = new ArrayList<>();
@@ -1180,7 +1170,10 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void devCard(DevCard devCard, int slotToPut){
-        if(devCard == null)mainMove();
+        if(devCard == null){
+            out.println("Wrong input");
+            mainMove();
+        }
         else{
                 payDevCard(devCard, slotToPut);
         }
@@ -1257,7 +1250,7 @@ public class Cli extends ViewObservable implements View {
             }
 
             try{
-                column = numberInput(1, 4, "Which Column? (1: green, 2: blue, 3: yellow, 4: purple)");
+                column = numberInput(1, 4, "Which Column? (1: green, 2: blue, 3: yellow, 4: purple): ");
             }
             catch (ExecutionException e){
                 out.println("Wrong input");
@@ -1268,6 +1261,7 @@ public class Cli extends ViewObservable implements View {
             catch (ExecutionException e){
                 out.println("Wrong Input");
             }
+
             int finalSlotToPut = slotToPut;
             int finalLevel = level;
             int finalColumn = column;

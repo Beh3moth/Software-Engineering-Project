@@ -593,7 +593,8 @@ public class GameController implements Observer, Serializable {
 
         virtualView.devCardResponse(success, "payDevCard", receivedMessage.getDevCard(), receivedMessage.getSlotToPut());
 
-        virtualView.afterReorder(1, leaders);
-
+        if(success) {
+            virtualView.afterReorder(1, leaders);
+        }
     }
 }

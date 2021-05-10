@@ -8,8 +8,8 @@ public class CoordinatesMessage extends Message {
     private Integer[] shelfLevel;
     private Resource[] resourceType;
 
-    public CoordinatesMessage(String nickname, Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType) {
-        super(nickname, MessageType.PRODUCTION_POWER_COORDINATES_MESSAGE);
+    public CoordinatesMessage(String nickname, MessageType messageType, Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType) {
+        super(nickname, messageType);
         this.isWarehouse = isWarehouse;
         this.shelfLevel = shelfLevel;
         this.resourceType = resourceType;

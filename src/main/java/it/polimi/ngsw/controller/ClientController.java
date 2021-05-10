@@ -1,5 +1,6 @@
 package it.polimi.ngsw.controller;
 
+import it.polimi.ngsw.model.DevCard;
 import it.polimi.ngsw.model.ProductionPower;
 import it.polimi.ngsw.network.client.Client;
 import it.polimi.ngsw.network.client.SocketClient;
@@ -195,10 +196,18 @@ public class ClientController implements ViewObserver, Observer{
     }
 
     @Override
+    public void onUpdateChooseDevCard(int level, int column, int slotToPut){
+        client.sendMessage(new ChosenDevCardMessage(this.nickname, level, column, slotToPut));
+    }
+    @Override
     public void onUpdateProductionPowerActivation() {
         client.sendMessage(new ActivateProductionPowersMessage(this.nickname));
     }
 
+    @Override
+    public void onUpdatePayDevCard(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, DevCard devCard, int slotToPut) {
+        client.sendMessage(new DevCardCoordinatesMessage (this.nickname, isWarehouse, shelfLevel, resourceType, devCard, slotToPut));
+    }
 
     public void update(Message message) {
 
@@ -240,7 +249,7 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case START_TURN:
                 StartTurnMessage start = (StartTurnMessage) message;
-                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardList(), start.getLeaderProductionPowerList()));
+                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardList(), start.getProductionPowerList(), start.getDevCardMarket()));
                 break;
             case CONTINUE_TURN:
                 ContinueTurnMessage continueMessage = (ContinueTurnMessage) message;
@@ -265,6 +274,14 @@ public class ClientController implements ViewObserver, Observer{
             case PRODUCTION_POWER_RESPONSE_MESSAGE:
                 ProductionPowerResponseMessage productionPowerResponse = (ProductionPowerResponseMessage) message;
                 taskQueue.execute(() -> view.productionPowerResponse(productionPowerResponse.isResponse(), productionPowerResponse.getAction(), productionPowerResponse.getProductionPower()));
+                break;
+            case DEVCARD_RESPONSE_MESSAGE:
+                DevCardResponseMessage devCardResponse = (DevCardResponseMessage) message;
+                taskQueue.execute(() -> view.devCardResponse(devCardResponse.isResponse(), devCardResponse.getAction(), devCardResponse.getDevCard(), devCardResponse.getSlotToPut()));
+                break;
+            case DEVCARD:
+                DevCardMessage devCardMessage = (DevCardMessage) message;
+                taskQueue.execute(() -> view.devCard(devCardMessage.getDevCard(), devCardMessage.getSlotToPut()));
                 break;
             default: // Should never reach this condition
                 break;

@@ -1,6 +1,7 @@
 package it.polimi.ngsw.observer;
 
 
+import it.polimi.ngsw.model.DevCard;
 import it.polimi.ngsw.model.LeaderCard;
 import it.polimi.ngsw.model.ProductionPower;
 import it.polimi.ngsw.model.Resource;
@@ -78,4 +79,9 @@ public interface ViewObserver {
 
     void onUpdateProductionPowerActivation();
 
+    void onUpdateChooseDevCard(int level, int column, int slotToPut);
+
+    //devCard methods
+
+    void onUpdatePayDevCard(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, DevCard devCard, int slotToPut);
 }

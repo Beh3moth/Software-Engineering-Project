@@ -120,7 +120,7 @@ public class Chest {
      * @param resource
      * @return this method return the number of the resource in the array
      */
-    public int getNumberOfResourceInArray(Resource[] resources, boolean[] warehouse, Resource resource){
+    public int getNumberOfResourceInArray(Resource[] resources, Boolean[] warehouse, Resource resource){
         int n = 0;
         for(int i = 0; i < resources.length; i++){
             if((!warehouse[i]) && (resources[i] == resource))n++;
@@ -135,7 +135,7 @@ public class Chest {
      * @param resource
      * @return true if he can false otherwise
      */
-    public boolean controlResource(Resource[] resources, boolean[] warehouse, Resource resource){
+    public boolean controlResource(Resource[] resources, Boolean[] warehouse, Resource resource){
         if(getNumberOfResourceInArray(resources, warehouse, resource) < getResourceNumber(resource))return false;
         else return true;
     }
@@ -146,7 +146,7 @@ public class Chest {
      * @param warehouse
      * @return true if the player can pay with the chest's resources false otherwise
      */
-    public boolean canBuy(Resource[] resources, boolean[] warehouse){
+    public boolean canBuy(Resource[] resources, Boolean[] warehouse){
         for(Resource resource : Resource.values()){
             if(!controlResource(resources, warehouse, resource))return false;
         }

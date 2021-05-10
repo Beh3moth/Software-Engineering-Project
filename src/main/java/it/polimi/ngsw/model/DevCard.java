@@ -1,4 +1,5 @@
 package it.polimi.ngsw.model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,13 +9,14 @@ import java.util.Map;
  *  This class implements the idea of Development Cards.
  *  The implementation of the card's cost is made by using a map implemented as an HashMap.
  */
-public class DevCard {
+public class DevCard implements Serializable {
 
     private int devLevel;
     private DevCardColour devCardColour;
     private Map<Resource, Integer> devCost = new HashMap<>();
     private ProductionPower productionPower;                        //Manca ancora l'implementazione finale della classe productionPower
     private int PV;
+    private List<Resource> resourceToPay;
 
     public DevCard(int devLevel, DevCardColour devCardColour, List<Resource> devCostList , ProductionPower productionPower, int PV){
         this.devLevel = devLevel;
@@ -27,6 +29,8 @@ public class DevCard {
         int slaveCost = 0;
         int moneyCost = 0;
         int stoneCost = 0;
+
+        this.resourceToPay = devCostList;
 
         for(int i = 0; i < devCostList.size(); i++){
             switch(devCostList.get(i)){
@@ -85,4 +89,9 @@ public class DevCard {
         return PV;
     }
 
+    /**
+     * Method that returns the list with all resourceToPay
+     * @return the list with all resourceToPay
+     */
+    public List<Resource> getResourceToPay(){return resourceToPay;}
 }

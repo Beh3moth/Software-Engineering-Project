@@ -11,6 +11,15 @@ import java.util.List;
 public class DevCardDashboardTest {
 
     @Test
+    public void getActiveProductionPowerListTest(){
+        Game game = new Game();
+        game.setNumberOfPlayers(1);
+        game.createPlayers();
+        Player player = game.getPlayerFromList(0);
+        assertNotNull(player.getDevCardDashboard().getActiveProductionPowerList());
+    }
+
+    @Test
     public void putDevCardInTest(){
         Game game = new Game();
         game.setNumberOfPlayers(1);

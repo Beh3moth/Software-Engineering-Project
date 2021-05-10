@@ -311,6 +311,9 @@ public class GameController implements Observer, Serializable {
             case PRODUCTION_POWER_COORDINATES_MESSAGE:
                 payProductionPower((ProductionPowerCoordinatesMessage) receivedMessage);
                 break;
+            case DEVCARD_COORDINATES_MESSAGE:
+                payDevCard((DevCardCoordinatesMessage) receivedMessage);
+                break;
             case PRODUCTION_POWER_RESOURCE:
                 setLeaderProductionPower((ProductionPowerResourceMessage) receivedMessage);
                 break;
@@ -318,6 +321,9 @@ public class GameController implements Observer, Serializable {
                 break;
             case ACTIVATE_PRODUCTION_POWERS:
                 activateProductionPowers((ActivateProductionPowersMessage) receivedMessage);
+                break;
+            case CHOSENDEVCARD:
+                chooseDevCardToPay((ChosenDevCardMessage) receivedMessage);
                 break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
@@ -484,8 +490,10 @@ public class GameController implements Observer, Serializable {
     public void activateProductionPowers(ActivateProductionPowersMessage message){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(message.getNickname());
+        List<LeaderCard> leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
         boolean success = player.activateProductionPowers();
         virtualView.productionPowerResponse(success, "activation", null);
+        virtualView.afterReorder(1, leaders);
     }
 
     public void productionPowerListAction (ProductionPowerListMessage receivedMessage) {
@@ -520,6 +528,7 @@ public class GameController implements Observer, Serializable {
         }
 
     }
+
 
     public void setBaseProductionPower (TwoResourceListMessage receivedMessage) {
 
@@ -563,4 +572,29 @@ public class GameController implements Observer, Serializable {
 
     }
 
+    public void chooseDevCardToPay(ChosenDevCardMessage receivedMessage){
+
+        DevCard devCardChosen = null;
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        Player player = game.getPlayerByNickname(receivedMessage.getNickname());
+        devCardChosen = game.getPlayerByNickname(receivedMessage.getNickname()).chooseDevCard(game.getBoard(), receivedMessage.getLevel(), receivedMessage.getDevCardColour(), receivedMessage.getSlotToPut());
+        virtualView.devCard(devCardChosen, receivedMessage.getSlotToPut());
+
+    }
+
+    public void payDevCard(DevCardCoordinatesMessage receivedMessage){
+
+        List<LeaderCard> leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
+
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
+
+        boolean success = player.buyDevCard(receivedMessage.getDevCard(), receivedMessage.getResourceType(),receivedMessage.getIsWarehouse(), receivedMessage.getShelfLevel(), receivedMessage.getSlotToPut());
+
+        virtualView.devCardResponse(success, "payDevCard", receivedMessage.getDevCard(), receivedMessage.getSlotToPut());
+
+        if(success) {
+            virtualView.afterReorder(1, leaders);
+        }
+    }
 }

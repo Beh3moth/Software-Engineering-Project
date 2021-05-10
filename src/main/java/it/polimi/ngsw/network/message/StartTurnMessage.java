@@ -14,13 +14,12 @@ public class StartTurnMessage extends Message{
     private Marble[] firstRow;
     private Marble[] secondRow;
     private Marble[] thirdRow;
-
-    //DevCardDashboard attributes
     private List<ProductionPower> leaderProductionPowerList;
     private List<DevCard> activeDevCardList;
     private List<ProductionPower> productionPowerList;
+    private DevCard[][] devCardMarket;
 
-    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList) {
+    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket) {
         super(nickname, MessageType.START_TURN);
         this.leaderCards = Leaders;
         this.singleMarble = singleMarble;
@@ -29,6 +28,8 @@ public class StartTurnMessage extends Message{
         this.thirdRow = thirdRow;
         this.leaderProductionPowerList = leaderProductionPowerList;
         this.activeDevCardList = activeDevCardList;
+        this.productionPowerList = productionPowerList;
+        this.devCardMarket = devCardMarket;
     }
 
     @Override
@@ -55,8 +56,6 @@ public class StartTurnMessage extends Message{
         return this.thirdRow;
     }
 
-    //Activate Production Power Methods
-
     public List<ProductionPower> getLeaderProductionPowerList() {
         return leaderProductionPowerList;
     }
@@ -67,5 +66,9 @@ public class StartTurnMessage extends Message{
 
     public List<ProductionPower> getProductionPowerList() {
         return productionPowerList;
+    }
+
+    public DevCard[][] getDevCardMarket() {
+        return devCardMarket;
     }
 }

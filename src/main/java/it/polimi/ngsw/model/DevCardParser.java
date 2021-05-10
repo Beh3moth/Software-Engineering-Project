@@ -91,6 +91,9 @@ public class DevCardParser {
         if(object.getAsString().equals("STONE")){
             resourcesNeeded.add(Resource.STONE);
         }
+        if (object.getAsString().equals("FAITHPOINT")){
+            resourcesNeeded.add(Resource.FAITHPOINT);
+        }
     }
 
     private DevCardColour whatDevCardColour(String string){

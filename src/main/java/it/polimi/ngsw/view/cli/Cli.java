@@ -1303,13 +1303,17 @@ public class Cli extends ViewObservable implements View {
                 return resourcesArt.money();
             case SHIELD:
                 return resourcesArt.shield();
+            case FAITHPOINT:
+                return resourcesArt.faithPoint();
+            case EMPTY:
+                return resourcesArt.whiteMarble();
             default:
                 return " ";
         }
     }
 
-    private static final int MAX_VERT_TILES = 10; //rows.
-    private static final int MAX_HORIZON_TILES = 20; //cols.
+    private static final int MAX_VERT_TILES = 9; //rows.
+    private static final int MAX_HORIZON_TILES = 18; //cols.
 
     private String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
 
@@ -1349,7 +1353,7 @@ public class Cli extends ViewObservable implements View {
 
         int i = 1;
         for(Resource resource : Resource.values()){
-            if(resource!=Resource.EMPTY){
+            if(resource!=Resource.EMPTY && resource!=Resource.FAITHPOINT){
                 tiles[i][3] = getResourceArt(resource);
                 if(devCardCost.get((resource)) != null){
                     tiles[i][5] = devCardCost.get((resource)).toString();
@@ -1364,16 +1368,19 @@ public class Cli extends ViewObservable implements View {
         int i = 0;
 
         for(Resource resource : devCard.getProductionPower().getResourceToPay()){
-            tiles[5][3+i] = getResourceArt(resource);
-            i++;
+            if(resource != Resource.EMPTY && resource!=Resource.FAITHPOINT){
+                tiles[5][3+i] = getResourceArt(resource);
+                i++;
+            }
         }
         i++;
         tiles[5][3+i] = "=";
-        tiles[5][3+i+1] = " ";
-        i++;
+        i += 2;
         for(Resource resource : devCard.getProductionPower().getResourceToReceive()){
-            tiles[5][3+i] = getResourceArt(resource);
-            i++;
+            if(resource != Resource.EMPTY) {
+                tiles[5][3 + i] = getResourceArt(resource);
+                i++;
+            }
         }
     }
 

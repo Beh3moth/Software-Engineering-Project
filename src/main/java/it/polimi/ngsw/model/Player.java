@@ -375,11 +375,13 @@ public class Player extends Observable implements Serializable {
     public boolean activateProductionPowers(){
         for(ProductionPower productionPower : paidList){
             for(Resource resource : productionPower.getResourceToReceive()){
-                if(productionPower.isLeaderProductionPower()){
+                if(resource.equals(Resource.FAITHPOINT)){
                     this.getFaithPath().increaseCrossPosition();
                 }
-                if(!resource.equals(Resource.EMPTY)){
-                    this.getChest().addResource(resource, 1);
+                else{
+                    if(!resource.equals(Resource.EMPTY)){
+                        this.getChest().addResource(resource, 1);
+                    }
                 }
             }
             productionPower.cleanCoordinates();

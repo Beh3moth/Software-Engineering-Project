@@ -18,7 +18,7 @@ public class DevCard implements Serializable {
     private int PV;
     private List<Resource> resourceToPay;
 
-    public DevCard(int devLevel, DevCardColour devCardColour, List<Resource> devCostList , ProductionPower productionPower, int PV){
+    public DevCard (int devLevel, DevCardColour devCardColour, List<Resource> devCostList , ProductionPower productionPower, int PV) {
         this.devLevel = devLevel;
         this.devCardColour = devCardColour;
         this.productionPower = productionPower;                     //NON DEFINITIVO
@@ -29,22 +29,36 @@ public class DevCard implements Serializable {
         int slaveCost = 0;
         int moneyCost = 0;
         int stoneCost = 0;
+        int faithPoint = 0;
 
         this.resourceToPay = devCostList;
 
-        for(int i = 0; i < devCostList.size(); i++){
-            switch(devCostList.get(i)){
-                case SHIELD: shieldCost++;
-                case MONEY: moneyCost++;
-                case SLAVE: slaveCost++;
-                case STONE: stoneCost++;
-                default: ;
+        for (Resource resource : devCostList) {
+            switch (resource) {
+                case SHIELD:
+                    shieldCost++;
+                    break;
+                case MONEY:
+                    moneyCost++;
+                    break;
+                case SLAVE:
+                    slaveCost++;
+                    break;
+                case STONE:
+                    stoneCost++;
+                    break;
+                case FAITHPOINT:
+                    faithPoint++;
+                    break;
+                default:
+                    break;
             }
 
             this.devCost.put(Resource.SHIELD, shieldCost);
             this.devCost.put(Resource.MONEY, moneyCost);
             this.devCost.put(Resource.SLAVE, slaveCost);
             this.devCost.put(Resource.STONE, stoneCost);
+            this.devCost.put(Resource.FAITHPOINT, faithPoint);
 
         }
     }

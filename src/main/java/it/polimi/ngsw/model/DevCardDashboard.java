@@ -134,6 +134,7 @@ public class DevCardDashboard {
         if(leaderProductionPowerOne==null){
             resourceList1.add(productionPowerAbility.getInputResource());
             resourceList2.add(Resource.EMPTY);
+            resourceList2.add(Resource.FAITHPOINT);
             leaderProductionPowerOne = new ProductionPower(resourceList1, resourceList2);
             leaderProductionPowerOne.setIsLeaderProductionPower();
             return true;
@@ -141,6 +142,7 @@ public class DevCardDashboard {
         else if(leaderProductionPowerTwo==null){
             resourceList1.add(productionPowerAbility.getInputResource());
             resourceList2.add(Resource.EMPTY);
+            resourceList2.add(Resource.FAITHPOINT);
             leaderProductionPowerTwo = new ProductionPower(resourceList1, resourceList2);
             leaderProductionPowerTwo.setIsLeaderProductionPower();
             return true;

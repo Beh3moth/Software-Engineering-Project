@@ -218,7 +218,7 @@ public class Cli extends ViewObservable implements View {
                 } else {
                     resourceOne = Resource.STONE;
                 }
-                out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
+                out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor  ");
                 FirstPos = numberInput(1, 3, "Floor  ");
                 notifyObserver(obs -> obs.onUpdatePickedResources(number, resourceOne, null, FirstPos, 0));
             } catch (ExecutionException e) {
@@ -228,8 +228,8 @@ public class Cli extends ViewObservable implements View {
             Resource resourceOne;
             Resource resourceTwo;
             try {
-                out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
-                Chosen = numberInput(1, 4, "Pick resource");
+                out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone   ");
+                Chosen = numberInput(1, 4, "Pick resource   ");
                 if (Chosen == 1) {
                     resourceOne = Resource.MONEY;
                 } else if (Chosen == 2) {
@@ -239,14 +239,14 @@ public class Cli extends ViewObservable implements View {
                 } else {
                     resourceOne = Resource.STONE;
                 }
-                out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
-                FirstPos = numberInput(1, 3, "Floor");
+                out.println("Chose where to put it 1)FirstFloor 2)SecondFloor 3)ThirdFloor   ");
+                FirstPos = numberInput(1, 3, "Floor   ");
                 boolean goneRight = false;
                 int Pos;
                 Resource res;
                 do {
-                    out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
-                    ChosenTwo = numberInput(1, 4, "Pick resource two");
+                    out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone  ");
+                    ChosenTwo = numberInput(1, 4, "Pick resource two   ");
                     out.println("Chose where to put it (must be different if the resource is different) 1)FirstFloor 2)SecondFloor 3)ThirdFloor ");
                     if (ChosenTwo == 1) {
                         res = Resource.MONEY;
@@ -257,7 +257,7 @@ public class Cli extends ViewObservable implements View {
                     } else {
                         res = Resource.STONE;
                     }
-                    Pos = numberInput(1, 3, "Floor");
+                    Pos = numberInput(1, 3, "Floor   ");
                     if ((Pos != FirstPos) && (resourceOne != res) || (Pos == FirstPos) && (Pos != 1) && (resourceOne == res)) {
                         goneRight = true;
                     }
@@ -382,11 +382,11 @@ public class Cli extends ViewObservable implements View {
                     do {
                         out.println("Chose where to put this resource " + entry.getKey().toString());
                         if (firstLevel == Resource.EMPTY && secondLevel == Resource.EMPTY) {
-                            chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third");
+                            chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third    ");
                         } else if (firstLevel != Resource.EMPTY && secondLevel == Resource.EMPTY) {
-                            chose = numberInput(0, 4, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial");
+                            chose = numberInput(0, 4, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial    ");
                         } else if (firstLevel != Resource.EMPTY && secondLevel != Resource.EMPTY) {
-                            chose = numberInput(0, 5, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial 5) SecondSpecial");
+                            chose = numberInput(0, 5, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial 5) SecondSpecial    ");
                         }
                         if (chose == 0) {
                             this.discardList.add(entry.getKey());
@@ -405,11 +405,11 @@ public class Cli extends ViewObservable implements View {
                     do {
                         out.println("Chose where to put this resources " + newResources.get(i).toString());
                         if (firstLevel == Resource.EMPTY && secondLevel == Resource.EMPTY) {
-                            chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third");
+                            chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third   ");
                         } else if (firstLevel != Resource.EMPTY && secondLevel == Resource.EMPTY) {
-                            chose = numberInput(0, 4, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial");
+                            chose = numberInput(0, 4, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial   ");
                         } else if (firstLevel != Resource.EMPTY && secondLevel != Resource.EMPTY) {
-                            chose = numberInput(0, 5, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial 5) SecondSpecial");
+                            chose = numberInput(0, 5, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third 4) FirstSpecial 5) SecondSpecial   ");
                         }
                         if (chose == 0) {
                             this.discardList.add(newResources.get(i));
@@ -894,7 +894,7 @@ public class Cli extends ViewObservable implements View {
      * Clears the CLI terminal.
      */
     public void clearCli(){
-        //out.print(ColorCli.CLEAR);
+        out.print("\033[H\033[2J");
         out.flush();
     }
 

@@ -38,6 +38,7 @@ public class Cli extends ViewObservable implements View {
     private List<ProductionPower> leaderProductionPowerList = new ArrayList<>();
     private List<DevCard> activeDevCardList = new ArrayList<>();
     private List<ProductionPower> productionPowerList = new ArrayList<>();
+    private DevCard[][] devCardMarket;
 
     /**
      * Default constructor.
@@ -275,12 +276,13 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket) {
         out.println("It's your turn!");
         this.singleMarble = singleMarble;
         this.firstRow = firstRow;
         this.secondRow = secondRow;
         this.thirdRow = thirdRow;
+        this.devCardMarket = devCardMarket;
         this.leaderProductionPowerList = leaderProductionPowerList;
         this.activeDevCardList = activeDevCardList;
         this.productionPowerList = productionPowerList;
@@ -629,6 +631,13 @@ public class Cli extends ViewObservable implements View {
 
     public void mainMove() {
         try {
+
+            for(int i=0; i<3; i++){
+                for (int j=0; j<4; j++){
+                    printDevCard(devCardMarket[i][j]);
+                }
+            }
+
             printMarket();
             printProductionPowerList(productionPowerList);
             out.println("Chose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers");
@@ -1105,26 +1114,6 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-    public void printResource (Resource resource) {
-        switch (resource){
-            case SLAVE:
-                out.print(resourcesArt.slave() + " ");
-                break;
-            case STONE:
-                out.print(resourcesArt.stone() + " ");
-                break;
-            case MONEY:
-                out.print(resourcesArt.money() + " ");
-                break;
-            case SHIELD:
-                out.print(resourcesArt.shield() + " ");
-                break;
-            default:
-                out.print("? ");
-                break;
-        }
-    }
-
     @Override
     public void productionPowerList (List<ProductionPower> productionPowerList, String action) {
     }
@@ -1176,5 +1165,143 @@ public class Cli extends ViewObservable implements View {
                 break;
         }
     }
+
+
+
+
+    //PRINT METHODS
+
+    public void printResource (Resource resource) {
+        switch (resource){
+            case SLAVE:
+                out.print(resourcesArt.slave() + " ");
+                break;
+            case STONE:
+                out.print(resourcesArt.stone() + " ");
+                break;
+            case MONEY:
+                out.print(resourcesArt.money() + " ");
+                break;
+            case SHIELD:
+                out.print(resourcesArt.shield() + " ");
+                break;
+            default:
+                out.print("? ");
+                break;
+        }
+    }
+
+    private String getResourceArt (Resource resource) {
+        switch (resource){
+            case SLAVE:
+                return resourcesArt.slave();
+            case STONE:
+                return resourcesArt.stone();
+            case MONEY:
+                return resourcesArt.money();
+            case SHIELD:
+                return resourcesArt.shield();
+            default:
+                return " ";
+        }
+    }
+
+    private static final int MAX_VERT_TILES = 10; //rows.
+    private static final int MAX_HORIZON_TILES = 20; //cols.
+
+    private String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
+
+    public void printDevCard (DevCard devCard) {
+        fillEmpty();
+        loadDevCardCost(devCard);
+        loadDevCardLevel(devCard);
+        loadDevCardProductionPower(devCard);
+        loadPV(devCard);
+        for (int i=0; i<MAX_VERT_TILES; i++) {
+            for (int j = 0; j < MAX_HORIZON_TILES; j++) {
+                out.print(tiles[i][j]);
+            }
+            out.println();
+        }
+    }
+
+    private void loadPV(DevCard devCard){
+        if (devCard.getPV()>9) {
+            tiles[7][7] = String.valueOf(devCard.getPV()).substring(0,1);
+            tiles[7][8] = String.valueOf(devCard.getPV()).substring(1,2);
+        } else {
+            tiles[7][7] = String.valueOf(devCard.getPV());
+        }
+    }
+
+    private void loadDevCardLevel(DevCard devCard){
+        for (int i = 0; i< devCard.getDevLevel(); i++) {
+            tiles[1+i][14] = ".";
+        }
+
+    }
+
+    private void loadDevCardCost(DevCard devCard){
+
+        Map<Resource, Integer> devCardCost = devCard.getDevCostAsMap();
+
+        int i = 1;
+        for(Resource resource : Resource.values()){
+            if(resource!=Resource.EMPTY){
+                tiles[i][3] = getResourceArt(resource);
+                if(devCardCost.get((resource)) != null){
+                    tiles[i][5] = devCardCost.get((resource)).toString();
+                }
+            }
+            i++;
+        }
+
+    }
+
+    private void loadDevCardProductionPower(DevCard devCard){
+        int i = 0;
+
+        for(Resource resource : devCard.getProductionPower().getResourceToPay()){
+            tiles[5][3+i] = getResourceArt(resource);
+            i++;
+        }
+        i++;
+        tiles[5][3+i] = "=";
+        tiles[5][3+i+1] = " ";
+        i++;
+        for(Resource resource : devCard.getProductionPower().getResourceToReceive()){
+            tiles[5][3+i] = getResourceArt(resource);
+            i++;
+        }
+    }
+
+    private void fillEmpty() {
+
+        tiles[0][0] = "╔";
+        for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+            tiles[0][c] = "═";
+        }
+
+        tiles[0][MAX_HORIZON_TILES - 1] = "╗";
+
+        for (int r = 1; r < MAX_VERT_TILES - 1; r++) {
+            tiles[r][0] = "║";
+            for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+                tiles[r][c] = " ";
+            }
+            tiles[r][MAX_HORIZON_TILES -1] = "║";
+        }
+
+        tiles[MAX_VERT_TILES - 1][0] = "╚";
+        for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+            tiles[MAX_VERT_TILES - 1][c] = "═";
+        }
+
+        tiles[MAX_VERT_TILES - 1][MAX_HORIZON_TILES - 1] = "╝";
+
+    }
+
+
+
 
 }

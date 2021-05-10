@@ -96,8 +96,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void startTurnMessage (List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList) {
-        clientHandler.sendMessage(new StartTurnMessage(Game.SERVER_NICKNAME, Leaders, singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, productionPowerList));
+    public void startTurnMessage (List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket) {
+        clientHandler.sendMessage(new StartTurnMessage(Game.SERVER_NICKNAME, Leaders, singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, productionPowerList, devCardMarket));
     }
 
     @Override

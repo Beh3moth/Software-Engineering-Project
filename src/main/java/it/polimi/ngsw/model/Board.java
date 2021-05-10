@@ -120,6 +120,20 @@ public class Board implements Serializable {
    }
 
     /**
+     * The method returns a 2D array of Development Cards.
+     * @return a 2D array made with the first Development Cards of each Development Card Deck.
+     */
+   public DevCard[][] getDevCardMarket(){
+       DevCard[][] devDashboard = new DevCard[MAX_ROWS_MARKET][MAX_COLUMNS_MARKET];
+       for (int i = 0; i < MAX_ROWS_MARKET; i++) {
+           for (int j = 0; j < MAX_COLUMNS_MARKET; j++) {
+               devDashboard[i][j] = getDevCardSpace(i, j).firstDevCard();
+           }
+       }
+       return devDashboard;
+   }
+
+    /**
      * Method that permit the player to take all resources of a row
      * @param row  the row that player want the resources of
      * @param activePlayer  the player

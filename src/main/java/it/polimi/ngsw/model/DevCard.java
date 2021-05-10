@@ -1,4 +1,5 @@
 package it.polimi.ngsw.model;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.Map;
  *  This class implements the idea of Development Cards.
  *  The implementation of the card's cost is made by using a map implemented as an HashMap.
  */
-public class DevCard {
+public class DevCard implements Serializable {
 
     private int devLevel;
     private DevCardColour devCardColour;

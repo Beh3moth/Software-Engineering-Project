@@ -328,7 +328,7 @@ public class Warehouse {
      * @param resource
      * @return true if this resource is legal
      */
-    public boolean controlResource(Resource[] resources, boolean[] warehouse, int[] level, Resource resource){
+    public boolean controlResource(Resource[] resources, Boolean[] warehouse, Integer[] level, Resource resource){
         if((resource == Resource.EMPTY) || (resource == Resource.FAITHPOINT)){
             return false;
         }
@@ -353,7 +353,7 @@ public class Warehouse {
      * @param level
      * @return true if the player can pay with this three array false otherwise
      */
-    public boolean canBuy(Resource[] resources, boolean[] warehouse, int[] level){
+    public boolean canBuy(Resource[] resources, Boolean[] warehouse, Integer[] level){
 
         for(int i = 0; i < level.length; i++){
             if(getShelf(level[i]).getResourceType() != resources[i] )return false;

@@ -2,7 +2,6 @@ package it.polimi.ngsw.view.cli;
 
 
 import it.polimi.ngsw.controller.ClientController;
-
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
@@ -39,6 +38,7 @@ public class Cli extends ViewObservable implements View {
     private List<DevCard> activeDevCardList = new ArrayList<>();
     private List<ProductionPower> productionPowerList = new ArrayList<>();
     private DevCard[][] devCardMarket;
+    private DevCardColour devCardColour;
 
     /**
      * Default constructor.
@@ -647,7 +647,7 @@ public class Cli extends ViewObservable implements View {
             } else if (chose == 2) {
                 takeResourcesFromMarket();
             }
-            else if (chose == 3) {/*buyDevCard();*/}
+            else if (chose == 3) {chooseDevCard();}
             else if (chose == 4) {
                 productionPowerMove();
             }
@@ -1166,6 +1166,114 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    //devCard
+    @Override
+    public void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut) {
+        if(response){
+            out.println("Successfully buy the development card.");
+        }
+        else{
+            out.println("you can't pay like you said, try again");
+            payDevCard(devCard, slotToPut);
+        }
+    }
+
+    @Override
+    public void devCard(DevCard devCard, int slotToPut){
+        if(devCard == null)mainMove();
+        else{
+                payDevCard(devCard, slotToPut);
+        }
+    }
+
+    public void payDevCard(DevCard devCard, int slotToPut){
+
+        int nResource;
+        out.println("Pay the DevCard chosen.");
+        out.print("[  ");
+        for(Resource resource : Resource.values()) {
+            nResource = 0;
+            if(resource != Resource.EMPTY && resource != Resource.FAITHPOINT) {
+                printResource(resource);
+                nResource = devCard.getDevCostAsMap().get(resource);
+                out.print(": " + nResource);
+            }
+        }
+        out.println(" ]");
+
+        List<Boolean> isWarehouse = new ArrayList<>();
+        List<Integer> shelfLevel = new ArrayList<>();
+        List<Resource> resourceType = new ArrayList<>();
+
+        for(Resource resource : devCard.getResourceToPay()){
+            out.print("What deposit do you want to pay for the resource ");
+            printResource(resource);
+            out.println(" 1)Warehouse - 2)Chest");
+            int fromWhere = 0;
+            try {
+                fromWhere = numberInput(1, 2, "Warehouse or Chest? ");
+            }
+            catch (ExecutionException e) {
+                out.println("Wrong input");
+            }
+            if (fromWhere == 1) {
+                isWarehouse.add(true);
+            }
+            else {
+                isWarehouse.add(false);
+            }
+            if (fromWhere == 1) {
+                out.println("Which shelf? 1) 2) 3) 4) 5): ");
+                int shelf = 0;
+                try {
+                    shelf = numberInput(1, 5, "Warehouse or Chest? ");
+                }
+                catch (ExecutionException e) {
+                    out.println("Wrong input");
+                }
+                shelfLevel.add(shelf);
+            }
+            else {
+                shelfLevel.add(0);
+            }
+            resourceType.add(resource);
+        }
+
+
+        notifyObserver(obs -> obs.onUpdatePayDevCard(isWarehouse.toArray(new Boolean[0]), shelfLevel.toArray(new Integer[0]), resourceType.toArray(new Resource[0]), devCard, slotToPut));
+
+    }
+
+    public void chooseDevCard(){
+        int level = 0;
+        int column = 0;
+        int slotToPut = 0;
+
+            try{
+                level = numberInput(1, 3, "Which level? ");
+            }
+            catch (ExecutionException e){
+                out.println("Wrong input");
+            }
+
+            try{
+                column = numberInput(1, 4, "Which Column? (1: green, 2: blue, 3: yellow, 4: purple)");
+            }
+            catch (ExecutionException e){
+                out.println("Wrong input");
+            }
+            try{
+                slotToPut = numberInput(1,3,"which slot to put? ");
+            }
+            catch (ExecutionException e){
+                out.println("Wrong Input");
+            }
+            int finalSlotToPut = slotToPut;
+            int finalLevel = level;
+            int finalColumn = column;
+
+            notifyObserver(obs -> obs.onUpdateChooseDevCard(finalLevel, finalColumn, finalSlotToPut));
+    }
 
 
 

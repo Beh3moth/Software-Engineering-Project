@@ -99,4 +99,8 @@ public interface View {
 
     void productionPowerResponse(boolean response, String action, ProductionPower baseProductionPower);
 
+    void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut);
+
+    void devCard(DevCard devCard, int slotToPut);
+
 }

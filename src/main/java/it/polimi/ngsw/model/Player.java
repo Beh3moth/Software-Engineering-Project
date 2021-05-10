@@ -470,7 +470,7 @@ public class Player extends Observable implements Serializable {
      * @param slotToPut
      * @return true id the card is buyed correctly
      */
-    public boolean buyDevCard(DevCard devCard,Resource[] resource, boolean[] warehouse, int[] level, int slotToPut){
+    public boolean buyDevCard(DevCard devCard,Resource[] resource, Boolean[] warehouse, Integer[] level, int slotToPut){
         if(!canBuyDevCard(resource, warehouse, level))return false;
         for(int i = 0; i < resource.length; i++){
             if(warehouse[i]) {
@@ -491,7 +491,7 @@ public class Player extends Observable implements Serializable {
      * @param level
      * @return true id the card can is buyed
      */
-    public boolean canBuyDevCard(Resource[] resource, boolean[] warehouse, int[] level){
+    public boolean canBuyDevCard(Resource[] resource, Boolean[] warehouse, Integer[] level){
         if(!this.getWarehouse().canBuy(resource, warehouse, level))return false;
         if(!this.getChest().canBuy(resource, warehouse))return false;
         return true;

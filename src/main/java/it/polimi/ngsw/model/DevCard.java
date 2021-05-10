@@ -16,6 +16,7 @@ public class DevCard implements Serializable {
     private Map<Resource, Integer> devCost = new HashMap<>();
     private ProductionPower productionPower;                        //Manca ancora l'implementazione finale della classe productionPower
     private int PV;
+    private List<Resource> resourceToPay;
 
     public DevCard(int devLevel, DevCardColour devCardColour, List<Resource> devCostList , ProductionPower productionPower, int PV){
         this.devLevel = devLevel;
@@ -28,6 +29,8 @@ public class DevCard implements Serializable {
         int slaveCost = 0;
         int moneyCost = 0;
         int stoneCost = 0;
+
+        this.resourceToPay = devCostList;
 
         for(int i = 0; i < devCostList.size(); i++){
             switch(devCostList.get(i)){
@@ -86,4 +89,9 @@ public class DevCard implements Serializable {
         return PV;
     }
 
+    /**
+     * Method that returns the list with all resourceToPay
+     * @return the list with all resourceToPay
+     */
+    public List<Resource> getResourceToPay(){return resourceToPay;}
 }

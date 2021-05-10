@@ -127,6 +127,16 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new ProductionPowerResponseMessage(Game.SERVER_NICKNAME, response, action, baseProductionPower));
     }
 
+    @Override
+    public void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut){
+        clientHandler.sendMessage(new DevCardResponseMessage(Game.SERVER_NICKNAME, response, action, devCard, slotToPut));
+    }
+
+    @Override
+    public void devCard(DevCard devCard, int slotToPut) {
+        clientHandler.sendMessage(new DevCardMessage(Game.SERVER_NICKNAME, devCard, slotToPut));
+    }
+
     /**
      * Receives an update message from the model.
      * The message is sent over the network to the client.

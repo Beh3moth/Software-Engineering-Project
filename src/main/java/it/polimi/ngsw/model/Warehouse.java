@@ -47,6 +47,9 @@ public class Warehouse {
     public void removeFromWhiteStock(){
         whitemarbleStock.clear();
     }
+    public void removeAllStock(){
+        warehouseStock.clear();
+    }
     public List<Resource> getWhiteStock(){
         return whitemarbleStock;
     }

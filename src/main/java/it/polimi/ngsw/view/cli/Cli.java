@@ -335,7 +335,7 @@ public class Cli extends ViewObservable implements View {
                 this.newResources.add(resources.get(i));
             }
         }
-        out.println("You have this new resources to manage : ");
+        out.println("You have these new resources to manage : ");
         for (int i = 0; i < resources.size(); i++) {
             out.print(resources.get(i).toString() + " ");
         }

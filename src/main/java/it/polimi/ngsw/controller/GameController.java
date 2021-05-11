@@ -385,6 +385,7 @@ public class GameController implements Observer, Serializable {
 
     private void reorderWarehouseGetter(Message receivedMessage) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        game.getPlayerByNickname(receivedMessage.getNickname()).getWarehouse().removeAllStock();
         virtualView.reorderWarehouse(game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getResourcesAsMap(), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(1), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(2), ((ReorderWarehouseMessage) receivedMessage).getIsIndependent());
     }
 

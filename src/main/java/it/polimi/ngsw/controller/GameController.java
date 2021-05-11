@@ -573,11 +573,11 @@ public class GameController implements Observer, Serializable {
     }
 
     public void chooseDevCardToPay(ChosenDevCardMessage receivedMessage){
+        DevCard devCardChosen;
 
-        DevCard devCardChosen = null;
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
-        devCardChosen = game.getPlayerByNickname(receivedMessage.getNickname()).chooseDevCard(game.getBoard(), receivedMessage.getLevel(), receivedMessage.getDevCardColour(), receivedMessage.getSlotToPut());
+        devCardChosen = player.chooseDevCard(game.getBoard(), receivedMessage.getLevel(), receivedMessage.getDevCardColour(), receivedMessage.getSlotToPut());
         virtualView.devCard(devCardChosen, receivedMessage.getSlotToPut());
 
     }

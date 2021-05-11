@@ -375,11 +375,13 @@ public class Player extends Observable implements Serializable {
     public boolean activateProductionPowers(){
         for(ProductionPower productionPower : paidList){
             for(Resource resource : productionPower.getResourceToReceive()){
-                if(productionPower.isLeaderProductionPower()){
+                if(resource.equals(Resource.FAITHPOINT)){
                     this.getFaithPath().increaseCrossPosition();
                 }
-                if(!resource.equals(Resource.EMPTY)){
-                    this.getChest().addResource(resource, 1);
+                else{
+                    if(!resource.equals(Resource.EMPTY)){
+                        this.getChest().addResource(resource, 1);
+                    }
                 }
             }
             productionPower.cleanCoordinates();
@@ -443,20 +445,21 @@ public class Player extends Observable implements Serializable {
      * @return DevCard if is legal and if is remove correctly
      */
     public DevCard chooseDevCard(Board board, int level, DevCardColour colour, int slotToPut){
+
         int devColumn = board.getDevCardColumn(colour);
         Map<Resource, Integer> Cost = new HashMap<>();
         DevCard devCard;
 
-        if(board.getDevCardSpace(level - 1, devColumn).getNumberOfCards() == 0){
+        if(board.getDevCardSpace(3 - level, devColumn).getNumberOfCards() == 0){
             return null;
         }
 
         else{
             if(level != this.getDevCardDashboard().getLevel(slotToPut) + 1)return null;
-            Cost = board.getDevCardSpace(level-1, devColumn).firstDevCard().getDevCostAsMap();
+            Cost = board.getDevCardSpace(3 - level, devColumn).firstDevCard().getDevCostAsMap();
             if(!canAfford(Cost))return null;
-            devCard = board.getDevCardSpace(level - 1,devColumn).firstDevCard();
-            board.getDevCardSpace(level-1, devColumn).removeFirstCard();
+            devCard = board.getDevCardSpace(3 - level,devColumn).firstDevCard();
+            board.getDevCardSpace(3 - level, devColumn).removeFirstCard();
             return devCard;
         }
     }
@@ -480,7 +483,7 @@ public class Player extends Observable implements Serializable {
                 this.getChest().removeResource(resource[i], 1);
             }
         }
-        this.getDevCardDashboard().putDevCardIn(slotToPut, devCard);
+        this.getDevCardDashboard().putDevCardIn(slotToPut - 1, devCard);
         return true;
     }
 

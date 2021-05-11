@@ -632,12 +632,7 @@ public class Cli extends ViewObservable implements View {
     public void mainMove() {
         try {
 
-            for(int i=0; i<3; i++){
-                for (int j=0; j<4; j++){
-                    printDevCard(devCardMarket[i][j]);
-                }
-            }
-
+            printDevCardMarket();
             printMarket();
             printProductionPowerList(productionPowerList);
             out.println("Chose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers");
@@ -707,19 +702,19 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void printMarket() {
-        out.println("                   MARKET  ");
-        out.print("SINGLE MARBLE:                                     ");
-        out.println(this.singleMarble.getResource().toString());
+        out.println("MARKET");
+        out.print("SINGLE MARBLE: ");
+        out.println(getResourceArt(this.singleMarble.getResource()));
         for (int j = 0; j < 4; j++) {
-            out.print("  " + this.firstRow[j].getResource().toString() + "    ");
+            out.print("  " + getResourceArt(this.firstRow[j].getResource()) + "    ");
         }
         out.println("");
         for (int j = 0; j < 4; j++) {
-            out.print("  " + this.secondRow[j].getResource().toString() + "    ");
+            out.print("  " + getResourceArt(this.secondRow[j].getResource()) + "    ");
         }
         out.println("");
         for (int j = 0; j < 4; j++) {
-            out.print("  " + this.thirdRow[j].getResource().toString() + "    ");
+            out.print("  " + getResourceArt(this.thirdRow[j].getResource()) + "    ");
         }
         out.println("");
     }
@@ -1303,28 +1298,71 @@ public class Cli extends ViewObservable implements View {
                 return resourcesArt.money();
             case SHIELD:
                 return resourcesArt.shield();
+            case FAITHPOINT:
+                return resourcesArt.faithPoint();
+            case EMPTY:
+                return resourcesArt.whiteMarble();
             default:
                 return " ";
         }
     }
 
-    private static final int MAX_VERT_TILES = 10; //rows.
-    private static final int MAX_HORIZON_TILES = 20; //cols.
+    private void printDevCardMarket(){
 
-    private String tiles[][] = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
+        String[][] tilesArray = new String[31][80];
 
-    public void printDevCard (DevCard devCard) {
+
+        int pIterator = 0;
+        int kIterator = 0;
+
+        for(int i = 0; i < 31; i++){
+            for(int j = 0; j<80; j++){
+                tilesArray[i][j] = " ";
+            }
+        }
+
+        for(int i = 0; i < 3; i++) {
+
+            for (int j = 0; j < 4; j++) {
+
+                for(int k = 0; k < MAX_VERT_TILES; k++) {
+
+                    for (int p = 0; p < MAX_HORIZON_TILES; p++) {
+                        tilesArray[k+(kIterator*10)][p+(pIterator*19)] = getPrintableDevCard(devCardMarket[i][j])[k][p];
+                    }
+
+                }
+
+                pIterator++;
+
+            }
+
+            kIterator++;
+            pIterator = 0;
+
+        }
+
+        for(int i = 0; i < 31; i++){
+            for(int j = 0; j<80; j++){
+                System.out.print(tilesArray[i][j]);
+            }
+            out.println();
+        }
+
+    }
+
+    private static final int MAX_VERT_TILES = 9; //rows.
+    private static final int MAX_HORIZON_TILES = 18; //cols.
+
+    private String[][] tiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
+
+    public String[][] getPrintableDevCard (DevCard devCard) {
         fillEmpty();
         loadDevCardCost(devCard);
         loadDevCardLevel(devCard);
         loadDevCardProductionPower(devCard);
         loadPV(devCard);
-        for (int i=0; i<MAX_VERT_TILES; i++) {
-            for (int j = 0; j < MAX_HORIZON_TILES; j++) {
-                out.print(tiles[i][j]);
-            }
-            out.println();
-        }
+        return tiles;
     }
 
     private void loadPV(DevCard devCard){
@@ -1349,7 +1387,7 @@ public class Cli extends ViewObservable implements View {
 
         int i = 1;
         for(Resource resource : Resource.values()){
-            if(resource!=Resource.EMPTY){
+            if(resource!=Resource.EMPTY && resource!=Resource.FAITHPOINT){
                 tiles[i][3] = getResourceArt(resource);
                 if(devCardCost.get((resource)) != null){
                     tiles[i][5] = devCardCost.get((resource)).toString();
@@ -1364,16 +1402,19 @@ public class Cli extends ViewObservable implements View {
         int i = 0;
 
         for(Resource resource : devCard.getProductionPower().getResourceToPay()){
-            tiles[5][3+i] = getResourceArt(resource);
-            i++;
+            if(resource != Resource.EMPTY && resource!=Resource.FAITHPOINT){
+                tiles[5][3+i] = getResourceArt(resource);
+                i++;
+            }
         }
         i++;
         tiles[5][3+i] = "=";
-        tiles[5][3+i+1] = " ";
-        i++;
+        i += 2;
         for(Resource resource : devCard.getProductionPower().getResourceToReceive()){
-            tiles[5][3+i] = getResourceArt(resource);
-            i++;
+            if(resource != Resource.EMPTY) {
+                tiles[5][3 + i] = getResourceArt(resource);
+                i++;
+            }
         }
     }
 

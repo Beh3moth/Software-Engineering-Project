@@ -28,4 +28,13 @@ public class ResourcesArt {
         return (Color.ANSI_CYAN.escape() + "@" + Color.RESET);
     }
 
+    public String faithPoint(){
+        return (Color.ANSI_RED.escape() + "@" + Color.RESET);
+    }
+
+    public String whiteMarble(){
+        return ("@");
+    }
+
 }
+

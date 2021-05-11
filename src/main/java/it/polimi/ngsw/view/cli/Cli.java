@@ -336,7 +336,7 @@ public class Cli extends ViewObservable implements View {
         for (int i = 0; i < resources.size(); i++) {
             out.print(resources.get(i).toString() + " ");
         }
-        out.println(" ");
+        out.println(" ");out.println("");
         notifyObserver(obs -> obs.onUpdateReorderWarehouse(false));
     }
 
@@ -352,8 +352,8 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         resetCliWarehouse();
-        out.println("You have this resources in your warehouse at the moment: ");
-        mapResources.forEach((key, value) -> out.println(key + " : " + value));
+        out.println("You have this resources in your warehouse at the moment: ");out.println("");
+        mapResources.forEach((key, value) -> out.println(key + " : " + value)); out.println("");out.println("");
         if (firstLevel != Resource.EMPTY)
             out.println("You have a special shelf with this resource ability: " + firstLevel.toString());
         if (secondLevel != Resource.EMPTY)
@@ -366,7 +366,7 @@ public class Cli extends ViewObservable implements View {
     private void askToSendNewWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         try {
             out.println("Do you want this new warehouse and discard this resources? ");
-            int chose = numberInput(0, 1, "Chose 0)No, reorder warehouse 1) Yes ");
+            int chose = numberInput(0, 1, "Chose 0) No, reorder warehouse 1) Yes ");
             if (chose == 0) {
                 reorderWarehouse(mapResources, firstLevel, secondLevel, isIndipendent);
             } else {
@@ -385,7 +385,7 @@ public class Cli extends ViewObservable implements View {
                     int chose = 0;
                     boolean goneRight = false;
                     do {
-                        out.println("Chose where to put this resource " + entry.getKey().toString());
+                        out.println("Chose where to put this resource: " + entry.getKey().toString());
                         if (firstLevel == Resource.EMPTY && secondLevel == Resource.EMPTY) {
                             chose = numberInput(0, 3, "Chose floor 0) Add to discard list 1) First 2) Second 3) Third    ");
                         } else if (firstLevel != Resource.EMPTY && secondLevel == Resource.EMPTY) {
@@ -432,12 +432,12 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printWarehouse() {
-        out.println("Warehouse");
+        out.println(""); out.println("Warehouse");
         out.println("First shelf " + this.newFirstShelf.toString());
         out.println("Second shelf " + this.newSecondShelf.toString());
-        out.println("Third shelf " + this.newThirdShelf.toString());
+        out.println("Third shelf " + this.newThirdShelf.toString());out.println("");
         out.println("First Special shelf " + this.newFirstSpecialShelf.toString());
-        out.println("Second Special shelf " + this.newSecondSpecialShelf.toString());
+        out.println("Second Special shelf " + this.newSecondSpecialShelf.toString());out.println("");
     }
 
     private boolean controllFloor(int chose, Resource resource, Resource firstFloor, Resource secondFloor) {
@@ -716,7 +716,7 @@ public class Cli extends ViewObservable implements View {
         for (int j = 0; j < 4; j++) {
             out.print("  " + getResourceArt(this.thirdRow[j].getResource()) + "    ");
         }
-        out.println("");
+        out.println("");out.println("");out.println("");
     }
 
     /**

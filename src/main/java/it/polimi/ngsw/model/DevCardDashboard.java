@@ -21,7 +21,7 @@ public class DevCardDashboard {
 
     public DevCardDashboard(){
         this.devCards = new DevCard[MAX_SLOT][MAX_CARDS_FOR_SLOT];
-        this.devCardLevel = new int[10];
+        this.devCardLevel = new int[3];
         leaderProductionPowerOne = null;
         leaderProductionPowerTwo = null;
         initDevCardStat();

@@ -209,6 +209,11 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new DevCardCoordinatesMessage (this.nickname, isWarehouse, shelfLevel, resourceType, devCard, slotToPut));
     }
 
+    @Override
+    public void onUpdateWatchInfo(String nicknameOtherPlayer) {
+        client.sendMessage(new WatchOtherPlayerInfoMessage(this.nickname, nicknameOtherPlayer, null, 0, null, null, null,null ));
+    }
+
     public void update(Message message) {
 
         switch (message.getMessageType()) {
@@ -282,6 +287,10 @@ public class ClientController implements ViewObserver, Observer{
             case DEVCARD:
                 DevCardMessage devCardMessage = (DevCardMessage) message;
                 taskQueue.execute(() -> view.devCard(devCardMessage.getDevCard(), devCardMessage.getSlotToPut()));
+                break;
+            case WATCH_OTHER_PLAYER:
+                WatchOtherPlayerInfoMessage Message = (WatchOtherPlayerInfoMessage) message;
+                taskQueue.execute(() -> view.viewOtherPlayer(Message.getNicknameOtherPlayer(), Message.getGoneRight(), Message.getCrossPosition(), Message.getResourceAsMap(),  Message.getActiveDevCards(), Message.getShlefNumber(), Message.getShelfResource()));
                 break;
             default: // Should never reach this condition
                 break;

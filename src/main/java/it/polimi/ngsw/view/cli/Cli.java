@@ -142,7 +142,7 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void askFirstPlayer(List<String> nicknameQueue) {
-        out.println("Choose the first player: ");
+        out.println("\n\nChoose the first player: ");
         out.print("Online players: " + String.join(", ", nicknameQueue));
         try {
 
@@ -176,10 +176,10 @@ public class Cli extends ViewObservable implements View {
         int IdChoosenTwo;
         if (LeaderCards.size() == 4) {
             List<LeaderCard> chosenCard = new ArrayList<>();
-            out.println("Select two Leader Cards from the list.");
+            out.println("\n\nSelect two Leader Cards from the list.");
             printLeaderCardList(LeaderCards);
             try {
-                out.println("Please, enter one ID confirm with ENTER.");
+                out.println("\n\nPlease, enter one ID confirm with ENTER.");
                 IdChoosen = numberInput(1, LeaderCards.size(), (1) + "° LeaderCard ID: ") - 1;
                 chosenCard.add(LeaderCards.get(IdChoosen));
                 out.println("Please, enter one ID confirm with ENTER."); //non scegli lo stesso cojone
@@ -280,7 +280,7 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket) {
-        out.println("It's your turn!");
+        out.println("\n\n It's your turn! \n\n");
         this.singleMarble = singleMarble;
         this.firstRow = firstRow;
         this.secondRow = secondRow;
@@ -347,7 +347,6 @@ public class Cli extends ViewObservable implements View {
         this.newFirstShelf = Resource.EMPTY;
         if (this.newSecondShelf != null) this.newSecondShelf.clear();
         if (this.newThirdShelf != null) this.newThirdShelf.clear();
-        ;
         if (this.newFirstSpecialShelf != null) this.newFirstSpecialShelf.clear();
         if (this.newSecondSpecialShelf != null) this.newSecondSpecialShelf.clear();
     }
@@ -577,7 +576,7 @@ public class Cli extends ViewObservable implements View {
         try {
             if (this.leaderCardStatus[0] == 1) printLeaderCard(Leaders.get(0));
             if (this.leaderCardStatus[1] == 1) printLeaderCard(Leaders.get(1));
-            out.println("Do you want to activate one of these leaderCard? 1) YES 0) NO ");
+            out.println("\nDo you want to activate one of these leaderCard? 1) YES 0) NO ");
             int chose = numberInput(0, 1, "What? ");
             if (chose == 1) activateLeaderCard(Leaders, turnZone);
             else if (chose == 0) askToDiscardLeaderCard(turnZone);
@@ -588,7 +587,7 @@ public class Cli extends ViewObservable implements View {
 
     public void askToDiscardLeaderCard(int turnZone) {
         try {
-            out.println("Do you want to discard a leadercard? 1) YES 0) NO ");
+            out.println("\nDo you want to discard a leadercard? 1) YES 0) NO ");
             int chose = numberInput(0, 1, "What? ");
             if (chose == 1) discardCard(turnZone);
             else if (chose == 0) {
@@ -634,22 +633,27 @@ public class Cli extends ViewObservable implements View {
 
     public void mainMove() {
         try {
-
             printDevCardMarket();
             printMarket();
             printProductionPowerList(productionPowerList);
-            out.println("Chose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers");
-            int chose = numberInput(1, 4, "Which move? ");
-            if (chose == 1) {
-                notifyObserver(obs -> obs.onUpdateReorderWarehouse(true));
-            } else if (chose == 2) {
-                takeResourcesFromMarket();
-            }
-            else if (chose == 3) {chooseDevCard();}
-            else if (chose == 4) {
-                productionPowerMove();
-            }
+            //printStartTurnWarehouse();
+            out.println("\nChose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers 5) Visualize other Player Dashboard");
+            int chose = numberInput(1, 5, "Which move? ");
+            if (chose == 1) {notifyObserver(obs -> obs.onUpdateReorderWarehouse(true));}
+            else if (chose == 2)takeResourcesFromMarket();
+            else if (chose == 3)chooseDevCard();
+            else if (chose == 4)productionPowerMove();
+            else if (chose == 5)watchOtherPlayerInfo();
+        } catch (ExecutionException e) {
+            out.println("Input canceled");
+        }
+    }
 
+    private void watchOtherPlayerInfo() {
+        try {
+            out.println("Write the exact name of the player: ");
+            String nickname = readLine();
+            notifyObserver(obs -> obs.onUpdateWatchInfo(nickname));
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
@@ -1174,6 +1178,56 @@ public class Cli extends ViewObservable implements View {
         }
         else{
                 payDevCard(devCard, slotToPut);
+        }
+    }
+
+    @Override
+    public void viewOtherPlayer(String otherPlayer, Boolean goneRight, int crossPosition, Map<Resource, Integer> resourcesAsMap, List<DevCard> activeDevCards, int[] shelfResNumber, Resource[] shelfResType) {
+       if(goneRight == true) {
+           out.println("Here you have the " + otherPlayer + "'s Info: ");
+           printOtherWarehouse(shelfResNumber, shelfResType);
+           printOtherChest(resourcesAsMap);
+           printOtherDevCards(activeDevCards);
+           printOtherFaithPath(crossPosition);
+           mainMove();
+       }else{
+           out.println("Wrong input: The player doesn't exists \n\n ");
+           mainMove();
+       }
+    }
+
+    private void printOtherFaithPath(int crossPosition) {
+        out.println("\nHe is in position : " + crossPosition + " on the faith track \n\n\n");
+    }
+
+    private void printOtherDevCards(List<DevCard> activeDevCards) {
+        out.println("\nHis ActiveCards: \n");
+        if(activeDevCards.size() == 0)out.println("No active dev cards yet");
+        for(int i = 0; i < activeDevCards.size(); i++){
+            out.println("PV: " + activeDevCards.get(i).getPV() + " Card Colour: " + activeDevCards.get(i).getCardColour() + "Card Level: " + activeDevCards.get(i).getDevLevel());
+        }
+    }
+
+    private void printOtherChest(Map<Resource, Integer> resourcesAsMap) {
+        out.println("\n\nThis is his chest: \n");
+        for (Map.Entry<Resource, Integer> entry : resourcesAsMap.entrySet()) {
+            out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    private void printOtherWarehouse(int[] shelfResNumber, Resource[] shelfResType) {
+        out.println("\nFirst shelf: " + shelfResType[0]);
+        out.print("Second Shelf: ");
+        for(int i = 0; i < shelfResNumber[1]; i++)out.print(shelfResType[1] + " ");
+        out.println("\nThird Shelf: ");
+        for(int i = 0; i < shelfResNumber[2]; i++) out.print(shelfResType[2] + " ");
+        if(shelfResNumber[3] != -1){
+            out.println("\nFirstLeader Shelf: ");
+            for(int i = 0; i < shelfResNumber[3]; i++) out.print(shelfResType[3] + " ");
+        }
+        if(shelfResNumber[3] != -1){
+            out.println("\nSecondLeader Shelf: ");
+            for(int i = 0; i < shelfResNumber[4]; i++) out.print(shelfResType[4] + " ");
         }
     }
 

@@ -137,6 +137,12 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new DevCardMessage(Game.SERVER_NICKNAME, devCard, slotToPut));
     }
 
+    @Override
+    public void viewOtherPlayer(String otherNickname, Boolean goneRight, int crossPosition, Map<Resource, Integer> resourcesAsMap, List<DevCard> activeDevCards, int[] shelfResNumber, Resource[] shelfResType) {
+        clientHandler.sendMessage(new WatchOtherPlayerInfoMessage(Game.SERVER_NICKNAME, otherNickname, goneRight, crossPosition, resourcesAsMap, activeDevCards, shelfResNumber, shelfResType));
+
+    }
+
     /**
      * Receives an update message from the model.
      * The message is sent over the network to the client.

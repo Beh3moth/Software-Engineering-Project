@@ -325,10 +325,36 @@ public class GameController implements Observer, Serializable {
             case CHOSENDEVCARD:
                 chooseDevCardToPay((ChosenDevCardMessage) receivedMessage);
                 break;
+            case WATCH_OTHER_PLAYER:
+                watchOtherInfo((WatchOtherPlayerInfoMessage) receivedMessage);
+                break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
         }
+    }
+
+    private void watchOtherInfo(Message receivedMessage) {
+        List<String> players = turnController.getNicknameQueue();
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        boolean goneRight = false;
+        Player otherPlayer;
+        if (players.contains(((WatchOtherPlayerInfoMessage) receivedMessage).getNicknameOtherPlayer())) {
+            goneRight = true;
+        }
+        if(goneRight == true){
+            otherPlayer = game.getPlayerByNickname(((WatchOtherPlayerInfoMessage) receivedMessage).getNicknameOtherPlayer());
+            int[] ShelfResNumber = new int []{-1,-1,-1,-1,-1};
+            Resource[] ShelfResType = new Resource []{Resource.EMPTY,Resource.EMPTY,Resource.EMPTY,Resource.EMPTY,Resource.EMPTY };
+            ShelfResNumber[0] = otherPlayer.getWarehouse().getShelf(1).getResourceNumber();ShelfResType[0] = otherPlayer.getWarehouse().getShelf(1).getResourceType();
+            ShelfResNumber[1] = otherPlayer.getWarehouse().getShelf(2).getResourceNumber();ShelfResType[1] = otherPlayer.getWarehouse().getShelf(2).getResourceType();
+            ShelfResNumber[2] = otherPlayer.getWarehouse().getShelf(3).getResourceNumber();ShelfResType[2] = otherPlayer.getWarehouse().getShelf(3).getResourceType();
+            if(otherPlayer.getWarehouse().getShelf(4) != null){ShelfResNumber[3] = otherPlayer.getWarehouse().getShelf(4).getResourceNumber();ShelfResType[3] = otherPlayer.getWarehouse().getShelf(4).getResourceType();}
+            if(otherPlayer.getWarehouse().getShelf(5) != null){ShelfResNumber[4] = otherPlayer.getWarehouse().getShelf(5).getResourceNumber();ShelfResType[4] = otherPlayer.getWarehouse().getShelf(5).getResourceType();}
+            virtualView.viewOtherPlayer(((WatchOtherPlayerInfoMessage) receivedMessage).getNicknameOtherPlayer(), goneRight, otherPlayer.getFaithPath().getCrossPosition(), otherPlayer.getChest().getResourcesAsMap(),otherPlayer.getDevCardDashboard().getActiveDevCards(), ShelfResNumber, ShelfResType);
+        }
+        else virtualView.viewOtherPlayer(((WatchOtherPlayerInfoMessage) receivedMessage).getNicknameOtherPlayer(), goneRight, 0, null,null, null, null);
+
     }
 
     private void newWarehouse(Message receivedMessage) {

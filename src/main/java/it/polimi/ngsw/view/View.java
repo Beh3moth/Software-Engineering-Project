@@ -103,4 +103,5 @@ public interface View {
 
     void devCard(DevCard devCard, int slotToPut);
 
+    void viewOtherPlayer(String otherPlayer, Boolean goneRight, int crossPosition, Map<Resource, Integer> resourcesAsMap, List<DevCard> activeDevCards, int[] shelfResNumber, Resource[] shelfResType);
 }

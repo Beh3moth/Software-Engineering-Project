@@ -5,6 +5,7 @@ import it.polimi.ngsw.controller.ClientController;
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
+import it.polimi.ngsw.view.cli.AsciiArt.RectangleArt;
 import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
 
 import java.io.PrintStream;
@@ -39,6 +40,8 @@ public class Cli extends ViewObservable implements View {
     private List<ProductionPower> productionPowerList = new ArrayList<>();
     private DevCard[][] devCardMarket;
     private DevCardColour devCardColour;
+
+    RectangleArt rectangleArt = new RectangleArt();
 
     /**
      * Default constructor.
@@ -1357,7 +1360,7 @@ public class Cli extends ViewObservable implements View {
     private String[][] tiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
 
     public String[][] getPrintableDevCard (DevCard devCard) {
-        fillEmpty();
+        fillEmpty(devCard);
         loadDevCardCost(devCard);
         loadDevCardLevel(devCard);
         loadDevCardProductionPower(devCard);
@@ -1418,29 +1421,29 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
-    private void fillEmpty() {
+    private void fillEmpty(DevCard devCard) {
 
-        tiles[0][0] = "╔";
+        tiles[0][0] = rectangleArt.getLeftTopAngle(devCard);
         for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
-            tiles[0][c] = "═";
+            tiles[0][c] = rectangleArt.getTopDownBorder(devCard);
         }
 
-        tiles[0][MAX_HORIZON_TILES - 1] = "╗";
+        tiles[0][MAX_HORIZON_TILES - 1] = rectangleArt.getRightTopAngle(devCard);
 
         for (int r = 1; r < MAX_VERT_TILES - 1; r++) {
-            tiles[r][0] = "║";
+            tiles[r][0] = rectangleArt.getLeftRightBorder(devCard);
             for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
                 tiles[r][c] = " ";
             }
-            tiles[r][MAX_HORIZON_TILES -1] = "║";
+            tiles[r][MAX_HORIZON_TILES -1] = rectangleArt.getLeftRightBorder(devCard);
         }
 
-        tiles[MAX_VERT_TILES - 1][0] = "╚";
+        tiles[MAX_VERT_TILES - 1][0] = rectangleArt.getLeftDownAngle(devCard);
         for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
-            tiles[MAX_VERT_TILES - 1][c] = "═";
+            tiles[MAX_VERT_TILES - 1][c] = rectangleArt.getTopDownBorder(devCard);
         }
 
-        tiles[MAX_VERT_TILES - 1][MAX_HORIZON_TILES - 1] = "╝";
+        tiles[MAX_VERT_TILES - 1][MAX_HORIZON_TILES - 1] = rectangleArt.getRightDownAngle(devCard);
 
     }
 

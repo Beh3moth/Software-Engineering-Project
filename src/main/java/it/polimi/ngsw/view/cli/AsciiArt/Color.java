@@ -9,7 +9,9 @@ public enum Color {
     ANSI_YELLOW("\u001B[33m"),
     ANSI_BRIGHT_BOLD_YELLOW("\033[1;93m"),
     ANSI_BLUE("\u001B[34m"),
-    ANSI_BRIGHT_BLACK("\033[0;90m");
+    ANSI_BRIGHT_BLACK("\033[0;90m"),
+    ANSI_PURPLE("\u001B[35m");
+
 
     static final String RESET = "\u001B[0m";
 
@@ -18,6 +20,7 @@ public enum Color {
     Color(String escape) {
         this.escape = escape;
     }
+
     public String escape(){
         return escape;
     }

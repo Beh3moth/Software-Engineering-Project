@@ -361,7 +361,7 @@ public class GameController implements Observer, Serializable {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         if(((NewWarehouseMessage) receivedMessage).getDiscardList() != null) {
             for (int i = 0; i < ((NewWarehouseMessage) receivedMessage).getDiscardList().size(); i++) {
-                //game.increaseOtherFaithPoints(turnController.getActivePlayer(), 1);
+                game.increaseOtherFaithPoints(game.getPlayerByNickname(turnController.getActivePlayer()), 1);
             }
         }
         game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstShelf(((NewWarehouseMessage) receivedMessage).getNewFirstShelf());

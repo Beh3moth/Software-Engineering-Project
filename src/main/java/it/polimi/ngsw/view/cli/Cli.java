@@ -5,6 +5,7 @@ import it.polimi.ngsw.controller.ClientController;
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
+import it.polimi.ngsw.view.cli.AsciiArt.Color;
 import it.polimi.ngsw.view.cli.AsciiArt.RectangleArt;
 import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
 
@@ -37,7 +38,8 @@ public class Cli extends ViewObservable implements View {
     private List<Resource> discardList;
     private List<ProductionPower> leaderProductionPowerList = new ArrayList<>();
     private List<DevCard> activeDevCardList = new ArrayList<>();
-    private List<ProductionPower> productionPowerList = new ArrayList<>();
+    private ProductionPower baseProductionPower;
+    private List<ProductionPower> productionPowerList = new ArrayList<>(); //to delete
     private DevCard[][] devCardMarket;
     private DevCardColour devCardColour;
     private Resource firstShelf;
@@ -45,6 +47,7 @@ public class Cli extends ViewObservable implements View {
     private int secondShelfNumber;
     private Resource thirdShelf;
     private int thirdShelfNumber;
+    private Map<Resource, Integer> chest;
     private boolean gameFinished;
     RectangleArt rectangleArt = new RectangleArt();
 
@@ -285,7 +288,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest) {
         out.println("\n\n It's your turn! \n\n");
         this.singleMarble = singleMarble;
         this.firstRow = firstRow;
@@ -300,6 +303,8 @@ public class Cli extends ViewObservable implements View {
         this.secondShelfNumber = secondShelfNumber;
         this.thirdShelf = thirdShelf;
         this.thirdShelfNumber = thirdShelfNumber;
+        this.baseProductionPower = baseProductionPower;
+        this.chest = chest;
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             askToManageLeaderCards(Leaders, 1);
         } else {
@@ -659,7 +664,7 @@ public class Cli extends ViewObservable implements View {
         try {
             printDevCardMarket();
             printMarket();
-            printProductionPowerList(productionPowerList);
+            printPlayerDashBoard();
             printStartTurnWarehouse();
             out.println("\nChose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers 5) Visualize other Player Dashboard");
             int chose = numberInput(1, 5, "Which move? ");
@@ -960,12 +965,13 @@ public class Cli extends ViewObservable implements View {
 
     public void productionPowerMove() {
 
-        printProductionPowerList(productionPowerList);
-        printProductionPowerList(paidProductionPowerList);
-
+        out.println();
+        printPlayerDashBoard();
+        printPaidProductionPowerList(paidProductionPowerList);
         int choseAction = 0;
+        out.println();
         out.println("Chose your action");
-        out.println("Type '0' if you want to chose a Production Power, '1' to activate the Production Powers.");
+        out.println("Type '0' if you want to chose a Production Power, '1' to activate the Production Powers or to end your action.");
 
         try{
             choseAction = numberInput(0, 1, "Which action? ");
@@ -984,8 +990,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void activateProductionPowers(){
-        out.println("You have paid these Production Powers:");
-        printProductionPowerList(paidProductionPowerList);
+        out.println("Activation...");
         notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
     }
 
@@ -993,22 +998,51 @@ public class Cli extends ViewObservable implements View {
         int productionPowerChosen = 0;
 
         try {
-            productionPowerChosen = numberInput(0, productionPowerList.size(), "Which Production Power? ");
+            productionPowerChosen = numberInput(0, 5, "Which Production Power? ");
         }
         catch (ExecutionException e) {
             out.println("Wrong input");
         }
 
-        if (productionPowerChosen == 0) {
-            setBaseProductionPower();
+        if(productionPowerChosen==0){
+            chosenBaseProductionPower();
+        }
+        else if(productionPowerChosen>=1 && productionPowerChosen<=3){
+            chosenDevCardProductionPower(productionPowerChosen);
+        }
+        else if(productionPowerChosen>=4 && productionPowerChosen <= 5){
+            leaderProductionPowerChosen(productionPowerChosen);
+        }
+    }
+
+    public void leaderProductionPowerChosen(int productionPowerChosen){
+        if(!paidProductionPowerList.contains(activeDevCardList.get(productionPowerChosen-4).getProductionPower())){
+            setLeaderProductionPower(productionPowerList.get(productionPowerChosen));
         }
         else {
-            if (productionPowerList.get(productionPowerChosen).isLeaderProductionPower()){
-                setLeaderProductionPower(productionPowerList.get(productionPowerChosen));
-            }
+            out.println("You don't have Production Powers to activate.");
+            productionPowerMove();
+        }
+    }
+
+    public void chosenDevCardProductionPower(int productionPowerChosen){
+        if(!paidProductionPowerList.contains(activeDevCardList.get(productionPowerChosen-1).getProductionPower())){
             List<ProductionPower> productionPower = new ArrayList<>();
             productionPower.add(productionPowerList.get(productionPowerChosen));
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPower, "productionPowerChosen"));
+        }
+        else {
+            out.println("You don't have Production Powers to activate.");
+            productionPowerMove();
+        }
+    }
+
+    public void chosenBaseProductionPower(){
+        if(!paidProductionPowerList.contains(this.baseProductionPower)){
+            setBaseProductionPower();
+        }
+        else {
+            out.println("Production Power already paid.");
         }
     }
 
@@ -1028,7 +1062,7 @@ public class Cli extends ViewObservable implements View {
 
         for(Resource resource : productionPower.getResourceToPay()){
 
-            out.print("What deposit do you want to pay for the resource ");
+            out.print("From where do you want to pay for the resource ");
             printResource(resource);
             out.println(" 1)Warehouse - 2)Chest");
 
@@ -1070,11 +1104,11 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-    public void setLeaderProductionPower(ProductionPower prodProductionPower){
+    public void setLeaderProductionPower(ProductionPower productionPower){
         out.println("You have chosen a Leader Production Power. Choose a resource to receive.");
         Resource resourceChosen = choseResource();
-        notifyObserver(obs -> obs.onUpdateProductionPowerResource(resourceChosen, prodProductionPower));
-        prodProductionPower.setLeaderProductionPowerResourceToReceive(resourceChosen);
+        notifyObserver(obs -> obs.onUpdateProductionPowerResource(resourceChosen, productionPower));
+        productionPower.setLeaderProductionPowerResourceToReceive(resourceChosen);
     }
 
     public void setBaseProductionPower(){
@@ -1114,35 +1148,37 @@ public class Cli extends ViewObservable implements View {
         return null;
     }
 
-    public void printProductionPowerList(List<ProductionPower> list){
+    public void printPaidProductionPowerList(List<ProductionPower> list){
 
+        int productionPowerCounter = 0;
         out.println();
-        out.println("Production Powers:");
-
-        int productionPowerCounter = 1;
+        out.println("Paid Production Power List:");
 
         for(ProductionPower productionPower : list){
+
             if(productionPower.isBaseProductionPower()){
                 out.println("Base Production Power:");
-                out.println("0 - ? + ? --> ?");
             }
-            else {
-                if(productionPower.isLeaderProductionPower()){
-                    out.println("Leader Production Power:");
-                }
-                out.print(productionPowerCounter + " - ");
-                for(Resource resource : productionPower.getResourceToPay()){
-                    printResource(resource);
-                    out.print(" + ");
-                }
-                out.print(" --> ");
-                for(Resource resource : productionPower.getResourceToReceive()){
-                    printResource(resource);
-                    out.print(" + ");
-                }
-                out.println();
-                productionPowerCounter++;
+
+            if(productionPower.isLeaderProductionPower()){
+                out.println("Leader Production Power:");
             }
+
+            out.print(productionPowerCounter + " - ");
+            for(Resource resource : productionPower.getResourceToPay()){
+                printResource(resource);
+                out.print(" ");
+            }
+
+            out.print(" --> ");
+
+            for(Resource resource : productionPower.getResourceToReceive()){
+                printResource(resource);
+                out.print(" ");
+            }
+
+            productionPowerCounter++;
+
         }
 
     }
@@ -1157,7 +1193,7 @@ public class Cli extends ViewObservable implements View {
             case "setBaseProductionPower":
                 if (response) {
                     out.println("the resources have been set up.");
-                    productionPowerList.get(0).setBaseProductionPowerLists(productionPower.getResourceToPay(), productionPower.getResourceToReceive());
+                    baseProductionPower.setBaseProductionPowerLists(productionPower.getResourceToPay(), productionPower.getResourceToReceive());
                     payProductionPower(productionPower);
                 } else {
                     out.println("the resources haven't been set up.");
@@ -1170,13 +1206,19 @@ public class Cli extends ViewObservable implements View {
                     payProductionPower(productionPower);
                 } else {
                     out.println("Production Power have been chosen, but you can't afford it.");
+                    if(productionPower.isLeaderProductionPower()){
+                        for(ProductionPower power : leaderProductionPowerList){
+                            if(power.equals(productionPower)){
+                                power.resetLeaderProductionPower();
+                            }
+                        }
+                    }
                     productionPowerMove();
                 }
                 break;
             case "payProductionPower":
                 if (response) {
                     out.println("You have successfully paid the Production Power.");
-                    productionPowerList.remove(productionPower);
                     paidProductionPowerList.add(productionPower);
                     productionPowerMove();
                 } else {
@@ -1187,8 +1229,12 @@ public class Cli extends ViewObservable implements View {
             case "activation":
                 if (response) {
                     out.println("Successfully activated the Production Powers.");
-                    productionPowerList.clear();
                     paidProductionPowerList.clear();
+                    baseProductionPower.resetBaseProductionPower();
+                    for(ProductionPower leaderProductionPower : leaderProductionPowerList){
+                        leaderProductionPower.resetLeaderProductionPower();
+                    }
+                    notifyObserver(obs -> obs.onUpdateAskForFaithPath());
                 }
                 else {
                     out.println("Activation FAIL.");
@@ -1406,6 +1452,9 @@ public class Cli extends ViewObservable implements View {
             case SHIELD:
                 out.print(resourcesArt.shield() + " ");
                 break;
+            case FAITHPOINT:
+                out.print(resourcesArt.faithPoint() + " ");
+                break;
             default:
                 out.print("? ");
                 break;
@@ -1568,7 +1617,98 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    //notifyObserver(obs -> obs.onUpdateAskForFatihPath());
 
+    //FaithPath
 
+    @Override
+    public void faithPathResponse(int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
+        printFaithPath(crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
+    }
+
+    public void printFaithPath(int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree){
+        out.println();
+        out.println("Cross position: " + crossPosition);
+        out.println("Victory points: " + victoryPoints);
+        out.println("Papal Card One: " + papalCardOne);
+        out.println("Papal Card Two: " + papalCardTwo);
+        out.println("Papal Card Three: " + papalCardThree);
+
+    }
+
+    private void printPlayerDashBoard(){
+        //printWarehouse();
+        printChest();
+        printBaseProductionPower();
+        printPlayerDevCards();
+        printLeaderProductionPowers();
+    }
+
+    private void printBaseProductionPower(){
+        out.println();
+        out.println("Base Production Power");
+        out.print("0 - ");
+        if(baseProductionPower.getResourceToPay()==null){
+            out.print("?");
+        }
+        else {
+            for(Resource resource : baseProductionPower.getResourceToPay()){
+                printResource(resource);
+            }
+        }
+        out.print(" -> ");
+        if(baseProductionPower.getResourceToReceive()==null){
+            out.print("?");
+        }
+        else {
+            for(Resource resource : baseProductionPower.getResourceToReceive()){
+                printResource(resource);
+            }
+        }
+    }
+
+    private void printPlayerDevCards(){
+        out.println();
+        out.println("DevCards:");
+        int counter = 1;
+        for(DevCard devCard : this.activeDevCardList){
+            out.println(counter);
+            String[][] devCardToPrint = getPrintableDevCard(devCard);
+            for(int i=0; i<MAX_HORIZON_TILES; i++){
+                for(int j=0; j<MAX_HORIZON_TILES; j++){
+                    out.println(devCardToPrint[i][j]);
+                }
+                out.println();
+            }
+            counter++;
+        }
+    }
+
+    private void printLeaderProductionPowers(){
+        out.println();
+        out.println("Leader Production Powers");
+        int counter = 4;
+        for(ProductionPower productionPower : this.leaderProductionPowerList){
+            out.print(counter + " - ");
+            for(Resource resource : productionPower.getResourceToPay()){
+                printResource(resource);
+            }
+            out.println(" -> ");
+            for(Resource resource : productionPower.getResourceToReceive()){
+                printResource(resource);
+            }
+        }
+    }
+
+    public void printChest(){
+        out.println();
+        out.println("CHEST");
+        for(Resource resource : Resource.values()){
+            if(resource!=Resource.EMPTY && resource!=Resource.FAITHPOINT){
+                printResource(resource);
+                out.println(" - " + chest.get(resource));
+            }
+        }
+    }
 
 }

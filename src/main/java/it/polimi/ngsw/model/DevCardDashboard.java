@@ -66,6 +66,10 @@ public class DevCardDashboard {
         return devCardLevel[slot-1];
     }
 
+    public ProductionPower getBaseProductionPower(){
+        return baseProductionPower;
+    }
+
     /**
      * The method returns a List of active DevCards.
      * @return a List of active DevCards.

@@ -101,7 +101,7 @@ public class ClientController implements ViewObserver, Observer{
     @Override
     public void onUpdateLeaderCard(List<LeaderCard> chosenCard){
         client.sendMessage(new LeaderCardListMessage(this.nickname, chosenCard));
-    };
+    }
 
     /**
      * Sends a message to the server with the nickname of the first player chosen by the user.
@@ -147,12 +147,12 @@ public class ClientController implements ViewObserver, Observer{
     @Override
     public void onUpdatePickedResources(int number, Resource resourceOne, Resource resourceTwo, int firstPos, int secondPos){
         client.sendMessage(new DistribuiteInitialResourcesMessage(this.nickname, MessageType.PICK_INITIAL_RESOURCES, number, resourceOne, resourceTwo, firstPos, secondPos));
-    };
+    }
 
     @Override
     public void onUpdateLeaderCardActivation(int chosenCard, int turnZone){
         client.sendMessage(new LeaderCardActivationMessage(this.nickname, chosenCard, turnZone));
-    };
+    }
 
     @Override
     public void onUpdateDiscardCard(int wichCard, int turnZone) {
@@ -218,6 +218,11 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new CalculatePVEndGame(this.nickname));
     }
 
+    @Override
+    public void onUpdateAskForFaithPath() {
+        client.sendMessage(new AskForFaithPathMessage(this.nickname));
+    }
+
     public void update(Message message) {
 
         switch (message.getMessageType()) {
@@ -258,7 +263,7 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case START_TURN:
                 StartTurnMessage start = (StartTurnMessage) message;
-                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardList(), start.getProductionPowerList(), start.getDevCardMarket(), start.getFirstShelf(), start.getSecondShelf(), start.getSecondShelfNumber(), start.getThirdShelf(), start.getThirdShelfNumber()));
+                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardList(), start.getProductionPowerList(), start.getBaseProductionPower(), start.getDevCardMarket(), start.getFirstShelf(), start.getSecondShelf(), start.getSecondShelfNumber(), start.getThirdShelf(), start.getThirdShelfNumber(), start.getChest()));
                 break;
             case CONTINUE_TURN:
                 ContinueTurnMessage continueMessage = (ContinueTurnMessage) message;
@@ -295,6 +300,10 @@ public class ClientController implements ViewObserver, Observer{
             case WATCH_OTHER_PLAYER:
                 WatchOtherPlayerInfoMessage Message = (WatchOtherPlayerInfoMessage) message;
                 taskQueue.execute(() -> view.viewOtherPlayer(Message.getNicknameOtherPlayer(), Message.getGoneRight(), Message.getCrossPosition(), Message.getResourceAsMap(),  Message.getActiveDevCards(), Message.getShlefNumber(), Message.getShelfResource()));
+                break;
+            case FAITH_PATH_MESSAGE:
+                FaithPathMessage faithPath = (FaithPathMessage) message;
+                taskQueue.execute(() -> view.faithPathResponse(faithPath.getCrossPosition(), faithPath.getVictoryPoints(), faithPath.isPapalCardOneActive(), faithPath.isPapalCardTwoActive(), faithPath.isPapalCardThreeActive()));
                 break;
             case AFTER_LAST_MAIN:
                 AfterLastMainMessage afterLast = (AfterLastMainMessage) message;

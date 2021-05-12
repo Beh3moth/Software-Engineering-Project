@@ -45,7 +45,7 @@ public class Cli extends ViewObservable implements View {
     private int secondShelfNumber;
     private Resource thirdShelf;
     private int thirdShelfNumber;
-
+    private boolean gameFinished;
     RectangleArt rectangleArt = new RectangleArt();
 
     /**
@@ -59,6 +59,7 @@ public class Cli extends ViewObservable implements View {
         this.newFirstSpecialShelf = new ArrayList<>();
         this.newSecondSpecialShelf = new ArrayList<>();
         this.discardList = new ArrayList<>();
+        this.gameFinished = false;
     }
 
     /**
@@ -325,13 +326,16 @@ public class Cli extends ViewObservable implements View {
             if (actionTypology == 1) {
                 if (goneRight == 1) {
                     this.leaderCardStatus[wichCard] = 2;
-                    endTurn();
+                    if(gameFinished == true)endGame();
+                    else{endTurn();}
                 } else if (goneRight == 0) {
-                    askToManageLeaderCards(Leaders, turnZone);
+                    if(gameFinished == true)afterLastMainMove(1,Leaders);
+                    else{ askToManageLeaderCards(Leaders, turnZone);}
                 }//leadercard choice. middle turn
             } else if (actionTypology == 2) {
                 this.leaderCardStatus[wichCard] = 0;
-                endTurn();
+                if(gameFinished == true)endGame();
+                else{endTurn();}
             }
             //fine turno
         }
@@ -382,8 +386,11 @@ public class Cli extends ViewObservable implements View {
             if (chose == 0) {
                 reorderWarehouse(mapResources, firstLevel, secondLevel, isIndipendent);
             } else {
+                List<Resource> supportDiscard = new ArrayList<>();
+                supportDiscard.addAll(discardList);
                 if (newResources != null) newResources.clear();
-                notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndipendent));
+                if (discardList != null) discardList.clear();
+                notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, supportDiscard, isIndipendent));
             }
         } catch (ExecutionException e) {
             out.println("Input canceled");
@@ -602,11 +609,18 @@ public class Cli extends ViewObservable implements View {
             if (chose == 1) discardCard(turnZone);
             else if (chose == 0) {
                 if(turnZone == 1) mainMove();
-                else endTurn();
+                else if(gameFinished == false && turnZone == 2) endTurn();
+                else {endGame();}
             }
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
+
+    }
+
+    private void endGame() {
+        out.println("\n\nThe game is ended, now it's time to calculate the PV of every player.");
+        notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
 
     }
 
@@ -664,7 +678,7 @@ public class Cli extends ViewObservable implements View {
         out.println("First shelf: " + this.firstShelf.toString());
         out.print("Second shelf: ");
         for(int i = 0; i < secondShelfNumber; i++)
-        out.print(this.secondShelf.toString() + " ");
+            out.print(this.secondShelf.toString() + " ");
         out.print("\nThird shelf: ");
         for(int i = 0; i < thirdShelfNumber; i++)
             out.print(this.thirdShelf.toString() + " ");
@@ -775,6 +789,10 @@ public class Cli extends ViewObservable implements View {
      */
     @Override
     public void showGenericMessage(String genericMessage) {
+        if(genericMessage.contains("The winner is")){
+            out.println(genericMessage);
+            System.exit(0);
+        }
         out.println(genericMessage);
     }
 
@@ -785,7 +803,8 @@ public class Cli extends ViewObservable implements View {
                 askToManageLeaderCards(leaders, 2);
             } else {
                 out.println("You don't have usable leader cards");
-                endTurn();
+                if(gameFinished == true)endGame();
+                else{endTurn();}
             }
         } else {
             mainMove();
@@ -1216,6 +1235,26 @@ public class Cli extends ViewObservable implements View {
            out.println("Wrong input: The player doesn't exists \n\n ");
            mainMove();
        }
+    }
+
+    @Override
+    public void afterLastMainMove(int i, List<LeaderCard> leaders) {
+        this.gameFinished = true;
+            if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
+                try {
+                    if (this.leaderCardStatus[0] == 1) printLeaderCard(leaders.get(0));
+                    if (this.leaderCardStatus[1] == 1) printLeaderCard(leaders.get(1));
+                    out.println("\nDo you want to activate one of these leaderCard? 1) YES 0) NO ");
+                    int chose = numberInput(0, 1, "What? ");
+                    if (chose == 1) activateLeaderCard(leaders, 2);
+                    else if (chose == 0) askToDiscardLeaderCard(2);
+                } catch (ExecutionException e) {
+                    out.println("Input canceled");
+                }
+            } else {
+                out.println("\nYou don't have usable leader cards");
+                endGame();
+            }
     }
 
     private void printOtherFaithPath(int crossPosition) {

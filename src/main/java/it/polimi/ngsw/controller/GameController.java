@@ -25,6 +25,10 @@ public class GameController implements Observer, Serializable {
     private InputController inputController;
     private static final String STR_INVALID_STATE = "Invalid game state!";
     private int contSituation;
+    private int firstPlayerPosition;
+    private int remainingTurn;
+    private boolean isGameEnded;
+
     /**
      * Controller of the Game.
      */
@@ -40,6 +44,8 @@ public class GameController implements Observer, Serializable {
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
         this.inputController = new InputController(virtualViewMap, this);
         this.contSituation = 0;
+        this.firstPlayerPosition = 0;
+        this.isGameEnded = false;
         setGameState(GameState.LOGIN);
     }
 
@@ -222,6 +228,11 @@ public class GameController implements Observer, Serializable {
      */
     private void pickFirstPlayerHandler(String firstPlayerNick) {
         turnController.setActivePlayer(firstPlayerNick);
+        for(int i=0; i < game.getChosenPlayersNumber(); i++){
+            if(firstPlayerNick == turnController.getNicknameQueue().get(i)){
+                this.firstPlayerPosition = i+1; //questo prende la posizione del primo giocatore
+            }
+        }
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " ", turnController.getActivePlayer());
         VirtualView virtualView;
         this.contSituation = 0;
@@ -328,10 +339,28 @@ public class GameController implements Observer, Serializable {
             case WATCH_OTHER_PLAYER:
                 watchOtherInfo((WatchOtherPlayerInfoMessage) receivedMessage);
                 break;
+            case CALCULATE_PV_WIN:
+                calculatePVWin();
+                break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
         }
+    }
+
+    private void calculatePVWin() {
+        int PVwinner = -1;
+        String NameWinner = "none";
+        for(int i=0; i<game.getChosenPlayersNumber(); i++){
+            if(game.getPlayerByNickname(turnController.getNicknameQueue().get(i)).getFaithPath().getPV() > PVwinner) {
+                PVwinner =  game.getPlayerByNickname(turnController.getNicknameQueue().get(i)).getFaithPath().getPV();
+                NameWinner = turnController.getNicknameQueue().get(i);
+            }
+        }
+
+        broadcastGenericMessage("The winner is : " + NameWinner + " with " + PVwinner + " PV ");
+        Game.resetInstance();
+        Server.LOGGER.info("Game finished. Server ready for a new Game.");
     }
 
     private void watchOtherInfo(Message receivedMessage) {
@@ -354,7 +383,6 @@ public class GameController implements Observer, Serializable {
             virtualView.viewOtherPlayer(((WatchOtherPlayerInfoMessage) receivedMessage).getNicknameOtherPlayer(), goneRight, otherPlayer.getFaithPath().getCrossPosition(), otherPlayer.getChest().getResourcesAsMap(),otherPlayer.getDevCardDashboard().getActiveDevCards(), ShelfResNumber, ShelfResType);
         }
         else virtualView.viewOtherPlayer(((WatchOtherPlayerInfoMessage) receivedMessage).getNicknameOtherPlayer(), goneRight, 0, null,null, null, null);
-
     }
 
     private void newWarehouse(Message receivedMessage) {
@@ -403,7 +431,33 @@ public class GameController implements Observer, Serializable {
             virtualView.afterReorder(0, Leaders);
         }
         else{
-            virtualView.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
+            if(this.isGameEnded == true){
+                this.remainingTurn--; //abbassa i turni rimanenti di uno
+                if(this.remainingTurn == 0){
+                    virtualView.afterLastMainMove(1, Leaders); //se sono l'ultimo giocatore, allora finisco la parte leader card
+                }else{
+                    virtualView.afterReorder(1, Leaders);  // se non sono l'ultimo
+                }
+            }
+            else if(game.isGameEndedMultiPlayers() == true && this.isGameEnded == false){  //è il primo ad arrivarci, mette il fatto che il gioco sia in fase di ended
+                int thisPlayerPosition = -1;
+                this.isGameEnded = true;
+                for(int i=0; i < game.getChosenPlayersNumber(); i++){
+                    if(turnController.getActivePlayer() == turnController.getNicknameQueue().get(i)) thisPlayerPosition = i +1;
+                }
+                if(this.firstPlayerPosition <= thisPlayerPosition){
+                    this.remainingTurn = this.firstPlayerPosition - thisPlayerPosition + (game.getChosenPlayersNumber() - 1);
+                }else{
+                    this.remainingTurn = this.firstPlayerPosition - thisPlayerPosition - 1;
+                }
+                if(this.remainingTurn == 0){virtualView.afterLastMainMove(1,Leaders);} //vuol dire che subito il gioco termina perchè dopo di me c'è il primo giocatore
+                else {
+                    virtualView.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
+                }
+            }
+            else{
+                virtualView.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
+            }
         }
     }
 
@@ -541,10 +595,36 @@ public class GameController implements Observer, Serializable {
     public void activateProductionPowers(ActivateProductionPowersMessage message){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(message.getNickname());
-        List<LeaderCard> leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
+        List<LeaderCard> Leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
         boolean success = player.activateProductionPowers();
         virtualView.productionPowerResponse(success, "activation", null);
-        virtualView.afterReorder(1, leaders);
+        if(this.isGameEnded == true){
+            this.remainingTurn--; //abbassa i turni rimanenti di uno
+            if(this.remainingTurn == 0){
+                virtualView.afterLastMainMove(1, Leaders); //se sono l'ultimo giocatore, allora finisco la parte leader card
+            }else{
+                virtualView.afterReorder(1, Leaders);  // se non sono l'ultimo
+            }
+        }
+        else if(game.isGameEndedMultiPlayers() == true && this.isGameEnded == false){  //è il primo ad arrivarci, mette il fatto che il gioco sia in fase di ended
+            int thisPlayerPosition = -1;
+            this.isGameEnded = true;
+            for(int i=0; i < game.getChosenPlayersNumber(); i++){
+                if(turnController.getActivePlayer() == turnController.getNicknameQueue().get(i)) thisPlayerPosition = i +1;
+            }
+            if(this.firstPlayerPosition <= thisPlayerPosition){
+                this.remainingTurn = this.firstPlayerPosition - thisPlayerPosition + (game.getChosenPlayersNumber() - 1);
+            }else{
+                this.remainingTurn = this.firstPlayerPosition - thisPlayerPosition - 1;
+            }
+            if(this.remainingTurn == 0){virtualView.afterLastMainMove(1,Leaders);} //vuol dire che subito il gioco termina perchè dopo di me c'è il primo giocatore
+            else {
+                virtualView.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
+            }
+        }
+        else{
+            virtualView.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
+        }
     }
 
     public void productionPowerListAction (ProductionPowerListMessage receivedMessage) {
@@ -635,7 +715,7 @@ public class GameController implements Observer, Serializable {
 
     public void payDevCard(DevCardCoordinatesMessage receivedMessage){
 
-        List<LeaderCard> leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
+        List<LeaderCard> Leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
@@ -645,7 +725,33 @@ public class GameController implements Observer, Serializable {
         virtualView.devCardResponse(success, "payDevCard", receivedMessage.getDevCard(), receivedMessage.getSlotToPut());
 
         if(success) {
-            virtualView.afterReorder(1, leaders);
+            if(this.isGameEnded == true){
+                this.remainingTurn--; //abbassa i turni rimanenti di uno
+                if(this.remainingTurn == 0){
+                    virtualView.afterLastMainMove(1, Leaders); //se sono l'ultimo giocatore, allora finisco la parte leader card
+                }else{
+                    virtualView.afterReorder(1, Leaders);  // se non sono l'ultimo
+                }
+            }
+            else if(game.isGameEndedMultiPlayers() == true && this.isGameEnded == false){  //è il primo ad arrivarci, mette il fatto che il gioco sia in fase di ended
+                int thisPlayerPosition = -1;
+                this.isGameEnded = true;
+                for(int i=0; i < game.getChosenPlayersNumber(); i++){
+                    if(turnController.getActivePlayer() == turnController.getNicknameQueue().get(i)) thisPlayerPosition = i +1;
+                }
+                if(this.firstPlayerPosition <= thisPlayerPosition){
+                    this.remainingTurn = this.firstPlayerPosition - thisPlayerPosition + (game.getChosenPlayersNumber() - 1);
+                }else{
+                    this.remainingTurn = this.firstPlayerPosition - thisPlayerPosition - 1;
+                }
+                if(this.remainingTurn == 0){virtualView.afterLastMainMove(1,Leaders);} //vuol dire che subito il gioco termina perchè dopo di me c'è il primo giocatore
+                else {
+                    virtualView.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
+                }
+            }
+            else{
+                virtualView.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
+            }
         }
     }
 }

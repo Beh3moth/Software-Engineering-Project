@@ -187,7 +187,7 @@ public class Game extends Observable implements FaithPathListener {
      */
     public boolean isGameEndedMultiPlayers(){
         for(int i = 0; i < playerNumbers; i++){
-            if((players.get(i).getFaithPath().getCrossPosition() == 20) ||
+            if((players.get(i).getFaithPath().getCrossPosition() >= 20) ||
                     (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
         }
         return false;
@@ -242,7 +242,6 @@ public class Game extends Observable implements FaithPathListener {
      * @param increase is the amount of FaithPoints to give to the other players.
      */
     public void increaseOtherFaithPoints(Player activePlayer, int increase){
-
         for(int i=0; i<increase; i++){
             int maxPos = 0;
             for(Player player : players){
@@ -261,7 +260,6 @@ public class Game extends Observable implements FaithPathListener {
             }
             checkForVaticanReport(maxPos);
         }
-
     }
 
     //LeaderCard methods

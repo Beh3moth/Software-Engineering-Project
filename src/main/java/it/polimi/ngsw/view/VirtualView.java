@@ -143,6 +143,11 @@ public class VirtualView implements View, Observer {
 
     }
 
+    @Override
+    public void afterLastMainMove(int i, List<LeaderCard> leaders) {
+        clientHandler.sendMessage(new AfterLastMainMessage(Game.SERVER_NICKNAME, i, leaders));
+    }
+
     /**
      * Receives an update message from the model.
      * The message is sent over the network to the client.

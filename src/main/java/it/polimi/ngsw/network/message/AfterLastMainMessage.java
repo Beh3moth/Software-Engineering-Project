@@ -1,17 +1,15 @@
 package it.polimi.ngsw.network.message;
 
 import it.polimi.ngsw.model.LeaderCard;
-import it.polimi.ngsw.model.Resource;
 
 import java.util.List;
 
-public class AfterReorderMessage extends Message{
-
+public class AfterLastMainMessage extends Message{
     private int isIndependent;
     private List<LeaderCard> Leaders;
 
-    public AfterReorderMessage(String nickname, int isIndependent, List<LeaderCard> Leaders){
-        super(nickname, MessageType.AFTER_REORDER);
+    public AfterLastMainMessage(String nickname, int isIndependent, List<LeaderCard> Leaders){
+        super(nickname, MessageType.AFTER_LAST_MAIN);
         this.isIndependent = isIndependent;
         this.Leaders = Leaders;
     }
@@ -26,6 +24,6 @@ public class AfterReorderMessage extends Message{
 
     @Override
     public String toString() {
-        return "Continue turn";
+        return "Continue turn for the last time";
     }
 }

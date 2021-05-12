@@ -213,6 +213,11 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new WatchOtherPlayerInfoMessage(this.nickname, nicknameOtherPlayer, null, 0, null, null, null,null ));
     }
 
+    @Override
+    public void onUpdateCalculatePVEndGame() {
+        client.sendMessage(new CalculatePVEndGame(this.nickname));
+    }
+
     public void update(Message message) {
 
         switch (message.getMessageType()) {
@@ -291,7 +296,11 @@ public class ClientController implements ViewObserver, Observer{
                 WatchOtherPlayerInfoMessage Message = (WatchOtherPlayerInfoMessage) message;
                 taskQueue.execute(() -> view.viewOtherPlayer(Message.getNicknameOtherPlayer(), Message.getGoneRight(), Message.getCrossPosition(), Message.getResourceAsMap(),  Message.getActiveDevCards(), Message.getShlefNumber(), Message.getShelfResource()));
                 break;
-            default: // Should never reach this condition
+            case AFTER_LAST_MAIN:
+                AfterLastMainMessage afterLast = (AfterLastMainMessage) message;
+                taskQueue.execute(() -> view.afterLastMainMove(afterLast.getIsIndependent(), afterLast.getLeaders()));
+                break;
+                default: // Should never reach this condition
                 break;
         }
     }

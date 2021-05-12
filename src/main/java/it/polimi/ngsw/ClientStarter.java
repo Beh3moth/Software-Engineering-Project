@@ -12,24 +12,18 @@ public class ClientStarter {
     public static void main(String[] args) {
 
         boolean doYouWantCli= false; // default value
-
-
         for (String arg : args) {
             if (arg.equals("--cli") || arg.equals("-c")) {
                 doYouWantCli = true;
                 break;
             }
         }
-
         if (doYouWantCli) {
             Client.LOGGER.setLevel(Level.WARNING);
             Cli cli = new Cli();
             ClientController clientcontroller = new ClientController(cli);
             cli.addObserver(clientcontroller);
-
             cli.init();
-
-
         } else {
            // Application.launch(JavaFXGui.class);
         }

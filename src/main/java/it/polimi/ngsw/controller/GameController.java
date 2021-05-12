@@ -361,20 +361,44 @@ public class GameController implements Observer, Serializable {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         if(((NewWarehouseMessage) receivedMessage).getDiscardList() != null) {
             for (int i = 0; i < ((NewWarehouseMessage) receivedMessage).getDiscardList().size(); i++) {
-                //game.increaseOtherFaithPoints(turnController.getActivePlayer(), 1);
+                game.increaseOtherFaithPoints(game.getPlayerByNickname(turnController.getActivePlayer()), 1);
             }
         }
-        if(((NewWarehouseMessage) receivedMessage).getNewFirstShelf() != Resource.EMPTY){
-            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstShelf(((NewWarehouseMessage) receivedMessage).getNewFirstShelf()); }
+        game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstShelf(((NewWarehouseMessage) receivedMessage).getNewFirstShelf());
+
         if (((NewWarehouseMessage) receivedMessage).getNewSecondShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewSecondShelf().isEmpty()) {
             game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newSecondShelf(((NewWarehouseMessage) receivedMessage).getNewSecondShelf()); }
+
+        if (((NewWarehouseMessage) receivedMessage).getNewSecondShelf() == null || ((NewWarehouseMessage) receivedMessage).getNewSecondShelf().isEmpty()) {
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(2).setResourceType(Resource.EMPTY);
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(2).setResourceNumber(0);
+        }
+
+
         if (((NewWarehouseMessage) receivedMessage).getNewThirdShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewThirdShelf().isEmpty()) {
             game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newThirdShelf(((NewWarehouseMessage) receivedMessage).getNewThirdShelf()); }
+
+        if (((NewWarehouseMessage) receivedMessage).getNewThirdShelf() == null || ((NewWarehouseMessage) receivedMessage).getNewThirdShelf().isEmpty()) {
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(3).setResourceType(Resource.EMPTY);
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(3).setResourceNumber(0);
+        }
+
         if (((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf().isEmpty()) {
             game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstSpecialShelf(((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf()); }
+
+        if ((game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(4) != null) && (((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf() == null || ((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf().isEmpty())) {
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(4).setResourceNumber(0);
+        }
+
         if (((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf().isEmpty()) {
             game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newSecondSpecialShelf(((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf()); }
+
+        if ((game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(5) != null )&&(((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf() == null || ((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf().isEmpty())) {
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(5).setResourceNumber(0);
+        }
+
         List<LeaderCard> Leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
+
         if(((NewWarehouseMessage) receivedMessage).getIsIndependent() == true){ //se io l'ho chiamata all'inizio, prima di qualsiasi mossa (buy market)
             virtualView.afterReorder(0, Leaders);
         }

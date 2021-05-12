@@ -1674,9 +1674,9 @@ public class Cli extends ViewObservable implements View {
         for(DevCard devCard : this.activeDevCardList){
             out.println(counter);
             String[][] devCardToPrint = getPrintableDevCard(devCard);
-            for(int i=0; i<MAX_HORIZON_TILES; i++){
+            for(int i=0; i<MAX_VERT_TILES; i++){
                 for(int j=0; j<MAX_HORIZON_TILES; j++){
-                    out.println(devCardToPrint[i][j]);
+                    out.print(devCardToPrint[i][j]);
                 }
                 out.println();
             }

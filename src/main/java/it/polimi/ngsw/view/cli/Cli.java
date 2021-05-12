@@ -1251,9 +1251,11 @@ public class Cli extends ViewObservable implements View {
         List<Resource> resourceType = new ArrayList<>();
 
         for(Resource resource : devCard.getResourceToPay()){
+
             out.print("What deposit do you want to pay for the resource ");
             printResource(resource);
             out.println(" 1)Warehouse - 2)Chest");
+
             int fromWhere = 0;
             try {
                 fromWhere = numberInput(1, 2, "Warehouse or Chest? ");
@@ -1261,17 +1263,19 @@ public class Cli extends ViewObservable implements View {
             catch (ExecutionException e) {
                 out.println("Wrong input");
             }
+
             if (fromWhere == 1) {
                 isWarehouse.add(true);
             }
             else {
                 isWarehouse.add(false);
             }
+
             if (fromWhere == 1) {
                 out.println("Which shelf? 1) 2) 3) 4) 5): ");
                 int shelf = 0;
                 try {
-                    shelf = numberInput(1, 5, "Warehouse or Chest? ");
+                    shelf = numberInput(1, 5, "Choose: ");
                 }
                 catch (ExecutionException e) {
                     out.println("Wrong input");
@@ -1281,11 +1285,13 @@ public class Cli extends ViewObservable implements View {
             else {
                 shelfLevel.add(0);
             }
+
             resourceType.add(resource);
+
         }
 
-
         notifyObserver(obs -> obs.onUpdatePayDevCard(isWarehouse.toArray(new Boolean[0]), shelfLevel.toArray(new Integer[0]), resourceType.toArray(new Resource[0]), devCard, slotToPut));
+
 
     }
 

@@ -13,10 +13,10 @@ public class ChosenDevCardMessage extends Message {
         this.column = column;
         this.slotToPut = slotToPut;
         switch(column){
-            case 1: this.devCardColour = DevCardColour.GREEN;
-            case 2: this.devCardColour = DevCardColour.BLUE;
-            case 3: this.devCardColour = DevCardColour.YELLOW;
-            case 4: this.devCardColour = DevCardColour.PURPLE;
+            case 1: {this.devCardColour = DevCardColour.GREEN;break;}
+            case 2: {this.devCardColour = DevCardColour.BLUE;break;}
+            case 3: {this.devCardColour = DevCardColour.YELLOW;break;}
+            case 4: {this.devCardColour = DevCardColour.PURPLE;break;}
         }
     }
 

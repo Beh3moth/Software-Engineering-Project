@@ -63,7 +63,7 @@ public class DevCardDashboard {
      * @return the level
      */
     public int getLevel(int slot){
-        return devCardLevel[slot];
+        return devCardLevel[slot-1];
     }
 
     /**

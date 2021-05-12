@@ -447,9 +447,9 @@ public class Player extends Observable implements Serializable {
     public DevCard chooseDevCard(Board board, int level, DevCardColour colour, int slotToPut){
 
         int devColumn = board.getDevCardColumn(colour);
-        Map<Resource, Integer> Cost = new HashMap<>();
+        Map<Resource, Integer> Cost;
         DevCard devCard;
-
+        devCard = board.getDevCardSpace(3 - level ,devColumn).firstDevCard();
         if(board.getDevCardSpace(3 - level, devColumn).getNumberOfCards() == 0){
             return null;
         }

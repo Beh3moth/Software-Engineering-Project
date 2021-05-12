@@ -20,6 +20,8 @@ public class Warehouse {
         firstLevel = new Shelf();
         secondLevel = new Shelf();
         thirdLevel = new Shelf();
+        firstLeaderLevel = new Shelf();
+        secondLeaderLevel = new Shelf();
         warehouseStock = new ArrayList<Resource>();
         whitemarbleStock = new ArrayList<Resource>();
         this.firstLeaderLevelType = Resource.EMPTY;
@@ -139,13 +141,11 @@ public class Warehouse {
      */
     public boolean unlockLeaderLevel(Resource resource){
         if(firstLeaderLevelType == Resource.EMPTY){//la prima è ancora bloccata
-            firstLeaderLevel = new Shelf();
             firstLeaderLevelType = resource;
             firstLeaderLevel.setResourceType(resource);
             return true;
         }
         else if(secondLeaderLevelType == Resource.EMPTY){//la seconda è ancora bloccata
-            secondLeaderLevel = new Shelf();
             secondLeaderLevelType = resource;
             secondLeaderLevel.setResourceType(resource);
             return true;
@@ -325,28 +325,23 @@ public class Warehouse {
 
     /**
      * this method control a resource end three resource
-     * @param resources
-     * @param warehouse
      * @param level
-     * @param resource
      * @return true if this resource is legal
      */
-    public boolean controlResource(Resource[] resources, Boolean[] warehouse, Integer[] level, Resource resource){
-        if((resource == Resource.EMPTY) || (resource == Resource.FAITHPOINT)){
-            return false;
-        }
-
+    public boolean controlResource(Integer[] level){
         for(int l = 1; l < 6; l++){
             int n = 0;
-            for(int i = 0; i < resources.length; i++){
-                if((resources[i] == resource) && (l == level[i])){
-                    n++;
-                }
+            for(int i = 0; i < level.length; i++){
+                if(level[i] == l)n++;
             }
-            if(n < getShelf(l).getResourceNumber())return false;
+            if(!checkShelf(n, l))return false;
         }
-
         return true;
+    }
+
+    public boolean checkShelf(int nResource, int level){
+        if(nResource <= getShelf(level).getResourceNumber())return true;
+        else return false;
     }
 
     /**
@@ -362,9 +357,7 @@ public class Warehouse {
             if(getShelf(level[i]).getResourceType() != resources[i] )return false;
         }
 
-        for(Resource resource : Resource.values()) {
-            if (!controlResource(resources, warehouse, level, resource))return false;
-        }
+            if (!controlResource(level))return false;
 
         return true;
     }

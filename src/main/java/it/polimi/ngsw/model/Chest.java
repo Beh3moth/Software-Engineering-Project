@@ -148,7 +148,8 @@ public class Chest {
      */
     public boolean canBuy(Resource[] resources, Boolean[] warehouse){
         for(Resource resource : Resource.values()){
-            if(!controlResource(resources, warehouse, resource))return false;
+            if(resource != Resource.EMPTY && resource != Resource.FAITHPOINT){
+            if(!controlResource(resources, warehouse, resource))return false;}
         }
         return true;
     }

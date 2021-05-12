@@ -40,6 +40,11 @@ public class Cli extends ViewObservable implements View {
     private List<ProductionPower> productionPowerList = new ArrayList<>();
     private DevCard[][] devCardMarket;
     private DevCardColour devCardColour;
+    private Resource firstShelf;
+    private Resource secondShelf;
+    private int secondShelfNumber;
+    private Resource thirdShelf;
+    private int thirdShelfNumber;
 
     RectangleArt rectangleArt = new RectangleArt();
 
@@ -279,7 +284,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber) {
         out.println("\n\n It's your turn! \n\n");
         this.singleMarble = singleMarble;
         this.firstRow = firstRow;
@@ -289,6 +294,11 @@ public class Cli extends ViewObservable implements View {
         this.leaderProductionPowerList = leaderProductionPowerList;
         this.activeDevCardList = activeDevCardList;
         this.productionPowerList = productionPowerList;
+        this.firstShelf = firstShelf;
+        this.secondShelf =secondShelf;
+        this.secondShelfNumber = secondShelfNumber;
+        this.thirdShelf = thirdShelf;
+        this.thirdShelfNumber = thirdShelfNumber;
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             askToManageLeaderCards(Leaders, 1);
         } else {
@@ -354,7 +364,7 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         resetCliWarehouse();
-        out.println("You have this resources in your warehouse at the moment: ");out.println("");
+        out.println("You have this resources in your warehouse at the moment: \n");
         mapResources.forEach((key, value) -> out.println(key + " : " + value)); out.println("");out.println("");
         if (firstLevel != Resource.EMPTY)
             out.println("You have a special shelf with this resource ability: " + firstLevel.toString());
@@ -367,7 +377,7 @@ public class Cli extends ViewObservable implements View {
 
     private void askToSendNewWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         try {
-            out.println("Do you want this new warehouse and discard this resources? ");
+            out.println("Do you want this new warehouse and discard the other resources? " + discardList.toString());
             int chose = numberInput(0, 1, "Chose 0) No, reorder warehouse 1) Yes ");
             if (chose == 0) {
                 reorderWarehouse(mapResources, firstLevel, secondLevel, isIndipendent);
@@ -636,7 +646,7 @@ public class Cli extends ViewObservable implements View {
             printDevCardMarket();
             printMarket();
             printProductionPowerList(productionPowerList);
-            //printStartTurnWarehouse();
+            printStartTurnWarehouse();
             out.println("\nChose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers 5) Visualize other Player Dashboard");
             int chose = numberInput(1, 5, "Which move? ");
             if (chose == 1) {notifyObserver(obs -> obs.onUpdateReorderWarehouse(true));}
@@ -647,6 +657,18 @@ public class Cli extends ViewObservable implements View {
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
+    }
+
+    private void printStartTurnWarehouse() {
+        out.println("\nWarehouse");
+        out.println("First shelf: " + this.firstShelf.toString());
+        out.print("Second shelf: ");
+        for(int i = 0; i < secondShelfNumber; i++)
+        out.print(this.secondShelf.toString() + " ");
+        out.print("\nThird shelf: ");
+        for(int i = 0; i < thirdShelfNumber; i++)
+            out.print(this.thirdShelf.toString() + " ");
+        out.println("");
     }
 
     private void watchOtherPlayerInfo() {

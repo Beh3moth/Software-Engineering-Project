@@ -1,9 +1,6 @@
 package it.polimi.ngsw.network.message;
 
-import it.polimi.ngsw.model.DevCard;
-import it.polimi.ngsw.model.LeaderCard;
-import it.polimi.ngsw.model.Marble;
-import it.polimi.ngsw.model.ProductionPower;
+import it.polimi.ngsw.model.*;
 
 import java.util.List;
 
@@ -18,8 +15,13 @@ public class StartTurnMessage extends Message{
     private List<DevCard> activeDevCardList;
     private List<ProductionPower> productionPowerList;
     private DevCard[][] devCardMarket;
+    private Resource firstShelf;
+    private Resource secondShelf;
+    private int secondShelfNumber;
+    private Resource thirdShelf;
+    private int thirdShelfNumber;
 
-    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket) {
+    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber) {
         super(nickname, MessageType.START_TURN);
         this.leaderCards = Leaders;
         this.singleMarble = singleMarble;
@@ -30,6 +32,11 @@ public class StartTurnMessage extends Message{
         this.activeDevCardList = activeDevCardList;
         this.productionPowerList = productionPowerList;
         this.devCardMarket = devCardMarket;
+        this.firstShelf = firstShelf;
+        this.secondShelf =secondShelf;
+        this.secondShelfNumber = secondShelfNumber;
+        this.thirdShelf = thirdShelf;
+        this.thirdShelfNumber = thirdShelfNumber;
     }
 
     @Override
@@ -71,4 +78,10 @@ public class StartTurnMessage extends Message{
     public DevCard[][] getDevCardMarket() {
         return devCardMarket;
     }
+
+    public Resource getFirstShelf(){return firstShelf;    }
+    public Resource getSecondShelf(){return secondShelf;}
+    public Resource getThirdShelf(){return thirdShelf;}
+    public int getSecondShelfNumber(){return secondShelfNumber;}
+    public int getThirdShelfNumber(){return thirdShelfNumber;}
 }

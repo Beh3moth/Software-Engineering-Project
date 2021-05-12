@@ -10,7 +10,6 @@ import it.polimi.ngsw.model.Resource;
 import it.polimi.ngsw.observer.Observer;
 import it.polimi.ngsw.observer.ViewObserver;
 import it.polimi.ngsw.view.View;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -254,7 +253,7 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case START_TURN:
                 StartTurnMessage start = (StartTurnMessage) message;
-                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardList(), start.getProductionPowerList(), start.getDevCardMarket()));
+                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardList(), start.getProductionPowerList(), start.getDevCardMarket(), start.getFirstShelf(), start.getSecondShelf(), start.getSecondShelfNumber(), start.getThirdShelf(), start.getThirdShelfNumber()));
                 break;
             case CONTINUE_TURN:
                 ContinueTurnMessage continueMessage = (ContinueTurnMessage) message;

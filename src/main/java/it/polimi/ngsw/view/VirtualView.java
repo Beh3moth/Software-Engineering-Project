@@ -96,8 +96,8 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void startTurnMessage (List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, DevCard[][] devCardMarket,Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber) {
-        clientHandler.sendMessage(new StartTurnMessage(Game.SERVER_NICKNAME, Leaders, singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, productionPowerList, devCardMarket,  firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber));
+    public void startTurnMessage (List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, ProductionPower baseProductionPower, DevCard[][] devCardMarket,Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest) {
+        clientHandler.sendMessage(new StartTurnMessage(Game.SERVER_NICKNAME, Leaders, singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, productionPowerList, baseProductionPower, devCardMarket,  firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest));
     }
 
     @Override
@@ -146,6 +146,11 @@ public class VirtualView implements View, Observer {
     @Override
     public void afterLastMainMove(int i, List<LeaderCard> leaders) {
         clientHandler.sendMessage(new AfterLastMainMessage(Game.SERVER_NICKNAME, i, leaders));
+    }
+
+    @Override
+    public void faithPathResponse(int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
+        clientHandler.sendMessage(new FaithPathMessage(Game.SERVER_NICKNAME, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree));
     }
 
     /**

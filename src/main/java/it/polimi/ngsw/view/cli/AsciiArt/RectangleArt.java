@@ -28,6 +28,30 @@ public class RectangleArt {
         return (getDevCardColour(devCard) + "║" + Color.RESET);
     }
 
+    public String getRightTopAngle(Color color){
+        return ( color.escape() + "╗" + Color.RESET );
+    }
+
+    public String getLeftTopAngle(Color color){
+        return (color.escape() + "╔" + Color.RESET );
+    }
+
+    public String getLeftDownAngle(Color color){
+        return (color.escape() + "╚" + Color.RESET );
+    }
+
+    public String getRightDownAngle(Color color){
+        return (color.escape() + "╝" + Color.RESET );
+    }
+
+    public String getTopDownBorder(Color color){
+        return (color.escape() + "═" + Color.RESET);
+    }
+
+    public String getLeftRightBorder(Color color){
+        return (color.escape() + "║" + Color.RESET);
+    }
+
     public String getDevCardColour(DevCard devCard){
         switch (devCard.getCardColour()) {
             case BLUE:

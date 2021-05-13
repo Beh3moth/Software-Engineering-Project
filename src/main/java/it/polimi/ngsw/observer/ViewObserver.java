@@ -87,5 +87,9 @@ public interface ViewObserver {
 
     void onUpdateWatchInfo(String nicknameOtherPlayer);
 
+    //Faith path message
+
+    void onUpdateAskForFaithPath();
+
     void onUpdateCalculatePVEndGame();
 }

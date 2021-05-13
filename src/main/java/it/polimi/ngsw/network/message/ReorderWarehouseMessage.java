@@ -15,7 +15,7 @@ public class ReorderWarehouseMessage extends Message{
     public ReorderWarehouseMessage(String nickname, Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndependent){
         super(nickname, MessageType.REORDER_WAREHOUSE);
         this.mapResources = mapResources;
-        this.firstLevel =firstLevel;
+        this.firstLevel = firstLevel;
         this.secondLevel = secondLevel;
         this.isIndependent = isIndependent;
     }

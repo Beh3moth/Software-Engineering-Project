@@ -92,6 +92,7 @@ public class TurnController implements Serializable {
 
         //Import DevCardDashboard active cards
         List<ProductionPower> leaderProductionPowerList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getLeaderProductionPowerList();
+        ProductionPower baseProductionPower = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getBaseProductionPower();
         List<DevCard> activeDevCardList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getActiveDevCards();
         List<ProductionPower> productionPowerList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getActiveProductionPowerList();
         DevCard[][] devCardMarket = game.getBoard().getDevCardMarket();
@@ -100,7 +101,8 @@ public class TurnController implements Serializable {
         int secondShelfNumber = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(2).getResourceNumber();
         Resource thirdShelf = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(3).getResourceType();
         int thirdShelfNumber = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(3).getResourceNumber();
-        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, productionPowerList, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber);
+        Map<Resource, Integer> chest = game.getPlayerByNickname(getActivePlayer()).getChest().getResourcesAsMap();
+        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, productionPowerList, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest);
 
     }
     /**

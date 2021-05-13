@@ -342,6 +342,9 @@ public class GameController implements Observer, Serializable {
             case CALCULATE_PV_WIN:
                 calculatePVWin();
                 break;
+            case ASK_FOR_FAITH_PATH:
+                askForFaithPath((AskForFaithPathMessage) receivedMessage);
+                break;
             default:
                 Server.LOGGER.warning(STR_INVALID_STATE);
                 break;
@@ -636,6 +639,13 @@ public class GameController implements Observer, Serializable {
     public void productionPowerCheck (ProductionPower productionPower, String nickName) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(nickName);
+        if( !player.canAfford(productionPower.getResourceToPayAsMap()) && productionPower.isLeaderProductionPower() ) {
+            for (ProductionPower prodPower : player.getDevCardDashboard().getLeaderProductionPowerList()) {
+                if(prodPower.equals(productionPower)){
+                    prodPower.resetLeaderProductionPower();
+                }
+            }
+        }
         virtualView.productionPowerResponse(player.canAfford(productionPower.getResourceToPayAsMap()), "productionPowerCheck", productionPower);
     }
 
@@ -650,7 +660,6 @@ public class GameController implements Observer, Serializable {
 
     public void setLeaderProductionPower(ProductionPowerResourceMessage receivedMessage){
 
-        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
         for (ProductionPower productionPower : player.getDevCardDashboard().getLeaderProductionPowerList()) {
             if(productionPower.equals(receivedMessage.getProductionPower())){
@@ -671,6 +680,7 @@ public class GameController implements Observer, Serializable {
 
         if( ! baseProductionPower.setBaseProductionPowerLists(resourceToPay, resourceToReceive) ) {
             virtualView.productionPowerResponse(false, "setBaseProductionPower", baseProductionPower);
+            baseProductionPower.resetLeaderProductionPower();
         }
         else {
             if (player.canAfford(baseProductionPower.getResourceToPayAsMap())) {
@@ -689,16 +699,15 @@ public class GameController implements Observer, Serializable {
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
-        ProductionPower productionPower = player.getDevCardDashboard().getProductionPower(0);
 
-        boolean success = player.payProductionPower(productionPower, receivedMessage.getIsWarehouse(), receivedMessage.getShelfLevel(), receivedMessage.getResourceType());
+        boolean success = player.payProductionPower(receivedMessage.getProductionPower(), receivedMessage.getIsWarehouse(), receivedMessage.getShelfLevel(), receivedMessage.getResourceType());
 
         if (success) {
-            virtualView.productionPowerResponse(true, "payProductionPower", productionPower);
+            virtualView.productionPowerResponse(true, "payProductionPower", receivedMessage.getProductionPower());
         }
         else {
-            player.rejectProductionPower(productionPower);
-            virtualView.productionPowerResponse(false, "payProductionPower", productionPower);
+            player.rejectProductionPower(receivedMessage.getProductionPower());
+            virtualView.productionPowerResponse(false, "payProductionPower", receivedMessage.getProductionPower());
         }
 
     }
@@ -754,4 +763,20 @@ public class GameController implements Observer, Serializable {
             }
         }
     }
+
+    //Faith path
+
+    public void askForFaithPath(AskForFaithPathMessage receivedMessage){
+
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
+        int crossPosition = player.getFaithPath().getCrossPosition();
+        int victoryPoints = player.getFaithPath().getPV();
+        boolean papalCardOne = player.getFaithPath().getPapalCardOne();
+        boolean papalCardTwo = player.getFaithPath().getPapalCardTwo();
+        boolean papalCardThree = player.getFaithPath().getPapalCardThree();
+        virtualView.faithPathResponse(crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
+
+    }
+
 }

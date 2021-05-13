@@ -187,7 +187,7 @@ public class Game extends Observable implements FaithPathListener {
      */
     public boolean isGameEndedMultiPlayers(){
         for(int i = 0; i < playerNumbers; i++){
-            if((players.get(i).getFaithPath().getCrossPosition() >= 20) ||
+            if((players.get(i).getFaithPath().getCrossPosition() >= 24) ||
                     (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
         }
         return false;

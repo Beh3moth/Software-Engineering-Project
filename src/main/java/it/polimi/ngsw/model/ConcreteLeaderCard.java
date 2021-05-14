@@ -26,4 +26,14 @@ public class ConcreteLeaderCard implements LeaderCard {
         return null;
     }
 
+    @Override
+    public String[] getLeaderCardCostAsString() {
+        return null;
+    }
+
+    @Override
+    public String[] getLeaderCardAbilityAsString() {
+        return new String[0];
+    }
+
 }

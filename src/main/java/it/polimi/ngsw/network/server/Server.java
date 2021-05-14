@@ -15,6 +15,7 @@ import java.util.logging.Logger;
  * It can handle different types of connections.
  */
 public class Server {
+
     private final GameController gameController;
 
     private final Map<String, ClientHandler> clientHandlerMap;
@@ -32,7 +33,7 @@ public class Server {
     /**
      * Adds a client to be managed by the server instance.
      *
-     * @param nickname      the nickname associated with the client.
+     * @param nickname the nickname associated with the client.
      * @param clientHandler the ClientHandler associated with the client.
      */
     public void addClient(String nickname, ClientHandler clientHandler) {

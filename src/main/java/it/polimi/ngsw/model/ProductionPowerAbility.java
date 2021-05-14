@@ -1,5 +1,8 @@
 package it.polimi.ngsw.model;
 
+import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ProductionPowerAbility extends LeaderCardBaseDecorator{
@@ -9,6 +12,7 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
     private final DevCardColour leaderCardCost;
     private final int devCardLevel = 2;
     private final Resource inputResource;
+    private ResourcesArt art = new ResourcesArt();
 
     public ProductionPowerAbility(LeaderCard leaderCard, int PV, DevCardColour leaderCardCost, Resource inputResource) {
         super(leaderCard);
@@ -91,6 +95,45 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
             }
         }
         return false;
+    }
+
+    @Override
+    public String[] getLeaderCardAbilityAsString() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add(art.getColour(this.inputResource) + "@" + art.getReset());
+        stringList.add(" ");
+        stringList.add("-");
+        stringList.add(">");
+        stringList.add(" ");
+        stringList.add("?");
+        stringList.add(" ");
+        stringList.add("+");
+        stringList.add(" ");
+        stringList.add(art.getColour(Resource.FAITHPOINT) + "@" + art.getReset());
+        return stringList.toArray(new String[0]);
+    }
+
+    @Override
+    public String[] getLeaderCardCostAsString() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add(art.getColour(leaderCardCost) + "<");
+        stringList.add(art.getColour(leaderCardCost) + "2");
+        stringList.add(art.getColour(leaderCardCost) + ">");
+        return stringList.toArray(new String[0]);
+    }
+    private String getResourceArt (Resource resource) {
+        switch (resource){
+            case SLAVE:
+                return art.slave();
+            case STONE:
+                return art.stone();
+            case MONEY:
+                return art.money();
+            case SHIELD:
+                return art.shield();
+            default:
+                return "";
+        }
     }
 
 }

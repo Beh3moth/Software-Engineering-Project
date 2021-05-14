@@ -27,7 +27,7 @@ public class SocketClientHandler implements ClientHandler, Runnable {
      * Default constructor.
      *
      * @param socketServer the socket of the server.
-     * @param client       the client connecting.
+     * @param client the client connecting.
      */
     public SocketClientHandler(SocketServer socketServer, Socket client) {
         this.socketServer = socketServer;

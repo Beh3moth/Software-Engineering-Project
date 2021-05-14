@@ -186,7 +186,7 @@ public class Cli extends ViewObservable implements View {
         if (LeaderCards.size() == 4) {
             List<LeaderCard> chosenCard = new ArrayList<>();
             out.println("\n\nSelect two Leader Cards from the list.");
-            printLeaderCardList(LeaderCards);
+            printLeaderCard(LeaderCards);
             try {
                 out.println("\n\nPlease, enter one ID confirm with ENTER.");
                 IdChoosen = numberInput(1, LeaderCards.size(), (1) + "° LeaderCard ID: ") - 1;
@@ -991,7 +991,7 @@ public class Cli extends ViewObservable implements View {
 
     public void activateProductionPowers(){
         out.println("Activation...");
-        notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
+        //notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
     }
 
     public void choseProductionPower(){
@@ -1159,24 +1159,19 @@ public class Cli extends ViewObservable implements View {
             if(productionPower.isBaseProductionPower()){
                 out.println("Base Production Power:");
             }
-
             if(productionPower.isLeaderProductionPower()){
                 out.println("Leader Production Power:");
             }
-
             out.print(productionPowerCounter + " - ");
             for(Resource resource : productionPower.getResourceToPay()){
                 printResource(resource);
                 out.print(" ");
             }
-
             out.print(" --> ");
-
             for(Resource resource : productionPower.getResourceToReceive()){
                 printResource(resource);
                 out.print(" ");
             }
-
             productionPowerCounter++;
 
         }
@@ -1668,19 +1663,39 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printPlayerDevCards(){
-        out.println();
-        out.println("DevCards:");
-        int counter = 1;
-        for(DevCard devCard : this.activeDevCardList){
-            out.println(counter);
-            String[][] devCardToPrint = getPrintableDevCard(devCard);
-            for(int i=0; i<MAX_VERT_TILES; i++){
-                for(int j=0; j<MAX_HORIZON_TILES; j++){
-                    out.print(devCardToPrint[i][j]);
+        if(activeDevCardList.isEmpty()){
+            out.println();
+            out.println();
+            out.println("You don't own Development Cards.");
+        }
+        else {
+            String tiles[][] = new String[11][80];
+            for(int i=0; i<11; i++){
+                for(int j=0; j<80; j++){
+                    tiles[i][j] = " ";
+                }
+            }
+            out.println();
+            out.println("DevCards:");
+            int counter = 1;
+            int jIterator=0;
+            for(DevCard devCard : this.activeDevCardList){
+                tiles[0][8+(jIterator*18)] = String.valueOf(counter);
+                String[][] devCardTiles = getPrintableDevCard(devCard);
+                for(int i = 0; i < MAX_VERT_TILES; i++) {
+                    for (int j = 0; j < MAX_HORIZON_TILES; j++) {
+                        tiles[i+1][j+(jIterator*19)] = devCardTiles[i][j];
+                    }
+                }
+                jIterator++;
+                counter++;
+            }
+            for(int i=0; i<11; i++){
+                for(int j=0; j<80; j++){
+                    out.print(tiles[i][j]);
                 }
                 out.println();
             }
-            counter++;
         }
     }
 
@@ -1706,9 +1721,75 @@ public class Cli extends ViewObservable implements View {
         for(Resource resource : Resource.values()){
             if(resource!=Resource.EMPTY && resource!=Resource.FAITHPOINT){
                 printResource(resource);
-                out.println(" - " + chest.get(resource));
+                out.println("- " + chest.get(resource));
             }
         }
+    }
+
+    public void printLeaderCard(List<LeaderCard> leaderCards){
+        int counter = 0;
+        for(LeaderCard leaderCard : leaderCards){
+            out.println("        " + counter);
+            for(int i=0; i<MAX_VERT_TILES; i++){
+                for(int j=0; j<MAX_HORIZON_TILES; j++){
+                    out.print(getPrintableLeaderCard(leaderCard)[i][j]);
+                }
+                out.println();
+            }
+            counter++;
+        }
+    }
+
+    String[][] leaderCardTiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
+
+    public String[][] getPrintableLeaderCard(LeaderCard leaderCard){
+        fillEmptyLeaderCard();
+        loadLeaderCardCost(leaderCard);
+        loadLeaderPV(leaderCard);
+        loadLeaderCardPower(leaderCard);
+        return leaderCardTiles;
+    }
+
+    private void loadLeaderCardPower(LeaderCard leaderCard){
+        for(int i=0; i<leaderCard.getLeaderCardAbilityAsString().length; i++){
+            leaderCardTiles[6][i+2] = leaderCard.getLeaderCardAbilityAsString()[i];
+        }
+    }
+
+    private void loadLeaderPV(LeaderCard leaderCard){
+        leaderCardTiles[4][8] = String.valueOf(leaderCard.getPV());
+    }
+
+    private void loadLeaderCardCost(LeaderCard leaderCard){
+        for(int i=0; i<leaderCard.getLeaderCardCostAsString().length; i++){
+        leaderCardTiles[1][i+2] = leaderCard.getLeaderCardCostAsString()[i];
+        }
+    }
+
+    private void fillEmptyLeaderCard(){
+
+        leaderCardTiles[0][0] = rectangleArt.getLeftTopAngle(Color.ANSI_RED);
+        for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+            leaderCardTiles[0][c] = rectangleArt.getTopDownBorder(Color.ANSI_RED);
+        }
+
+        leaderCardTiles[0][MAX_HORIZON_TILES - 1] = rectangleArt.getRightTopAngle(Color.ANSI_RED);
+
+        for (int r = 1; r < MAX_VERT_TILES - 1; r++) {
+            leaderCardTiles[r][0] = rectangleArt.getLeftRightBorder(Color.ANSI_RED);
+            for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+                leaderCardTiles[r][c] = " ";
+            }
+            leaderCardTiles[r][MAX_HORIZON_TILES -1] = rectangleArt.getLeftRightBorder(Color.ANSI_RED);
+        }
+
+        leaderCardTiles[MAX_VERT_TILES - 1][0] = rectangleArt.getLeftDownAngle(Color.ANSI_RED);
+        for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+            leaderCardTiles[MAX_VERT_TILES - 1][c] = rectangleArt.getTopDownBorder(Color.ANSI_RED);
+        }
+
+        leaderCardTiles[MAX_VERT_TILES - 1][MAX_HORIZON_TILES - 1] = rectangleArt.getRightDownAngle(Color.ANSI_RED);
+
     }
 
 }

@@ -1,5 +1,8 @@
 package it.polimi.ngsw.model;
 
+import it.polimi.ngsw.view.cli.AsciiArt.Color;
+import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +12,7 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
     private final String abilityName = "white marble";
     private final List<DevCardColour> leaderCardCost;
     private final Resource resourceToObtain;
+    private ResourcesArt art = new ResourcesArt();
 
     public WhiteMarbleAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource resourceToObtain) {
         super(leaderCard);
@@ -87,6 +91,28 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
         }
 
         return true;
+    }
+
+    @Override
+    public String[] getLeaderCardAbilityAsString() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add("@");
+        stringList.add(" ");
+        stringList.add("=");
+        stringList.add(" ");
+        stringList.add(art.getColour(this.resourceToObtain) + "@" + art.getReset());
+        return stringList.toArray(new String[0]);
+    }
+
+    @Override
+    public String[] getLeaderCardCostAsString() {
+        List<String> stringList = new ArrayList<>();
+        for(DevCardColour devCardColour : leaderCardCost){
+            stringList.add(art.getColour(devCardColour) + "<");
+            stringList.add(art.getColour(devCardColour) + "?");
+            stringList.add(art.getColour(devCardColour) + ">");
+        }
+        return stringList.toArray(new String[0]);
     }
 
 }

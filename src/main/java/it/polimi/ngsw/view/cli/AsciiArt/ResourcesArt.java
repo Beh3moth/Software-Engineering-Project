@@ -1,6 +1,11 @@
 package it.polimi.ngsw.view.cli.AsciiArt;
 
-public class ResourcesArt {
+import it.polimi.ngsw.model.DevCardColour;
+import it.polimi.ngsw.model.Resource;
+
+import java.io.Serializable;
+
+public class ResourcesArt implements Serializable {
 
     private Color color;
 
@@ -34,6 +39,42 @@ public class ResourcesArt {
 
     public String whiteMarble(){
         return ("@");
+    }
+
+    public String getColour(DevCardColour colour){
+        switch (colour) {
+            case BLUE:
+                return Color.ANSI_BLUE.escape();
+            case YELLOW:
+                return Color.ANSI_YELLOW.escape();
+            case PURPLE:
+                return Color.ANSI_PURPLE.escape();
+            case GREEN:
+                return Color.ANSI_GREEN.escape();
+            default:
+                return Color.RESET;
+        }
+    }
+
+    public String getColour(Resource resource){
+        switch (resource) {
+            case SHIELD:
+                return Color.ANSI_BLUE.escape();
+            case MONEY:
+                return Color.ANSI_YELLOW.escape();
+            case SLAVE:
+                return Color.ANSI_PURPLE.escape();
+            case STONE:
+                return Color.ANSI_BRIGHT_BLACK.escape();
+            case FAITHPOINT:
+                return Color.ANSI_RED.escape();
+            default:
+                return Color.RESET;
+        }
+    }
+
+    public String getReset(){
+        return Color.RESET;
     }
 
 }

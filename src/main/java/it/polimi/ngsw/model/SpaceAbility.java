@@ -1,5 +1,7 @@
 package it.polimi.ngsw.model;
 
+import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,7 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
     private final String abilityName = "space";
     private final List<Resource> leaderCardCost;
     private final Resource resourceToIncrease;
+    private ResourcesArt art = new ResourcesArt();
 
     public SpaceAbility(LeaderCard leaderCard, int PV, List<Resource> leaderCardCost, Resource resourceToIncrease) {
         super(leaderCard);
@@ -77,18 +80,54 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         switch(resourceCostList.get(0)){
             case STONE:
                 resourceType = Resource.STONE;
+                break;
             case SLAVE:
                 resourceType = Resource.SLAVE;
+                break;
             case MONEY:
                 resourceType = Resource.MONEY;
+                break;
             case SHIELD:
                 resourceType = Resource.SHIELD;
+                break;
         }
 
         if(resourceType!=Resource.EMPTY){
             return player.getChest().contains(resourceType, resourceNumber) || player.getWarehouse().contains(resourceNumber, resourceType);
         }
         else return false;
+    }
+
+    @Override
+    public String[] getLeaderCardAbilityAsString() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add(art.getColour(this.resourceToIncrease) + "#");
+        stringList.add(" ");
+        stringList.add(art.getColour(this.resourceToIncrease) + "#");
+        return stringList.toArray(new String[0]);
+    }
+
+    @Override
+    public String[] getLeaderCardCostAsString() {
+        List<String> stringList = new ArrayList<>();
+        stringList.add(getResourceArt(leaderCardCost.get(0)));
+        stringList.add("5");
+        return stringList.toArray(new String[0]);
+    }
+
+    private String getResourceArt (Resource resource) {
+        switch (resource){
+            case SLAVE:
+                return art.slave();
+            case STONE:
+                return art.stone();
+            case MONEY:
+                return art.money();
+            case SHIELD:
+                return art.shield();
+            default:
+                return "";
+        }
     }
 
 }

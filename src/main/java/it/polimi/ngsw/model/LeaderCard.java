@@ -10,5 +10,7 @@ public interface LeaderCard extends Serializable {
     String getAbilityName();
     boolean isLeaderCardCostSatisfied(Player player);
     Resource getInputResource();
+    String[] getLeaderCardCostAsString();
+    String[] getLeaderCardAbilityAsString();
 
 }

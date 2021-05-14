@@ -12,7 +12,6 @@ public enum Color {
     ANSI_BRIGHT_BLACK("\033[0;90m"),
     ANSI_PURPLE("\u001B[35m");
 
-
     static final String RESET = "\u001B[0m";
 
     private String escape;

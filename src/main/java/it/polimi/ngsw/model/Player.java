@@ -385,11 +385,9 @@ public class Player extends Observable implements Serializable {
                 }
             }
             productionPower.cleanCoordinates();
-            if(productionPower.isLeaderProductionPower()){
-                productionPower.resetLeaderProductionPower();
-            }
-            if(productionPower.isBaseProductionPower()){
-                productionPower.resetBaseProductionPower();
+            devCardDashboard.getBaseProductionPower().removeBaseProductionPowerLists();
+            for(ProductionPower leaderProductionPower : devCardDashboard.getLeaderProductionPowerList()){
+                leaderProductionPower.resetLeaderProductionPower();
             }
         }
         paidList.clear();

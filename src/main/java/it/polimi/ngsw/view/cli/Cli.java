@@ -991,7 +991,7 @@ public class Cli extends ViewObservable implements View {
 
     public void activateProductionPowers(){
         out.println("Activation...");
-        //notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
+        notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
     }
 
     public void choseProductionPower(){
@@ -1229,7 +1229,7 @@ public class Cli extends ViewObservable implements View {
                     for(ProductionPower leaderProductionPower : leaderProductionPowerList){
                         leaderProductionPower.resetLeaderProductionPower();
                     }
-                    notifyObserver(obs -> obs.onUpdateAskForFaithPath());
+                    //notifyObserver(obs -> obs.onUpdateAskForFaithPath());
                 }
                 else {
                     out.println("Activation FAIL.");

@@ -1727,7 +1727,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void printLeaderCard(List<LeaderCard> leaderCards){
-        int counter = 0;
+        int counter = 1;
         for(LeaderCard leaderCard : leaderCards){
             out.println("        " + counter);
             for(int i=0; i<MAX_VERT_TILES; i++){

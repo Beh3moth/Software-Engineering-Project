@@ -596,8 +596,10 @@ public class Cli extends ViewObservable implements View {
 
     public void askToManageLeaderCards(List<LeaderCard> Leaders, int turnZone) {
         try {
-            if (this.leaderCardStatus[0] == 1) printLeaderCard(Leaders.get(0));
-            if (this.leaderCardStatus[1] == 1) printLeaderCard(Leaders.get(1));
+            List<LeaderCard> leaderCardList = new ArrayList<>();
+            if (this.leaderCardStatus[0] == 1) leaderCardList.add(Leaders.get(0));
+            if (this.leaderCardStatus[1] == 1) leaderCardList.add(Leaders.get(1));
+            printLeaderCard(leaderCardList);
             out.println("\nDo you want to activate one of these leaderCard? 1) YES 0) NO ");
             int chose = numberInput(0, 1, "What? ");
             if (chose == 1) activateLeaderCard(Leaders, turnZone);
@@ -1016,8 +1018,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void leaderProductionPowerChosen(int productionPowerChosen){
-        if(!paidProductionPowerList.contains(activeDevCardList.get(productionPowerChosen-4).getProductionPower())){
-            setLeaderProductionPower(productionPowerList.get(productionPowerChosen));
+        if(!paidProductionPowerList.contains(leaderProductionPowerList.get(productionPowerChosen-4))){
+            setLeaderProductionPower(leaderProductionPowerList.get(productionPowerChosen-4));
         }
         else {
             out.println("You don't have Production Powers to activate.");
@@ -1028,7 +1030,7 @@ public class Cli extends ViewObservable implements View {
     public void chosenDevCardProductionPower(int productionPowerChosen){
         if(!paidProductionPowerList.contains(activeDevCardList.get(productionPowerChosen-1).getProductionPower())){
             List<ProductionPower> productionPower = new ArrayList<>();
-            productionPower.add(productionPowerList.get(productionPowerChosen));
+            productionPower.add(activeDevCardList.get(productionPowerChosen-1).getProductionPower());
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPower, "productionPowerChosen"));
         }
         else {
@@ -1038,7 +1040,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void chosenBaseProductionPower(){
-        if(!paidProductionPowerList.contains(this.baseProductionPower)){
+        if(!paidProductionPowerList.contains(baseProductionPower)){
             setBaseProductionPower();
         }
         else {
@@ -1172,6 +1174,7 @@ public class Cli extends ViewObservable implements View {
                 printResource(resource);
                 out.print(" ");
             }
+            out.println();
             productionPowerCounter++;
 
         }
@@ -1727,17 +1730,39 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void printLeaderCard(List<LeaderCard> leaderCards){
+
+        int col = 10;
+        int rig = 80;
+        int jIterator = 0;
+
+        String leaderCardsTile[][] = new String[col][rig];
+
+        for(int i=0; i<col; i++){
+            for(int j=0; j<rig; j++){
+                leaderCardsTile[i][j] = " ";
+            }
+        }
+
         int counter = 1;
         for(LeaderCard leaderCard : leaderCards){
-            out.println("        " + counter);
-            for(int i=0; i<MAX_VERT_TILES; i++){
-                for(int j=0; j<MAX_HORIZON_TILES; j++){
-                    out.print(getPrintableLeaderCard(leaderCard)[i][j]);
+            leaderCardsTile[0][8+(jIterator*19)] = String.valueOf(counter);
+            String[][] leaderCardTile = getPrintableLeaderCard(leaderCard);
+            for(int i = 0; i < MAX_VERT_TILES; i++) {
+                for (int j = 0; j < MAX_HORIZON_TILES; j++) {
+                    leaderCardsTile[i+1][j+(jIterator*19)] = leaderCardTile[i][j];
                 }
-                out.println();
             }
+            jIterator++;
             counter++;
         }
+
+        for(int i=0; i<col; i++){
+            for(int j=0; j<rig; j++){
+                out.print(leaderCardsTile[i][j]);
+            }
+            out.println();
+        }
+
     }
 
     String[][] leaderCardTiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];

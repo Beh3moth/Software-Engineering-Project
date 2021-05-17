@@ -36,10 +36,9 @@ public class Cli extends ViewObservable implements View {
     private List<Resource> newFirstSpecialShelf;
     private List<Resource> newSecondSpecialShelf;
     private List<Resource> discardList;
-    private List<ProductionPower> leaderProductionPowerList = new ArrayList<>();
-    private List<DevCard> activeDevCardList = new ArrayList<>();
+    private List<ProductionPower> leaderProductionPowerList;
+    private List<DevCard> activeDevCardList;
     private ProductionPower baseProductionPower;
-    private List<ProductionPower> productionPowerList = new ArrayList<>(); //to delete
     private DevCard[][] devCardMarket;
     private DevCardColour devCardColour;
     private Resource firstShelf;
@@ -288,7 +287,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest) {
         out.println("\n\n It's your turn! \n\n");
         this.singleMarble = singleMarble;
         this.firstRow = firstRow;
@@ -297,7 +296,6 @@ public class Cli extends ViewObservable implements View {
         this.devCardMarket = devCardMarket;
         this.leaderProductionPowerList = leaderProductionPowerList;
         this.activeDevCardList = activeDevCardList;
-        this.productionPowerList = productionPowerList;
         this.firstShelf = firstShelf;
         this.secondShelf =secondShelf;
         this.secondShelfNumber = secondShelfNumber;
@@ -456,12 +454,18 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printWarehouse() {
-        out.println(""); out.println("Warehouse");
+        out.println();
+        out.println("Warehouse");
         out.println("First shelf " + this.newFirstShelf.toString());
         out.println("Second shelf " + this.newSecondShelf.toString());
-        out.println("Third shelf " + this.newThirdShelf.toString());out.println("");
-        out.println("First Special shelf " + this.newFirstSpecialShelf.toString());
-        out.println("Second Special shelf " + this.newSecondSpecialShelf.toString());out.println("");
+        out.println("Third shelf " + this.newThirdShelf.toString());
+        out.println();
+        if(this.newFirstShelf!=null){
+            out.println("First Special shelf " + this.newFirstSpecialShelf.toString());
+        }
+        if(this.newSecondShelf!=null){
+            out.println("Second Special shelf " + this.newSecondSpecialShelf.toString());
+        }
     }
 
     private boolean controllFloor(int chose, Resource resource, Resource firstFloor, Resource secondFloor) {
@@ -988,6 +992,7 @@ public class Cli extends ViewObservable implements View {
         else if (choseAction == 1) {
             activateProductionPowers();
         }
+        notifyObserver(obs -> obs.onUpdateAskForFaithPath());
 
     }
 
@@ -1145,9 +1150,8 @@ public class Cli extends ViewObservable implements View {
             case 3:
                 return Resource.SHIELD;
             default :
-                break;
+                return null;
         }
-        return null;
     }
 
     public void printPaidProductionPowerList(List<ProductionPower> list){
@@ -1232,7 +1236,6 @@ public class Cli extends ViewObservable implements View {
                     for(ProductionPower leaderProductionPower : leaderProductionPowerList){
                         leaderProductionPower.resetLeaderProductionPower();
                     }
-                    //notifyObserver(obs -> obs.onUpdateAskForFaithPath());
                 }
                 else {
                     out.println("Activation FAIL.");
@@ -1631,7 +1634,6 @@ public class Cli extends ViewObservable implements View {
         out.println("Papal Card One: " + papalCardOne);
         out.println("Papal Card Two: " + papalCardTwo);
         out.println("Papal Card Three: " + papalCardThree);
-
     }
 
     private void printPlayerDashBoard(){
@@ -1646,23 +1648,27 @@ public class Cli extends ViewObservable implements View {
         out.println();
         out.println("Base Production Power");
         out.print("0 - ");
-        if(baseProductionPower.getResourceToPay()==null){
-            out.print("?");
-        }
-        else {
+
+        if(baseProductionPower.getResourceToPay()!=null){
             for(Resource resource : baseProductionPower.getResourceToPay()){
                 printResource(resource);
             }
         }
-        out.print(" -> ");
-        if(baseProductionPower.getResourceToReceive()==null){
-            out.print("?");
-        }
         else {
+            out.print("? + ?");
+        }
+
+        out.print(" -> ");
+
+        if(baseProductionPower.getResourceToReceive()!=null){
             for(Resource resource : baseProductionPower.getResourceToReceive()){
                 printResource(resource);
             }
         }
+        else {
+            out.print("?");
+        }
+
     }
 
     private void printPlayerDevCards(){

@@ -767,7 +767,6 @@ public class GameController implements Observer, Serializable {
     //Faith path
 
     public void askForFaithPath(AskForFaithPathMessage receivedMessage){
-
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
         int crossPosition = player.getFaithPath().getCrossPosition();
@@ -776,7 +775,6 @@ public class GameController implements Observer, Serializable {
         boolean papalCardTwo = player.getFaithPath().getPapalCardTwo();
         boolean papalCardThree = player.getFaithPath().getPapalCardThree();
         virtualView.faithPathResponse(crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
-
     }
 
 }

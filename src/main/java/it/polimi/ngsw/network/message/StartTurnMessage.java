@@ -15,7 +15,6 @@ public class StartTurnMessage extends Message{
     private Marble[] thirdRow;
     private List<ProductionPower> leaderProductionPowerList;
     private List<DevCard> activeDevCardList;
-    private List<ProductionPower> productionPowerList;
     private ProductionPower baseProductionPower;
     private DevCard[][] devCardMarket;
     private Resource firstShelf;
@@ -25,7 +24,7 @@ public class StartTurnMessage extends Message{
     private int thirdShelfNumber;
     private Map<Resource, Integer> chest;
 
-    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, List<ProductionPower> productionPowerList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest) {
+    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest) {
         super(nickname, MessageType.START_TURN);
         this.leaderCards = Leaders;
         this.singleMarble = singleMarble;
@@ -34,7 +33,6 @@ public class StartTurnMessage extends Message{
         this.thirdRow = thirdRow;
         this.leaderProductionPowerList = leaderProductionPowerList;
         this.activeDevCardList = activeDevCardList;
-        this.productionPowerList = productionPowerList;
         this.baseProductionPower = baseProductionPower;
         this.devCardMarket = devCardMarket;
         this.firstShelf = firstShelf;
@@ -76,10 +74,6 @@ public class StartTurnMessage extends Message{
 
     public List<DevCard> getActiveDevCardList() {
         return activeDevCardList;
-    }
-
-    public List<ProductionPower> getProductionPowerList() {
-        return productionPowerList;
     }
 
     public DevCard[][] getDevCardMarket() {

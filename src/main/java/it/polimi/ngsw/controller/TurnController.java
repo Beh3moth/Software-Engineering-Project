@@ -102,7 +102,7 @@ public class TurnController implements Serializable {
         Resource thirdShelf = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(3).getResourceType();
         int thirdShelfNumber = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(3).getResourceNumber();
         Map<Resource, Integer> chest = game.getPlayerByNickname(getActivePlayer()).getChest().getResourcesAsMap();
-        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, productionPowerList, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest);
+        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest);
 
     }
     /**

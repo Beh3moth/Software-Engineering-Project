@@ -172,7 +172,8 @@ public class Warehouse {
                 return firstLeaderLevel;
             case 5:
                 return secondLeaderLevel;
-            default: return null;
+            default:
+                return null;
         }
     }
 

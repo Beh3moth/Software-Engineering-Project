@@ -620,10 +620,14 @@ public class GameController implements Observer, Serializable {
     public void activateProductionPowers(ActivateProductionPowersMessage message){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(message.getNickname());
+        this.broadcastGenericMessage("The player activated his Production Powers:", message.getNickname());
+        for(ProductionPower productionPower : player.getPaidList()){
+            this.broadcastGenericMessage(productionPower.getResourceToPay().toString() + " -> " + productionPower.getResourceToReceive().toString(), message.getNickname());
+        }
         List<LeaderCard> Leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
         boolean success = player.activateProductionPowers();
         virtualView.productionPowerResponse(success, "activation", null);
-        this.broadcastGenericMessage("The player activated the production powers", message.getNickname());
+
         if(this.isGameEnded == true){
             this.remainingTurn--; //abbassa i turni rimanenti di uno
             if(this.remainingTurn == 0){

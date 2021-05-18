@@ -298,7 +298,9 @@ public class GameController implements Observer, Serializable {
 
     private void continueGame(){
         if(game.getChosenPlayersNumber()==1){
-            broadcastGenericMessage("\nLeaderTurn");
+            broadcastGenericMessage("\nLawrence Turn");
+            broadcastGenericMessage(game.drawActionToken());
+            broadcastGenericMessage("Lawrence cross position: " + String.valueOf(game.getLawrenceFaithPath().getCrossPosition()));
         }
         turnController.next();
         turnController.newTurn();

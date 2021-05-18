@@ -338,17 +338,21 @@ public class Game extends Observable implements FaithPathListener {
 
     /**
      * The method puts the first element of the deque at the end of it. Then it activates the last token's effect.
-     * @return true if successful.
+     * @return a string with the action executed.
      */
-    public boolean drawActionToken(){
+    public String drawActionToken(){
         ActionToken tempActionToken = actionTokensDeque.pollFirst();
         actionTokensDeque.addLast(tempActionToken);
         actionTokensDeque.getLast().applyToken(lawrenceFaithPath, board, this);
-        return true;
+        return actionTokensDeque.getLast().getActionTokenName();
     }
 
 
     //Vatican Report management
+
+    public FaithPath getLawrenceFaithPath(){
+        return lawrenceFaithPath;
+    }
 
     /**
      * The method makes the class Game listener of a player FaithPath.

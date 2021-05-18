@@ -2,7 +2,7 @@ package it.polimi.ngsw.model;
 
 public class Move implements ActionToken {
 
-    private final String ActionTokenName = "Move";
+    private final String ActionTokenName = "Lawrence The Magnificent proceeded in the Faith Path.";
 
     /**
      * The method activate an action token that increase Lawrence's cross position of two.

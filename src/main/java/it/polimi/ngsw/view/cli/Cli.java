@@ -671,7 +671,6 @@ public class Cli extends ViewObservable implements View {
             printDevCardMarket();
             printMarket();
             printPlayerDashBoard();
-            printStartTurnWarehouse();
             out.println("\nChose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers 5) Visualize other Player Dashboard");
             int chose = numberInput(1, 5, "Which move? ");
             if (chose == 1) {notifyObserver(obs -> obs.onUpdateReorderWarehouse(true));}
@@ -679,6 +678,7 @@ public class Cli extends ViewObservable implements View {
             else if (chose == 3)chooseDevCard();
             else if (chose == 4)productionPowerMove();
             else if (chose == 5)watchOtherPlayerInfo();
+            //notifyObserver(obs -> obs.onUpdateAskForFaithPath());
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
@@ -992,7 +992,6 @@ public class Cli extends ViewObservable implements View {
         else if (choseAction == 1) {
             activateProductionPowers();
         }
-        notifyObserver(obs -> obs.onUpdateAskForFaithPath());
 
     }
 
@@ -1637,7 +1636,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printPlayerDashBoard(){
-        //printWarehouse();
+        printStartTurnWarehouse();
         printChest();
         printBaseProductionPower();
         printPlayerDevCards();

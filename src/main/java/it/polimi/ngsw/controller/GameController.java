@@ -106,17 +106,22 @@ public class GameController implements Observer, Serializable {
             game.addPlayer(new Player(nickname));
             virtualView.showLoginResult(true, true, Game.SERVER_NICKNAME);
             virtualView.askPlayersNumber();
-        } else if (virtualViewMap.size() < game.getChosenPlayersNumber()) {
+        } else if (virtualViewMap.size() < game.getChosenPlayersNumber() && game.getChosenPlayersNumber() > 1) {
             addVirtualView(nickname, virtualView);
             game.addPlayer(new Player(nickname));
             virtualView.showLoginResult(true, true, Game.SERVER_NICKNAME);
-
             if (game.getNumCurrentPlayers() == game.getChosenPlayersNumber()) { // If all players logged
                     initGame();
             }
-        } else {
-            virtualView.showLoginResult(true, false, Game.SERVER_NICKNAME);
         }
+
+    }
+
+    private void initSoloGame(){
+        setGameState(GameState.INIT);
+        turnController = new TurnController(virtualViewMap, this);
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
     }
 
 
@@ -134,8 +139,8 @@ public class GameController implements Observer, Serializable {
         //for(int i = 0; i < game.getChosenPlayersNumber(); i++) {
         this.contSituation++;
         virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
-            //turnController.next();
-           // virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        //turnController.next();
+        // virtualView = virtualViewMap.get(turnController.getActivePlayer());
         //}
         //turnController.next();
         //virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -155,7 +160,7 @@ public class GameController implements Observer, Serializable {
                 loginState(receivedMessage);
                 break;
             case INIT:
-                    initState(receivedMessage, virtualView);
+                initState(receivedMessage, virtualView);
                 break;
             case IN_GAME:
                 if (inputController.checkUser(receivedMessage)) {
@@ -175,8 +180,17 @@ public class GameController implements Observer, Serializable {
      */
     private void loginState(Message receivedMessage) {
         if (receivedMessage.getMessageType() == PLAYERNUMBER_REPLY) {
-                game.setChosenMaxPlayers(((PlayerNumberReply) receivedMessage).getPlayerNumber());
+            game.setChosenMaxPlayers(((PlayerNumberReply) receivedMessage).getPlayerNumber());
+            if(((PlayerNumberReply) receivedMessage).getPlayerNumber()>1){
                 broadcastGenericMessage("Waiting for other Players . . .");
+            }
+            else if (((PlayerNumberReply) receivedMessage).getPlayerNumber()==1){
+                broadcastGenericMessage("Solo mode.");
+            }
+            if(game.getChosenPlayersNumber()==1) {
+                game.initLawrenceFaithPath();
+                initSoloGame();
+            }
         } else {
             Server.LOGGER.warning("Wrong message received from client.");
         }
@@ -212,14 +226,17 @@ public class GameController implements Observer, Serializable {
         turnController.next();
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         this.contSituation++; // parte da 1, passa a 2 e chiede al secondo le leadercard, diventa tre e chiede al terzo
-        if(contSituation <= game.getChosenPlayersNumber()){
+        if(contSituation <= game.getChosenPlayersNumber() && game.getChosenPlayersNumber() > 1){
             virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
         }
-        if(contSituation == game.getChosenPlayersNumber() + 1){
+        if(contSituation == game.getChosenPlayersNumber() + 1 && game.getChosenPlayersNumber() > 1){
             this.contSituation = 0;
             virtualView.askFirstPlayer(turnController.getNicknameQueue());
         }
-    };
+        else if(game.getChosenPlayersNumber() == 1){
+            startGame();
+        }
+    }
 
     /**
      * Handles the Challenger's choice for the first player.
@@ -280,6 +297,9 @@ public class GameController implements Observer, Serializable {
     }
 
     private void continueGame(){
+        if(game.getChosenPlayersNumber()==1){
+            broadcastGenericMessage("\nLeaderTurn");
+        }
         turnController.next();
         turnController.newTurn();
     }
@@ -601,6 +621,7 @@ public class GameController implements Observer, Serializable {
         List<LeaderCard> Leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
         boolean success = player.activateProductionPowers();
         virtualView.productionPowerResponse(success, "activation", null);
+        this.broadcastGenericMessage("The player activated the production powers", message.getNickname());
         if(this.isGameEnded == true){
             this.remainingTurn--; //abbassa i turni rimanenti di uno
             if(this.remainingTurn == 0){

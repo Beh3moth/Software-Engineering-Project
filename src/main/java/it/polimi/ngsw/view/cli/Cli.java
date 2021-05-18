@@ -184,7 +184,7 @@ public class Cli extends ViewObservable implements View {
         int IdChoosenTwo;
         if (LeaderCards.size() == 4) {
             List<LeaderCard> chosenCard = new ArrayList<>();
-            out.println("\n\nSelect two Leader Cards from the list.");
+            out.println("\n\nSelect two Leader Cards from the list.\n");
             printLeaderCard(LeaderCards);
             try {
                 out.println("\n\nPlease, enter one ID confirm with ENTER.");

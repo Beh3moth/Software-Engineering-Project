@@ -3,7 +3,7 @@ package it.polimi.ngsw.model;
 public class DiscardDevCard implements ActionToken {
 
     DevCardColour devCardColour;
-    private final String ActionTokenName = "DiscardDevCard";
+    private final String ActionTokenName = "Lawrence The Magnificent discarded a Development Card";
 
     public DiscardDevCard(DevCardColour devCardColour){
         this.devCardColour = devCardColour;

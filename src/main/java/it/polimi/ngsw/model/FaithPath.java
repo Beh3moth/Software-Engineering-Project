@@ -23,13 +23,17 @@ public class FaithPath {
     }
 
     /**
-     *  Increase crossPosition of one.
+     *  Increase crossPosition of one checking the Vatican Report.
      */
     public void increaseCrossPosition(){
         crossPosition++;
         events.notify(crossPosition);
     }
 
+    /**
+     * The method increases the cross position without checking the Vatican Report.
+     * @param increase is the integer to increase.
+     */
     public void increaseCrossPosition(int increase){
         crossPosition += increase;
     }

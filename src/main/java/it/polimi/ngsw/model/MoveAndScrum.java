@@ -2,7 +2,7 @@ package it.polimi.ngsw.model;
 
 public class MoveAndScrum implements ActionToken {
 
-    private final String ActionTokenName = "MoveAndScrum";
+    private final String ActionTokenName = "Lawrence The Magnificent proceeded in the Faith Path and he shuffled the Action Tokens' deck";
 
     /**
      * The method increases the Lawrence's cross position of a single unit.

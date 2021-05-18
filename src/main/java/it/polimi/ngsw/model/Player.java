@@ -391,7 +391,7 @@ public class Player extends Observable implements Serializable {
                 leaderProductionPower.resetLeaderProductionPower();
             }
         }
-        devCardDashboard.getBaseProductionPower().removeBaseProductionPowerLists();
+        devCardDashboard.getBaseProductionPower().resetBaseProductionPower();
         paidList.clear();
         abilityList.clear();
         return true;

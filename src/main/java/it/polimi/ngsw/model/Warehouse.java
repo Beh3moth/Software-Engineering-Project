@@ -355,7 +355,8 @@ public class Warehouse {
     public boolean canBuy(Resource[] resources, Boolean[] warehouse, Integer[] level){
 
         for(int i = 0; i < level.length; i++){
-            if(getShelf(level[i]).getResourceType() != resources[i] )return false;
+            if(warehouse[i] == true){
+            if(getShelf(level[i]).getResourceType() != resources[i] )return false;}
         }
 
             if (!controlResource(level))return false;

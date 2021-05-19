@@ -764,7 +764,9 @@ public class GameController implements Observer, Serializable {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player = game.getPlayerByNickname(receivedMessage.getNickname());
         devCardChosen = player.chooseDevCard(game.getBoard(), receivedMessage.getLevel(), receivedMessage.getDevCardColour(), receivedMessage.getSlotToPut());
-        virtualView.devCard(devCardChosen, receivedMessage.getSlotToPut());
+        Resource discountPowerOne = player.getDiscountPowerOne();
+        Resource discountPowerTwo = player.getDiscountPowerTwo();
+        virtualView.devCard(devCardChosen, receivedMessage.getSlotToPut(), discountPowerOne, discountPowerTwo);
 
     }
 
@@ -777,7 +779,10 @@ public class GameController implements Observer, Serializable {
 
         boolean success = player.buyDevCard(receivedMessage.getDevCard(), receivedMessage.getResourceType(),receivedMessage.getIsWarehouse(), receivedMessage.getShelfLevel(), receivedMessage.getSlotToPut());
 
-        virtualView.devCardResponse(success, "payDevCard", receivedMessage.getDevCard(), receivedMessage.getSlotToPut());
+        virtualView.devCardResponse(success, "payDevCard", receivedMessage.getDevCard(), receivedMessage.getSlotToPut(), receivedMessage.getDiscountPowerOne(), receivedMessage.getDiscountPowerTwo());
+
+        String string = "the player bought a devCard: level : " + receivedMessage.getDevCard().getDevLevel() + "colour : " + receivedMessage.getDevCard().getCardColour();
+        this.broadcastGenericMessage(string, receivedMessage.getNickname());
 
         if(success) {
             if(this.isGameEnded == true){

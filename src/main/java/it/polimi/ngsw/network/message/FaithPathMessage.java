@@ -37,4 +37,9 @@ public class FaithPathMessage extends Message {
         return papalCardThree;
     }
 
+    @Override
+    public String toString() {
+        return "return the gaithpath of the player" + getNickname();
+    }
+
 }

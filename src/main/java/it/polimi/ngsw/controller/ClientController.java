@@ -204,8 +204,8 @@ public class ClientController implements ViewObserver, Observer{
     }
 
     @Override
-    public void onUpdatePayDevCard(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, DevCard devCard, int slotToPut) {
-        client.sendMessage(new DevCardCoordinatesMessage (this.nickname, isWarehouse, shelfLevel, resourceType, devCard, slotToPut));
+    public void onUpdatePayDevCard(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo) {
+        client.sendMessage(new DevCardCoordinatesMessage (this.nickname, isWarehouse, shelfLevel, resourceType, devCard, slotToPut, discountPowerOne, discountPowerTwo));
     }
 
     @Override
@@ -291,11 +291,11 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case DEVCARD_RESPONSE_MESSAGE:
                 DevCardResponseMessage devCardResponse = (DevCardResponseMessage) message;
-                taskQueue.execute(() -> view.devCardResponse(devCardResponse.isResponse(), devCardResponse.getAction(), devCardResponse.getDevCard(), devCardResponse.getSlotToPut()));
+                taskQueue.execute(() -> view.devCardResponse(devCardResponse.isResponse(), devCardResponse.getAction(), devCardResponse.getDevCard(), devCardResponse.getSlotToPut(), devCardResponse.getDiscountPowerOne(), devCardResponse.getDiscountPowerTwo()));
                 break;
             case DEVCARD:
                 DevCardMessage devCardMessage = (DevCardMessage) message;
-                taskQueue.execute(() -> view.devCard(devCardMessage.getDevCard(), devCardMessage.getSlotToPut()));
+                taskQueue.execute(() -> view.devCard(devCardMessage.getDevCard(), devCardMessage.getSlotToPut(), devCardMessage.getDiscountPowerOne(), devCardMessage.getDiscountPowerTwo()));
                 break;
             case WATCH_OTHER_PLAYER:
                 WatchOtherPlayerInfoMessage Message = (WatchOtherPlayerInfoMessage) message;

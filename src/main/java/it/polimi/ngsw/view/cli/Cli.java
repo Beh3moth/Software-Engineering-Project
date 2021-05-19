@@ -1,6 +1,5 @@
 package it.polimi.ngsw.view.cli;
 
-
 import it.polimi.ngsw.controller.ClientController;
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
@@ -1247,24 +1246,24 @@ public class Cli extends ViewObservable implements View {
 
     //devCard
     @Override
-    public void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut) {
+    public void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo) {
         if(response){
             out.println("Successfully buy the development card.");
         }
         else{
             out.println("you can't pay like you said, try again");
-            payDevCard(devCard, slotToPut);
+            payDevCard(devCard, slotToPut, discountPowerOne, discountPowerTwo);
         }
     }
 
     @Override
-    public void devCard(DevCard devCard, int slotToPut){
+    public void devCard(DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo){
         if(devCard == null){
             out.println("Wrong input");
             mainMove();
         }
         else{
-                payDevCard(devCard, slotToPut);
+                payDevCard(devCard, slotToPut, discountPowerOne, discountPowerTwo);
         }
     }
 
@@ -1355,7 +1354,7 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
-    public void payDevCard(DevCard devCard, int slotToPut){
+    public void payDevCard(DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo){
 
         int nResource;
         out.println("Pay the DevCard chosen.");
@@ -1374,7 +1373,11 @@ public class Cli extends ViewObservable implements View {
         List<Integer> shelfLevel = new ArrayList<>();
         List<Resource> resourceType = new ArrayList<>();
 
-        for(Resource resource : devCard.getResourceToPay()){
+        List<Resource> l = devCard.getResourceToPay();
+        if(discountPowerOne != Resource.EMPTY)l.remove(discountPowerOne);
+        if(discountPowerTwo != Resource.EMPTY)l.remove(discountPowerTwo);
+
+        for(Resource resource : l){
 
             out.print("What deposit do you want to pay for the resource ");
             printResource(resource);
@@ -1414,10 +1417,10 @@ public class Cli extends ViewObservable implements View {
 
         }
 
-        notifyObserver(obs -> obs.onUpdatePayDevCard(isWarehouse.toArray(new Boolean[0]), shelfLevel.toArray(new Integer[0]), resourceType.toArray(new Resource[0]), devCard, slotToPut));
-
+        notifyObserver(obs -> obs.onUpdatePayDevCard(isWarehouse.toArray(new Boolean[0]), shelfLevel.toArray(new Integer[0]), resourceType.toArray(new Resource[0]), devCard, slotToPut, discountPowerOne, discountPowerTwo));
 
     }
+
 
     public void chooseDevCard(){
         int level = 0;

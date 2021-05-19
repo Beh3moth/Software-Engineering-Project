@@ -15,4 +15,9 @@ public class ResourceMessage extends  Message {
         return resource;
     }
 
+    @Override
+    public String toString() {
+        return "send the resource of the warehouse";
+    }
+
 }

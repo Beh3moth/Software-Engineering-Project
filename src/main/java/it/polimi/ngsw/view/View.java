@@ -98,9 +98,9 @@ public interface View {
 
     void productionPowerResponse(boolean response, String action, ProductionPower baseProductionPower);
 
-    void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut);
+    void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo);
 
-    void devCard(DevCard devCard, int slotToPut);
+    void devCard(DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo);
 
     void viewOtherPlayer(String otherPlayer, Boolean goneRight, int crossPosition, Map<Resource, Integer> resourcesAsMap, List<DevCard> activeDevCards, int[] shelfResNumber, Resource[] shelfResType);
 

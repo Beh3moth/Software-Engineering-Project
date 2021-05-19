@@ -43,11 +43,6 @@ public class StartTurnMessage extends Message{
         this.chest = chest;
     }
 
-    @Override
-    public String toString() {
-        return " Turn starter ";
-    }
-
     public List<LeaderCard> getLeaders(){
         return this.leaderCards;
     }
@@ -96,6 +91,11 @@ public class StartTurnMessage extends Message{
 
     public Map<Resource, Integer> getChest() {
         return chest;
+    }
+
+    @Override
+    public String toString() {
+        return " Turn starter ";
     }
 
 }

@@ -134,17 +134,9 @@ public class GameController implements Observer, Serializable {
         turnController = new TurnController(virtualViewMap, this);
         broadcastGenericMessage("All Players are connected. " + turnController.getActivePlayer()
                 + " is choosing two leadercards ");
-
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        //for(int i = 0; i < game.getChosenPlayersNumber(); i++) {
         this.contSituation++;
         virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
-        //turnController.next();
-        // virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        //}
-        //turnController.next();
-        //virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        //virtualView.askFirstPlayer(turnController.getNicknameQueue());
     }
 
     /**
@@ -227,10 +219,14 @@ public class GameController implements Observer, Serializable {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         this.contSituation++; // parte da 1, passa a 2 e chiede al secondo le leadercard, diventa tre e chiede al terzo
         if(contSituation <= game.getChosenPlayersNumber() && game.getChosenPlayersNumber() > 1){
+            broadcastGenericMessage(turnController.getActivePlayer()
+                    + " is choosing two leadercards \n");
             virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
         }
         if(contSituation == game.getChosenPlayersNumber() + 1 && game.getChosenPlayersNumber() > 1){
             this.contSituation = 0;
+            broadcastGenericMessage(turnController.getActivePlayer()
+                    + " is choosing the first player that will start \n");
             virtualView.askFirstPlayer(turnController.getNicknameQueue());
         }
         else if(game.getChosenPlayersNumber() == 1){
@@ -250,13 +246,14 @@ public class GameController implements Observer, Serializable {
                 this.firstPlayerPosition = i+1; //questo prende la posizione del primo giocatore
             }
         }
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " ", turnController.getActivePlayer());
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is the first player", turnController.getActivePlayer());
         VirtualView virtualView;
         this.contSituation = 0;
         contSituation++; // va a 1
         if(game.getChosenPlayersNumber() > 1){
             contSituation++; // va a 2
             turnController.next();
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is chosing his initial resources", turnController.getActivePlayer());
             virtualView = virtualViewMap.get(turnController.getActivePlayer());
             virtualView.distribuiteInitialResources(1);
         }// caso multiplayer
@@ -274,10 +271,12 @@ public class GameController implements Observer, Serializable {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         this.contSituation++;
         if(this.contSituation <= game.getChosenPlayersNumber() && this.contSituation == 3){
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is chosing his initial resources", turnController.getActivePlayer());
             virtualView.distribuiteInitialResources(1);
             game.getPlayerByNickname(turnController.getActivePlayer()).getFaithPath().increaseCrossPosition();
         }
         else if(contSituation == game.getChosenPlayersNumber() && contSituation == 4){
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is chosing his initial resources", turnController.getActivePlayer());
             virtualView.distribuiteInitialResources(2);
             game.getPlayerByNickname(turnController.getActivePlayer()).getFaithPath().increaseCrossPosition();
         }
@@ -287,7 +286,7 @@ public class GameController implements Observer, Serializable {
         }
     }
     /**
-     * Initializes the game after all Clients are connected and all Gods, Workers and Colors are setted up.
+     *
      */
     private void startGame() {
         setGameState(GameState.IN_GAME);
@@ -392,7 +391,6 @@ public class GameController implements Observer, Serializable {
                 NameWinner = turnController.getNicknameQueue().get(i);
             }
         }
-
         broadcastGenericMessage("The winner is : " + NameWinner + " with " + PVwinner + " PV ");
         Game.resetInstance();
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
@@ -422,10 +420,12 @@ public class GameController implements Observer, Serializable {
 
     private void newWarehouse(Message receivedMessage) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has formed his new warehouse ", turnController.getActivePlayer());
         if(((NewWarehouseMessage) receivedMessage).getDiscardList() != null) {
             for (int i = 0; i < ((NewWarehouseMessage) receivedMessage).getDiscardList().size(); i++) {
                 game.increaseOtherFaithPoints(game.getPlayerByNickname(turnController.getActivePlayer()), 1);
             }
+            broadcastGenericMessage("You received " + ((NewWarehouseMessage) receivedMessage).getDiscardList().size() + " faith point", turnController.getActivePlayer());
         }
         game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstShelf(((NewWarehouseMessage) receivedMessage).getNewFirstShelf());
 
@@ -498,6 +498,7 @@ public class GameController implements Observer, Serializable {
 
     private void reorderWarehouseGetter(Message receivedMessage) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is reordering his warehouse", turnController.getActivePlayer());
         game.getPlayerByNickname(receivedMessage.getNickname()).getWarehouse().removeAllStock();
         virtualView.reorderWarehouse(game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getResourcesAsMap(), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(1), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(2), ((ReorderWarehouseMessage) receivedMessage).getIsIndependent());
     }
@@ -505,8 +506,14 @@ public class GameController implements Observer, Serializable {
     public void activateLeaderCard(Message received){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         if(game.getPlayerByNickname(turnController.getActivePlayer()).activeLeaderCard(((LeaderCardActivationMessage) received).getCardChosen()) == true){
-            if(((LeaderCardActivationMessage) received).getTurnZone() == 1)virtualView.continueTurn(1,1,1, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //inizio turno, tipo leadercard, andato a segno
-            else if(((LeaderCardActivationMessage) received).getTurnZone() == 2)virtualView.continueTurn(2,1,1, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //fine turno, tipo leadercard, andato a segno
+            if(((LeaderCardActivationMessage) received).getTurnZone() == 1){
+                broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has activated a leadercard", turnController.getActivePlayer());
+                virtualView.continueTurn(1,1,1, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //inizio turno, tipo leadercard, andato a segno
+            }
+            else if(((LeaderCardActivationMessage) received).getTurnZone() == 2){
+                broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has activated a leadercard", turnController.getActivePlayer());
+                virtualView.continueTurn(2,1,1, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //fine turno, tipo leadercard, andato a segno
+            }
         }
         else{
             if(((LeaderCardActivationMessage) received).getTurnZone() == 1)virtualView.continueTurn(1,1,0, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //inizio turno, tipo leadercard, non andato a segno
@@ -516,6 +523,7 @@ public class GameController implements Observer, Serializable {
 
     public void discardCard(Message received){
         game.getPlayerByNickname(received.getNickname()).getFaithPath().increaseCrossPosition();
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has discarded a leadercard, he gained a faith point", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         virtualView.continueTurn(((DiscardLeaderMessage) received).getTurnZone(),2,1, ((DiscardLeaderMessage) received).getCardChosen(), null);
     }
@@ -524,6 +532,7 @@ public class GameController implements Observer, Serializable {
         Player activePlayer = game.getPlayerByNickname(received.getNickname());
         game.buyFromMarket(((BuyFromMarketMessage) received).getRowOrColumn(),((BuyFromMarketMessage) received).getWichOne(), activePlayer);
         game.manageWhiteResources(activePlayer);
+        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has bought from the market and now is managing his resources", turnController.getActivePlayer());
         VirtualView virtualView = virtualViewMap.get(received.getNickname()); //arrivo che ho una lista di risorse (anche white) nello stock, prima cosa è dare valore a tutte,
         virtualView.buyMarketResource(game.getPlayerByNickname(received.getNickname()).getWarehouse().getWarehouseStock(),game.getPlayerByNickname(received.getNickname()).getWhiteMarblePowerOne(), game.getPlayerByNickname(received.getNickname()).getWhiteMarblePowerTwo() );
     }
@@ -607,7 +616,7 @@ public class GameController implements Observer, Serializable {
                 Server.LOGGER.warning(errMsg.getError());
                 break;
             default:
-                Server.LOGGER.warning("Invalid effect request!");
+                Server.LOGGER.warning("Invalid!");
                 break;
         }
 

@@ -184,7 +184,7 @@ public class Cli extends ViewObservable implements View {
         int IdChoosenTwo;
         if (LeaderCards.size() == 4) {
             List<LeaderCard> chosenCard = new ArrayList<>();
-            out.println("\n\nSelect two Leader Cards from the list.");
+            out.println("\n\nSelect two Leader Cards from the list.\n");
             printLeaderCard(LeaderCards);
             try {
                 out.println("\n\nPlease, enter one ID confirm with ENTER.");
@@ -639,6 +639,7 @@ public class Cli extends ViewObservable implements View {
             if (this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1) {
                 out.println("Wich one of the above cards? Type 1 to pick the first one, 2 to pick the second one");
                 int chose = numberInput(1, 2, "Which? ");
+                out.println("You received 1 faith point \n");
                 notifyObserver(obs -> obs.onUpdateDiscardCard(chose - 1, turnZone));
             } else if (this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
                 notifyObserver(obs -> obs.onUpdateDiscardCard(1, turnZone));

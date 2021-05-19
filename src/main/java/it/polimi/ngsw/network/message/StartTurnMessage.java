@@ -23,8 +23,13 @@ public class StartTurnMessage extends Message{
     private Resource thirdShelf;
     private int thirdShelfNumber;
     private Map<Resource, Integer> chest;
+    private int crossPosition;
+    private int victoryPoints;
+    private boolean papalCardOne;
+    private boolean papalCardTwo;
+    private boolean papalCardThree;
 
-    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest) {
+    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
         super(nickname, MessageType.START_TURN);
         this.leaderCards = Leaders;
         this.singleMarble = singleMarble;
@@ -41,6 +46,11 @@ public class StartTurnMessage extends Message{
         this.thirdShelf = thirdShelf;
         this.thirdShelfNumber = thirdShelfNumber;
         this.chest = chest;
+        this.crossPosition = crossPosition;
+        this.victoryPoints = victoryPoints;
+        this.papalCardOne = papalCardOne;
+        this.papalCardTwo = papalCardTwo;
+        this.papalCardThree = papalCardThree;
     }
 
     public List<LeaderCard> getLeaders(){
@@ -98,4 +108,23 @@ public class StartTurnMessage extends Message{
         return " Turn starter ";
     }
 
+    public int getCrossPosition() {
+        return crossPosition;
+    }
+
+    public int getVictoryPoints() {
+        return victoryPoints;
+    }
+
+    public boolean isPapalCardOne() {
+        return papalCardOne;
+    }
+
+    public boolean isPapalCardTwo() {
+        return papalCardTwo;
+    }
+
+    public boolean isPapalCardThree() {
+        return papalCardThree;
+    }
 }

@@ -102,7 +102,12 @@ public class TurnController implements Serializable {
         Resource thirdShelf = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(3).getResourceType();
         int thirdShelfNumber = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(3).getResourceNumber();
         Map<Resource, Integer> chest = game.getPlayerByNickname(getActivePlayer()).getChest().getResourcesAsMap();
-        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest);
+        int crossPosition = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getCrossPosition();
+        int victoryPoints = game.getPlayerByNickname(getActivePlayer()).getPV();
+        boolean papalCardOne = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardOne();
+        boolean papalCardTwo = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardTwo();
+        boolean papalCardThree = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardThree();
+        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
 
     }
     /**

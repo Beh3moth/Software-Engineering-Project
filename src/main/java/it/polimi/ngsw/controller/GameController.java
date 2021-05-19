@@ -505,7 +505,7 @@ public class GameController implements Observer, Serializable {
 
     public void activateLeaderCard(Message received){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
-        if(game.getPlayerByNickname(turnController.getActivePlayer()).activeLeaderCard(((LeaderCardActivationMessage) received).getCardChosen()) == true){
+        if(game.getPlayerByNickname(turnController.getActivePlayer()).activeLeaderCard(((LeaderCardActivationMessage) received).getCardChosen())){
             if(((LeaderCardActivationMessage) received).getTurnZone() == 1){
                 broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has activated a leadercard", turnController.getActivePlayer());
                 virtualView.continueTurn(1,1,1, ((LeaderCardActivationMessage) received).getCardChosen(), game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards());   //inizio turno, tipo leadercard, andato a segno

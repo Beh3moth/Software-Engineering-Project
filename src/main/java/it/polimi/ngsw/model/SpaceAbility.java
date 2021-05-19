@@ -93,7 +93,7 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         }
 
         if(resourceType!=Resource.EMPTY){
-            return player.getChest().contains(resourceType, resourceNumber) || player.getWarehouse().contains(resourceNumber, resourceType);
+            return ( player.getChest().contains(resourceType, resourceNumber) || player.getWarehouse().contains(resourceNumber, resourceType) );
         }
         else return false;
     }

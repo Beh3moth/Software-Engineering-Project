@@ -12,6 +12,7 @@ import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -47,6 +48,11 @@ public class Cli extends ViewObservable implements View {
     private int thirdShelfNumber;
     private Map<Resource, Integer> chest;
     private boolean gameFinished;
+    private int crossPosition;
+    private int victoryPoints;
+    private boolean papalCardOne;
+    private boolean papalCardTwo;
+    private boolean papalCardThree;
     RectangleArt rectangleArt = new RectangleArt();
 
     /**
@@ -286,7 +292,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
         out.println("\n\n It's your turn! \n\n");
         this.singleMarble = singleMarble;
         this.firstRow = firstRow;
@@ -302,6 +308,11 @@ public class Cli extends ViewObservable implements View {
         this.thirdShelfNumber = thirdShelfNumber;
         this.baseProductionPower = baseProductionPower;
         this.chest = chest;
+        this.crossPosition = crossPosition;
+        this.victoryPoints = victoryPoints;
+        this.papalCardOne = papalCardOne;
+        this.papalCardTwo = papalCardTwo;
+        this.papalCardThree = papalCardThree;
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             askToManageLeaderCards(Leaders, 1);
         } else {
@@ -678,6 +689,11 @@ public class Cli extends ViewObservable implements View {
             else if (chose == 4)productionPowerMove();
             else if (chose == 5)watchOtherPlayerInfo();
             //notifyObserver(obs -> obs.onUpdateAskForFaithPath());
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
@@ -1656,6 +1672,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printPlayerDashBoard(){
+        //notifyObserver(obs -> obs.onUpdateAskForFaithPath());
+        printFaithPath(this.crossPosition, this.victoryPoints, this.papalCardOne, this.papalCardTwo, this.papalCardThree);
         printStartTurnWarehouse();
         printChest();
         printBaseProductionPower();

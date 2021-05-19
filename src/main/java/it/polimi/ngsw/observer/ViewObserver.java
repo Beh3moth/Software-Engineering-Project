@@ -92,4 +92,5 @@ public interface ViewObserver {
     void onUpdateAskForFaithPath();
 
     void onUpdateCalculatePVEndGame();
+
 }

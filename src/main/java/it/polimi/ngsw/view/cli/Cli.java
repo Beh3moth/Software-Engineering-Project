@@ -632,7 +632,6 @@ public class Cli extends ViewObservable implements View {
     private void endGame() {
         out.println("\n\nThe game is ended, now it's time to calculate the PV of every player.");
         notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
-
     }
 
     public void discardCard(int turnZone) {
@@ -1301,6 +1300,23 @@ public class Cli extends ViewObservable implements View {
                 out.println("\nYou don't have usable leader cards");
                 endGame();
             }
+    }
+
+    @Override
+    public void endGameSinglePlayer(int playerVictoryPoints, int lawrenceCrossPosition, boolean winner) {
+        if(winner){
+            out.println();
+            out.println("You are the winner!");
+            out.println("You have " + playerVictoryPoints + "Victory Points");
+            out.println("Lawrence The Magnificent cross position is " + lawrenceCrossPosition);
+        }
+        else {
+            out.println();
+            out.println("Lawrence The Magnificent is the winner!");
+            out.println("Lawrence The Magnificent is the winner!");
+            out.println("You have " + playerVictoryPoints + "Victory Points");
+            out.println("Lawrence The Magnificent cross position is " + lawrenceCrossPosition);
+        }
     }
 
     private void printOtherFaithPath(int crossPosition) {

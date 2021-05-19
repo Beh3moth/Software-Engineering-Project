@@ -153,6 +153,11 @@ public class VirtualView implements View, Observer {
         clientHandler.sendMessage(new FaithPathMessage(Game.SERVER_NICKNAME, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree));
     }
 
+    @Override
+    public void endGameSinglePlayer(int playerVictoryPoints, int lawrenceCrossPosition, boolean winner) {
+        clientHandler.sendMessage(new EndGameSinglePlayerMessage(Game.SERVER_NICKNAME, playerVictoryPoints, lawrenceCrossPosition, winner));
+    }
+
     /**
      * Receives an update message from the model.
      * The message is sent over the network to the client.

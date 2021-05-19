@@ -107,4 +107,7 @@ public interface View {
     void faithPathResponse(int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree);
 
     void afterLastMainMove(int i, List<LeaderCard> leaders);
+
+    void endGameSinglePlayer(int playerVictoryPoints, int lawrenceCrossPosition, boolean winner);
+
 }

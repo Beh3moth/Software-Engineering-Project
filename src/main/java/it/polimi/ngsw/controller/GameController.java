@@ -301,6 +301,16 @@ public class GameController implements Observer, Serializable {
             broadcastGenericMessage("\nLawrence Turn");
             broadcastGenericMessage(game.drawActionToken());
             broadcastGenericMessage("Lawrence cross position: " + String.valueOf(game.getLawrenceFaithPath().getCrossPosition()));
+            VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
+            Player player =  game.getPlayerByNickname(turnController.getActivePlayer());
+            if(game.lawrenceIsTheWinner()){
+                virtualView.endGameSinglePlayer(player.getPV(), game.getLawrenceFaithPath().getCrossPosition(), false);
+                endGame();
+            }
+            else if(game.SinglePlayerIsTheWinner()){
+                virtualView.endGameSinglePlayer(player.getPV(), game.getLawrenceFaithPath().getCrossPosition(), true);
+                endGame();
+            }
         }
         turnController.next();
         turnController.newTurn();

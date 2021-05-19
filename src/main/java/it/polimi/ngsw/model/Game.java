@@ -193,26 +193,27 @@ public class Game extends Observable implements FaithPathListener {
         return false;
     }
 
-    /**
-     * this method checks that the singleplayer's game is over
-     * @return true if the singleplayer's game is ended, false otherwise
-     */
-    public boolean isGameEndedSinglePlayer(){
+    public boolean lawrenceIsTheWinner(){
         for(int i = 0; i < 4; i++){
             if(this.board.getDevCardSpace(0,i).getNumberOfCards() == 0 &&
                     this.board.getDevCardSpace(1,i).getNumberOfCards() == 0 &&
                     this.board.getDevCardSpace(2,i).getNumberOfCards() == 0
             )return true;
         }
+        if(this.lawrenceFaithPath.getCrossPosition() == 20){
+            return true;
+        }
+        return false;
+    }
 
-        if(this.lawrenceFaithPath.getCrossPosition() == 20)return true;
-
+    public boolean SinglePlayerIsTheWinner(){
         if(this.players.get(0).getFaithPath().getCrossPosition() == 20)return true;
 
         if(this.players.get(0).getDevCardDashboard().getDevCardNumber() == 7)return true;
 
         return false;
     }
+
 
     public Player getPlayerFromList(int indexNumber){
         return this.players.get(indexNumber);

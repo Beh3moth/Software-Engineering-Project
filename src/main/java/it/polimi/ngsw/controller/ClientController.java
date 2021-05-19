@@ -309,7 +309,11 @@ public class ClientController implements ViewObserver, Observer{
                 AfterLastMainMessage afterLast = (AfterLastMainMessage) message;
                 taskQueue.execute(() -> view.afterLastMainMove(afterLast.getIsIndependent(), afterLast.getLeaders()));
                 break;
-                default: // Should never reach this condition
+            case END_GAME_SINGLE_PLAYER:
+                EndGameSinglePlayerMessage endGameSinglePlayerMessage = (EndGameSinglePlayerMessage) message;
+                taskQueue.execute(() -> view.endGameSinglePlayer(endGameSinglePlayerMessage.getPlayerVictoryPoints(), endGameSinglePlayerMessage.getLawrenceCrossPosition(), endGameSinglePlayerMessage.isWinner()));
+                break;
+            default: // Should never reach this condition
                 break;
         }
     }

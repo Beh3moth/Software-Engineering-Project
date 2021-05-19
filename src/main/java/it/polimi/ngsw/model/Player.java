@@ -457,6 +457,8 @@ public class Player extends Observable implements Serializable {
         else{
             if(level != this.getDevCardDashboard().getLevel(slotToPut) + 1)return null;
             Cost = board.getDevCardSpace(3 - level, devColumn).firstDevCard().getDevCostAsMap();
+            if(this.getDiscountPowerOne() != Resource.EMPTY)Cost.put(this.getDiscountPowerOne(), Cost.get(this.getDiscountPowerOne())-1);
+            if(this.getDiscountPowerTwo() != Resource.EMPTY)Cost.put(this.getDiscountPowerTwo(), Cost.get(this.getDiscountPowerTwo())-1);
             if(!canAfford(Cost))return null;
             devCard = board.getDevCardSpace(3 - level,devColumn).firstDevCard();
             board.getDevCardSpace(3 - level, devColumn).removeFirstCard();
@@ -511,6 +513,13 @@ public class Player extends Observable implements Serializable {
         leaderProductionPower.setLeaderProductionPowerResourceToReceive(resource);
         paidList.add(leaderProductionPower);
         abilityList.remove(leaderProductionPower);
+    }
+
+    public List getRealResourceToPay(DevCard devCard){
+        List l = devCard.getResourceToPay();
+        if(this.discountPowerOne != Resource.EMPTY)l.remove(discountPowerOne);
+        if(this.discountPowerTwo != Resource.EMPTY)l.remove(discountPowerTwo);
+        return l;
     }
 
 }

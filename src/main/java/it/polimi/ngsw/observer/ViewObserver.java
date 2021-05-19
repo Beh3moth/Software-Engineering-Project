@@ -83,7 +83,7 @@ public interface ViewObserver {
 
     //devCard methods
 
-    void onUpdatePayDevCard(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, DevCard devCard, int slotToPut);
+    void onUpdatePayDevCard(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo);
 
     void onUpdateWatchInfo(String nicknameOtherPlayer);
 

@@ -16,4 +16,9 @@ public class ProductionPowerResourceMessage extends ResourceMessage {
         return productionPower;
     }
 
+    @Override
+    public String toString() {
+        return "send the resource of the production power";
+    }
+
 }

@@ -128,13 +128,13 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut){
-        clientHandler.sendMessage(new DevCardResponseMessage(Game.SERVER_NICKNAME, response, action, devCard, slotToPut));
+    public void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo){
+        clientHandler.sendMessage(new DevCardResponseMessage(Game.SERVER_NICKNAME, response, action, devCard, slotToPut, discountPowerOne, discountPowerTwo));
     }
 
     @Override
-    public void devCard(DevCard devCard, int slotToPut) {
-        clientHandler.sendMessage(new DevCardMessage(Game.SERVER_NICKNAME, devCard, slotToPut));
+    public void devCard(DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo) {
+        clientHandler.sendMessage(new DevCardMessage(Game.SERVER_NICKNAME, devCard, slotToPut, discountPowerOne, discountPowerTwo));
     }
 
     @Override

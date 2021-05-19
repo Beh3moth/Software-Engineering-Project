@@ -26,4 +26,9 @@ public class CoordinatesMessage extends Message {
     public Resource[] getResourceType() {
         return resourceType;
     }
+
+    @Override
+    public String toString() {
+        return "Player " + this.getNickname() + " send coordinatss for buy";
+    }
 }

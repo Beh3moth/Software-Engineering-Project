@@ -11,4 +11,9 @@ public class PingMessage extends Message {
     public PingMessage() {
         super(null, MessageType.PING);
     }
+
+    @Override
+    public String toString() {
+        return "ping";
+    }
 }

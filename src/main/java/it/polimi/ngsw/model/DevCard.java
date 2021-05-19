@@ -108,4 +108,5 @@ public class DevCard implements Serializable {
      * @return the list with all resourceToPay
      */
     public List<Resource> getResourceToPay(){return resourceToPay;}
+
 }

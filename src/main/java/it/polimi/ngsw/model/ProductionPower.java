@@ -148,6 +148,7 @@ public class ProductionPower implements Serializable {
     public void resetLeaderProductionPower(){
         List<Resource> resourceList = new ArrayList<>();
         resourceList.add(Resource.EMPTY);
+        resourceList.add(Resource.FAITHPOINT);
         resourceToProduce = resourceList;
     }
 

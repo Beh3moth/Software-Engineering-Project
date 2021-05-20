@@ -107,7 +107,7 @@ public class DevCardDashboard {
         if(leaderProductionPowerOne!=null){
             productionPowerList.add(leaderProductionPowerOne);
         }
-        if(leaderProductionPowerOne!=null){
+        if(leaderProductionPowerTwo!=null){
             productionPowerList.add(leaderProductionPowerTwo);
         }
         return productionPowerList;
@@ -144,7 +144,7 @@ public class DevCardDashboard {
      * @param productionPowerAbility is the Production Power Ability to activate.
      * @return true if the procedure is successful, false otherwise.
      */
-    public boolean activateProductionPowerAbility(LeaderCard productionPowerAbility){
+    public boolean activateProductionPowerAbility(ProductionPowerAbility productionPowerAbility){
 
         List<Resource> resourceList1 = new ArrayList<>();
         List<Resource> resourceList2 = new ArrayList<>();
@@ -153,11 +153,11 @@ public class DevCardDashboard {
             resourceList1.add(productionPowerAbility.getInputResource());
             resourceList2.add(Resource.EMPTY);
             resourceList2.add(Resource.FAITHPOINT);
-            leaderProductionPowerOne = new ProductionPower(resourceList1, resourceList2);
-            leaderProductionPowerOne.setIsLeaderProductionPower();
+            this.leaderProductionPowerOne = new ProductionPower(resourceList1, resourceList2);
+            this.leaderProductionPowerOne.setIsLeaderProductionPower();
             return true;
         }
-        else if(leaderProductionPowerTwo==null){
+        if(leaderProductionPowerTwo==null){
             resourceList1.add(productionPowerAbility.getInputResource());
             resourceList2.add(Resource.EMPTY);
             resourceList2.add(Resource.FAITHPOINT);
@@ -165,7 +165,7 @@ public class DevCardDashboard {
             leaderProductionPowerTwo.setIsLeaderProductionPower();
             return true;
         }
-        else return false;
+        return false;
 
     }
 

@@ -11,10 +11,10 @@ public class Chest {
     private Map<Resource, Integer> chestResources = new HashMap<>();
 
     public Chest(){
-        chestResources.put(Resource.SHIELD, 0);
-        chestResources.put(Resource.STONE, 0);
-        chestResources.put(Resource.SLAVE, 0);
-        chestResources.put(Resource.MONEY, 0);
+        chestResources.put(Resource.SHIELD, 100);
+        chestResources.put(Resource.STONE, 100);
+        chestResources.put(Resource.SLAVE, 100);
+        chestResources.put(Resource.MONEY, 100);
     }
 
     /**
@@ -123,7 +123,8 @@ public class Chest {
     public int getNumberOfResourceInArray(Resource[] resources, Boolean[] warehouse, Resource resource){
         int n = 0;
         for(int i = 0; i < resources.length; i++){
-            if((!warehouse[i]) && (resources[i] == resource))n++;
+            if((!warehouse[i]) && (resources[i] == resource))
+                n++;
         }
         return n;
     }
@@ -136,8 +137,9 @@ public class Chest {
      * @return true if he can false otherwise
      */
     public boolean controlResource(Resource[] resources, Boolean[] warehouse, Resource resource){
-        if(getNumberOfResourceInArray(resources, warehouse, resource) < getResourceNumber(resource))return false;
-        else return true;
+        if(getNumberOfResourceInArray(resources, warehouse, resource) < getResourceNumber(resource))
+            return true;
+        else return false;
     }
 
     /**
@@ -149,7 +151,9 @@ public class Chest {
     public boolean canBuy(Resource[] resources, Boolean[] warehouse){
         for(Resource resource : Resource.values()){
             if(resource != Resource.EMPTY && resource != Resource.FAITHPOINT){
-            if(!controlResource(resources, warehouse, resource))return false;}
+                if(!controlResource(resources, warehouse, resource))
+                    return false;
+            }
         }
         return true;
     }

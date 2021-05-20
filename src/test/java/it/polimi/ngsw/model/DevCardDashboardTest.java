@@ -63,7 +63,7 @@ public class DevCardDashboardTest {
             leaderCardList.removeIf(leaderCard -> !leaderCard.getAbilityName().equals("production power"));
             if(leaderCardList.size() > 0){
                 for (LeaderCard leaderCard : leaderCardList) {
-                    devCardDashboard.activateProductionPowerAbility(leaderCard);
+                    //devCardDashboard.activateProductionPowerAbility(leaderCard);
                 }
                 assertNotEquals(devCardDashboard.getProductionPower(4), null);
             }

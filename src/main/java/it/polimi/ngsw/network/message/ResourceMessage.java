@@ -6,8 +6,8 @@ public class ResourceMessage extends  Message {
 
     private Resource resource;
 
-    public ResourceMessage(String nickname, Resource resource) {
-        super(nickname, MessageType.RESOURCE);
+    public ResourceMessage(String nickname, Resource resource, MessageType messageType) {
+        super(nickname, messageType);
         this.resource = resource;
     }
 

@@ -1028,11 +1028,14 @@ public class Cli extends ViewObservable implements View {
             if(productionPower.isLeaderProductionPower()){
                 this.crossPosition++;
             }
-            for(Resource resource : productionPower.getResourceToReceive()){
-                if(resource.equals(Resource.FAITHPOINT)){
-                    this.crossPosition++;
+            else {
+                for(Resource resource : productionPower.getResourceToReceive()){
+                    if(resource.equals(Resource.FAITHPOINT)){
+                        this.crossPosition++;
+                    }
                 }
             }
+
         }
         notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
     }
@@ -1150,8 +1153,8 @@ public class Cli extends ViewObservable implements View {
     public void setLeaderProductionPower(ProductionPower productionPower){
         out.println("You have chosen a Leader Production Power. Choose a resource to receive.");
         Resource resourceChosen = choseResource();
-        notifyObserver(obs -> obs.onUpdateProductionPowerResource(resourceChosen, productionPower));
         productionPower.setLeaderProductionPowerResourceToReceive(resourceChosen);
+        notifyObserver(obs -> obs.onUpdateProductionPowerResource(resourceChosen, productionPower));
     }
 
     public void setBaseProductionPower(){
@@ -1275,6 +1278,20 @@ public class Cli extends ViewObservable implements View {
                 }
                 else {
                     out.println("Activation FAIL.");
+                }
+                break;
+            case "setLeaderProductionPower":
+                if (response) {
+                    out.println("Leader Production Power have been set successfully.");
+                    payProductionPower(productionPower);
+                }
+                else {
+                    out.println("FAIL.");
+                    for(ProductionPower productionPowers : leaderProductionPowerList){
+                        if(productionPowers.equals(productionPower)){
+                            productionPowers.resetLeaderProductionPower();
+                        }
+                    }
                 }
                 break;
             default:
@@ -1774,7 +1791,6 @@ public class Cli extends ViewObservable implements View {
             out.println("You don't own Leader Production Powers");
         }
         else {
-            out.println();
             out.println("Leader Production Powers");
             int counter = 4;
             for(ProductionPower productionPower : this.leaderProductionPowerList){
@@ -1782,11 +1798,13 @@ public class Cli extends ViewObservable implements View {
                 for(Resource resource : productionPower.getResourceToPay()){
                     printResource(resource);
                 }
-                out.println(" -> ");
+                out.print(" -> ");
                 for(Resource resource : productionPower.getResourceToReceive()){
                     printResource(resource);
                 }
+                counter++;
             }
+            out.println();
         }
 
     }

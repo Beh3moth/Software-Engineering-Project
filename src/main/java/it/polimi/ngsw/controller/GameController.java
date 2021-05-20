@@ -706,12 +706,17 @@ public class GameController implements Observer, Serializable {
 
     public void setLeaderProductionPower(ProductionPowerResourceMessage receivedMessage){
 
+        VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(receivedMessage.getNickname());
         for (ProductionPower productionPower : player.getDevCardDashboard().getLeaderProductionPowerList()) {
-            if(productionPower.equals(receivedMessage.getProductionPower())){
-                productionPower.setLeaderProductionPowerResourceToReceive(receivedMessage.getResource());
+            if(productionPower.getResourceToPay().equals((receivedMessage.getProductionPower().getResourceToPay()))){
+                if(productionPower.isLeaderProductionPower()){
+                    boolean success = productionPower.setLeaderProductionPowerResourceToReceive(receivedMessage.getResource());
+                    virtualView.productionPowerResponse(success, "setLeaderProductionPower", receivedMessage.getProductionPower());
+                }
             }
         }
+
 
     }
 

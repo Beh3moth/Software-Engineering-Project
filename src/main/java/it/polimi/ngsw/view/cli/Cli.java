@@ -1089,6 +1089,7 @@ public class Cli extends ViewObservable implements View {
         }
         else {
             out.println("Production Power already paid.");
+            productionPowerMove();
         }
     }
 

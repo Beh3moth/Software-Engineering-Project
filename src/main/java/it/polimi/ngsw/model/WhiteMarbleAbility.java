@@ -13,6 +13,7 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
     private final List<DevCardColour> leaderCardCost;
     private final Resource resourceToObtain;
     private ResourcesArt art = new ResourcesArt();
+    private boolean isActive = false;
 
     public WhiteMarbleAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource resourceToObtain) {
         super(leaderCard);
@@ -62,8 +63,14 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
      */
     public void activateLeaderAbility(Player player){
         if(!resourceToObtain.equals(Resource.EMPTY)){
+            isActive = true;
             player.setWhiteMarblePower(resourceToObtain);
         }
+    }
+
+    @Override
+    public boolean isActive(){
+        return isActive;
     }
 
     /**
@@ -73,7 +80,7 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
      */
     @Override
     public boolean isLeaderCardCostSatisfied(Player player){
-        List<DevCardColour> devCardColourCostList = getLeaderCardCost();
+
         List<DevCardColour> devCardColourPlayerList = new ArrayList<>();
         List<DevCard> devCardList = player.getDevCardDashboard().getActiveDevCards();
 
@@ -81,16 +88,15 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
             devCardColourPlayerList.add(devCard.getCardColour());
         }
 
-        for(DevCardColour devCardColour : devCardColourCostList){
+        for(DevCardColour devCardColour : leaderCardCost){
             if(!devCardColourPlayerList.contains(devCardColour)){
                 return false;
             }
-            else{
-                devCardColourPlayerList.remove(devCardColour);
-            }
+            devCardColourPlayerList.remove(devCardColour);
         }
 
         return true;
+
     }
 
     @Override

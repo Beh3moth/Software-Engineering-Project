@@ -3,7 +3,6 @@ package it.polimi.ngsw.model;
 import it.polimi.ngsw.observer.Observable;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -75,7 +74,9 @@ public class Player extends Observable implements Serializable {
     public int getPVFromLeaderCards(){
         int PV = 0;
         for(LeaderCard leaderCard : leaderCards){
-            PV += leaderCard.getPV();
+            if(leaderCard.isActive()){
+                PV += leaderCard.getPV();
+            }
         }
         return PV;
     }

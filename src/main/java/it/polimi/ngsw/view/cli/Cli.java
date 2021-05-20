@@ -701,14 +701,26 @@ public class Cli extends ViewObservable implements View {
 
     private void printStartTurnWarehouse() {
         out.println("\nWarehouse");
-        out.println("First shelf: " + this.firstShelf.toString());
+        out.print("First shelf: ");
+        if(firstShelf!=Resource.EMPTY && firstShelf!=Resource.FAITHPOINT){
+            out.print("[ ");
+            printResource(firstShelf);
+            out.print("]");
+        }
+        out.println();
         out.print("Second shelf: ");
-        for(int i = 0; i < secondShelfNumber; i++)
-            out.print(this.secondShelf.toString() + " ");
+        for(int i = 0; i < secondShelfNumber; i++){
+            out.print("[ ");
+            printResource(secondShelf);
+            out.print("]");
+        }
         out.print("\nThird shelf: ");
-        for(int i = 0; i < thirdShelfNumber; i++)
-            out.print(this.thirdShelf.toString() + " ");
-        out.println("");
+        for(int i = 0; i < thirdShelfNumber; i++){
+            out.print("[ ");
+            printResource(thirdShelf);
+            out.print("]");
+        }
+        out.println();
     }
 
     private void watchOtherPlayerInfo() {
@@ -1012,6 +1024,16 @@ public class Cli extends ViewObservable implements View {
 
     public void activateProductionPowers(){
         out.println("Activation...");
+        for(ProductionPower productionPower : paidProductionPowerList){
+            if(productionPower.isLeaderProductionPower()){
+                this.crossPosition++;
+            }
+            for(Resource resource : productionPower.getResourceToReceive()){
+                if(resource.equals(Resource.FAITHPOINT)){
+                    this.crossPosition++;
+                }
+            }
+        }
         notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
     }
 
@@ -1213,7 +1235,7 @@ public class Cli extends ViewObservable implements View {
                     payProductionPower(productionPower);
                 } else {
                     out.println("the resources haven't been set up.");
-                    productionPowerMove();
+                    mainMove();
                 }
                 break;
             case "productionPowerCheck":
@@ -1229,7 +1251,7 @@ public class Cli extends ViewObservable implements View {
                             }
                         }
                     }
-                    productionPowerMove();
+                    mainMove();
                 }
                 break;
             case "payProductionPower":
@@ -1746,19 +1768,27 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printLeaderProductionPowers(){
-        out.println();
-        out.println("Leader Production Powers");
-        int counter = 4;
-        for(ProductionPower productionPower : this.leaderProductionPowerList){
-            out.print(counter + " - ");
-            for(Resource resource : productionPower.getResourceToPay()){
-                printResource(resource);
-            }
-            out.println(" -> ");
-            for(Resource resource : productionPower.getResourceToReceive()){
-                printResource(resource);
+
+        if(leaderProductionPowerList.isEmpty()){
+            out.println();
+            out.println("You don't own Leader Production Powers");
+        }
+        else {
+            out.println();
+            out.println("Leader Production Powers");
+            int counter = 4;
+            for(ProductionPower productionPower : this.leaderProductionPowerList){
+                out.print(counter + " - ");
+                for(Resource resource : productionPower.getResourceToPay()){
+                    printResource(resource);
+                }
+                out.println(" -> ");
+                for(Resource resource : productionPower.getResourceToReceive()){
+                    printResource(resource);
+                }
             }
         }
+
     }
 
     public void printChest(){

@@ -45,4 +45,9 @@ public class LeaderCardBaseDecorator implements LeaderCard {
         return new String[0];
     }
 
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
 }

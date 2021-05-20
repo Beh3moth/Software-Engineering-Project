@@ -13,6 +13,7 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
     private final int devCardLevel = 2;
     private final Resource inputResource;
     private ResourcesArt art = new ResourcesArt();
+    private boolean isActive = false;
 
     public ProductionPowerAbility(LeaderCard leaderCard, int PV, DevCardColour leaderCardCost, Resource inputResource) {
         super(leaderCard);
@@ -78,7 +79,13 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
      * @param player the player who wants to activate the power.
      */
     public void activateLeaderAbility(Player player){
+        isActive = true;
         player.getDevCardDashboard().activateProductionPowerAbility(this);
+    }
+
+    @Override
+    public boolean isActive(){
+        return isActive;
     }
 
     /**
@@ -88,7 +95,7 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
      */
     @Override
     public boolean isLeaderCardCostSatisfied(Player player){
-        List<DevCard> devCardPlayerList = player.getDevCardDashboard().getActiveDevCards();
+        List<DevCard> devCardPlayerList = player.getDevCardDashboard().getDevCards();
         for(DevCard devCard : devCardPlayerList){
             if(devCard.getCardColour().equals(getLeaderCardCostDevCardColour()) && devCard.getDevLevel()>=getLeaderCardCostDevCardLevel()){
                 return true;
@@ -121,6 +128,7 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         stringList.add(art.getColour(leaderCardCost) + ">");
         return stringList.toArray(new String[0]);
     }
+
     private String getResourceArt (Resource resource) {
         switch (resource){
             case SLAVE:

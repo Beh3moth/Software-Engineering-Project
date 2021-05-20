@@ -12,6 +12,7 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
     private final List<DevCardColour> leaderCardCost;
     private final Resource discountResource;
     private ResourcesArt art = new ResourcesArt();
+    private boolean isActive = false;
 
     public DiscountAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource discountResource) {
         super(leaderCard);
@@ -60,9 +61,15 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
      * @param player The player who decides to activate the leader card power.
      */
     public void activateLeaderAbility(Player player){
+        isActive = true;
         if(!discountResource.equals(Resource.EMPTY)){
             player.setDiscountPower(discountResource);
         }
+    }
+
+    @Override
+    public boolean isActive(){
+        return isActive;
     }
 
     /**
@@ -84,6 +91,7 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
             if(!devCardColourPlayerList.contains(devCardColour)){
                 return false;
             }
+            devCardColourPlayerList.remove(devCardColour);
         }
 
         return true;

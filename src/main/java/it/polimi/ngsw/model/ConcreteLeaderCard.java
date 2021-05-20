@@ -36,4 +36,9 @@ public class ConcreteLeaderCard implements LeaderCard {
         return new String[0];
     }
 
+    @Override
+    public boolean isActive() {
+        return false;
+    }
+
 }

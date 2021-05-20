@@ -71,6 +71,20 @@ public class DevCardDashboard {
     }
 
     /**
+     * The method returns every Development Card owned by the player.
+     * @return a List of DevCard. It may be an empty List.
+     */
+    public List<DevCard> getDevCards(){
+        List<DevCard> devCardList = new ArrayList<>();
+        for(int i=0; i<3; i++){
+            for(int j=0; j<devCardLevel[i]; j++){
+                devCardList.add(devCards[i][j]);
+            }
+        }
+        return  devCardList;
+    }
+
+    /**
      * The method returns a List of active DevCards.
      * @return a List of active DevCards.
      */

@@ -12,6 +12,7 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
     private final List<Resource> leaderCardCost;
     private final Resource resourceToIncrease;
     private ResourcesArt art = new ResourcesArt();
+    private boolean isActive = false;
 
     public SpaceAbility(LeaderCard leaderCard, int PV, List<Resource> leaderCardCost, Resource resourceToIncrease) {
         super(leaderCard);
@@ -61,8 +62,14 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
      */
     public void activateLeaderAbility(Player player){
         if(!resourceToIncrease.equals(Resource.EMPTY)){
+            isActive = true;
             player.getWarehouse().unlockLeaderLevel(resourceToIncrease);
         }
+    }
+
+    @Override
+    public boolean isActive(){
+        return isActive;
     }
 
     /**
@@ -73,29 +80,10 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
     @Override
     public boolean isLeaderCardCostSatisfied(Player player){
         List<Resource> resourceCostList = getLeaderCardCost();
-
-        Resource resourceType = Resource.EMPTY;
+        Resource resourceType = resourceCostList.get(0);
         int resourceNumber = 5;
-
-        switch(resourceCostList.get(0)){
-            case STONE:
-                resourceType = Resource.STONE;
-                break;
-            case SLAVE:
-                resourceType = Resource.SLAVE;
-                break;
-            case MONEY:
-                resourceType = Resource.MONEY;
-                break;
-            case SHIELD:
-                resourceType = Resource.SHIELD;
-                break;
-        }
-
-        if(resourceType!=Resource.EMPTY){
-            return ( player.getChest().contains(resourceType, resourceNumber) || player.getWarehouse().contains(resourceNumber, resourceType) );
-        }
-        else return false;
+        int resourcesOwned = player.getChest().getResourcesAsMap().get(resourceType) + player.getWarehouse().getResourcesAsMap().get(resourceType);
+        return resourcesOwned >= resourceNumber;
     }
 
     @Override
@@ -116,7 +104,7 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
     }
 
     private String getResourceArt (Resource resource) {
-        switch (resource){
+        switch (resource) {
             case SLAVE:
                 return art.slave();
             case STONE:

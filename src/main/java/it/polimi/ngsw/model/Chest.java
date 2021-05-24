@@ -137,7 +137,7 @@ public class Chest {
      * @return true if he can false otherwise
      */
     public boolean controlResource(Resource[] resources, Boolean[] warehouse, Resource resource){
-        if(getNumberOfResourceInArray(resources, warehouse, resource) < getResourceNumber(resource))
+        if(getNumberOfResourceInArray(resources, warehouse, resource) <= getResourceNumber(resource))
             return true;
         else return false;
     }

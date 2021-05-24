@@ -1,5 +1,6 @@
 package it.polimi.ngsw.model;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -72,7 +73,9 @@ public class DevCardSpace {
             return this.developDeck.get(0);
         }
         else {
-            return new DevCard(0, DevCardColour.EMPTY, null, null, 0);
+            List<Resource> list = new ArrayList<>();
+            list.add(Resource.EMPTY);
+            return new DevCard(0, DevCardColour.EMPTY, list, null, 0);
         }
     }
 

@@ -1507,6 +1507,9 @@ public class Cli extends ViewObservable implements View {
                 if(this.devCardMarket[3-level][column-1].getPV()!=0){
                     goneRight = true;
                 }
+                else{
+                    out.println("The slot is empty.");
+                }
             } while (!goneRight);
 
 

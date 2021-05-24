@@ -3,6 +3,8 @@ package it.polimi.ngsw;
 import it.polimi.ngsw.controller.ClientController;
 import it.polimi.ngsw.network.client.Client;
 import it.polimi.ngsw.view.cli.Cli;
+import it.polimi.ngsw.view.gui.GuiStarter;
+import javafx.application.Application;
 //import it.polimi.ngsw.view.gui.JavaFXGui;
 //import javafx.application.Application;
 
@@ -25,7 +27,7 @@ public class ClientStarter {
             cli.addObserver(clientcontroller);
             cli.init();
         } else {
-           // Application.launch(JavaFXGui.class);
+           Application.launch(GuiStarter.class);
         }
     }
 }

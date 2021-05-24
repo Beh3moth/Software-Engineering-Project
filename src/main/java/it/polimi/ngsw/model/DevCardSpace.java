@@ -68,7 +68,12 @@ public class DevCardSpace {
     }
 
     public DevCard firstDevCard(){
-        return this.developDeck.get(0);
+        if(this.developDeck.size()>0){
+            return this.developDeck.get(0);
+        }
+        else {
+            return new DevCard(0, DevCardColour.EMPTY, null, null, 0);
+        }
     }
 
     public int removeDevCardFromDevelopDeck(){

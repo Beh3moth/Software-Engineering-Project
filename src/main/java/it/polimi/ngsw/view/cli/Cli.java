@@ -1482,26 +1482,34 @@ public class Cli extends ViewObservable implements View {
         int level = 0;
         int column = 0;
         int slotToPut = 0;
+        boolean goneRight = false;
 
-            try{
-                level = numberInput(1, 3, "Which level? ");
-            }
-            catch (ExecutionException e){
-                out.println("Wrong input");
-            }
+            do {
+                try{
+                    level = numberInput(1, 3, "Which level? ");
+                }
+                catch (ExecutionException e){
+                    out.println("Wrong input");
+                }
 
-            try{
-                column = numberInput(1, 4, "Which Column? (1: green, 2: blue, 3: yellow, 4: purple): ");
-            }
-            catch (ExecutionException e){
-                out.println("Wrong input");
-            }
-            try{
-                slotToPut = numberInput(1,3,"which slot to put? ");
-            }
-            catch (ExecutionException e){
-                out.println("Wrong Input");
-            }
+                try{
+                    column = numberInput(1, 4, "Which Column? (1: green, 2: blue, 3: yellow, 4: purple): ");
+                }
+                catch (ExecutionException e){
+                    out.println("Wrong input");
+                }
+                try{
+                    slotToPut = numberInput(1,3,"which slot to put? ");
+                }
+                catch (ExecutionException e){
+                    out.println("Wrong Input");
+                }
+                if(this.devCardMarket[3-level][column-1].getPV()!=0){
+                    goneRight = true;
+                }
+            } while (!goneRight);
+
+
 
             int finalSlotToPut = slotToPut;
             int finalLevel = level;
@@ -1607,10 +1615,12 @@ public class Cli extends ViewObservable implements View {
 
     public String[][] getPrintableDevCard (DevCard devCard) {
         fillEmpty(devCard);
-        loadDevCardCost(devCard);
-        loadDevCardLevel(devCard);
-        loadDevCardProductionPower(devCard);
-        loadPV(devCard);
+        if(devCard.getPV()!=0){
+            loadDevCardCost(devCard);
+            loadDevCardLevel(devCard);
+            loadDevCardProductionPower(devCard);
+            loadPV(devCard);
+        }
         return tiles;
     }
 

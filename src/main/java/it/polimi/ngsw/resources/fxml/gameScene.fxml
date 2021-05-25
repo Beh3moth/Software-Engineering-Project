@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.*?>
+
+
+<?import javafx.scene.Group?>
+
+<StackPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity"
+           minWidth="-Infinity" prefWidth="1280.0" prefHeight="720.0" styleClass="mainPane"
+           stylesheets="@../css/mainPane.css" xmlns="http://javafx.com/javafx/13" xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="it.polimi.ngsw.view.gui.SceneController">
+    <BorderPane>
+        <center>
+            <Group BorderPane.alignment="CENTER">
+                <AnchorPane layoutX="179.0" layoutY="22.0" prefHeight="703.0" prefWidth="1264.0"
+                            styleClass="boardPane">
+                </AnchorPane>
+            </Group>
+        </center>
+    </BorderPane>
+</StackPane>

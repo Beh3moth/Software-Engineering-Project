@@ -995,6 +995,7 @@ public class Cli extends ViewObservable implements View {
     //Activate Production Powers
 
     List<ProductionPower> paidProductionPowerList = new ArrayList<>();
+    List <Integer> chosenIntegerList = new ArrayList<>();
 
     public void productionPowerMove() {
 
@@ -1044,7 +1045,7 @@ public class Cli extends ViewObservable implements View {
         int productionPowerChosen = 0;
 
         try {
-            productionPowerChosen = numberInput(0, 5, "Which Production Power? ");
+            productionPowerChosen = numberInput(0, activeDevCardList.size()+leaderProductionPowerList.size(), "Which Production Power? ");
         }
         catch (ExecutionException e) {
             out.println("Wrong input");
@@ -1062,7 +1063,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void leaderProductionPowerChosen(int productionPowerChosen){
-        if(!paidProductionPowerList.contains(leaderProductionPowerList.get(productionPowerChosen-4))){
+        if(!chosenIntegerList.contains(productionPowerChosen)){
+            chosenIntegerList.add(productionPowerChosen);
             setLeaderProductionPower(leaderProductionPowerList.get(productionPowerChosen-4));
         }
         else {
@@ -1072,7 +1074,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void chosenDevCardProductionPower(int productionPowerChosen){
-        if(!paidProductionPowerList.contains(activeDevCardList.get(productionPowerChosen-1).getProductionPower())){
+        if(!chosenIntegerList.contains(productionPowerChosen)){
+            chosenIntegerList.add(productionPowerChosen);
             List<ProductionPower> productionPower = new ArrayList<>();
             productionPower.add(activeDevCardList.get(productionPowerChosen-1).getProductionPower());
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPower, "productionPowerChosen"));
@@ -1084,7 +1087,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void chosenBaseProductionPower(){
-        if(!paidProductionPowerList.contains(baseProductionPower)){
+        if(!chosenIntegerList.contains(0)){
+            chosenIntegerList.add(0);
             setBaseProductionPower();
         }
         else {
@@ -1276,6 +1280,7 @@ public class Cli extends ViewObservable implements View {
                     for(ProductionPower leaderProductionPower : leaderProductionPowerList){
                         leaderProductionPower.resetLeaderProductionPower();
                     }
+                    chosenIntegerList.clear();
                 }
                 else {
                     out.println("Activation FAIL.");

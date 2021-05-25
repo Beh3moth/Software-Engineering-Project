@@ -1,0 +1,13 @@
+.mainPane {
+    -fx-background-image: url("/images/backgrounds/main.png");
+    -fx-background-size: stretch;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+.boardPane {
+    -fx-background-image: url("/images/backgrounds/playerBoard.jpg");
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}

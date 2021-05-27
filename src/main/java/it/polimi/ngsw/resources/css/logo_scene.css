@@ -1,0 +1,28 @@
+.mainPain {
+    -fx-background-image: url("../images/backgrounds/main.png");
+    -fx-background-size: stretch;
+}
+
+.playButton {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.playButton:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
+.quitButton {
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.quitButton:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}

@@ -1045,7 +1045,7 @@ public class Cli extends ViewObservable implements View {
         int productionPowerChosen = 0;
 
         try {
-            productionPowerChosen = numberInput(0, activeDevCardList.size()+leaderProductionPowerList.size(), "Which Production Power? ");
+            productionPowerChosen = numberInput(0, 5, "Which Production Power? ");
         }
         catch (ExecutionException e) {
             out.println("Wrong input");
@@ -1063,25 +1063,25 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void leaderProductionPowerChosen(int productionPowerChosen){
-        if(!chosenIntegerList.contains(productionPowerChosen)){
+        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen-3<=leaderProductionPowerList.size()){
             chosenIntegerList.add(productionPowerChosen);
             setLeaderProductionPower(leaderProductionPowerList.get(productionPowerChosen-4));
         }
         else {
-            out.println("You don't have Production Powers to activate.");
+            out.println("You can't active this Production Power.");
             productionPowerMove();
         }
     }
 
     public void chosenDevCardProductionPower(int productionPowerChosen){
-        if(!chosenIntegerList.contains(productionPowerChosen)){
+        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen<=activeDevCardList.size()){
             chosenIntegerList.add(productionPowerChosen);
             List<ProductionPower> productionPower = new ArrayList<>();
             productionPower.add(activeDevCardList.get(productionPowerChosen-1).getProductionPower());
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPower, "productionPowerChosen"));
         }
         else {
-            out.println("You don't have Production Powers to activate.");
+            out.println("You can't active this Production Power.");
             productionPowerMove();
         }
     }
@@ -1092,7 +1092,7 @@ public class Cli extends ViewObservable implements View {
             setBaseProductionPower();
         }
         else {
-            out.println("Production Power already paid.");
+            out.println("You can't active this Production Power.");
             productionPowerMove();
         }
     }

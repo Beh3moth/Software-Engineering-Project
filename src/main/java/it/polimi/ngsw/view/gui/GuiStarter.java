@@ -13,7 +13,7 @@ public class GuiStarter extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/gameScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/logo_scene.fxml"));
         Parent root = loader.load();
         newStage = primaryStage;
         newStage.setTitle("Masters of the Renaissance");

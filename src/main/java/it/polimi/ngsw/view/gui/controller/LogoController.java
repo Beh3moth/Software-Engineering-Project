@@ -29,7 +29,7 @@ public class LogoController extends ViewObservable implements GenericSceneContro
      * @param event the mouse click event.
      */
     private void onPlayBtnClick(Event event) {
-        SceneController.changeRootPane(observers, event, "game_scene.fxml");
+        SceneController.changeRootPane(observers, event, "server_connection_scene.fxml");
     }
 
 }

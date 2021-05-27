@@ -3,8 +3,8 @@
     -fx-background-size: stretch;
 }
 
-.playButton {
-    -fx-background-image: url("../images/buttons/play.png");
+.connect {
+    -fx-background-image: url("../images/buttons/connect.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;
@@ -12,21 +12,21 @@
     -fx-background-color: transparent;
 }
 
-.playButton:hover {
+.connect:hover {
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }
 
-.quitButton {
-    -fx-background-image: url("../images/buttons/exit.png");
-    -fx-background-size: stretch;
+.back {
+    -fx-background-image: url("../images/buttons/back.png");
     -fx-border-color: transparent;
+    -fx-background-size: stretch;
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
 }
 
-.quitButton:hover {
+.back:hover {
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }

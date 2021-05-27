@@ -7,10 +7,10 @@
 <AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/logo_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ngsw.view.gui.controller.LogoController">
 
     <children>
-        <Button fx:id="playButton" layoutX="148.0" layoutY="428.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="351.0" styleClass="playButton" stylesheets="@../css/logo_scene.css" text="Play" />
-        <Button fx:id="quitButton" layoutX="744.0" layoutY="428.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="351.0" styleClass="quitButton" stylesheets="@../css/logo_scene.css" text="Exit" />
+        <Button fx:id="playButton" layoutX="315.0" layoutY="428.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="246.0" styleClass="playButton" stylesheets="@../css/logo_scene.css" />
+        <Button fx:id="quitButton" layoutX="744.0" layoutY="428.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="246.0" styleClass="quitButton" stylesheets="@../css/logo_scene.css" />
         <ImageView fitHeight="173.0" fitWidth="458.0" layoutX="170.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/logo/logo.jpg" />
+            <Image url="@../images/logo/logo.png" />
         </ImageView>
     </children>
 

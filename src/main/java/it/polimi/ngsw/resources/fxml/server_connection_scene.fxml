@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/server_connection_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ngsw.view.gui.controller.ServerConnectionController">
+
+    <TextField fx:id="serverAddress" alignment="CENTER" layoutX="536.0" layoutY="284.0" prefHeight="30.0" prefWidth="229.0" text="127.0.0.2">
+        <font>
+            <Font size="16.0" />
+        </font>
+    </TextField>
+    <TextField fx:id="serverPort" alignment="CENTER" layoutX="536.0" layoutY="337.0" prefHeight="30.0" prefWidth="229.0" text="255">
+        <font>
+            <Font size="16.0" />
+        </font>
+    </TextField>
+    <Button fx:id="connect" layoutX="309.0" layoutY="671.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="246.0" styleClass="connect" stylesheets="@../css/server_connection_scene.css" />
+    <Button fx:id="back" layoutX="736.0" layoutY="671.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="246.0" styleClass="back" stylesheets="@../css/server_connection_scene.css" />
+
+</AnchorPane>

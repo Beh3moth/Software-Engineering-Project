@@ -49,6 +49,7 @@ public class DevCardDashboardTest {
         }
     }
 
+    /*
 
     @Test
     public void activateProductionPowerAbilityTest(){
@@ -72,6 +73,8 @@ public class DevCardDashboardTest {
 
     }
 
+
+
     @Test
     public void getProductionPowerTestWithoutInitialization(){
         DevCardDashboard devCardDashboard = new DevCardDashboard();
@@ -82,6 +85,7 @@ public class DevCardDashboardTest {
         assertNull(devCardDashboard.getProductionPower(4));
         assertNull(devCardDashboard.getProductionPower(5));
     }
+
 
     @Test
     public void getProductionPowerTestWithInitialization() throws FileNotFoundException {
@@ -120,6 +124,8 @@ public class DevCardDashboardTest {
         }
 
     }
+
+     */
 
     @Test
     public void getPVTest() throws FileNotFoundException {

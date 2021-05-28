@@ -49,6 +49,7 @@ public class PlayerTest {
         assertTrue(player.getPaidList().isEmpty());
     }
 
+    /*
     @Test
     public void checkForLeaderProductionPowerAbilityTest(){
 
@@ -75,6 +76,7 @@ public class PlayerTest {
 
     }
 
+
     @Test
     public void getPVFromLeaderCardsTest(){
         player.receiveLeaderCards(game.removeAndReturnTheLastFourLeaderCards());
@@ -93,5 +95,7 @@ public class PlayerTest {
         player.getWarehouse().addResourceToWarehouse(1, Resource.MONEY);
         assertEquals(4, player.getPVFormResources());
     }
+
+     */
 
 }

@@ -13,7 +13,7 @@ import javafx.scene.control.TextField;
 
 import java.util.Map;
 
-public class ask_nickname_controller extends ViewObservable implements GenericSceneController{
+public class Ask_nickname_controller extends ViewObservable implements GenericSceneController{
     private final PseudoClass ERROR_PSEUDO_CLASS = PseudoClass.getPseudoClass("error");
 
     @FXML

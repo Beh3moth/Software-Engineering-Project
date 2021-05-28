@@ -68,6 +68,8 @@ public class GameTest {
         }
     }
 
+    /*
+
     @Test
     public void drawActionTokenTest(){
         game.setNumberOfPlayers(1);
@@ -80,6 +82,8 @@ public class GameTest {
             }
         }
     }
+
+     */
 
     @Test
     public void updateTest1(){

@@ -1,0 +1,13 @@
+.mainPain {
+    -fx-background-image: url("../images/backgrounds/daVinci.png");
+    -fx-background-size: stretch;
+}
+
+.join {
+    -fx-background-image: url("../images/buttons/play.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}

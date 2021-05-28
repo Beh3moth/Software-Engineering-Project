@@ -1,5 +1,4 @@
 package it.polimi.ngsw.view.cli;
-
 import it.polimi.ngsw.controller.ClientController;
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
@@ -7,7 +6,6 @@ import it.polimi.ngsw.view.View;
 import it.polimi.ngsw.view.cli.AsciiArt.Color;
 import it.polimi.ngsw.view.cli.AsciiArt.RectangleArt;
 import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
-
 import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;

@@ -12,7 +12,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TextField;
 
 
-import java.awt.*;
 import java.util.Map;
 
 public class ServerConnectionController extends ViewObservable implements GenericSceneController {
@@ -56,12 +55,13 @@ public class ServerConnectionController extends ViewObservable implements Generi
             Map<String, String> serverInfo = Map.of("address", address, "port", port);
             new Thread(() -> notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo))).start();
         }
+
     }
 
     private void onBackBtnClick(Event event) {
         back.setDisable(true);
         connect.setDisable(true);
-        SceneController.changeRootPane(observers, event, "logo_scene.fxml");
+        SceneController.changeScene(observers, event, "logo_scene.fxml");
     }
 
 }

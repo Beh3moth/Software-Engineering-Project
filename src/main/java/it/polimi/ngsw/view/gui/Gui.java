@@ -1,16 +1,18 @@
 package it.polimi.ngsw.view.gui;
 
 import it.polimi.ngsw.model.*;
+import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
+import javafx.application.Platform;
 
 import java.util.List;
 import java.util.Map;
 
-public class Gui implements View {
+public class Gui extends ViewObservable implements View {
     
     @Override
     public void askNickname() {
-
+        Platform.runLater(() -> SceneController.changeScene(observers, "logo_scene.fxml"));
     }
 
     @Override

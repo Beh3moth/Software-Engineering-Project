@@ -22,11 +22,18 @@ public class Cli extends ViewObservable implements View {
 
     private final PrintStream out;
     private Thread inputThread;
-    private int[] leaderCardStatus; //1 means not activated but usable, 0 means discarded, 2 means activated
+
+    //Samu
     private Marble singleMarble;
     private Marble[] firstRow;
     private Marble[] secondRow;
     private Marble[] thirdRow;
+    private DevCard[][] devCardMarket;
+    private boolean gameFinished;
+
+
+    //Aaron
+    private int[] leaderCardStatus; //1 means not activated but usable, 0 means discarded, 2 means activated
     private List<Resource> newResources;
     private Resource newFirstShelf;
     private List<Resource> newSecondShelf;
@@ -34,23 +41,24 @@ public class Cli extends ViewObservable implements View {
     private List<Resource> newFirstSpecialShelf;
     private List<Resource> newSecondSpecialShelf;
     private List<Resource> discardList;
-    private List<ProductionPower> leaderProductionPowerList;
-    private List<DevCard> activeDevCardList;
-    private ProductionPower baseProductionPower;
-    private DevCard[][] devCardMarket;
-    private DevCardColour devCardColour;
     private Resource firstShelf;
     private Resource secondShelf;
     private int secondShelfNumber;
     private Resource thirdShelf;
     private int thirdShelfNumber;
+
+    //Federico
+    private List<ProductionPower> leaderProductionPowerList;
+    private List<DevCard> activeDevCardList;
+    private ProductionPower baseProductionPower;
     private Map<Resource, Integer> chest;
-    private boolean gameFinished;
     private int crossPosition;
     private int victoryPoints;
     private boolean papalCardOne;
     private boolean papalCardTwo;
     private boolean papalCardThree;
+
+
     RectangleArt rectangleArt = new RectangleArt();
 
     /**
@@ -216,7 +224,7 @@ public class Cli extends ViewObservable implements View {
 
 
     @Override
-    public void distribuiteInitialResources(int number) {
+    public void distributeInitialResources(int number) {
         out.println("You start with " + number + " resources");
         int Chosen;
         int ChosenTwo;

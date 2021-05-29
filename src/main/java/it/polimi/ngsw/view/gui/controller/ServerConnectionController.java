@@ -36,7 +36,7 @@ public class ServerConnectionController extends ViewObservable implements Generi
     @FXML
     public void initialize() {
         connect.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onConnectButtonClick);
-        back.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackBtnClick);
+        back.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackClick);
     }
 
     private void onConnectButtonClick(Event event) {
@@ -58,7 +58,7 @@ public class ServerConnectionController extends ViewObservable implements Generi
 
     }
 
-    private void onBackBtnClick(Event event) {
+    private void onBackClick(Event event) {
         back.setDisable(true);
         connect.setDisable(true);
         SceneController.changeScene(observers, event, "logo_scene.fxml");

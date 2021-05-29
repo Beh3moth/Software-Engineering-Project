@@ -255,7 +255,7 @@ public class GameController implements Observer, Serializable {
             turnController.next();
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is chosing his initial resources", turnController.getActivePlayer());
             virtualView = virtualViewMap.get(turnController.getActivePlayer());
-            virtualView.distribuiteInitialResources(1);
+            virtualView.distributeInitialResources(1);
         }// caso multiplayer
         else{contSituation = 0;}
     }
@@ -272,12 +272,12 @@ public class GameController implements Observer, Serializable {
         this.contSituation++;
         if(this.contSituation <= game.getChosenPlayersNumber() && this.contSituation == 3){
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is chosing his initial resources", turnController.getActivePlayer());
-            virtualView.distribuiteInitialResources(1);
+            virtualView.distributeInitialResources(1);
             game.getPlayerByNickname(turnController.getActivePlayer()).getFaithPath().increaseCrossPosition();
         }
         else if(contSituation == game.getChosenPlayersNumber() && contSituation == 4){
             broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is chosing his initial resources", turnController.getActivePlayer());
-            virtualView.distribuiteInitialResources(2);
+            virtualView.distributeInitialResources(2);
             game.getPlayerByNickname(turnController.getActivePlayer()).getFaithPath().increaseCrossPosition();
         }
         if(contSituation == game.getChosenPlayersNumber() + 1){

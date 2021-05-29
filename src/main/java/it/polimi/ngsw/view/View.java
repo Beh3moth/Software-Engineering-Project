@@ -69,7 +69,7 @@ public interface View {
     void askFirstPlayer(List<String> nicknameList);
 
 
-    void distribuiteInitialResources(int resourcesNumber);
+    void distributeInitialResources(int resourcesNumber);
     /**
      * Shows a win message.
      *

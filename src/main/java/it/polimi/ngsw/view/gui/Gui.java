@@ -12,7 +12,7 @@ public class Gui extends ViewObservable implements View {
     
     @Override
     public void askNickname() {
-        Platform.runLater(() -> SceneController.changeScene(observers, "logo_scene.fxml"));
+        Platform.runLater(() -> SceneController.changeScene(observers, "ask_nickname_scene.fxml"));
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showErrorAndExit(String error) {
-
+        Platform.runLater(() -> SceneController.changeScene(observers, "logo_scene.fxml"));
     }
 
     @Override

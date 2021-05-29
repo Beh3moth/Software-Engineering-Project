@@ -79,7 +79,7 @@ public class LeaderCardParser {
         };
         gsonBuilder.registerTypeAdapter(SpaceAbilityListType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/SpaceAbility.json");
+        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/parsingInfo/SpaceAbility.json");
         spaceLeaderCards = customGson.fromJson(reader, SpaceAbilityListType);
     }
 
@@ -132,7 +132,7 @@ public class LeaderCardParser {
         };
         gsonBuilder.registerTypeAdapter(DiscountAbilityListType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/DiscountAbility.json");
+        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/parsingInfo/DiscountAbility.json");
         discountLeaderCards = customGson.fromJson(reader, DiscountAbilityListType);
     }
 
@@ -200,7 +200,7 @@ public class LeaderCardParser {
         };
         gsonBuilder.registerTypeAdapter(WhiteMarbleAbilityListType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/WhiteMarbleAbility.json");
+        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/parsingInfo/WhiteMarbleAbility.json");
         whiteMarbleLeaderCards = customGson.fromJson(reader, WhiteMarbleAbilityListType);
     }
 
@@ -262,7 +262,7 @@ public class LeaderCardParser {
         };
         gsonBuilder.registerTypeAdapter(ProductionPowerAbilityType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/ProductionPowerAbility.json");
+        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/parsingInfo/ProductionPowerAbility.json");
         productionPowerLeaderCards = customGson.fromJson(reader, ProductionPowerAbilityType);
     }
 

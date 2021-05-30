@@ -70,9 +70,8 @@ public class Cli extends ViewObservable implements View {
     /**
      * Starts the command-line interface.
      */
-    public void init() {
+    public void start() {
         out.println("Welcome to Maestri del rinascimento");
-
         try {
             askServerInfo();
         } catch (ExecutionException e) {

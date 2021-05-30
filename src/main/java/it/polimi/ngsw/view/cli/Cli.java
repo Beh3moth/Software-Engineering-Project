@@ -27,15 +27,6 @@ public class Cli extends ViewObservable implements View {
     private final PrintStream out;
     private Thread inputThread;
 
-    //Samu
-    private Marble singleMarble;
-    private Marble[] firstRow;
-    private Marble[] secondRow;
-    private Marble[] thirdRow;
-    private DevCard[][] devCardMarket;
-    private boolean gameFinished;
-
-
     //Aaron
     private int[] leaderCardStatus; //1 means not activated but usable, 0 means discarded, 2 means activated
     private List<Resource> newResources;
@@ -52,8 +43,6 @@ public class Cli extends ViewObservable implements View {
     private int thirdShelfNumber;
 
 
-
-
     /**
      * Default constructor.
      */
@@ -65,7 +54,6 @@ public class Cli extends ViewObservable implements View {
         this.newFirstSpecialShelf = new ArrayList<>();
         this.newSecondSpecialShelf = new ArrayList<>();
         this.discardList = new ArrayList<>();
-        this.gameFinished = false;
     }
 
     /**
@@ -293,11 +281,11 @@ public class Cli extends ViewObservable implements View {
     @Override
     public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
         out.println("\n\n It's your turn! \n\n");
-        this.singleMarble = singleMarble;
-        this.firstRow = firstRow;
-        this.secondRow = secondRow;
-        this.thirdRow = thirdRow;
-        this.devCardMarket = devCardMarket;
+        lightModel.setSingleMarble(singleMarble);
+        lightModel.setFirstRow(firstRow);
+        lightModel.setSecondRow(secondRow);
+        lightModel.setThirdRow(thirdRow);
+        lightModel.setDevCardMarket(devCardMarket);
         lightModel.setLeaderProductionPowerList(leaderProductionPowerList);
         lightModel.setActiveDevCardList(activeDevCardList);
         this.firstShelf = firstShelf;
@@ -338,15 +326,15 @@ public class Cli extends ViewObservable implements View {
             if (actionTypology == 1) {
                 if (goneRight == 1) {
                     this.leaderCardStatus[wichCard] = 2;
-                    if(gameFinished == true)endGame();
+                    if(lightModel.isGameFinished() == true)endGame();
                     else{endTurn();}
                 } else if (goneRight == 0) {
-                    if(gameFinished == true)afterLastMainMove(1,Leaders);
+                    if(lightModel.isGameFinished() == true)afterLastMainMove(1,Leaders);
                     else{ askToManageLeaderCards(Leaders, turnZone);}
                 }//leadercard choice. middle turn
             } else if (actionTypology == 2) {
                 this.leaderCardStatus[wichCard] = 0;
-                if(gameFinished == true)endGame();
+                if(lightModel.isGameFinished() == true)endGame();
                 else{endTurn();}
             }
             //fine turno
@@ -629,7 +617,7 @@ public class Cli extends ViewObservable implements View {
             if (chose == 1) discardCard(turnZone);
             else if (chose == 0) {
                 if(turnZone == 1) mainMove();
-                else if(gameFinished == false && turnZone == 2) endTurn();
+                else if(lightModel.isGameFinished() == false && turnZone == 2) endTurn();
                 else {endGame();}
             }
         } catch (ExecutionException e) {
@@ -739,35 +727,35 @@ public class Cli extends ViewObservable implements View {
             if (chose == 1) {
                 out.println("Chose a column ( 1 - 2 - 3 - 4 ) ");
                 int choseColumn = numberInput(1, 4, "Which column? ");
-                Marble support = this.singleMarble;
-                this.singleMarble = this.firstRow[choseColumn - 1];
-                this.firstRow[choseColumn - 1] = this.secondRow[choseColumn - 1];
-                this.secondRow[choseColumn - 1] = this.thirdRow[choseColumn - 1];
-                this.thirdRow[choseColumn - 1] = support;
+                Marble support = lightModel.getSingleMarble();
+                lightModel.setSingleMarble(lightModel.getFirstRow()[choseColumn - 1]);
+                lightModel.setMarbleInFirstRow(choseColumn - 1, lightModel.getSecondRow()[choseColumn - 1]);
+                lightModel.setMarbleInSecondRow(choseColumn - 1, lightModel.getThirdRow()[choseColumn - 1]);
+                lightModel.setMarbleInThirdRow(choseColumn - 1, support);
                 printMarket();
                 notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, choseColumn));
             } else if (chose == 2) {
                 out.println("Chose a row ( 1 - 2 - 3 ) ");
                 int choseRow = numberInput(1, 3, "Which row? ");
-                Marble support = this.singleMarble;
+                Marble support = lightModel.getSingleMarble();
                 if (choseRow == 1) {
-                    this.singleMarble = this.firstRow[0];
-                    this.firstRow[0] = this.firstRow[1];
-                    this.firstRow[1] = this.firstRow[2];
-                    this.firstRow[2] = this.firstRow[3];
-                    this.firstRow[3] = support;
+                    lightModel.setSingleMarble(lightModel.getFirstRow()[0]);
+                    lightModel.setMarbleInFirstRow(0, lightModel.getFirstRow()[1]);
+                    lightModel.setMarbleInFirstRow(1, lightModel.getFirstRow()[2]);
+                    lightModel.setMarbleInFirstRow(2, lightModel.getFirstRow()[3]);
+                    lightModel.setMarbleInFirstRow(3, support);
                 } else if (choseRow == 2) {
-                    this.singleMarble = this.secondRow[0];
-                    this.secondRow[0] = this.secondRow[1];
-                    this.secondRow[1] = this.secondRow[2];
-                    this.secondRow[2] = this.secondRow[3];
-                    this.secondRow[3] = support;
+                    lightModel.setSingleMarble(lightModel.getSecondRow()[0]);
+                    lightModel.setMarbleInSecondRow(0, lightModel.getSecondRow()[1]);
+                    lightModel.setMarbleInSecondRow(1, lightModel.getSecondRow()[2]);
+                    lightModel.setMarbleInSecondRow(2, lightModel.getSecondRow()[3]);
+                    lightModel.setMarbleInSecondRow(3, support);
                 } else if (choseRow == 3) {
-                    this.singleMarble = this.thirdRow[0];
-                    this.thirdRow[0] = this.thirdRow[1];
-                    this.thirdRow[1] = this.thirdRow[2];
-                    this.thirdRow[2] = this.thirdRow[3];
-                    this.thirdRow[3] = support;
+                    lightModel.setSingleMarble(lightModel.getThirdRow()[0]);
+                    lightModel.setMarbleInThirdRow(0, lightModel.getThirdRow()[1]);
+                    lightModel.setMarbleInThirdRow(1, lightModel.getThirdRow()[2]);
+                    lightModel.setMarbleInThirdRow(2, lightModel.getThirdRow()[3]);
+                    lightModel.setMarbleInThirdRow(3, support);
                 }
                 printMarket();
                 notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, choseRow));
@@ -784,17 +772,17 @@ public class Cli extends ViewObservable implements View {
     public void printMarket() {
         out.println("MARKET");
         out.print("SINGLE MARBLE: ");
-        out.println(getResourceArt(this.singleMarble.getResource()));
+        out.println(getResourceArt(lightModel.getSingleMarble().getResource()));
         for (int j = 0; j < 4; j++) {
-            out.print("  " + getResourceArt(this.firstRow[j].getResource()) + "    ");
+            out.print("  " + getResourceArt(lightModel.getFirstRow()[j].getResource()) + "    ");
         }
         out.println("");
         for (int j = 0; j < 4; j++) {
-            out.print("  " + getResourceArt(this.secondRow[j].getResource()) + "    ");
+            out.print("  " + getResourceArt(lightModel.getSecondRow()[j].getResource()) + "    ");
         }
         out.println("");
         for (int j = 0; j < 4; j++) {
-            out.print("  " + getResourceArt(this.thirdRow[j].getResource()) + "    ");
+            out.print("  " + getResourceArt(lightModel.getThirdRow()[j].getResource()) + "    ");
         }
         out.println("");out.println("");out.println("");
     }
@@ -840,7 +828,7 @@ public class Cli extends ViewObservable implements View {
                 askToManageLeaderCards(leaders, 2);
             } else {
                 out.println("You don't have usable leader cards");
-                if(gameFinished == true)endGame();
+                if(lightModel.isGameFinished() == true)endGame();
                 else{endTurn();}
             }
         } else {
@@ -1344,7 +1332,7 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void afterLastMainMove(int i, List<LeaderCard> leaders) {
-        this.gameFinished = true;
+        lightModel.setGameFinished(true);
             if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
                 try {
                     if (this.leaderCardStatus[0] == 1) printLeaderCard(leaders.get(0));
@@ -1508,7 +1496,7 @@ public class Cli extends ViewObservable implements View {
                 catch (ExecutionException e){
                     out.println("Wrong Input");
                 }
-                if(this.devCardMarket[3-level][column-1].getPV()!=0){
+                if(lightModel.getDevCardMarket()[3-level][column-1].getPV()!=0){
                     goneRight = true;
                 }
                 else{
@@ -1592,7 +1580,7 @@ public class Cli extends ViewObservable implements View {
                 for(int k = 0; k < MAX_VERT_TILES; k++) {
 
                     for (int p = 0; p < MAX_HORIZON_TILES; p++) {
-                        tilesArray[k+(kIterator*10)][p+(pIterator*19)] = getPrintableDevCard(devCardMarket[i][j])[k][p];
+                        tilesArray[k+(kIterator*10)][p+(pIterator*19)] = getPrintableDevCard(lightModel.getDevCardMarket()[i][j])[k][p];
                     }
 
                 }

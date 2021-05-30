@@ -1,6 +1,7 @@
 package it.polimi.ngsw.view;
 
 import it.polimi.ngsw.model.DevCard;
+import it.polimi.ngsw.model.Marble;
 import it.polimi.ngsw.model.ProductionPower;
 import it.polimi.ngsw.model.Resource;
 
@@ -18,8 +19,17 @@ public class LightModel {
     private boolean papalCardOne;
     private boolean papalCardTwo;
     private boolean papalCardThree;
+    //samu
+    private Marble singleMarble;
+    private Marble[] firstRow;
+    private Marble[] secondRow;
+    private Marble[] thirdRow;
+    private DevCard[][] devCardMarket;
+    private boolean gameFinished;
 
-
+    public LightModel(){
+        this.gameFinished = false;
+    }
     public List<ProductionPower> getLeaderProductionPowerList() {
         return leaderProductionPowerList;
     }
@@ -90,5 +100,57 @@ public class LightModel {
 
     public void setPapalCardThree(boolean papalCardThree) {
         this.papalCardThree = papalCardThree;
+    }
+
+    //samu
+
+    public Marble getSingleMarble(){return this.singleMarble;}
+
+    public void setSingleMarble(Marble singleMarble){this.singleMarble = singleMarble;}
+
+    public Marble[] getFirstRow() {return this.firstRow;}
+
+    public Marble[] getSecondRow() {return this.secondRow;}
+
+    public Marble[] getThirdRow() {return this.thirdRow;}
+
+    public void setFirstRow(Marble[] firstRow) {
+        this.firstRow = firstRow;
+    }
+
+    public void setSecondRow(Marble[] secondRow) {
+        this.secondRow = secondRow;
+    }
+
+    public void setThirdRow(Marble[] thirdRow) {
+        this.thirdRow = thirdRow;
+    }
+
+    public void setMarbleInFirstRow(int i, Marble marble){
+        this.firstRow[i] = marble;
+    }
+
+    public void setMarbleInSecondRow(int i, Marble marble) {
+        this.secondRow[i] = marble;
+    }
+
+    public void setMarbleInThirdRow(int i, Marble marble){
+        this.thirdRow[i] = marble;
+    }
+
+    public DevCard[][] getDevCardMarket() {
+        return devCardMarket;
+    }
+
+    public void setDevCardMarket(DevCard[][] devCardMarket) {
+        this.devCardMarket = devCardMarket;
+    }
+
+    public void setGameFinished(boolean gameFinished) {
+        this.gameFinished = gameFinished;
+    }
+
+    public boolean isGameFinished() {
+        return gameFinished;
     }
 }

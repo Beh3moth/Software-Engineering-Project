@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/ask_players_number_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ngsw.view.gui.controller.ask_players_number_controller">
+    <children>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Group StackPane.alignment="CENTER">
+                <AnchorPane layoutY="1.0" prefHeight="500.0" prefWidth="300.0" styleClass="box" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
+                    <children>
+                        <Button fx:id="uno" layoutX="100.0" layoutY="91.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="100.0" styleClass="uno" stylesheets="@../css/ask_players_number_scene.css" />
+                        <Button fx:id="due" layoutX="100.0" layoutY="168.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="100.0" styleClass="due" stylesheets="@../css/ask_players_number_scene.css" />
+                        <Button fx:id="tre" layoutX="100.0" layoutY="243.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="100.0" styleClass="tre" stylesheets="@../css/ask_players_number_scene.css" />
+                        <Button fx:id="quattro" layoutX="100.0" layoutY="321.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="100.0" styleClass="quattro" stylesheets="@../css/ask_players_number_scene.css" />
+                    </children>
+                </AnchorPane>
+            </Group>
+        </StackPane>
+    </children>
+</AnchorPane>

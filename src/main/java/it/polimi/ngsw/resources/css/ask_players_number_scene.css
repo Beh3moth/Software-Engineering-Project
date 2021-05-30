@@ -1,0 +1,45 @@
+.mainPain {
+    -fx-background-image: url("../images/backgrounds/tavern.png");
+    -fx-background-size: stretch;
+}
+
+.box {
+    -fx-background-image: url("../images/backgrounds/box.png");
+    -fx-background-size: stretch;
+}
+
+.uno {
+    -fx-background-image: url("../images/buttons/1.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.due {
+    -fx-background-image: url("../images/buttons/2.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.tre {
+    -fx-background-image: url("../images/buttons/3.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.quattro {
+    -fx-background-image: url("../images/buttons/4.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}

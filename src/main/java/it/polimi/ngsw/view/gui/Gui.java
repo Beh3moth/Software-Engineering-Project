@@ -62,7 +62,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askFirstPlayer(List<String> nicknameList) {
-
+        Platform.runLater(() -> SceneController.changeScene(observers, "chose_first_player_scene.fxml"));
     }
 
     @Override

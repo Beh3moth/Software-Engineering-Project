@@ -25,7 +25,7 @@ public class ClientStarter {
             Cli cli = new Cli();
             ClientController clientcontroller = new ClientController(cli);
             cli.addObserver(clientcontroller);
-            cli.init();
+            cli.start();
         } else {
            Application.launch(GuiStarter.class);
         }

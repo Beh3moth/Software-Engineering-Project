@@ -113,6 +113,8 @@ public class GameController implements Observer, Serializable {
             if (game.getNumCurrentPlayers() == game.getChosenPlayersNumber()) { // If all players logged
                     initGame();
             }
+        }else {
+            virtualView.showLoginResult(true, false, Game.SERVER_NICKNAME);
         }
 
     }

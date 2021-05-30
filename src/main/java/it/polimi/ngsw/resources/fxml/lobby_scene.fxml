@@ -9,13 +9,16 @@
     <children>
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Group StackPane.alignment="CENTER">
-                <AnchorPane prefHeight="173.0" prefWidth="319.0">
+                <AnchorPane prefHeight="400.0" prefWidth="319.0" styleClass="box">
                     <children>
-                        <Text text="Lobby" textAlignment="CENTER" />
-                        <Text layoutY="60.0" text="Players connected: " textAlignment="CENTER" />
-                        <Label fx:id="playersNicknamesLabel" layoutX="120.0" layoutY="50.0" prefHeight="17.0" prefWidth="199.0" />
-                        <Text layoutY="80.0" text="Waiting for other players: " />
-                        <Label fx:id="playersNumberLabel" layoutX="153.0" layoutY="67.0" prefHeight="17.0" prefWidth="119.0" />
+                        <Text layoutX="140.0" layoutY="45.0" text="Lobby" textAlignment="CENTER">
+                     <font>
+                        <Font size="20.0" />
+                     </font></Text>
+                        <Text layoutX="84.0" layoutY="122.0" text="Players connected: " textAlignment="CENTER" />
+                        <Label fx:id="playersNicknamesLabel" layoutX="68.0" layoutY="126.0" prefHeight="17.0" prefWidth="199.0" />
+                        <Text layoutX="84.0" layoutY="168.0" text="Waiting for other players: " />
+                        <Label fx:id="playersNumberLabel" layoutX="100.0" layoutY="171.0" prefHeight="17.0" prefWidth="119.0" />
                     </children>
                 </AnchorPane>
             </Group>

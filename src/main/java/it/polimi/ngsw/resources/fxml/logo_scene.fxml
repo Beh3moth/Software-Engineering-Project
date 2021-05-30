@@ -1,19 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
 <AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/logo_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ngsw.view.gui.controller.LogoController">
-
-    <children>
-        <AnchorPane AnchorPane.bottomAnchor="220.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-            <Button fx:id="playButton" maxHeight="86.0" maxWidth="179.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="158.0" styleClass="playButton" stylesheets="@../css/logo_scene.css" AnchorPane.leftAnchor="500.0" />
-            <Button fx:id="quitButton" maxHeight="96.0" maxWidth="204.0" mnemonicParsing="false" prefHeight="65.0" prefWidth="158.0" styleClass="quitButton" stylesheets="@../css/logo_scene.css" AnchorPane.rightAnchor="500.0" />
-        </AnchorPane>
-        <ImageView fitHeight="173.0" fitWidth="458.0" layoutX="170.0" layoutY="75.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/logo/logo.png" />
-        </ImageView>
-    </children>
+<children>
+    <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <Group StackPane.alignment="CENTER">
+            <children>
+                <AnchorPane prefHeight="150.0" prefWidth="800.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                    <Button fx:id="playButton" layoutX="500.0" layoutY="10.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="250.0" styleClass="playButton" stylesheets="@../css/logo_scene.css" />
+                    <Button fx:id="quitButton" layoutX="50.0" layoutY="10.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="250.0" styleClass="quitButton" stylesheets="@../css/logo_scene.css" />
+                </AnchorPane>
+            </children>
+            <StackPane.margin>
+               <Insets top="400.0" />
+            </StackPane.margin>
+        </Group>
+        <Group StackPane.alignment="TOP_LEFT">
+            <children>
+                <AnchorPane>
+                    <ImageView fitHeight="300.0" fitWidth="800.0" layoutX="50.0" layoutY="50.0" pickOnBounds="true" preserveRatio="true">
+                        <Image url="@../images/logo/logo.png" />
+                    </ImageView>
+                </AnchorPane>
+            </children>
+        </Group>
+    </StackPane>
+</children>
 
 </AnchorPane>

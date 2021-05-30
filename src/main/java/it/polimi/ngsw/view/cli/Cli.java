@@ -2,6 +2,7 @@ package it.polimi.ngsw.view.cli;
 import it.polimi.ngsw.controller.ClientController;
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
+import it.polimi.ngsw.view.LightModel;
 import it.polimi.ngsw.view.View;
 import it.polimi.ngsw.view.cli.AsciiArt.Color;
 import it.polimi.ngsw.view.cli.AsciiArt.RectangleArt;
@@ -18,7 +19,10 @@ import java.util.concurrent.TimeUnit;
  */
 public class Cli extends ViewObservable implements View {
 
+    LightModel lightModel = new LightModel();
+
     ResourcesArt resourcesArt = new ResourcesArt();
+    RectangleArt rectangleArt = new RectangleArt();
 
     private final PrintStream out;
     private Thread inputThread;
@@ -47,19 +51,8 @@ public class Cli extends ViewObservable implements View {
     private Resource thirdShelf;
     private int thirdShelfNumber;
 
-    //Federico
-    private List<ProductionPower> leaderProductionPowerList;
-    private List<DevCard> activeDevCardList;
-    private ProductionPower baseProductionPower;
-    private Map<Resource, Integer> chest;
-    private int crossPosition;
-    private int victoryPoints;
-    private boolean papalCardOne;
-    private boolean papalCardTwo;
-    private boolean papalCardThree;
 
 
-    RectangleArt rectangleArt = new RectangleArt();
 
     /**
      * Default constructor.
@@ -305,20 +298,20 @@ public class Cli extends ViewObservable implements View {
         this.secondRow = secondRow;
         this.thirdRow = thirdRow;
         this.devCardMarket = devCardMarket;
-        this.leaderProductionPowerList = leaderProductionPowerList;
-        this.activeDevCardList = activeDevCardList;
+        lightModel.setLeaderProductionPowerList(leaderProductionPowerList);
+        lightModel.setActiveDevCardList(activeDevCardList);
         this.firstShelf = firstShelf;
         this.secondShelf =secondShelf;
         this.secondShelfNumber = secondShelfNumber;
         this.thirdShelf = thirdShelf;
         this.thirdShelfNumber = thirdShelfNumber;
-        this.baseProductionPower = baseProductionPower;
-        this.chest = chest;
-        this.crossPosition = crossPosition;
-        this.victoryPoints = victoryPoints;
-        this.papalCardOne = papalCardOne;
-        this.papalCardTwo = papalCardTwo;
-        this.papalCardThree = papalCardThree;
+        lightModel.setBaseProductionPower(baseProductionPower);
+        lightModel.setChest(chest);
+        lightModel.setCrossPosition(crossPosition);
+        lightModel.setVictoryPoints(victoryPoints);
+        lightModel.setPapalCardOne(papalCardOne);
+        lightModel.setPapalCardTwo(papalCardTwo);
+        lightModel.setPapalCardThree(papalCardThree);
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             askToManageLeaderCards(Leaders, 1);
         } else {
@@ -1033,12 +1026,12 @@ public class Cli extends ViewObservable implements View {
         out.println("Activation...");
         for(ProductionPower productionPower : paidProductionPowerList){
             if(productionPower.isLeaderProductionPower()){
-                this.crossPosition++;
+                lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
             }
             else {
                 for(Resource resource : productionPower.getResourceToReceive()){
                     if(resource.equals(Resource.FAITHPOINT)){
-                        this.crossPosition++;
+                        lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
                     }
                 }
             }
@@ -1069,9 +1062,9 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void leaderProductionPowerChosen(int productionPowerChosen){
-        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen-3<=leaderProductionPowerList.size()){
+        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen-3<=lightModel.getLeaderProductionPowerList().size()){
             chosenIntegerList.add(productionPowerChosen);
-            setLeaderProductionPower(leaderProductionPowerList.get(productionPowerChosen-4));
+            setLeaderProductionPower(lightModel.getLeaderProductionPowerList().get(productionPowerChosen-4));
         }
         else {
             out.println("You can't active this Production Power.");
@@ -1080,10 +1073,10 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void chosenDevCardProductionPower(int productionPowerChosen){
-        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen<=activeDevCardList.size()){
+        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen<=lightModel.getActiveDevCardList().size()){
             chosenIntegerList.add(productionPowerChosen);
             List<ProductionPower> productionPower = new ArrayList<>();
-            productionPower.add(activeDevCardList.get(productionPowerChosen-1).getProductionPower());
+            productionPower.add(lightModel.getActiveDevCardList().get(productionPowerChosen-1).getProductionPower());
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPower, "productionPowerChosen"));
         }
         else {
@@ -1245,7 +1238,7 @@ public class Cli extends ViewObservable implements View {
             case "setBaseProductionPower":
                 if (response) {
                     out.println("the resources have been set up.");
-                    baseProductionPower.setBaseProductionPowerLists(productionPower.getResourceToPay(), productionPower.getResourceToReceive());
+                    lightModel.getBaseProductionPower().setBaseProductionPowerLists(productionPower.getResourceToPay(), productionPower.getResourceToReceive());
                     payProductionPower(productionPower);
                 } else {
                     out.println("the resources haven't been set up.");
@@ -1259,7 +1252,7 @@ public class Cli extends ViewObservable implements View {
                 } else {
                     out.println("Production Power have been chosen, but you can't afford it.");
                     if(productionPower.isLeaderProductionPower()){
-                        for(ProductionPower power : leaderProductionPowerList){
+                        for(ProductionPower power : lightModel.getLeaderProductionPowerList()){
                             if(power.equals(productionPower)){
                                 power.resetLeaderProductionPower();
                             }
@@ -1282,8 +1275,8 @@ public class Cli extends ViewObservable implements View {
                 if (response) {
                     out.println("Successfully activated the Production Powers.");
                     paidProductionPowerList.clear();
-                    baseProductionPower.resetBaseProductionPower();
-                    for(ProductionPower leaderProductionPower : leaderProductionPowerList){
+                    lightModel.getBaseProductionPower().resetBaseProductionPower();
+                    for(ProductionPower leaderProductionPower : lightModel.getLeaderProductionPowerList()){
                         leaderProductionPower.resetLeaderProductionPower();
                     }
                     chosenIntegerList.clear();
@@ -1299,7 +1292,7 @@ public class Cli extends ViewObservable implements View {
                 }
                 else {
                     out.println("FAIL.");
-                    for(ProductionPower productionPowers : leaderProductionPowerList){
+                    for(ProductionPower productionPowers : lightModel.getLeaderProductionPowerList()){
                         if(productionPowers.equals(productionPower)){
                             productionPowers.resetLeaderProductionPower();
                         }
@@ -1736,8 +1729,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printPlayerDashBoard(){
-        //notifyObserver(obs -> obs.onUpdateAskForFaithPath());
-        printFaithPath(this.crossPosition, this.victoryPoints, this.papalCardOne, this.papalCardTwo, this.papalCardThree);
+        printFaithPath(lightModel.getCrossPosition(), lightModel.getVictoryPoints(), lightModel.isPapalCardOne(), lightModel.isPapalCardTwo(), lightModel.isPapalCardThree());
         printStartTurnWarehouse();
         printChest();
         printBaseProductionPower();
@@ -1750,8 +1742,8 @@ public class Cli extends ViewObservable implements View {
         out.println("Base Production Power");
         out.print("0 - ");
 
-        if(baseProductionPower.getResourceToPay()!=null){
-            for(Resource resource : baseProductionPower.getResourceToPay()){
+        if(lightModel.getBaseProductionPower().getResourceToPay()!=null){
+            for(Resource resource : lightModel.getBaseProductionPower().getResourceToPay()){
                 printResource(resource);
             }
         }
@@ -1761,8 +1753,8 @@ public class Cli extends ViewObservable implements View {
 
         out.print(" -> ");
 
-        if(baseProductionPower.getResourceToReceive()!=null){
-            for(Resource resource : baseProductionPower.getResourceToReceive()){
+        if(lightModel.getBaseProductionPower().getResourceToReceive()!=null){
+            for(Resource resource : lightModel.getBaseProductionPower().getResourceToReceive()){
                 printResource(resource);
             }
         }
@@ -1773,7 +1765,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printPlayerDevCards(){
-        if(activeDevCardList.isEmpty()){
+        if(lightModel.getActiveDevCardList().isEmpty()){
             out.println();
             out.println();
             out.println("You don't own Development Cards.");
@@ -1789,7 +1781,7 @@ public class Cli extends ViewObservable implements View {
             out.println("DevCards:");
             int counter = 1;
             int jIterator=0;
-            for(DevCard devCard : this.activeDevCardList){
+            for(DevCard devCard : this.lightModel.getActiveDevCardList()){
                 tiles[0][8+(jIterator*18)] = String.valueOf(counter);
                 String[][] devCardTiles = getPrintableDevCard(devCard);
                 for(int i = 0; i < MAX_VERT_TILES; i++) {
@@ -1811,14 +1803,14 @@ public class Cli extends ViewObservable implements View {
 
     private void printLeaderProductionPowers(){
 
-        if(leaderProductionPowerList.isEmpty()){
+        if(lightModel.getLeaderProductionPowerList().isEmpty()){
             out.println();
             out.println("You don't own Leader Production Powers");
         }
         else {
             out.println("Leader Production Powers");
             int counter = 4;
-            for(ProductionPower productionPower : this.leaderProductionPowerList){
+            for(ProductionPower productionPower : lightModel.getLeaderProductionPowerList()){
                 out.print(counter + " - ");
                 for(Resource resource : productionPower.getResourceToPay()){
                     printResource(resource);
@@ -1840,7 +1832,7 @@ public class Cli extends ViewObservable implements View {
         for(Resource resource : Resource.values()){
             if(resource!=Resource.EMPTY && resource!=Resource.FAITHPOINT){
                 printResource(resource);
-                out.println("- " + chest.get(resource));
+                out.println("- " + lightModel.getChest().get(resource));
             }
         }
     }

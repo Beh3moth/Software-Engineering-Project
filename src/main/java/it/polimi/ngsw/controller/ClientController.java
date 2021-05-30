@@ -231,7 +231,7 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case PICK_INITIAL_RESOURCES:
                 DistribuiteInitialResourcesMessage resourceinitialMessage = (DistribuiteInitialResourcesMessage) message;
-                taskQueue.execute(() -> view.distribuiteInitialResources(resourceinitialMessage.getNumber()));
+                taskQueue.execute(() -> view.distributeInitialResources(resourceinitialMessage.getNumber()));
                 break;
             case DISCONNECTION:
                 DisconnectionMessage dm = (DisconnectionMessage) message;
@@ -250,8 +250,8 @@ public class ClientController implements ViewObserver, Observer{
                 taskQueue.execute(() -> view.askFirstPlayer(playersMessage.getActivePlayers()));
                 break;
             case LEADERCARDREQUEST:
-                LeaderCardListMessage leadercardMessage = (LeaderCardListMessage) message;
-                taskQueue.execute(() -> view.askLeaderCard(leadercardMessage.getLeaderCardList()));
+                LeaderCardListMessage leaderCardMessage = (LeaderCardListMessage) message;
+                taskQueue.execute(() -> view.askLeaderCard(leaderCardMessage.getLeaderCardList()));
                 break;
             case LOGIN_REPLY:
                 LoginReply loginReply = (LoginReply) message;

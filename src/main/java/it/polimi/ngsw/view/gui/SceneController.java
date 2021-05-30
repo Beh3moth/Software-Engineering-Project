@@ -17,6 +17,9 @@ public class SceneController extends ViewObservable {
     private static Scene activeScene;
     private static GenericSceneController activeController;
 
+    public static GenericSceneController getActiveController() {
+        return activeController;
+    }
 
     public static <T> T changeScene(List<ViewObserver> observerList, Scene scene, String fxml) {
         T controller = null;

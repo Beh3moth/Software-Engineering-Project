@@ -6,7 +6,7 @@
 
 <AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/ask_nickname_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ngsw.view.gui.controller.Ask_nickname_controller">
 
-    <TextField fx:id="insertNickname" alignment="CENTER" layoutX="536.0" layoutY="284.0" prefHeight="30.0" prefWidth="229.0" text="127.0.0.2">
+    <TextField fx:id="insertNickname" alignment="CENTER" layoutX="536.0" layoutY="284.0" prefHeight="30.0" prefWidth="229.0" text="nickname">
     <font>
         <Font size="16.0" />
     </font>

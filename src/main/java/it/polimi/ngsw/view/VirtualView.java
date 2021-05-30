@@ -73,7 +73,7 @@ public class VirtualView implements View, Observer {
     }
 
     @Override
-    public void distribuiteInitialResources(int resourcesNumber){
+    public void distributeInitialResources(int resourcesNumber){
         clientHandler.sendMessage(new DistribuiteInitialResourcesMessage(Game.SERVER_NICKNAME, MessageType.PICK_INITIAL_RESOURCES, resourcesNumber, null, null , 0, 0));
     }
 

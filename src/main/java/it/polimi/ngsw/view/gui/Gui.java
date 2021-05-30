@@ -3,6 +3,7 @@ package it.polimi.ngsw.view.gui;
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
+import it.polimi.ngsw.view.gui.controller.LobbyController;
 import javafx.application.Platform;
 
 import java.util.List;
@@ -12,7 +13,7 @@ public class Gui extends ViewObservable implements View {
     
     @Override
     public void askNickname() {
-        Platform.runLater(() -> SceneController.changeScene(observers, "logo_scene.fxml"));
+        Platform.runLater(() -> SceneController.changeScene(observers, "ask_nickname_scene.fxml"));
     }
 
     @Override
@@ -32,12 +33,26 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showErrorAndExit(String error) {
-
+        Platform.runLater(() -> SceneController.changeScene(observers, "logo_scene.fxml"));
     }
 
     @Override
     public void showLobby(List<String> nicknameList, int numPlayers) {
-
+        LobbyController lobby;
+        try {
+            lobby = (LobbyController) SceneController.getActiveController();
+            lobby.setPlayersNicknames(nicknameList);
+            lobby.setPlayersNumber(numPlayers);
+            Platform.runLater(lobby::upDateValues);
+        }
+        catch (ClassCastException e) {
+            lobby = new LobbyController();
+            lobby.addAllObservers(observers);
+            lobby.setPlayersNicknames(nicknameList);
+            lobby.setPlayersNumber(numPlayers);
+            LobbyController finalLobby = lobby;
+            Platform.runLater(() -> SceneController.changeScene(finalLobby, "lobby_scene.fxml"));
+        }
     }
 
     @Override
@@ -51,7 +66,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void distribuiteInitialResources(int resourcesNumber) {
+    public void distributeInitialResources(int resourcesNumber) {
 
     }
 

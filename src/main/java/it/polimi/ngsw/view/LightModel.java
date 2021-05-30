@@ -27,6 +27,45 @@ public class LightModel {
     private DevCard[][] devCardMarket;
     private boolean gameFinished;
 
+    //aaron
+    private Resource firstShelf;
+    private Resource secondShelf;
+    private int secondShelfNumber;
+    private Resource thirdShelf;
+    private int thirdShelfNumber;
+
+    public Resource getFirstShelf(){
+        return firstShelf;
+    }
+    public void setFirstShelf(Resource first){
+        this.firstShelf = first;
+    }
+    public void setSecondShelfNumber(int second){
+        this.secondShelfNumber = second;
+    }
+    public void setSecondShelf(Resource second){
+        this.secondShelf = second;
+    }
+    public void setThirdShelf(Resource third){
+        this.thirdShelf = third;
+    }
+    public void setThirdShelfNumber(int third){
+        this.thirdShelfNumber = third;
+    }
+
+    public Resource getSecondShelf(){
+        return secondShelf;
+    }
+    public Resource getThirdShelf(){
+        return thirdShelf;
+    }
+    public int getSecondShelfNumber(){
+        return secondShelfNumber;
+    }
+    public int getThirdShelfNumber(){
+        return thirdShelfNumber;
+    }
+
     public LightModel(){
         this.gameFinished = false;
     }

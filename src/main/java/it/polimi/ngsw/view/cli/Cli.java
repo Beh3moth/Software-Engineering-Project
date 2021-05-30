@@ -36,11 +36,7 @@ public class Cli extends ViewObservable implements View {
     private List<Resource> newFirstSpecialShelf;
     private List<Resource> newSecondSpecialShelf;
     private List<Resource> discardList;
-    private Resource firstShelf;
-    private Resource secondShelf;
-    private int secondShelfNumber;
-    private Resource thirdShelf;
-    private int thirdShelfNumber;
+
 
 
     /**
@@ -287,11 +283,11 @@ public class Cli extends ViewObservable implements View {
         lightModel.setDevCardMarket(devCardMarket);
         lightModel.setLeaderProductionPowerList(leaderProductionPowerList);
         lightModel.setActiveDevCardList(activeDevCardList);
-        this.firstShelf = firstShelf;
-        this.secondShelf =secondShelf;
-        this.secondShelfNumber = secondShelfNumber;
-        this.thirdShelf = thirdShelf;
-        this.thirdShelfNumber = thirdShelfNumber;
+        this.lightModel.setFirstShelf(firstShelf);
+        this.lightModel.setSecondShelf(secondShelf);
+        this.lightModel.setThirdShelf(thirdShelf);
+        this.lightModel.setSecondShelfNumber(secondShelfNumber);
+        this.lightModel.setThirdShelfNumber(thirdShelfNumber);
         lightModel.setBaseProductionPower(baseProductionPower);
         lightModel.setChest(chest);
         lightModel.setCrossPosition(crossPosition);
@@ -688,22 +684,22 @@ public class Cli extends ViewObservable implements View {
     private void printStartTurnWarehouse() {
         out.println("\nWarehouse");
         out.print("First shelf: ");
-        if(firstShelf!=Resource.EMPTY && firstShelf!=Resource.FAITHPOINT){
+        if(lightModel.getFirstShelf()!=Resource.EMPTY && lightModel.getFirstShelf()!=Resource.FAITHPOINT){
             out.print("[ ");
-            printResource(firstShelf);
+            printResource(lightModel.getFirstShelf());
             out.print("]");
         }
         out.println();
         out.print("Second shelf: ");
-        for(int i = 0; i < secondShelfNumber; i++){
+        for(int i = 0; i < lightModel.getSecondShelfNumber(); i++){
             out.print("[ ");
-            printResource(secondShelf);
+            printResource(lightModel.getSecondShelf());
             out.print("]");
         }
         out.print("\nThird shelf: ");
-        for(int i = 0; i < thirdShelfNumber; i++){
+        for(int i = 0; i < lightModel.getThirdShelfNumber(); i++){
             out.print("[ ");
-            printResource(thirdShelf);
+            printResource(lightModel.getThirdShelf());
             out.print("]");
         }
         out.println();

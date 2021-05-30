@@ -18,7 +18,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askPlayersNumber() {
-        Platform.runLater(() -> SceneController.changeScene(observers, "ask_players_numbers.fxml"));
+        Platform.runLater(() -> SceneController.changeScene(observers, "ask_players_number_scene.fxml"));
     }
 
     @Override

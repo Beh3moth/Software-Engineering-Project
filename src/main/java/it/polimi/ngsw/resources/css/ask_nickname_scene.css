@@ -3,11 +3,6 @@
     -fx-background-size: stretch;
 }
 
-.box {
-    -fx-background-image: url("../images/backgrounds/box.png");
-    -fx-background-size: stretch;
-}
-
 .join {
     -fx-background-image: url("../images/buttons/play.png");
     -fx-border-color: transparent;

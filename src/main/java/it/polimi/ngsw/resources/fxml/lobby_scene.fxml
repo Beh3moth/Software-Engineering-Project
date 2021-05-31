@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/lobby_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ngsw.view.gui.controller.LobbyController">
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/lobby_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
     <children>
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Group StackPane.alignment="CENTER">
@@ -17,9 +17,11 @@
                              </font>
                         </Text>
                         <Text layoutX="84.0" layoutY="122.0" text="Players connected: " textAlignment="CENTER" />
-                        <Label fx:id="playersNicknamesLabel" layoutX="68.0" layoutY="126.0" prefHeight="17.0" prefWidth="199.0" />
+                        <Label fx:id="playersNicknamesLabel" layoutX="68.0" layoutY="126.0" prefHeight="17.0" prefWidth="199.0">
+                        </Label>
                         <Text layoutX="84.0" layoutY="168.0" text="Waiting for other players: " />
-                        <Label fx:id="playersNumberLabel" layoutX="100.0" layoutY="171.0" prefHeight="17.0" prefWidth="119.0" />
+                        <Label fx:id="playersNumberLabel" layoutX="100.0" layoutY="171.0" prefHeight="17.0" prefWidth="119.0">
+                        </Label>
                     </children>
                 </AnchorPane>
             </Group>

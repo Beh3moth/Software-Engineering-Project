@@ -8,32 +8,27 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LobbyController extends ViewObservable implements GenericSceneController {
 
-    private List<String> playersNicknames;
+    private List<String> playersNicknames = new ArrayList<>();
     private int playersNumber;
 
+    @FXML
+    private AnchorPane mainPane;
     @FXML
     private Label playersNicknamesLabel;
     @FXML
     private Label playersNumberLabel;
-    @FXML
-    private Button back;
 
     @FXML
     public void initialize() {
         playersNicknamesLabel.setText(String.join(", ", playersNicknames));
         playersNumberLabel.setText(playersNicknames.size() + "/" + playersNumber);
-        back.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackClick);
-    }
-
-    private void onBackClick(Event event) {
-        back.setDisable(true);
-        new Thread(() -> notifyObserver(ViewObserver::onDisconnection)).start();
-        SceneController.changeScene(observers, event, "logo_scene.fxml");
     }
 
     public void setPlayersNicknames(List<String> playersNicknames) {

@@ -38,6 +38,8 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showLobby(List<String> nicknameList, int numPlayers) {
+
+
         LobbyController lobby;
         try {
             lobby = (LobbyController) SceneController.getActiveController();

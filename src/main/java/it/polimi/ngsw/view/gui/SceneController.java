@@ -17,6 +17,10 @@ public class SceneController extends ViewObservable {
     private static Scene activeScene;
     private static GenericSceneController activeController;
 
+    public static Scene getActiveScene() {
+        return activeScene;
+    }
+
     public static GenericSceneController getActiveController() {
         return activeController;
     }

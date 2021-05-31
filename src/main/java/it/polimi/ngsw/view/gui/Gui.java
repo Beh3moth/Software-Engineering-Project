@@ -5,7 +5,7 @@ import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
 import it.polimi.ngsw.view.gui.controller.LobbyController;
 import javafx.application.Platform;
-
+import it.polimi.ngsw.view.gui.controller.distribute_initial_resources_controller;
 import java.util.List;
 import java.util.Map;
 
@@ -38,8 +38,6 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showLobby(List<String> nicknameList, int numPlayers) {
-
-
         LobbyController lobby;
         try {
             lobby = (LobbyController) SceneController.getActiveController();
@@ -68,8 +66,10 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void distributeInitialResources(int resourcesNumber) {
-
+    public void distributeInitialResources(int resourceNumber) {
+        distribute_initial_resources_controller dirc = new distribute_initial_resources_controller();
+        dirc.setResourceNumber(resourceNumber);
+        Platform.runLater(() -> SceneController.changeScene(dirc, "distribute_initial_resources_scene.fxml"));
     }
 
     @Override

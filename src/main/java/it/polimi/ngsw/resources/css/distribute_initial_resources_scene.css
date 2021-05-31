@@ -1,0 +1,45 @@
+.mainPain {
+    -fx-background-image: url("../images/backgrounds/tavern.png");
+    -fx-background-size: stretch;
+}
+
+.box {
+    -fx-background-image: url("../images/backgrounds/box.png");
+    -fx-background-size: stretch;
+}
+
+.money {
+    -fx-background-image: url("../images/icons/coin.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.slave {
+    -fx-background-image: url("../images/icons/servant.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.stone {
+    -fx-background-image: url("../images/icons/stone.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.shield {
+    -fx-background-image: url("../images/icons/shield.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}

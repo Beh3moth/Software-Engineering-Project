@@ -3,6 +3,7 @@ package it.polimi.ngsw.view.gui;
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.View;
+import it.polimi.ngsw.view.gui.controller.ChoseLeaderCardController;
 import it.polimi.ngsw.view.gui.controller.LobbyController;
 import javafx.application.Platform;
 import it.polimi.ngsw.view.gui.controller.distribute_initial_resources_controller;
@@ -23,7 +24,10 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askLeaderCard(List<LeaderCard> leaderCards) {
-
+        ChoseLeaderCardController controller = new ChoseLeaderCardController(leaderCards);
+        controller.addAllObservers(observers);
+        controller.setLeaderCardList(leaderCards);
+        Platform.runLater(() -> SceneController.changeScene(controller, "chose_leader_scene.fxml"));
     }
 
     @Override

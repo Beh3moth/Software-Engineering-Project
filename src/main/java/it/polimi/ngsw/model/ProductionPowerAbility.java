@@ -14,12 +14,19 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
     private final Resource inputResource;
     private ResourcesArt art = new ResourcesArt();
     private boolean isActive = false;
+    private String id;
 
-    public ProductionPowerAbility(LeaderCard leaderCard, int PV, DevCardColour leaderCardCost, Resource inputResource) {
+    public ProductionPowerAbility(LeaderCard leaderCard, int PV, DevCardColour leaderCardCost, Resource inputResource, String id) {
         super(leaderCard);
         this.PV = PV;
         this.leaderCardCost = leaderCardCost;
         this.inputResource = inputResource;
+        this.id = id;
+    }
+
+    @Override
+    public String getLeaderCardId() {
+        return id;
     }
 
     /**

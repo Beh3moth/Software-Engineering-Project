@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/chose_leader_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Group StackPane.alignment="CENTER">
+                <AnchorPane prefHeight="400.0" prefWidth="1250.0">
+                    <children>
+
+                        <ImageView fx:id="leaderCardOneImageView" fitHeight="250.0" fitWidth="200.0" layoutX="70.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/leader/space1.png" />
+                            </image>
+                        </ImageView>
+
+                        <ImageView fx:id="leaderCardTwoImageView" fitHeight="250.0" fitWidth="200.0" layoutX="365.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/leader/space1.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="leaderCardThreeImageView" fitHeight="250.0" fitWidth="200.0" layoutX="708.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/leader/space1.png" />
+                            </image>
+                        </ImageView>
+                        <ImageView fx:id="leaderCardFourImageView" fitHeight="250.0" fitWidth="200.0" layoutX="1005.0" layoutY="59.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../images/leader/space1.png" />
+                            </image>
+                        </ImageView>
+                        <Button fx:id="leaderCardOneButton" layoutX="78.0" layoutY="321.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="leaderButton" stylesheets="@../css/chose_leader_scene.css" />
+                        <Button fx:id="leaderCardTwoButton" layoutX="373.0" layoutY="321.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="leaderButton" stylesheets="@../css/chose_leader_scene.css" />
+                        <Button fx:id="leaderCardThreeButton" layoutX="716.0" layoutY="321.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="leaderButton" stylesheets="@../css/chose_leader_scene.css" />
+                        <Button fx:id="leaderCardFourButton" layoutX="1013.0" layoutY="321.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="leaderButton" stylesheets="@../css/chose_leader_scene.css" />
+                    </children>
+                </AnchorPane>
+                  <Button fx:id="confirmButton" layoutX="514.0" layoutY="-104.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="confirmButton" stylesheets="@../css/chose_leader_scene.css" />
+            </Group>
+        </StackPane>
+    </children>
+</AnchorPane>

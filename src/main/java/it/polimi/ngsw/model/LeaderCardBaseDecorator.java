@@ -11,6 +11,11 @@ public class LeaderCardBaseDecorator implements LeaderCard {
     }
 
     @Override
+    public String getLeaderCardId() {
+        return null;
+    }
+
+    @Override
     public void activateAbility(Player player) {
         wrapper.activateAbility(player);
     }

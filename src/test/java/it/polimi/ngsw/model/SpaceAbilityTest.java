@@ -14,7 +14,7 @@ public class SpaceAbilityTest {
     @Test
     public void activateAbilityTest(){
         list.add(0, Resource.MONEY);
-        LeaderCardBaseDecorator leader1 = new SpaceAbility(new ConcreteLeaderCard(), 2, list, Resource.MONEY);
+        LeaderCardBaseDecorator leader1 = new SpaceAbility(new ConcreteLeaderCard(), 2, list, Resource.MONEY, "1");
         leader1.activateAbility(player);
         assert(player.getWarehouse().getLeaderLevelType(1).equals(Resource.MONEY));
     }
@@ -22,14 +22,14 @@ public class SpaceAbilityTest {
     @Test
     public void getAbilityTest(){
         list.add(0, Resource.MONEY);
-        LeaderCardBaseDecorator leader1 = new SpaceAbility(new ConcreteLeaderCard(), 2, list, Resource.SHIELD);
+        LeaderCardBaseDecorator leader1 = new SpaceAbility(new ConcreteLeaderCard(), 2, list, Resource.SHIELD, "1");
         assertEquals("space", leader1.getAbilityName());
     }
 
     @Test
     public void getPVTest(){
         list.add(0, Resource.MONEY);
-        LeaderCardBaseDecorator leader1 = new SpaceAbility(new ConcreteLeaderCard(), 2, list, Resource.SHIELD);
+        LeaderCardBaseDecorator leader1 = new SpaceAbility(new ConcreteLeaderCard(), 2, list, Resource.SHIELD, "1");
         assertEquals(2, leader1.getPV());
     }
 

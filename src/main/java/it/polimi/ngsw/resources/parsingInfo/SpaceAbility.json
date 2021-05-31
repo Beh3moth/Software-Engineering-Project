@@ -8,7 +8,8 @@
       "SHIELD",
       "SHIELD"
     ],
-    "resourceToIncrease": "MONEY"
+    "resourceToIncrease": "MONEY",
+    "id": 1
   },
   {
     "PV": 3,
@@ -19,7 +20,8 @@
       "MONEY",
       "MONEY"
     ],
-    "resourceToIncrease": "STONE"
+    "resourceToIncrease": "STONE",
+    "id": 2
   },
   {
     "PV": 3,
@@ -30,7 +32,8 @@
       "STONE",
       "STONE"
     ],
-    "resourceToIncrease": "SLAVE"
+    "resourceToIncrease": "SLAVE",
+    "id": 3
   },
   {
     "PV": 3,
@@ -41,7 +44,8 @@
       "SLAVE",
       "SLAVE"
     ],
-    "resourceToIncrease": "SHIELD"
+    "resourceToIncrease": "SHIELD",
+    "id": 4
   }
 
 ]

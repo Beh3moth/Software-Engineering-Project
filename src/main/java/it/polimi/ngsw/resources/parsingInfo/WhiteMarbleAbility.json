@@ -6,7 +6,8 @@
       "YELLOW",
       "BLUE"
     ],
-    "resourceToObtain":"SLAVE"
+    "resourceToObtain":"SLAVE",
+    "id": 1
   },
   {
     "PV": 5,
@@ -15,7 +16,8 @@
       "GREEN",
       "PURPLE"
     ],
-    "resourceToObtain":"SHIELD"
+    "resourceToObtain":"SHIELD",
+    "id": 2
   },
   {
     "PV": 5,
@@ -24,7 +26,8 @@
       "BLUE",
       "YELLOW"
     ],
-    "resourceToObtain":"STONE"
+    "resourceToObtain":"STONE",
+    "id": 3
   },
   {
     "PV": 5,
@@ -33,6 +36,7 @@
       "PURPLE",
       "GREEN"
     ],
-    "resourceToObtain":"MONEY"
+    "resourceToObtain":"MONEY",
+    "id": 4
   }
 ]

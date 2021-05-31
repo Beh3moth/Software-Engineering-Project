@@ -5,7 +5,8 @@
       "YELLOW",
       "GREEN"
     ],
-    "discountResource": "SLAVE"
+    "discountResource": "SLAVE",
+    "id": 1
   },
   {
     "PV": 2,
@@ -13,7 +14,8 @@
       "BLUE",
       "PURPLE"
     ],
-    "discountResource": "SHIELD"
+    "discountResource": "SHIELD",
+    "id": 2
   },
   {
     "PV": 2,
@@ -21,7 +23,8 @@
       "GREEN",
       "BLUE"
     ],
-    "discountResource": "STONE"
+    "discountResource": "STONE",
+    "id": 3
   },
   {
     "PV": 2,
@@ -29,6 +32,7 @@
       "YELLOW",
       "PURPLE"
     ],
-    "discountResource": "MONEY"
+    "discountResource": "MONEY",
+    "id": 4
   }
 ]

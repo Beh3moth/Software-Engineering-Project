@@ -2,21 +2,25 @@
   {
     "PV":4,
     "leaderCardCost": "YELLOW",
-    "inputResource": "SHIELD"
+    "inputResource": "SHIELD",
+    "id": 1
   },
   {
     "PV":4,
     "leaderCardCost": "BLUE",
-    "inputResource": "SLAVE"
+    "inputResource": "SLAVE",
+    "id": 2
   },
   {
     "PV":4,
     "leaderCardCost":"PURPLE",
-    "inputResource": "STONE"
+    "inputResource": "STONE",
+    "id": 3
   },
   {
     "PV":4,
     "leaderCardCost":"GREEN",
-    "inputResource": "MONEY"
+    "inputResource": "MONEY",
+    "id": 4
   }
 ]

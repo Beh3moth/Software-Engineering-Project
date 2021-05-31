@@ -13,12 +13,19 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
     private final Resource discountResource;
     private ResourcesArt art = new ResourcesArt();
     private boolean isActive = false;
+    private String id;
 
-    public DiscountAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource discountResource) {
+    public DiscountAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource discountResource, String id) {
         super(leaderCard);
         this.PV = PV;
         this.leaderCardCost = leaderCardCost;
         this.discountResource = discountResource;
+        this.id = id;
+    }
+
+    @Override
+    public String getLeaderCardId() {
+        return id;
     }
 
     /**

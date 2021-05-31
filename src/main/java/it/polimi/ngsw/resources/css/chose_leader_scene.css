@@ -1,0 +1,24 @@
+.mainPain {
+    -fx-background-image: url("../images/backgrounds/tavern.png");
+    -fx-background-size: stretch;
+}
+
+.leaderButton {
+    -fx-background-image: url("../images/buttons/play.png");
+    -fx-background-size: stretch;
+}
+
+.leaderButton:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
+.confirmButton {
+    -fx-background-image: url("../images/buttons/play.png");
+    -fx-background-size: stretch;
+}
+
+.confirmButton:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}

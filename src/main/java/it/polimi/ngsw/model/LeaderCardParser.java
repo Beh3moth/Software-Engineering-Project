@@ -69,7 +69,8 @@ public class LeaderCardParser {
                         new ConcreteLeaderCard(),
                         jsonObject.get("PV").getAsInt(),
                         list,
-                        resource
+                        resource,
+                        String.valueOf(jsonObject.get("id").getAsInt())
                 );
                 spaceAbilities.add(spaceAbility);
             }
@@ -122,7 +123,8 @@ public class LeaderCardParser {
                         new ConcreteLeaderCard(),
                         jsonObject.get("PV").getAsInt(),
                         devCardColourList,
-                        resource
+                        resource,
+                        String.valueOf(jsonObject.get("id").getAsInt())
                 );
                 discountAbilities.add(discountAbility);
             }
@@ -190,7 +192,8 @@ public class LeaderCardParser {
                         new ConcreteLeaderCard(),
                         jsonObject.get("PV").getAsInt(),
                         devCardColourList,
-                        resource
+                        resource,
+                        String.valueOf(jsonObject.get("id").getAsInt())
                 );
                 whiteMarbleAbilities.add(whiteMarbleAbility);
             }
@@ -252,7 +255,8 @@ public class LeaderCardParser {
                         new ConcreteLeaderCard(),
                         jsonObject.get("PV").getAsInt(),
                         devCardColour,
-                        resource
+                        resource,
+                        String.valueOf(jsonObject.get("id").getAsInt())
                 );
                 productionPowerAbilities.add(productionAbility);
             }

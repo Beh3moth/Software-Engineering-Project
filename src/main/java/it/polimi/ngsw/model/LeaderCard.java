@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public interface LeaderCard extends Serializable {
 
-
+    String getLeaderCardId();
     void activateAbility(Player player);
     int getPV();
     String getAbilityName();

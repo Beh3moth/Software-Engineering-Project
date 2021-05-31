@@ -14,12 +14,19 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
     private final Resource resourceToObtain;
     private ResourcesArt art = new ResourcesArt();
     private boolean isActive = false;
+    private String id;
 
-    public WhiteMarbleAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource resourceToObtain) {
+    public WhiteMarbleAbility(LeaderCard leaderCard, int PV, List<DevCardColour> leaderCardCost, Resource resourceToObtain, String id) {
         super(leaderCard);
         this.PV = PV;
         this.leaderCardCost = leaderCardCost;
         this.resourceToObtain = resourceToObtain;
+        this.id = id;
+    }
+
+    @Override
+    public String getLeaderCardId() {
+        return id;
     }
 
     /**

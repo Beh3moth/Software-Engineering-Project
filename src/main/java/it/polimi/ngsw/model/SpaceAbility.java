@@ -13,12 +13,19 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
     private final Resource resourceToIncrease;
     private ResourcesArt art = new ResourcesArt();
     private boolean isActive = false;
+    private String id;
 
-    public SpaceAbility(LeaderCard leaderCard, int PV, List<Resource> leaderCardCost, Resource resourceToIncrease) {
+    public SpaceAbility(LeaderCard leaderCard, int PV, List<Resource> leaderCardCost, Resource resourceToIncrease, String id) {
         super(leaderCard);
         this.PV = PV;
         this.leaderCardCost = leaderCardCost;
         this.resourceToIncrease = resourceToIncrease;
+        this.id = id;
+    }
+
+    @Override
+    public String getLeaderCardId() {
+        return id;
     }
 
     /**

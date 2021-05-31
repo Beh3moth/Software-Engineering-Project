@@ -70,8 +70,9 @@ public class distribute_initial_resources_controller extends ViewObservable impl
                 this.resourceTwo = Resource.MONEY;
                 notifyObserver(obs -> obs.onUpdatePickedResources(this.resourceNumber, this.resourceOne,this.resourceTwo, this.firstPos, this.secondPos));}
 
-            if(resourceNumber == 1){
-            notifyObserver(obs -> obs.onUpdatePickedResources(this.resourceNumber, this.resourceOne,Resource.EMPTY, this.firstPos, 0));}
+            if(resourceNumber == 1) {
+                new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(this.resourceNumber, this.resourceOne, Resource.EMPTY, this.firstPos, 0))).start();
+            }
             if(resourceNumber == 2){
                 money.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onMoneyButtonClick);
                 slave.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onSlaveButtonClick);

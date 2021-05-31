@@ -71,9 +71,9 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void distributeInitialResources(int resourceNumber) {
-        distribute_initial_resources_controller dirc = new distribute_initial_resources_controller();
-        dirc.setResourceNumber(resourceNumber);
-        Platform.runLater(() -> SceneController.changeScene(dirc, "distribute_initial_resources_scene.fxml"));
+        distribute_initial_resources_controller dir = new distribute_initial_resources_controller();
+        dir.setResourceNumber(resourceNumber);
+        Platform.runLater(() -> SceneController.changeScene(dir, "distribute_initial_resources_scene.fxml"));
     }
 
     @Override
@@ -83,11 +83,11 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
-
+        //to do
     }
 
     @Override
-    public void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders) {
+    public void continueTurn(int turnZone, int actionTypology, int goneRight, int whichCard, List<LeaderCard> Leaders) {
 
     }
 
@@ -97,7 +97,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
+    public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndependent) {
 
     }
 

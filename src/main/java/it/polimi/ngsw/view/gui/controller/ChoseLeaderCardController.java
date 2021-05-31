@@ -81,7 +81,7 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
 
     private void onConfirmButton(Event event){
         if(selectedLeaderCardList.size()>=2){
-            new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCard(selectedLeaderCardList)));
+            new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCard(selectedLeaderCardList))).start();
         }
     }
 

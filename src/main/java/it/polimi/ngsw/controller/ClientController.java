@@ -155,7 +155,7 @@ public class ClientController implements ViewObserver, Observer{
     }
 
     @Override
-    public void onUpdateDiscardCard(int wichCard, int turnZone) {
+    public void onUpdateDiscardLeaderCard(int wichCard, int turnZone) {
         client.sendMessage(new DiscardLeaderMessage(this.nickname, wichCard, turnZone));
     }
 

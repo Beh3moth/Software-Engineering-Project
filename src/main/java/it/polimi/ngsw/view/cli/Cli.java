@@ -632,11 +632,11 @@ public class Cli extends ViewObservable implements View {
                 out.println("Wich one of the above cards? Type 1 to pick the first one, 2 to pick the second one");
                 int chose = numberInput(1, 2, "Which? ");
                 out.println("You received 1 faith point \n");
-                notifyObserver(obs -> obs.onUpdateDiscardCard(chose - 1, turnZone));
+                notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(chose - 1, turnZone));
             } else if (this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
-                notifyObserver(obs -> obs.onUpdateDiscardCard(1, turnZone));
+                notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, turnZone));
             else if (this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
-                notifyObserver(obs -> obs.onUpdateDiscardCard(0, turnZone));
+                notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, turnZone));
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }

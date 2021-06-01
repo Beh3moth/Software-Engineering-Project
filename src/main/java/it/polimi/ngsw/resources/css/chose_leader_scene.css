@@ -14,7 +14,7 @@
 }
 
 .confirmButton {
-    -fx-background-image: url("../images/buttons/play.png");
+    -fx-background-image: url("../images/buttons/confirm.png");
     -fx-background-size: stretch;
 }
 

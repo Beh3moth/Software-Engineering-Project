@@ -50,7 +50,7 @@ public interface ViewObserver {
 
     void onUpdateLeaderCardActivation(int chosenCard, int turnZone);
 
-    void onUpdateDiscardCard(int wichCard,int turnZone);
+    void onUpdateDiscardLeaderCard(int wichCard, int turnZone);
 
     void onUpdateBuyFromMarket(int rowOrColumn, int wichOne);
 

@@ -49,25 +49,25 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     private void onActivateLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, 0))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, 1))).start();
     }
 
     private void onActivateLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(2, 0))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(2, 1))).start();
     }
 
     private void onDiscardLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, 0))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, 1))).start();
     }
 
     private void onDiscardLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(2, 0))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(2, 1))).start();
     }
 
     private void onConfirmButton(Event event){
@@ -87,6 +87,8 @@ public class LeaderActionController extends ViewObservable implements GenericSce
             LeaderCard leaderCardOne = leaderCardList.get(0);
             Image img1 = new Image(getClass().getResourceAsStream("/images/leader/" + leaderCardOne.getAbilityName() + leaderCardOne.getLeaderCardId() + ".png"));
             leaderCardOneImageView = new ImageView(img1);
+            leaderCardTwoImageView.setDisable(true);
+            activateLeaderCardTwoButton.setCancelButton(true);
         }
     }
 

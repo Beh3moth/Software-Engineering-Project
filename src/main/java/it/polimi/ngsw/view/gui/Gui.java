@@ -2,8 +2,10 @@ package it.polimi.ngsw.view.gui;
 
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
+import it.polimi.ngsw.view.LightModel;
 import it.polimi.ngsw.view.View;
 import it.polimi.ngsw.view.gui.controller.ChoseLeaderCardController;
+import it.polimi.ngsw.view.gui.controller.LeaderActionController;
 import it.polimi.ngsw.view.gui.controller.LobbyController;
 import javafx.application.Platform;
 import it.polimi.ngsw.view.gui.controller.distribute_initial_resources_controller;
@@ -11,6 +13,9 @@ import java.util.List;
 import java.util.Map;
 
 public class Gui extends ViewObservable implements View {
+
+    LightModel lightModel = new LightModel();
+    private int[] leaderCardStatus;
     
     @Override
     public void askNickname() {
@@ -78,12 +83,37 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showWinMessage(String winner) {
-
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
-        //to do
+    public void startTurnMessage(List<LeaderCard> leaderCardList, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
+        lightModel.setSingleMarble(singleMarble);
+        lightModel.setFirstRow(firstRow);
+        lightModel.setSecondRow(secondRow);
+        lightModel.setThirdRow(thirdRow);
+        lightModel.setDevCardMarket(devCardMarket);
+        lightModel.setLeaderProductionPowerList(leaderProductionPowerList);
+        lightModel.setActiveDevCardList(activeDevCardList);
+        lightModel.setFirstShelf(firstShelf);
+        lightModel.setSecondShelf(secondShelf);
+        lightModel.setThirdShelf(thirdShelf);
+        lightModel.setSecondShelfNumber(secondShelfNumber);
+        lightModel.setThirdShelfNumber(thirdShelfNumber);
+        lightModel.setBaseProductionPower(baseProductionPower);
+        lightModel.setChest(chest);
+        lightModel.setCrossPosition(crossPosition);
+        lightModel.setVictoryPoints(victoryPoints);
+        lightModel.setPapalCardOne(papalCardOne);
+        lightModel.setPapalCardTwo(papalCardTwo);
+        lightModel.setPapalCardThree(papalCardThree);
+        if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
+            LeaderActionController controller = new LeaderActionController(leaderCardList);
+            controller.addAllObservers(observers);
+            Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
+        } else {
+            //out.println("You don't have usable leader cards");
+            //mainMove();
+        }
     }
 
     @Override

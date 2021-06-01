@@ -29,6 +29,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askLeaderCard(List<LeaderCard> leaderCards) {
+        this.leaderCardStatus = new int[]{1, 1};
         ChoseLeaderCardController controller = new ChoseLeaderCardController(leaderCards);
         controller.addAllObservers(observers);
         controller.setLeaderCardList(leaderCards);
@@ -78,6 +79,7 @@ public class Gui extends ViewObservable implements View {
     public void distributeInitialResources(int resourceNumber) {
         distribute_initial_resources_controller dir = new distribute_initial_resources_controller();
         dir.setResourceNumber(resourceNumber);
+        dir.addAllObservers(observers);
         Platform.runLater(() -> SceneController.changeScene(dir, "distribute_initial_resources_scene.fxml"));
     }
 
@@ -117,8 +119,53 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void continueTurn(int turnZone, int actionTypology, int goneRight, int whichCard, List<LeaderCard> Leaders) {
+    public void continueTurn(int turnZone, int actionTypology, int goneRight, int whichCard, List<LeaderCard> leaderCardList) {
+        if (turnZone == 1) { //inizio turno
 
+            if (actionTypology == 1) { //1 vuol dire che era stata chiamata una leadercard request, 2 una discard card
+
+                if (goneRight == 0) {  //0 vuol dire non attivata, quindi richiedi, 1 attivata
+                    LeaderActionController controller = new LeaderActionController(leaderCardList);
+                    controller.addAllObservers(observers);
+                    Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
+                }
+                else if (goneRight == 1) {
+                    Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
+                    this.leaderCardStatus[whichCard] = 2;
+                    // mainMove();
+                }
+
+            }
+            else if (actionTypology == 2) {
+
+                Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
+                this.leaderCardStatus[whichCard] = 0;
+                //mainMove();
+
+            }
+
+        }
+
+
+        /*
+        else if (turnZone == 2) {
+            if (actionTypology == 1) {
+                if (goneRight == 1) {
+                    this.leaderCardStatus[wichCard] = 2;
+                    if(lightModel.isGameFinished() == true)endGame();
+                    else{endTurn();}
+                } else if (goneRight == 0) {
+                    if(lightModel.isGameFinished() == true)afterLastMainMove(1,Leaders);
+                    else{ askToManageLeaderCards(Leaders, turnZone);}
+                }//leadercard choice. middle turn
+            } else if (actionTypology == 2) {
+                this.leaderCardStatus[wichCard] = 0;
+                if(lightModel.isGameFinished() == true)endGame();
+                else{endTurn();}
+            }
+            //fine turno
+        }
+        */
     }
 
     @Override

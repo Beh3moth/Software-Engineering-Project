@@ -1,0 +1,18 @@
+.mainPain {
+    -fx-background-image: url("../images/backgrounds/tavern.png");
+    -fx-background-size: stretch;
+}
+
+.window {
+    -fx-background-image: url("../images/backgrounds/window.png");
+    -fx-background-size: stretch;
+}
+
+.exit {
+    -fx-background-image: url("../images/buttons/exit.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}

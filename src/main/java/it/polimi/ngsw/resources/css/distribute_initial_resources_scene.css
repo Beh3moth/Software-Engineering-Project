@@ -43,3 +43,30 @@
     -fx-background-radius: 0;
     -fx-background-color: transparent;
 }
+
+.uno {
+    -fx-background-image: url("../images/buttons/1.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.due {
+    -fx-background-image: url("../images/buttons/2.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.tre {
+    -fx-background-image: url("../images/buttons/3.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}

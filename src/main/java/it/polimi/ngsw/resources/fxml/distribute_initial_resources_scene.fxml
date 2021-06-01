@@ -4,9 +4,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/ask_players_number_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/ask_players_number_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <StackPane layoutY="-14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-14.0">
             <Group StackPane.alignment="CENTER">
                 <AnchorPane layoutY="1.0" prefHeight="500.0" prefWidth="300.0" styleClass="box" AnchorPane.bottomAnchor="-1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="1.0">
                     <children>
@@ -14,12 +14,13 @@
                         <Button fx:id="slave" layoutX="115.0" layoutY="168.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="slave" stylesheets="@../css/distribute_initial_resources_scene.css" />
                         <Button fx:id="stone" layoutX="115.0" layoutY="243.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="stone" stylesheets="@../css/distribute_initial_resources_scene.css" />
                         <Button fx:id="shield" layoutX="115.0" layoutY="320.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="shield" stylesheets="@../css/distribute_initial_resources_scene.css" />
-                        <TextField fx:id="insertfirstshelf" alignment="CENTER" layoutX="135.0" layoutY="238.0" prefHeight="30.0" prefWidth="229.0" text="firstshelf">
-                        </TextField>
-                        <TextField fx:id="insertsecondshelf" alignment="CENTER" prefHeight="30.0" prefWidth="230.0" text="secondshelf">
-                        </TextField>
                     </children>
                 </AnchorPane>
+            </Group>
+            <Group StackPane.alignment="CENTER_RIGHT">
+                <Button fx:id="due" layoutX="116.0" layoutY="174.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="due" stylesheets="@../css/distribute_initial_resources_scene.css" />
+                <Button fx:id="tre" layoutX="116.0" layoutY="241.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="tre" stylesheets="@../css/distribute_initial_resources_scene.css" />
+                <Button fx:id="uno" layoutX="116.0" layoutY="107.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="uno" stylesheets="@../css/distribute_initial_resources_scene.css" />
             </Group>
         </StackPane>
     </children>

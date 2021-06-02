@@ -83,7 +83,7 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         secondcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onSecondcolumnButtonClick);
         thirdcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onThirdcolumnButtonClick);
         fourthcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onFourthcolumnButtonClick);
-        //setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
+        setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
     }
 
 

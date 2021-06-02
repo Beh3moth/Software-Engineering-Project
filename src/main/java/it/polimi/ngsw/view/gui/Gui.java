@@ -129,6 +129,9 @@ public class Gui extends ViewObservable implements View {
             //out.println("You don't have usable leader cards");
             //mainMove();
         }
+
+        DevCardSceneController devCardSceneController = new DevCardSceneController(lightModel.getDevCardMarket());
+
     }
 
     @Override
@@ -143,18 +146,20 @@ public class Gui extends ViewObservable implements View {
                     Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
                 }
                 else if (goneRight == 1) {
-                    Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
+                    gameController.addAllObservers(observers);
+                    gameController.setLightModel(lightModel);
+                    Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
                     this.leaderCardStatus[whichCard] = 2;
                     // mainMove();
                 }
 
             }
             else if (actionTypology == 2) {
-
-                Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
+                gameController.addAllObservers(observers);
+                gameController.setLightModel(lightModel);
+                Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
                 this.leaderCardStatus[whichCard] = 0;
                 //mainMove();
-
             }
 
         }

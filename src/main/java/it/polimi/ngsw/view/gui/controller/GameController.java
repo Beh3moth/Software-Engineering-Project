@@ -29,7 +29,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
     public void onTakeMarbleButtonClick(Event event){
         take_marble_controller takeMarbleController = new take_marble_controller(this.lightModel);
         takeMarbleController.addAllObservers(observers);
-        SceneController.changeScene(takeMarbleController, event, "take_marble_scene.fxml");
+        SceneController.changeScene(takeMarbleController, "take_marble_scene.fxml");
     }
 
 

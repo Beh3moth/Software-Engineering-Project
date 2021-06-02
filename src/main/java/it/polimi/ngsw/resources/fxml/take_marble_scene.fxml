@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/take_marble_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ngsw.view.gui.controller.take_marble_controller">
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/take_marble_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
     <children>
         <StackPane layoutY="-14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-14.0">
             <Group StackPane.alignment="CENTER">
@@ -13,67 +13,67 @@
                     <children>
                         <ImageView fx:id="MARBLE00" fitHeight="50.0" fitWidth="50.0" layoutX="488.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE01" fitHeight="50.0" fitWidth="50.0" layoutX="578.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE02" fitHeight="50.0" fitWidth="50.0" layoutX="665.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE03" fitHeight="50.0" fitWidth="50.0" layoutX="748.0" layoutY="317.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE10" fitHeight="50.0" fitWidth="50.0" layoutX="488.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE20" fitHeight="50.0" fitWidth="50.0" layoutX="488.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE11" fitHeight="50.0" fitWidth="50.0" layoutX="578.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE21" fitHeight="50.0" fitWidth="50.0" layoutX="578.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE12" fitHeight="50.0" fitWidth="50.0" layoutX="665.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE22" fitHeight="50.0" fitWidth="50.0" layoutX="665.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE13" fitHeight="50.0" fitWidth="50.0" layoutX="748.0" layoutY="389.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="MARBLE23" fitHeight="50.0" fitWidth="50.0" layoutX="748.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <ImageView fx:id="SINGLEMARBLE" fitHeight="50.0" fitWidth="50.0" layoutX="863.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../images/icons/WHITE.png" />
+                                <Image url="@../images/icons/marbles/WHITE.png" />
                             </image>
                         </ImageView>
                         <Button fx:id="firstrow" layoutX="388.0" layoutY="317.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="firstrow" stylesheets="@../css/take_marble_scene.css" />

@@ -9,18 +9,13 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 
 public class take_marble_controller extends ViewObservable implements GenericSceneController{
-
-    private LightModel lightmodel;
 
     private Marble[] firstRow;
     private Marble[] secondRow;
     private Marble[] thirdRow;
     private Marble singleMarble;
-
-    GridPane marbleGrid = new GridPane ();
 
     @FXML
     private Button firstrow;
@@ -65,7 +60,7 @@ public class take_marble_controller extends ViewObservable implements GenericSce
 
 
 
-    public take_marble_controller(){
+    public take_marble_controller(LightModel lightmodel){
         this.firstRow = lightmodel.getFirstRow();
         this.secondRow = lightmodel.getSecondRow();
         this.thirdRow = lightmodel.getThirdRow();
@@ -74,6 +69,13 @@ public class take_marble_controller extends ViewObservable implements GenericSce
 
     @FXML
     public void initialize() {
+        this.firstrow.setDisable(false);
+        this.secondrow.setDisable(false);
+        this.thirdrow.setDisable(false);
+        this.firstcolumn.setDisable(false);
+        this.secondcolumn.setDisable(false);
+        this.thirdcolumn.setDisable(false);
+        this.fourthcolumn.setDisable(false);
         firstrow.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onFirstrowButtonClick);
         secondrow.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onSecondrowButtonClick);
         thirdrow.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onThirdrowButtonClick);
@@ -84,35 +86,123 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
     }
 
+
     public void onFirstrowButtonClick(Event event){
+        reorderRow(1);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 1))).start();
+        this.firstrow.setDisable(true);
+        this.secondrow.setDisable(true);
+        this.thirdrow.setDisable(true);
+        this.firstcolumn.setDisable(true);
+        this.secondcolumn.setDisable(true);
+        this.thirdcolumn.setDisable(true);
+        this.fourthcolumn.setDisable(true);
     }
 
     public void onSecondrowButtonClick(Event event){
+        reorderRow(2);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 2))).start();
+        this.firstrow.setDisable(true);
+        this.secondrow.setDisable(true);
+        this.thirdrow.setDisable(true);
+        this.firstcolumn.setDisable(true);
+        this.secondcolumn.setDisable(true);
+        this.thirdcolumn.setDisable(true);
+        this.fourthcolumn.setDisable(true);
     }
 
     public void onThirdrowButtonClick(Event event){
+        reorderRow(3);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 3))).start();
+        this.firstrow.setDisable(true);
+        this.secondrow.setDisable(true);
+        this.thirdrow.setDisable(true);
+        this.firstcolumn.setDisable(true);
+        this.secondcolumn.setDisable(true);
+        this.thirdcolumn.setDisable(true);
+        this.fourthcolumn.setDisable(true);
     }
 
     public void onFirstcolumnButtonClick(Event event){
+        reorderColumn(1);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 1))).start();
+        this.firstrow.setDisable(true);
+        this.secondrow.setDisable(true);
+        this.thirdrow.setDisable(true);
+        this.firstcolumn.setDisable(true);
+        this.secondcolumn.setDisable(true);
+        this.thirdcolumn.setDisable(true);
+        this.fourthcolumn.setDisable(true);
     }
 
     public void onSecondcolumnButtonClick(Event event){
+        reorderColumn(2);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 2))).start();
+        this.firstrow.setDisable(true);
+        this.secondrow.setDisable(true);
+        this.thirdrow.setDisable(true);
+        this.firstcolumn.setDisable(true);
+        this.secondcolumn.setDisable(true);
+        this.thirdcolumn.setDisable(true);
+        this.fourthcolumn.setDisable(true);
     }
 
     public void onThirdcolumnButtonClick(Event event){
+        reorderColumn(3);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 3))).start();
+        this.firstrow.setDisable(true);
+        this.secondrow.setDisable(true);
+        this.thirdrow.setDisable(true);
+        this.firstcolumn.setDisable(true);
+        this.secondcolumn.setDisable(true);
+        this.thirdcolumn.setDisable(true);
+        this.fourthcolumn.setDisable(true);
     }
 
     public void onFourthcolumnButtonClick(Event event){
+        reorderColumn(4);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 4))).start();
+        this.firstrow.setDisable(true);
+        this.secondrow.setDisable(true);
+        this.thirdrow.setDisable(true);
+        this.firstcolumn.setDisable(true);
+        this.secondcolumn.setDisable(true);
+        this.thirdcolumn.setDisable(true);
+        this.fourthcolumn.setDisable(true);
     }
 
-    public void setLightmodel(LightModel lightmodel){this.lightmodel = lightmodel;}
+    public void reorderColumn(int choseColumn){
+        Marble support = this.singleMarble;
+        this.singleMarble = (this.firstRow[choseColumn - 1]);
+        this.firstRow[choseColumn - 1] =  this.secondRow[choseColumn - 1];
+        this.secondRow[choseColumn - 1] = this.thirdRow[choseColumn - 1];
+        this.thirdRow[choseColumn - 1] = support;
+        setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
+    }
+
+    public void reorderRow(int choseRow){
+        Marble support = this.singleMarble;
+        if (choseRow == 1) {
+            singleMarble = this.firstRow[0];
+            this.firstRow[0] = this.firstRow[1];
+            this.firstRow[1] = this.firstRow[2];
+            this.firstRow[2] = this.firstRow[3];
+            this.firstRow[3] = support;
+        } else if (choseRow == 2) {
+            singleMarble = this.secondRow[0];
+            this.secondRow[0] = this.secondRow[1];
+            this.secondRow[1] = this.secondRow[2];
+            this.secondRow[2] = this.secondRow[3];
+            this.secondRow[3] = support;
+        } else if (choseRow == 3) {
+            singleMarble = this.thirdRow[0];
+            this.thirdRow[0] = this.thirdRow[1];
+            this.thirdRow[1] = this.thirdRow[2];
+            this.thirdRow[2] = this.thirdRow[3];
+            this.thirdRow[3] = support;
+        }
+        setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
+    }
 
     //set the image of the marble
 

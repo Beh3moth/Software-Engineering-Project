@@ -263,9 +263,15 @@ public class distribute_initial_resources_controller extends ViewObservable impl
         if(n == 2){
             this.secondPos = 1;
             new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(resourceNumber, resourceOne, resourceTwo, firstPos, secondPos))).start();
+            disableButton(uno);
+            disableButton(due);
+            disableButton(tre);
         }
         if(resourceNumber == 1){
             new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(resourceNumber, resourceOne, null, firstPos, 0))).start();
+            disableButton(uno);
+            disableButton(due);
+            disableButton(tre);
         }
         if(resourceNumber == 2){
             n++;
@@ -278,9 +284,15 @@ public class distribute_initial_resources_controller extends ViewObservable impl
             this.firstPos = 2;}
         if(n == 2){
             this.secondPos = 2;
-            new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(resourceNumber, resourceOne, resourceTwo, firstPos, secondPos))).start();}
+            new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(resourceNumber, resourceOne, resourceTwo, firstPos, secondPos))).start();
+            disableButton(uno);
+            disableButton(due);
+            disableButton(tre);}
         if(resourceNumber == 1){
             new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(resourceNumber, resourceOne, null, firstPos, 0))).start();
+            disableButton(uno);
+            disableButton(due);
+            disableButton(tre);
         }
         if(resourceNumber == 2){
             n++;
@@ -293,9 +305,15 @@ public class distribute_initial_resources_controller extends ViewObservable impl
             this.firstPos = 3;}
         if(n == 2){
             this.secondPos = 3;
-            new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(resourceNumber, resourceOne, resourceTwo, firstPos, secondPos))).start();}
+            new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(resourceNumber, resourceOne, resourceTwo, firstPos, secondPos))).start();
+            disableButton(uno);
+            disableButton(due);
+            disableButton(tre);}
         if(resourceNumber == 1){
             new Thread(() -> notifyObserver(obs -> obs.onUpdatePickedResources(resourceNumber, resourceOne, null, firstPos, 0))).start();
+            disableButton(uno);
+            disableButton(due);
+            disableButton(tre);
         }
         if(resourceNumber == 2){
             n++;

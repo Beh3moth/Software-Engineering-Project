@@ -1,9 +1,4 @@
 .mainPain {
-    -fx-background-image: url("../images/backgrounds/tavern.png");
-    -fx-background-size: stretch;
-}
-
-.window {
     -fx-background-image: url("../images/backgrounds/window.png");
     -fx-background-size: stretch;
 }

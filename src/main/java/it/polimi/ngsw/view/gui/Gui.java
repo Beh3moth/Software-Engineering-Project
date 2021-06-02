@@ -4,11 +4,9 @@ import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.LightModel;
 import it.polimi.ngsw.view.View;
-import it.polimi.ngsw.view.gui.controller.ChoseLeaderCardController;
-import it.polimi.ngsw.view.gui.controller.LeaderActionController;
-import it.polimi.ngsw.view.gui.controller.LobbyController;
+import it.polimi.ngsw.view.gui.controller.*;
 import javafx.application.Platform;
-import it.polimi.ngsw.view.gui.controller.distribute_initial_resources_controller;
+
 import java.util.List;
 import java.util.Map;
 
@@ -38,12 +36,12 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showDisconnectionMessage(String nicknameDisconnected, String text) {
-
+        Platform.runLater(() -> SceneController.showProblem("Info Message", nicknameDisconnected));
     }
 
     @Override
     public void showErrorAndExit(String error) {
-        Platform.runLater(() -> SceneController.changeScene(observers, "logo_scene.fxml"));
+        Platform.runLater(() -> SceneController.showProblem("Info Message", error));
     }
 
     @Override
@@ -67,7 +65,15 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showLoginResult(boolean nicknameAccepted, boolean connectionSuccessful, String nickname) {
-
+        if(connectionSuccessful && nicknameAccepted){
+            Platform.runLater(() -> SceneController.showProblem("Info Message","Connected successfully as " + nickname));
+        }
+        else {
+            Platform.runLater(() -> {
+                Platform.runLater(() -> SceneController.showProblem("Info Message", "Invalid nickname"));
+                SceneController.changeScene(observers, "ask_nickname_scene.fxml");
+            });
+        }
     }
 
     @Override
@@ -179,8 +185,8 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void showGenericMessage(String genericMessage) {
-
+    public void showGenericMessage(String message) {
+        Platform.runLater(() -> SceneController.showProblem("Info Message", message));
     }
 
     @Override

@@ -83,7 +83,7 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         secondcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onSecondcolumnButtonClick);
         thirdcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onThirdcolumnButtonClick);
         fourthcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onFourthcolumnButtonClick);
-        //setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
+        setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
     }
 
 
@@ -207,31 +207,31 @@ public class take_marble_controller extends ViewObservable implements GenericSce
     //set the image of the marble
 
     public void setMarble(Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, Marble singleMarble){
-        Image marble00 = new Image("images/icons/marbles/" + firstRow[0].getMarblecolour() + ".png");
+        Image marble00 = new Image("images/icons/marbles/" + firstRow[0].getColour().toString() + ".png");
         MARBLE00.setImage(marble00);
-        Image marble01 = new Image("images/icons/marbles/" + firstRow[1].getMarblecolour() + ".png");
+        Image marble01 = new Image("images/icons/marbles/" + firstRow[1].getColour().toString() + ".png");
         MARBLE01.setImage(marble01);
-        Image marble02 = new Image("images/icons/marbles/" + firstRow[2].getMarblecolour() + ".png");
+        Image marble02 = new Image("images/icons/marbles/" + firstRow[2].getColour().toString() + ".png");
         MARBLE02.setImage(marble02);
-        Image marble03 = new Image("images/icons/marbles/" + firstRow[3].getMarblecolour() + ".png");
+        Image marble03 = new Image("images/icons/marbles/" + firstRow[3].getColour().toString() + ".png");
         MARBLE03.setImage(marble03);
-        Image marble10 = new Image("images/icons/marbles/" + secondRow[0].getMarblecolour() + ".png");
+        Image marble10 = new Image("images/icons/marbles/" + secondRow[0].getColour().toString() + ".png");
         MARBLE10.setImage(marble10);
-        Image marble11 = new Image("images/icons/marbles/" + secondRow[1].getMarblecolour() + ".png");
+        Image marble11 = new Image("images/icons/marbles/" + secondRow[1].getColour().toString() + ".png");
         MARBLE11.setImage(marble11);
-        Image marble12 = new Image("images/icons/marbles/" + secondRow[2].getMarblecolour() + ".png");
+        Image marble12 = new Image("images/icons/marbles/" + secondRow[2].getColour().toString() + ".png");
         MARBLE12.setImage(marble12);
-        Image marble13 = new Image("images/icons/marbles/" + secondRow[3].getMarblecolour() + ".png");
+        Image marble13 = new Image("images/icons/marbles/" + secondRow[3].getColour().toString() + ".png");
         MARBLE13.setImage(marble13);
-        Image marble20 = new Image("images/icons/marbles/" + thirdRow[0].getMarblecolour() + ".png");
+        Image marble20 = new Image("images/icons/marbles/" + thirdRow[0].getColour().toString() + ".png");
         MARBLE20.setImage(marble20);
-        Image marble21 = new Image("images/icons/marbles/" + thirdRow[1].getMarblecolour() + ".png");
+        Image marble21 = new Image("images/icons/marbles/" + thirdRow[1].getColour().toString() + ".png");
         MARBLE21.setImage(marble21);
-        Image marble22 = new Image("images/icons/marbles/" + thirdRow[2].getMarblecolour() + ".png");
+        Image marble22 = new Image("images/icons/marbles/" + thirdRow[2].getColour().toString() + ".png");
         MARBLE22.setImage(marble22);
-        Image marble23 = new Image("images/icons/marbles/" + thirdRow[3].getMarblecolour() + ".png");
+        Image marble23 = new Image("images/icons/marbles/" + thirdRow[3].getColour().toString() + ".png");
         MARBLE23.setImage(marble23);
-        Image singlemarble = new Image("images/icons/marbles/" + singleMarble.getMarblecolour() + ".png");
+        Image singlemarble = new Image("images/icons/marbles/" + singleMarble.getColour().toString() + ".png");
         SINGLEMARBLE.setImage(singlemarble);
     }
 

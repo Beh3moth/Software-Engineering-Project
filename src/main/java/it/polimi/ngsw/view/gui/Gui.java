@@ -121,7 +121,6 @@ public class Gui extends ViewObservable implements View {
         lightModel.setPapalCardTwo(papalCardTwo);
         lightModel.setPapalCardThree(papalCardThree);
         this.gameController.setLightModel(lightModel);
-
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             LeaderActionController controller = new LeaderActionController(leaderCardList);
             controller.addAllObservers(observers);

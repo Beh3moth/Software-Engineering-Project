@@ -8,17 +8,10 @@ import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ChoseLeaderCardController extends ViewObservable implements GenericSceneController {
-
-    public ChoseLeaderCardController(List<LeaderCard> leaderCards){
-        setLeaderCardOneImageView(leaderCards);
-    }
 
     private List<LeaderCard> leaderCardList = new ArrayList<>();
     private List<LeaderCard> selectedLeaderCardList = new ArrayList<>();
@@ -36,11 +29,15 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
     @FXML
     private ImageView leaderCardOneImageView;
     @FXML
-    private ImageView leaderCardTwoImageView = new ImageView();
+    private ImageView leaderCardTwoImageView;
     @FXML
-    private ImageView leaderCardThreeImageView = new ImageView();
+    private ImageView leaderCardThreeImageView;
     @FXML
-    private ImageView leaderCardFourImageView = new ImageView();
+    private ImageView leaderCardFourImageView;
+
+    public ChoseLeaderCardController(List<LeaderCard> leaderCards){
+        this.leaderCardList = leaderCards;
+    }
 
     @FXML
     public void initialize(){
@@ -49,7 +46,13 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         leaderCardThreeButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onLeaderCardThree);
         leaderCardFourButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onLeaderCardFour);
         confirmButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onConfirmButton);
+        setLeaderCardOneImageView(this.leaderCardList);
+        setLeaderCardTwoImageView(this.leaderCardList);
+        setLeaderCardThreeImageView(this.leaderCardList);
+        setLeaderCardFourImageView(this.leaderCardList);
     }
+
+    //Buttons reaction
 
     private void onLeaderCardOne(Event event){
         if(selectedLeaderCardList.size()<2){
@@ -80,7 +83,8 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
     }
 
     private void onConfirmButton(Event event){
-        if(selectedLeaderCardList.size()>=2){
+        if(selectedLeaderCardList.size()==2){
+            disableButton(confirmButton);
             new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCard(selectedLeaderCardList))).start();
         }
     }
@@ -92,27 +96,10 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
 
     //Set the images and the LeaderCards
 
-    public void setLeaderCardList(List<LeaderCard> leaderCardList){
-        this.leaderCardList = leaderCardList;
-    }
-
     public void setLeaderCardOneImageView(List<LeaderCard> leaderCardList){
         LeaderCard leaderCard = leaderCardList.get(0);
-
-        /*
-        InputStream stream = null;
-        try {
-            stream = new FileInputStream("src/main/java/it/polimi/ngsw/resources/images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png");
-        }
-        catch (FileNotFoundException e) {
-            System.err.println("Leader Image Error");
-        }
-        assert stream != null;
-        Image img = new Image(stream);
+        Image img = new Image("images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png");
         leaderCardOneImageView.setImage(img);
-         */
-        Image img = new Image(getClass().getResourceAsStream("/images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png"));
-        leaderCardOneImageView = new ImageView(img);
 
     }
 

@@ -30,7 +30,6 @@ public class Gui extends ViewObservable implements View {
         this.leaderCardStatus = new int[]{1, 1};
         ChoseLeaderCardController controller = new ChoseLeaderCardController(leaderCards);
         controller.addAllObservers(observers);
-        controller.setLeaderCardList(leaderCards);
         Platform.runLater(() -> SceneController.changeScene(controller, "chose_leader_scene.fxml"));
     }
 
@@ -65,10 +64,16 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void showLoginResult(boolean nicknameAccepted, boolean connectionSuccessful, String nickname) {
-        if(connectionSuccessful && nicknameAccepted){
-            Platform.runLater(() -> SceneController.showProblem("Info Message","Connected successfully as " + nickname));
-        }
-        else {
+        if (nicknameAccepted && connectionSuccessful) {
+            Platform.runLater(() -> Platform.runLater(() -> SceneController.showProblem("Info Message", "Connected successfully as " + nickname)));
+        } else if (connectionSuccessful) {
+            askNickname();
+        } else if (nicknameAccepted) {
+            Platform.runLater(() -> {
+                Platform.runLater(() -> SceneController.showProblem("Info Message", "Login error."));
+                SceneController.changeScene(observers, "lobby_scene.fxml");
+            });
+        } else {
             Platform.runLater(() -> {
                 Platform.runLater(() -> SceneController.showProblem("Info Message", "Invalid nickname"));
                 SceneController.changeScene(observers, "ask_nickname_scene.fxml");

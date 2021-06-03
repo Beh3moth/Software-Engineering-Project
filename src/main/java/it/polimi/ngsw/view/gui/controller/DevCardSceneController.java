@@ -5,9 +5,11 @@ import it.polimi.ngsw.observer.ViewObservable;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -43,18 +45,18 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
 
     private DevCard[][] devCardMarket;
 
-    private Button eventButton;
-
     @FXML
     public void initialize(){
         setButtonsImages();
-
+        devCard00.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
     }
 
     public void onChosenDevCard(Event event){
-        int row = GridPane.getRowIndex(eventButton);
-        int col = GridPane.getColumnIndex(eventButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(row, col, 1))).start();
+        Button button = (Button) event.getSource();
+        int row = GridPane.getRowIndex(button);
+        int col = GridPane.getColumnIndex(button);
+        button.setDisable(true);
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(2-row, col, 1))).start();
     }
 
     public void setButtonsImages(){

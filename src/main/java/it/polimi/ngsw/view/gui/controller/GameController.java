@@ -6,10 +6,16 @@ import it.polimi.ngsw.view.LightModel;
 import it.polimi.ngsw.view.gui.SceneController;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+
+import java.util.ArrayList;
 
 public class GameController extends ViewObservable implements GenericSceneController {
 
@@ -29,6 +35,10 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private Label stoneNumber;
     @FXML
     private Label slaveNumber;
+    @FXML
+    public Pane faithPath;
+    //FaithPath
+
 
     @FXML
     public void initialize(){
@@ -39,6 +49,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         stoneNumber.setText(lightModel.getChest().get(Resource.STONE).toString());
         slaveNumber.setText(lightModel.getChest().get(Resource.SLAVE).toString());
         devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
+        ArrayList<Node> faithPathList = new ArrayList<>();
+        faithPathList.add(faithPath.getChildren().get(24));
+        setCrossPosition(0);
     }
 
     public void setLightModel(LightModel lightModel){this.lightModel = lightModel;}
@@ -61,6 +74,18 @@ public class GameController extends ViewObservable implements GenericSceneContro
         shieldNumber.setText(lightModel.getChest().get(Resource.SHIELD).toString());
         stoneNumber.setText(lightModel.getChest().get(Resource.STONE).toString());
         slaveNumber.setText(lightModel.getChest().get(Resource.SLAVE).toString());
+    }
+
+    public void setCrossPosition(int crossPosition){
+        for(int i = 0; i < 25; i++){
+            ImageView imageView = (ImageView) faithPath.getChildren().get(i);
+            if(i!=(24-crossPosition)){
+                imageView.setImage(null);
+            }
+            else {
+                imageView.setImage(new Image("images/icons/croce.png"));
+            }
+        }
     }
 
 }

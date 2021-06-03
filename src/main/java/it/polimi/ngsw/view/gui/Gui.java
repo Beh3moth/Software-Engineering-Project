@@ -129,9 +129,6 @@ public class Gui extends ViewObservable implements View {
             //out.println("You don't have usable leader cards");
             //mainMove();
         }
-
-        DevCardSceneController devCardSceneController = new DevCardSceneController(lightModel.getDevCardMarket());
-
     }
 
     @Override

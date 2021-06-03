@@ -17,11 +17,14 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private Pane mainPane;
     @FXML
     private Button take_marble;
+    @FXML
+    private Button devCardMarket;
 
     @FXML
     public void initialize(){
         mainPane.setVisible(true);
         take_marble.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTakeMarbleButtonClick);
+        devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
     }
 
     public void setLightModel(LightModel lightModel){this.lightModel = lightModel;}
@@ -30,6 +33,13 @@ public class GameController extends ViewObservable implements GenericSceneContro
         take_marble_controller takeMarbleController = new take_marble_controller(this.lightModel);
         takeMarbleController.addAllObservers(observers);
         SceneController.changeScene(takeMarbleController, "take_marble_scene.fxml");
+    }
+
+    public void onDevCardMarket(Event event){
+        DevCardSceneController controller = new DevCardSceneController();
+        controller.setDevCardMarket(lightModel.getDevCardMarket());
+        controller.addAllObservers(observers);
+        SceneController.changeScene(controller, "dev_card_market_scene.fxml");
     }
 
 

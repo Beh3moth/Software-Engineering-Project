@@ -3,6 +3,7 @@ package it.polimi.ngsw.view.gui.controller;
 import it.polimi.ngsw.model.DevCard;
 import it.polimi.ngsw.observer.ViewObservable;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -14,6 +15,7 @@ import javafx.scene.layout.StackPane;
 
 
 public class DevCardSceneController extends ViewObservable implements GenericSceneController {
+
     @FXML
     private Button devCard00;
     @FXML
@@ -41,9 +43,18 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
 
     private DevCard[][] devCardMarket;
 
+    private Button eventButton;
+
     @FXML
     public void initialize(){
         setButtonsImages();
+
+    }
+
+    public void onChosenDevCard(Event event){
+        int row = GridPane.getRowIndex(eventButton);
+        int col = GridPane.getColumnIndex(eventButton);
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(row, col, 1))).start();
     }
 
     public void setButtonsImages(){

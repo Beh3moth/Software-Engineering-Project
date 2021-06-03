@@ -1,13 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane fx:id="mainPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" styleClass="mainPane" stylesheets="@../css/game_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/game_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <AnchorPane layoutX="162.0" layoutY="241.0" prefHeight="478.0" prefWidth="906.0" styleClass="boardPane">
-            <Button fx:id="take_marble" layoutX="115.0" layoutY="91.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="money" stylesheets="@../css/game_scene.css" />
-            <Button fx:id="devCardMarket" text="DevCardMarket" />
-        </AnchorPane>
+        <StackPane layoutX="33.0" layoutY="-25.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="-33.0" AnchorPane.topAnchor="-25.0">
+             <Group StackPane.alignment="CENTER">
+                    <AnchorPane prefHeight="478.0" prefWidth="906.0" styleClass="boardPain">
+                    </AnchorPane>
+             </Group>
+        </StackPane>
+    </children>
+    <children>
+    <Group layoutX="124.0" layoutY="56.0" StackPane.alignment="CENTER_RIGHT">
+        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="225.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/icons/box_resources.png" />
+        </ImageView>
+        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="325.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/icons/box_resources.png" />
+        </ImageView>
+        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="225.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/icons/box_resources.png" />
+        </ImageView>
+        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="325.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/icons/box_resources.png" />
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="331.0" layoutY="520.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/icons/coin.png" />
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="333.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/icons/shield.png" />
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="231.0" layoutY="520.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/icons/servant.png" />
+        </ImageView>
+        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="231.0" layoutY="472.0" pickOnBounds="true" preserveRatio="true">
+            <Image url="@../images/icons/stone.png" />
+        </ImageView>
+        <Label fx:id="moneyNumber" layoutX="375.0" layoutY="524.0" prefHeight="17.0" prefWidth="48.0">
+        </Label>
+        <Label fx:id="shieldNumber" layoutX="375.0" layoutY="477.0" prefHeight="17.0" prefWidth="48.0">
+        </Label>
+        <Label fx:id="stoneNumber" layoutX="275.0" layoutY="477.0" prefHeight="17.0" prefWidth="48.0">
+        </Label>
+        <Label fx:id="slaveNumber" layoutX="275.0" layoutY="524.0" prefHeight="17.0" prefWidth="48.0">
+        </Label>
+        <Button fx:id="take_marble" layoutX="1012.0" layoutY="626.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
+        <Button fx:id="devCardMarket" layoutX="848.0" layoutY="626.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
+    </Group>
     </children>
 </AnchorPane>

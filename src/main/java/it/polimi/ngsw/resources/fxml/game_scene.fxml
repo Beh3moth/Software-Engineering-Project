@@ -7,49 +7,50 @@
 
 <AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/game_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
-        <StackPane layoutX="33.0" layoutY="-25.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="33.0" AnchorPane.rightAnchor="-33.0" AnchorPane.topAnchor="-25.0">
-             <Group StackPane.alignment="CENTER">
-                    <AnchorPane prefHeight="478.0" prefWidth="906.0" styleClass="boardPain">
-                    </AnchorPane>
-             </Group>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Group StackPane.alignment="CENTER">
+                <AnchorPane prefHeight="478.0" prefWidth="823.0" styleClass="boardPain">
+                    <children>
+                       <AnchorPane layoutY="278.0" prefHeight="200.0" prefWidth="300.0">
+                          <children>
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../images/icons/box_resources.png" />
+                            </ImageView>
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="6.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../images/icons/stone.png" />
+                            </ImageView>
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../images/icons/box_resources.png" />
+                            </ImageView>
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../images/icons/box_resources.png" />
+                            </ImageView>
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../images/icons/box_resources.png" />
+                            </ImageView>
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="108.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../images/icons/shield.png" />
+                            </ImageView>
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="106.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../images/icons/coin.png" />
+                            </ImageView>
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="7.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+                                <Image url="@../images/icons/servant.png" />
+                            </ImageView>
+                            <Label fx:id="stoneNumber" layoutX="41.0" layoutY="92.0" prefHeight="17.0" prefWidth="48.0" textFill="WHITE">
+                </Label>
+                            <Label fx:id="slaveNumber" layoutX="41.0" layoutY="129.0" prefHeight="17.0" prefWidth="48.0" textFill="WHITE">
+                </Label>
+                            <Label fx:id="moneyNumber" layoutX="141.0" layoutY="129.0" prefHeight="17.0" prefWidth="48.0" textFill="WHITE">
+                </Label>
+                            <Label fx:id="shieldNumber" layoutX="141.0" layoutY="92.0" prefHeight="17.0" prefWidth="48.0" textFill="WHITE">
+                </Label>
+                          </children>
+                       </AnchorPane>
+                    </children></AnchorPane>
+                <Button fx:id="take_marble" layoutX="910.0" layoutY="132.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
+                <Button fx:id="devCardMarket" layoutX="910.0" layoutY="29.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
+            </Group>
         </StackPane>
-    </children>
-    <children>
-    <Group layoutX="124.0" layoutY="56.0" StackPane.alignment="CENTER_RIGHT">
-        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="225.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/icons/box_resources.png" />
-        </ImageView>
-        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="325.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/icons/box_resources.png" />
-        </ImageView>
-        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="225.0" layoutY="514.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/icons/box_resources.png" />
-        </ImageView>
-        <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="325.0" layoutY="467.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/icons/box_resources.png" />
-        </ImageView>
-        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="331.0" layoutY="520.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/icons/coin.png" />
-        </ImageView>
-        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="333.0" layoutY="474.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/icons/shield.png" />
-        </ImageView>
-        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="231.0" layoutY="520.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/icons/servant.png" />
-        </ImageView>
-        <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="231.0" layoutY="472.0" pickOnBounds="true" preserveRatio="true">
-            <Image url="@../images/icons/stone.png" />
-        </ImageView>
-        <Label fx:id="moneyNumber" layoutX="375.0" layoutY="524.0" prefHeight="17.0" prefWidth="48.0">
-        </Label>
-        <Label fx:id="shieldNumber" layoutX="375.0" layoutY="477.0" prefHeight="17.0" prefWidth="48.0">
-        </Label>
-        <Label fx:id="stoneNumber" layoutX="275.0" layoutY="477.0" prefHeight="17.0" prefWidth="48.0">
-        </Label>
-        <Label fx:id="slaveNumber" layoutX="275.0" layoutY="524.0" prefHeight="17.0" prefWidth="48.0">
-        </Label>
-        <Button fx:id="take_marble" layoutX="1012.0" layoutY="626.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
-        <Button fx:id="devCardMarket" layoutX="848.0" layoutY="626.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
-    </Group>
     </children>
 </AnchorPane>

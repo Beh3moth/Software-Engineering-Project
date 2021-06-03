@@ -48,7 +48,7 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
     @FXML
     public void initialize(){
         setButtonsImages();
-        devCard00.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        setButtonsEventHandler();
     }
 
     public void onChosenDevCard(Event event){
@@ -56,7 +56,22 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         int row = GridPane.getRowIndex(button);
         int col = GridPane.getColumnIndex(button);
         button.setDisable(true);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(2-row, col, 1))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(row+1, col+1, 1))).start();
+    }
+
+    public void setButtonsEventHandler(){
+        devCard00.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard01.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard02.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard10.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard11.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard12.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard20.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard21.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard22.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard30.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard31.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        devCard32.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
     }
 
     public void setButtonsImages(){

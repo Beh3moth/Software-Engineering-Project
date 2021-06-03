@@ -65,13 +65,13 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     private void onDiscardLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, 1))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, 1))).start();
     }
 
     private void onDiscardLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(2, 1))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, 1))).start();
     }
 
     private void onConfirmButton(Event event){

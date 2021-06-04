@@ -6,12 +6,18 @@ import it.polimi.ngsw.view.LightModel;
 import it.polimi.ngsw.view.gui.SceneController;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.ArrayList;
 
 public class GameController extends ViewObservable implements GenericSceneController {
 
@@ -49,6 +55,10 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private ImageView DEVCARD2;
     @FXML
     private ImageView DEVCARD3;
+    @FXML
+    public Pane faithPath;
+    //FaithPath
+
 
     @FXML
     public void initialize(){
@@ -58,6 +68,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         upDateValuesOfWarehouse();
         upDateDevCard();
         devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
+        ArrayList<Node> faithPathList = new ArrayList<>();
+        faithPathList.add(faithPath.getChildren().get(24));
+        setCrossPosition(0);
     }
 
     public void setLightModel(LightModel lightModel){this.lightModel = lightModel;}
@@ -145,4 +158,16 @@ public class GameController extends ViewObservable implements GenericSceneContro
             DEVCARD3.setImage(devcard3);
         }
     }
+    public void setCrossPosition(int crossPosition){
+        for(int i = 0; i < 25; i++){
+            ImageView imageView = (ImageView) faithPath.getChildren().get(i);
+            if(i!=(24-crossPosition)){
+                imageView.setImage(null);
+            }
+            else {
+                imageView.setImage(new Image("images/icons/croce.png"));
+            }
+        }
+    }
+
 }

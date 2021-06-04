@@ -17,3 +17,12 @@
     -fx-background-radius: 0;
     -fx-background-color: transparent;
 }
+
+.faithPathBox {
+    -fx-background-image: url("../images/icons/croce.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}

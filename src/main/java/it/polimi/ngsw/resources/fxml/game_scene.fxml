@@ -5,12 +5,93 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/game_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/game_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
     <children>
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Group StackPane.alignment="CENTER">
-                <AnchorPane prefHeight="532.0" prefWidth="894.0" styleClass="boardPain">
+                <AnchorPane prefHeight="532.0" prefWidth="895.0" styleClass="boardPain">
                     <children>
+                  <AnchorPane prefHeight="156.0" prefWidth="894.0" stylesheets="@../css/game_scene.css" AnchorPane.bottomAnchor="376.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <children>
+                         <Pane fx:id="faithPath">
+                             <ImageView fx:id="pathPosition24" fitHeight="29.0" fitWidth="24.0" layoutX="826.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition23" fitHeight="37.0" fitWidth="24.0" layoutX="785.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition22" fitHeight="29.0" fitWidth="24.0" layoutX="741.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition21" fitHeight="37.0" fitWidth="24.0" layoutX="698.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition20" fitHeight="29.0" fitWidth="30.0" layoutX="652.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition19" fitHeight="37.0" fitWidth="24.0" layoutX="610.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition18" fitHeight="37.0" fitWidth="24.0" layoutX="568.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition17" fitHeight="44.0" fitWidth="24.0" layoutX="568.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition16" fitHeight="44.0" fitWidth="24.0" layoutX="568.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition15" fitHeight="37.0" fitWidth="24.0" layoutX="522.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition14" fitHeight="44.0" fitWidth="24.0" layoutX="477.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition13" fitHeight="29.0" fitWidth="24.0" layoutX="435.0" layoutY="106.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition12" fitHeight="37.0" fitWidth="24.0" layoutX="392.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition11" fitHeight="37.0" fitWidth="24.0" layoutX="350.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition10" fitHeight="44.0" fitWidth="24.0" layoutX="350.0" layoutY="70.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition9" fitHeight="37.0" fitWidth="24.0" layoutX="350.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition8" fitHeight="37.0" fitWidth="24.0" layoutX="305.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition7" fitHeight="37.0" fitWidth="24.0" layoutX="258.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition6" fitHeight="37.0" fitWidth="24.0" layoutX="219.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition5" fitHeight="44.0" fitWidth="24.0" layoutX="174.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition4" fitHeight="37.0" fitWidth="24.0" layoutX="127.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition3" fitHeight="29.0" fitWidth="24.0" layoutX="129.0" layoutY="71.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition2" fitHeight="37.0" fitWidth="24.0" layoutX="126.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition1" fitHeight="37.0" fitWidth="24.0" layoutX="83.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                             <ImageView fx:id="pathPosition0" fitHeight="37.0" fitWidth="24.0" layoutX="42.0" layoutY="105.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                                 <Image url="@../images/icons/croce.png" />
+                             </ImageView>
+                         </Pane>
+                     </children>
+                  </AnchorPane>
                        <AnchorPane layoutY="376.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                           <children>
                               <ImageView fx:id="FIRSTSHELF" fitHeight="35.0" fitWidth="35.0" layoutX="101.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
@@ -28,25 +109,25 @@
                             <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="286.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
                             </ImageView>
-                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="6.0" layoutY="290.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="6.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/stone.png" />
                             </ImageView>
-                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="286.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
                             </ImageView>
-                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
                             </ImageView>
-                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
                             </ImageView>
-                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="108.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="108.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/shield.png" />
                             </ImageView>
-                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="106.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="106.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/coin.png" />
                             </ImageView>
-                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="7.0" layoutY="328.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="7.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/servant.png" />
                             </ImageView>
                             <Label fx:id="stoneNumber" layoutX="41.0" layoutY="296.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">

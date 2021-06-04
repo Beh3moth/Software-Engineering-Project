@@ -17,16 +17,16 @@
                              <ImageView fx:id="pathPosition24" fitHeight="29.0" fitWidth="24.0" layoutX="826.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                                  <Image url="@../images/icons/croce.png" />
                              </ImageView>
-                             <ImageView fx:id="pathPosition23" fitHeight="37.0" fitWidth="24.0" layoutX="785.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                             <ImageView fx:id="pathPosition23" fitHeight="37.0" fitWidth="24.0" layoutX="789.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
                                  <Image url="@../images/icons/croce.png" />
                              </ImageView>
-                             <ImageView fx:id="pathPosition22" fitHeight="29.0" fitWidth="24.0" layoutX="741.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                             <ImageView fx:id="pathPosition22" fitHeight="29.0" fitWidth="24.0" layoutX="747.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
                                  <Image url="@../images/icons/croce.png" />
                              </ImageView>
-                             <ImageView fx:id="pathPosition21" fitHeight="37.0" fitWidth="24.0" layoutX="698.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                             <ImageView fx:id="pathPosition21" fitHeight="37.0" fitWidth="24.0" layoutX="700.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
                                  <Image url="@../images/icons/croce.png" />
                              </ImageView>
-                             <ImageView fx:id="pathPosition20" fitHeight="29.0" fitWidth="30.0" layoutX="652.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
+                             <ImageView fx:id="pathPosition20" fitHeight="29.0" fitWidth="30.0" layoutX="656.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">
                                  <Image url="@../images/icons/croce.png" />
                              </ImageView>
                              <ImageView fx:id="pathPosition19" fitHeight="37.0" fitWidth="24.0" layoutX="610.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true" styleClass="faithPathBox">

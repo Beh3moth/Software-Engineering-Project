@@ -12,6 +12,11 @@
     -fx-background-color: transparent;
 }
 
+.firstrow:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
 .secondrow {
     -fx-background-image: url("../images/buttons/select.png");
     -fx-border-color: transparent;
@@ -21,6 +26,10 @@
     -fx-background-color: transparent;
 }
 
+.secondrow:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
 .thirdrow {
     -fx-background-image: url("../images/buttons/select.png");
     -fx-border-color: transparent;
@@ -28,6 +37,11 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+}
+
+.thirdrow:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
 }
 
 .firstcolumn {
@@ -39,6 +53,11 @@
     -fx-background-color: transparent;
 }
 
+.firstcolumn:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
 .secondcolumn {
     -fx-background-image: url("../images/buttons/select.png");
     -fx-border-color: transparent;
@@ -46,6 +65,11 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+}
+
+.secondcolumn:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
 }
 
 .thirdcolumn {
@@ -57,6 +81,11 @@
     -fx-background-color: transparent;
 }
 
+.thirdcolumn:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
 .fourthcolumn {
     -fx-background-image: url("../images/buttons/select.png");
     -fx-border-color: transparent;
@@ -64,4 +93,9 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+}
+
+.fourthcolumn:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
 }

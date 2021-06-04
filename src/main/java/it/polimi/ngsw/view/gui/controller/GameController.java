@@ -13,6 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.ArrayList;
 
@@ -35,6 +37,24 @@ public class GameController extends ViewObservable implements GenericSceneContro
     @FXML
     private Label slaveNumber;
     @FXML
+    private ImageView FIRSTSHELF;
+    @FXML
+    private ImageView SECONDSHELF1;
+    @FXML
+    private ImageView SECONDSHELF2;
+    @FXML
+    private ImageView THIRDSHELF1;
+    @FXML
+    private ImageView THIRDSHELF2;
+    @FXML
+    private ImageView THIRDSHELF3;
+    @FXML
+    private ImageView DEVCARD1;
+    @FXML
+    private ImageView DEVCARD2;
+    @FXML
+    private ImageView DEVCARD3;
+    @FXML
     public Pane faithPath;
     //FaithPath
 
@@ -43,10 +63,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
     public void initialize(){
         //mainPain.setVisible(true);
         take_marble.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTakeMarbleButtonClick);
-        moneyNumber.setText(lightModel.getChest().get(Resource.MONEY).toString());
-        shieldNumber.setText(lightModel.getChest().get(Resource.SHIELD).toString());
-        stoneNumber.setText(lightModel.getChest().get(Resource.STONE).toString());
-        slaveNumber.setText(lightModel.getChest().get(Resource.SLAVE).toString());
+        upDateValuesOfChest();
+        upDateValuesOfWarehouse();
+        upDateDevCard();
         devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
         ArrayList<Node> faithPathList = new ArrayList<>();
         faithPathList.add(faithPath.getChildren().get(24));
@@ -68,13 +87,76 @@ public class GameController extends ViewObservable implements GenericSceneContro
         SceneController.changeScene(controller, "dev_card_market_scene.fxml");
     }
 
-    public void upDateValues(){
+    public void upDateValuesOfChest(){
         moneyNumber.setText(lightModel.getChest().get(Resource.MONEY).toString());
         shieldNumber.setText(lightModel.getChest().get(Resource.SHIELD).toString());
         stoneNumber.setText(lightModel.getChest().get(Resource.STONE).toString());
         slaveNumber.setText(lightModel.getChest().get(Resource.SLAVE).toString());
     }
 
+    public void upDateValuesOfWarehouse(){
+
+        if(lightModel.getFirstShelf() == Resource.EMPTY){
+            FIRSTSHELF.setImage(null);
+        }
+        else{
+            Image firstshelf = new Image("images/icons" + getTypeResourceForImage(lightModel.getFirstShelf()) + ".png");
+            FIRSTSHELF.setImage(firstshelf);
+        }
+
+        if(lightModel.getSecondShelfNumber() == 0){
+            SECONDSHELF1.setImage(null);
+            SECONDSHELF2.setImage(null);
+        }
+        else{
+            Image secondshelf = new Image("images/icons" + getTypeResourceForImage(lightModel.getSecondShelf()) + ".png");
+            SECONDSHELF1.setImage(secondshelf);
+            if(lightModel.getSecondShelfNumber() == 2){
+                SECONDSHELF2.setImage(secondshelf);
+            }
+        }
+
+        if(lightModel.getThirdShelfNumber() == 0){
+            THIRDSHELF1.setImage(null);
+            THIRDSHELF2.setImage(null);
+            THIRDSHELF3.setImage(null);
+        }
+        else{
+            Image thirdshelf = new Image("images/icons" + getTypeResourceForImage(lightModel.getThirdShelf()) + ".png");
+            THIRDSHELF1.setImage(thirdshelf);
+            if(lightModel.getThirdShelfNumber() >= 2){
+                THIRDSHELF2.setImage(thirdshelf);
+            }
+            if(lightModel.getThirdShelfNumber() == 3){
+                THIRDSHELF3.setImage(thirdshelf);
+            }
+        }
+    }
+
+    public String getTypeResourceForImage(Resource resource){
+        switch(resource){
+            case MONEY:return "coin";
+            case STONE:return "stone";
+            case SLAVE:return "servant";
+            case SHIELD:return "shield";
+            default: return null;
+        }
+    }
+
+    public void upDateDevCard(){
+        if(!lightModel.getActiveDevCardList().get(0).equals(null)){
+            Image devcard1 = new Image("images/devCard/" + lightModel.getActiveDevCardList().get(0).getCardColour().toString() + lightModel.getActiveDevCardList().get(0).getDevLevel() + lightModel.getActiveDevCardList().get(0).getPV() + ".png");
+            DEVCARD1.setImage(devcard1);
+        }
+        if(!lightModel.getActiveDevCardList().get(1).equals(null)){
+            Image devcard2 = new Image("images/devCard/" + lightModel.getActiveDevCardList().get(1).getCardColour().toString() + lightModel.getActiveDevCardList().get(1).getDevLevel() + lightModel.getActiveDevCardList().get(1).getPV() + ".png");
+            DEVCARD2.setImage(devcard2);
+        }
+        if(!lightModel.getActiveDevCardList().get(2).equals(null)){
+            Image devcard3 = new Image("images/devCard/" + lightModel.getActiveDevCardList().get(2).getCardColour().toString() + lightModel.getActiveDevCardList().get(2).getDevLevel() + lightModel.getActiveDevCardList().get(2).getPV() + ".png");
+            DEVCARD3.setImage(devcard3);
+        }
+    }
     public void setCrossPosition(int crossPosition){
         for(int i = 0; i < 25; i++){
             ImageView imageView = (ImageView) faithPath.getChildren().get(i);

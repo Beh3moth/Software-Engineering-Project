@@ -14,6 +14,15 @@
                   <AnchorPane prefHeight="156.0" prefWidth="894.0" stylesheets="@../css/game_scene.css" AnchorPane.bottomAnchor="376.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                          <Pane fx:id="faithPath">
+                             <ImageView fx:id="papalCard1" fitHeight="50.0" fitWidth="150.0" layoutX="226.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@../images/icons/quadrato giallo.png" />
+                             </ImageView>
+                             <ImageView fx:id="papalCard2" fitHeight="50.0" fitWidth="150.0" layoutX="447.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@../images/icons/quadrato arancione.png" />
+                             </ImageView>
+                             <ImageView fx:id="papalCard3" fitHeight="50.0" fitWidth="150.0" layoutX="710.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+                                 <Image url="@../images/icons/quadrato rosso.png" />
+                             </ImageView>
                              <ImageView fx:id="pathPosition24" fitHeight="29.0" fitWidth="24.0" layoutX="826.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                                  <Image url="@../images/icons/croce.png" />
                              </ImageView>
@@ -95,16 +104,22 @@
                        <AnchorPane layoutY="376.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                           <children>
                               <ImageView fx:id="FIRSTSHELF" fitHeight="35.0" fitWidth="35.0" layoutX="101.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
+                                  <Image url="@../images/icons/coin.png" />
                               </ImageView>
                               <ImageView fx:id="SECONDSHELF1" fitHeight="35.0" fitWidth="35.0" layoutX="81.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+                                  <Image url="@../images/icons/coin.png" />
                               </ImageView>
                               <ImageView fx:id="SECONDSHELF2" fitHeight="35.0" fitWidth="35.0" layoutX="121.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+                                  <Image url="@../images/icons/coin.png" />
                               </ImageView>
                               <ImageView fx:id="THIRDSHELF1" fitHeight="35.0" fitWidth="35.0" layoutX="64.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+                                  <Image url="@../images/icons/coin.png" />
                               </ImageView>
                               <ImageView fx:id="THIRDSHELF2" fitHeight="35.0" fitWidth="35.0" layoutX="101.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+                                  <Image url="@../images/icons/coin.png" />
                               </ImageView>
                               <ImageView fx:id="THIRDSHELF3" fitHeight="35.0" fitWidth="35.0" layoutX="138.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true">
+                                  <Image url="@../images/icons/coin.png" />
                               </ImageView>
                             <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="286.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
@@ -141,13 +156,23 @@
                           </children>
                        </AnchorPane>
                         <ImageView fx:id="DEVCARD1" fitHeight="190.0" fitWidth="190.0" layoutX="358.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/devCard/BLUE11.png" />
                         </ImageView>
                         <ImageView fx:id="DEVCARD2" fitHeight="190.0" fitWidth="190.0" layoutX="532.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/devCard/BLUE11.png" />
                         </ImageView>
                         <ImageView fx:id="DEVCARD3" fitHeight="190.0" fitWidth="190.0" layoutX="712.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+                            <Image url="@../images/devCard/BLUE11.png" />
                         </ImageView>
                     </children>
                 </AnchorPane>
+                <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="950.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true">
+                    <Image url="@../images/icons/box_resources.png" />
+                </ImageView>
+                <Label layoutX="965.0" layoutY="493.0" prefHeight="17.0" prefWidth="48.0" text="PV" textFill="WHITE">
+                </Label>
+                <Label fx:id="PVnumber" layoutX="1010.0" layoutY="493.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
+                </Label>
                 <Button fx:id="take_marble" layoutX="910.0" layoutY="132.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
                 <Button fx:id="devCardMarket" layoutX="910.0" layoutY="29.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
             </Group>

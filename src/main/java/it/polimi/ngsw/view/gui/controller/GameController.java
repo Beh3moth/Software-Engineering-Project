@@ -13,9 +13,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
 import java.util.ArrayList;
 
 public class GameController extends ViewObservable implements GenericSceneController {
@@ -54,6 +51,14 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private ImageView DEVCARD3;
     @FXML
     public Pane faithPath;
+    @FXML
+    private ImageView papalCard1;
+    @FXML
+    private ImageView papalCard2;
+    @FXML
+    private ImageView papalCard3;
+    @FXML
+    private Label PVnumber;
     //FaithPath
 
 
@@ -63,6 +68,8 @@ public class GameController extends ViewObservable implements GenericSceneContro
         upDateValuesOfChest();
         upDateValuesOfWarehouse();
         upDateDevCard();
+        upDatePapalCard();
+        upDatePV();
         devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
         ArrayList<Node> faithPathList = new ArrayList<>();
         faithPathList.add(faithPath.getChildren().get(24));
@@ -154,6 +161,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
             DEVCARD3.setImage(devcard3);
         }
     }
+
     public void setCrossPosition(int crossPosition){
         for(int i = 0; i < 25; i++){
             ImageView imageView = (ImageView) faithPath.getChildren().get(i);
@@ -164,6 +172,34 @@ public class GameController extends ViewObservable implements GenericSceneContro
                 imageView.setImage(new Image("images/icons/croce.png"));
             }
         }
+    }
+
+    public void upDatePapalCard(){
+        if(lightModel.isPapalCardOne()){
+            papalCard1.setImage(new Image("images/icons/quadrato giallo.png"));
+        }
+        else{
+                papalCard1.setImage(null);
+                }
+
+        if(lightModel.isPapalCardTwo()){
+            papalCard2.setImage(new Image("images/icons/quadrato arancione.png"));
+        }
+        else{
+            papalCard2.setImage(null);
+        }
+
+        if(lightModel.isPapalCardThree()){
+            papalCard3.setImage(new Image("images/icons/quadrato rosso.png"));
+        }
+        else{
+            papalCard3.setImage(null);
+        }
+
+    }
+
+    public void upDatePV(){
+        PVnumber.setText(String.valueOf((lightModel.getVictoryPoints())));
     }
 
 }

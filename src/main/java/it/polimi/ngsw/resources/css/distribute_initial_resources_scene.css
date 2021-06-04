@@ -17,6 +17,11 @@
     -fx-background-color: transparent;
 }
 
+.money:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
 .slave {
     -fx-background-image: url("../images/icons/servant.png");
     -fx-border-color: transparent;
@@ -24,6 +29,11 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+}
+
+.slave:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
 }
 
 .stone {
@@ -35,6 +45,11 @@
     -fx-background-color: transparent;
 }
 
+.stone:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
 .shield {
     -fx-background-image: url("../images/icons/shield.png");
     -fx-border-color: transparent;
@@ -42,6 +57,11 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+}
+
+.shield:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
 }
 
 .uno {
@@ -53,6 +73,11 @@
     -fx-background-color: transparent;
 }
 
+.uno:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
 .due {
     -fx-background-image: url("../images/buttons/2.png");
     -fx-border-color: transparent;
@@ -62,6 +87,11 @@
     -fx-background-color: transparent;
 }
 
+.due:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
 .tre {
     -fx-background-image: url("../images/buttons/3.png");
     -fx-border-color: transparent;
@@ -69,4 +99,9 @@
     -fx-border-width: 0;
     -fx-background-radius: 0;
     -fx-background-color: transparent;
+}
+
+.tre:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
 }

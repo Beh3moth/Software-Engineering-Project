@@ -23,8 +23,6 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private LightModel lightModel;
 
     @FXML
-    private Pane mainPain;
-    @FXML
     private Button take_marble;
     @FXML
     private Button devCardMarket;
@@ -61,7 +59,6 @@ public class GameController extends ViewObservable implements GenericSceneContro
 
     @FXML
     public void initialize(){
-        //mainPain.setVisible(true);
         take_marble.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTakeMarbleButtonClick);
         upDateValuesOfChest();
         upDateValuesOfWarehouse();
@@ -144,15 +141,15 @@ public class GameController extends ViewObservable implements GenericSceneContro
     }
 
     public void upDateDevCard(){
-        if(!lightModel.getActiveDevCardList().get(0).equals(null)){
+        if(lightModel.getActiveDevCardList().size()>=1){
             Image devcard1 = new Image("images/devCard/" + lightModel.getActiveDevCardList().get(0).getCardColour().toString() + lightModel.getActiveDevCardList().get(0).getDevLevel() + lightModel.getActiveDevCardList().get(0).getPV() + ".png");
             DEVCARD1.setImage(devcard1);
         }
-        if(!lightModel.getActiveDevCardList().get(1).equals(null)){
+        if(lightModel.getActiveDevCardList().size()>=2){
             Image devcard2 = new Image("images/devCard/" + lightModel.getActiveDevCardList().get(1).getCardColour().toString() + lightModel.getActiveDevCardList().get(1).getDevLevel() + lightModel.getActiveDevCardList().get(1).getPV() + ".png");
             DEVCARD2.setImage(devcard2);
         }
-        if(!lightModel.getActiveDevCardList().get(2).equals(null)){
+        if(lightModel.getActiveDevCardList().size()>=2){
             Image devcard3 = new Image("images/devCard/" + lightModel.getActiveDevCardList().get(2).getCardColour().toString() + lightModel.getActiveDevCardList().get(2).getDevLevel() + lightModel.getActiveDevCardList().get(2).getPV() + ".png");
             DEVCARD3.setImage(devcard3);
         }

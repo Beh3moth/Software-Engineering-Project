@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/game_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/game_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Group StackPane.alignment="CENTER">
@@ -92,7 +92,7 @@
                          </Pane>
                      </children>
                   </AnchorPane>
-                       <AnchorPane layoutY="376.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
+                       <AnchorPane layoutY="376.0" prefHeight="0.0" prefWidth="0.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0">
                           <children>
                               <ImageView fx:id="FIRSTSHELF" fitHeight="35.0" fitWidth="35.0" layoutX="101.0" layoutY="57.0" pickOnBounds="true" preserveRatio="true">
                               </ImageView>
@@ -109,34 +109,34 @@
                             <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="286.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
                             </ImageView>
-                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="6.0" layoutY="86.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="6.0" layoutY="293.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/stone.png" />
                             </ImageView>
-                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="82.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="106.0" layoutY="286.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
                             </ImageView>
-                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
                             </ImageView>
-                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="100.0" layoutY="119.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="100.0" fitWidth="100.0" layoutX="106.0" layoutY="323.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/box_resources.png" />
                             </ImageView>
-                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="108.0" layoutY="88.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="114.0" layoutY="292.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/shield.png" />
                             </ImageView>
-                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="106.0" layoutY="126.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="112.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/coin.png" />
                             </ImageView>
-                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="7.0" layoutY="124.0" pickOnBounds="true" preserveRatio="true">
+                            <ImageView fitHeight="24.0" fitWidth="24.0" layoutX="6.0" layoutY="330.0" pickOnBounds="true" preserveRatio="true">
                                 <Image url="@../images/icons/servant.png" />
                             </ImageView>
                             <Label fx:id="stoneNumber" layoutX="41.0" layoutY="296.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
                             </Label>
                             <Label fx:id="slaveNumber" layoutX="41.0" layoutY="333.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
                             </Label>
-                            <Label fx:id="moneyNumber" layoutX="141.0" layoutY="333.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
+                            <Label fx:id="moneyNumber" layoutX="146.0" layoutY="333.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
                             </Label>
-                            <Label fx:id="shieldNumber" layoutX="141.0" layoutY="296.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
+                            <Label fx:id="shieldNumber" layoutX="147.0" layoutY="296.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
                             </Label>
                           </children>
                        </AnchorPane>

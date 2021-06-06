@@ -1,7 +1,9 @@
 package it.polimi.ngsw.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Class of the part of the board with 3 spaces for the production cards, it's a 3x3 matrix of {@link DevCard}
@@ -96,6 +98,20 @@ public class DevCardDashboard {
             }
         }
         return  devCardList;
+    }
+
+    /**
+     * The method returns a map in which an Integer is linked with a DevCard. The possible Integers values are 0,1,2 and they represent the DevCard of a certain DevCardSpace.
+     * @return a map Integer - DevCard
+     */
+    public Map<Integer, DevCard> getActiveDevCardsAsMap(){
+        Map<Integer, DevCard> map = new HashMap<>();
+        for(int i=0; i<3; i++){
+            if(devCardLevel[i]>0 && devCards[i][devCardLevel[i]-1]!=null){
+                map.put(i, devCards[i][devCardLevel[i]-1]);
+            }
+        }
+        return map;
     }
 
     /**

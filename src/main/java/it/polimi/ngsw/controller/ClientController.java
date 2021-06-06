@@ -263,7 +263,7 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case START_TURN:
                 StartTurnMessage start = (StartTurnMessage) message;
-                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardList(), start.getBaseProductionPower(), start.getDevCardMarket(), start.getFirstShelf(), start.getSecondShelf(), start.getSecondShelfNumber(), start.getThirdShelf(), start.getThirdShelfNumber(), start.getChest(), start.getCrossPosition(), start.getVictoryPoints(), start.isPapalCardOne(), start.isPapalCardTwo(), start.isPapalCardThree()));
+                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardMap(), start.getBaseProductionPower(), start.getDevCardMarket(), start.getFirstShelf(), start.getSecondShelf(), start.getSecondShelfNumber(), start.getThirdShelf(), start.getThirdShelfNumber(), start.getChest(), start.getCrossPosition(), start.getVictoryPoints(), start.isPapalCardOne(), start.isPapalCardTwo(), start.isPapalCardThree()));
                 break;
             case CONTINUE_TURN:
                 ContinueTurnMessage continueMessage = (ContinueTurnMessage) message;

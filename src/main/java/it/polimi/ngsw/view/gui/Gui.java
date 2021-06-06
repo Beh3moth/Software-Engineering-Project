@@ -100,14 +100,14 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> leaderCardList, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
+    public void startTurnMessage(List<LeaderCard> leaderCardList, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
         lightModel.setSingleMarble(singleMarble);
         lightModel.setFirstRow(firstRow);
         lightModel.setSecondRow(secondRow);
         lightModel.setThirdRow(thirdRow);
         lightModel.setDevCardMarket(devCardMarket);
         lightModel.setLeaderProductionPowerList(leaderProductionPowerList);
-        lightModel.setActiveDevCardList(activeDevCardList);
+        lightModel.setActiveDevCardMap(activeDevCardMap);
         lightModel.setFirstShelf(firstShelf);
         lightModel.setSecondShelf(secondShelf);
         lightModel.setThirdShelf(thirdShelf);

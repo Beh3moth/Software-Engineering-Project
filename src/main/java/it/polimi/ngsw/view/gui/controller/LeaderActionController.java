@@ -2,6 +2,8 @@ package it.polimi.ngsw.view.gui.controller;
 
 import it.polimi.ngsw.model.LeaderCard;
 import it.polimi.ngsw.observer.ViewObservable;
+import it.polimi.ngsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;

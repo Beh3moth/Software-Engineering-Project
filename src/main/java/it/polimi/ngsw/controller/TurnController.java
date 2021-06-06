@@ -93,7 +93,7 @@ public class TurnController implements Serializable {
         //Import DevCardDashboard active cards
         List<ProductionPower> leaderProductionPowerList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getLeaderProductionPowerList();
         ProductionPower baseProductionPower = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getBaseProductionPower();
-        List<DevCard> activeDevCardList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getActiveDevCards();
+        Map<Integer, DevCard> activeDevCardMap = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getActiveDevCardsAsMap();
         List<ProductionPower> productionPowerList = game.getPlayerByNickname(getActivePlayer()).getDevCardDashboard().getActiveProductionPowerList();
         DevCard[][] devCardMarket = game.getBoard().getDevCardMarket();
         Resource firstShelf = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(1).getResourceType();
@@ -107,7 +107,7 @@ public class TurnController implements Serializable {
         boolean papalCardOne = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardOne();
         boolean papalCardTwo = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardTwo();
         boolean papalCardThree = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardThree();
-        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
+        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardMap, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
 
     }
     /**

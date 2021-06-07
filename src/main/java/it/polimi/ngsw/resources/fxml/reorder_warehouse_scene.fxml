@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/reorder_warehouse_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+
+    <children>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Group StackPane.alignment="CENTER">
+                <children>
+                   <AnchorPane prefHeight="0.0" prefWidth="0.0">
+                      <children>
+                          <ImageView fx:id="shelf11" fitHeight="100.0" fitWidth="100.0" layoutX="250.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf21" fitHeight="100.0" fitWidth="100.0" layoutX="180.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf22" fitHeight="100.0" fitWidth="100.0" layoutX="320.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf31" fitHeight="100.0" fitWidth="100.0" layoutX="126.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf32" fitHeight="100.0" fitWidth="100.0" layoutX="255.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf33" fitHeight="100.0" fitWidth="100.0" layoutX="380.0" layoutY="223.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf41" fitHeight="100.0" fitWidth="100.0" layoutX="180.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf42" fitHeight="100.0" fitWidth="100.0" layoutX="320.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf51" fitHeight="100.0" fitWidth="100.0" layoutX="180.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <ImageView fx:id="shelf52" fitHeight="100.0" fitWidth="100.0" layoutX="320.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true" styleClass="shelf">
+                              <Image url="@../images/icons/shelf.png" />
+                          </ImageView>
+                          <AnchorPane layoutX="535.0" layoutY="20.0" prefHeight="200.0" prefWidth="300.0">
+                              <children>
+                                  <Label fx:id="moneyLabel" layoutX="18.0" layoutY="45.0" prefHeight="17.0" prefWidth="51.0" text="100" textFill="WHITE" />
+                                  <ImageView fitHeight="61.0" fitWidth="153.0" layoutX="79.0" layoutY="14.0">
+                                      <Image url="@../images/icons/money_box.png" />
+                                  </ImageView>
+                                  <Label fx:id="shieldLabel" layoutX="14.0" layoutY="92.0" prefHeight="17.0" prefWidth="58.0" text="100" textFill="WHITE" />
+                                  <ImageView fitHeight="61.0" fitWidth="153.0" layoutX="79.0" layoutY="196.0">
+                                      <Image url="@../images/icons/shield_box.png" />
+                                  </ImageView>
+                                  <Label fx:id="slaveLabel" layoutX="14.0" layoutY="157.0" prefHeight="17.0" prefWidth="58.0" text="100" textFill="WHITE" />
+                                  <ImageView fitHeight="61.0" fitWidth="153.0" layoutX="79.0" layoutY="135.0">
+                                      <Image url="@../images/icons/slave_box.png" />
+                                  </ImageView>
+                                  <Label fx:id="stoneLabel" layoutX="148.0" layoutY="218.0" prefHeight="17.0" prefWidth="58.0" text="100" textFill="WHITE" />
+                                  <ImageView fitHeight="61.0" fitWidth="153.0" layoutX="79.0" layoutY="70.0">
+                                      <Image url="@../images/icons/stone_box.png" />
+                                  </ImageView>
+                              </children>
+                          </AnchorPane>
+                      </children>
+                   </AnchorPane>
+                </children>
+            </Group>
+        </StackPane>
+    </children>
+
+</AnchorPane>

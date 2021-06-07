@@ -4,6 +4,7 @@ import it.polimi.ngsw.network.client.Client;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.observer.ViewObserver;
 import it.polimi.ngsw.view.gui.controller.GenericSceneController;
+import it.polimi.ngsw.view.gui.controller.Generic_error_controller;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -79,6 +80,23 @@ public class SceneController extends ViewObservable {
 
     public static void changeScene(GenericSceneController controller, String fxml) {
         changeScene(controller, activeScene, fxml);
+    }
+
+    public static void showProblem(String title, String message) {
+        FXMLLoader loader = new FXMLLoader(SceneController.class.getResource("/fxml/generic_error_scene.fxml"));
+
+        Parent parent;
+        try {
+            parent = loader.load();
+        } catch (IOException e) {
+            Client.LOGGER.severe(e.getMessage());
+            return;
+        }
+        Generic_error_controller generic_error_controller = loader.getController();
+        Scene errorScene = new Scene(parent);
+        generic_error_controller.setScene(errorScene);
+        generic_error_controller.setMessage(message);
+        generic_error_controller.displayMessage();
     }
 
 

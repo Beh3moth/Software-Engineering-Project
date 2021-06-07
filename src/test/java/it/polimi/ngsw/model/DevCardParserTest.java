@@ -12,11 +12,13 @@ public class DevCardParserTest {
 
     DevCardParser devCardParser = new DevCardParser();
 
+    /*
     @Test
     public void parseDevDeckTest() throws FileNotFoundException {
         String path = "src/main/java/it/polimi/ngsw/resources/blue_level_one.json";
         List<DevCard> devDeck = devCardParser.parseDevDeck(path);
         assertEquals(4, devDeck.size());
     }
+     */
 }
 

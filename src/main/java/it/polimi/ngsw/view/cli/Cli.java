@@ -27,6 +27,7 @@ public class Cli extends ViewObservable implements View {
     private final PrintStream out;
     private Thread inputThread;
 
+    //Aaron
     private int[] leaderCardStatus; //1 means not activated but usable, 0 means discarded, 2 means activated
     private List<Resource> newResources;
     private Resource newFirstShelf;
@@ -55,7 +56,7 @@ public class Cli extends ViewObservable implements View {
      * Starts the command-line interface.
      */
     public void start() {
-        out.println("Welcome to Maestri del rinascimento ᕦʕ •ᴥ•ʔᕤ ");
+        out.println("Welcome to Maestri del rinascimento");
         try {
             askServerInfo();
         } catch (ExecutionException e) {
@@ -273,7 +274,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber) {
         out.println("\n\n It's your turn! \n\n");
         lightModel.setSingleMarble(singleMarble);
         lightModel.setFirstRow(firstRow);
@@ -281,7 +282,7 @@ public class Cli extends ViewObservable implements View {
         lightModel.setThirdRow(thirdRow);
         lightModel.setDevCardMarket(devCardMarket);
         lightModel.setLeaderProductionPowerList(leaderProductionPowerList);
-        lightModel.setActiveDevCardList(activeDevCardList);
+        lightModel.setActiveDevCardMap(activeDevCardMap);
         this.lightModel.setFirstShelf(firstShelf);
         this.lightModel.setSecondShelf(secondShelf);
         this.lightModel.setThirdShelf(thirdShelf);
@@ -635,11 +636,11 @@ public class Cli extends ViewObservable implements View {
                 out.println("Wich one of the above cards? Type 1 to pick the first one, 2 to pick the second one");
                 int chose = numberInput(1, 2, "Which? ");
                 out.println("You received 1 faith point \n");
-                notifyObserver(obs -> obs.onUpdateDiscardCard(chose - 1, turnZone));
+                notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(chose - 1, turnZone));
             } else if (this.leaderCardStatus[1] == 1 && (this.leaderCardStatus[0] == 2 || this.leaderCardStatus[0] == 0))
-                notifyObserver(obs -> obs.onUpdateDiscardCard(1, turnZone));
+                notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, turnZone));
             else if (this.leaderCardStatus[0] == 1 && (this.leaderCardStatus[1] == 2 || this.leaderCardStatus[1] == 0))
-                notifyObserver(obs -> obs.onUpdateDiscardCard(0, turnZone));
+                notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, turnZone));
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
@@ -1075,10 +1076,10 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void chosenDevCardProductionPower(int productionPowerChosen){
-        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen<=lightModel.getActiveDevCardList().size()){
+        if(!chosenIntegerList.contains(productionPowerChosen) && lightModel.getActiveDevCardMap().containsKey(productionPowerChosen-1)){
             chosenIntegerList.add(productionPowerChosen);
             List<ProductionPower> productionPower = new ArrayList<>();
-            productionPower.add(lightModel.getActiveDevCardList().get(productionPowerChosen-1).getProductionPower());
+            productionPower.add(lightModel.getActiveDevCardMap().get(productionPowerChosen-1).getProductionPower());
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPower, "productionPowerChosen"));
         }
         else {
@@ -1767,8 +1768,10 @@ public class Cli extends ViewObservable implements View {
     }
 
     private void printPlayerDevCards(){
-        if(lightModel.getActiveDevCardList().isEmpty()){
-            out.println("\n\nYou don't own Development Cards.");
+        if(lightModel.getActiveDevCardMap().isEmpty()){
+            out.println();
+            out.println();
+            out.println("You don't own Development Cards.");
         }
         else {
             String tiles[][] = new String[11][80];
@@ -1780,23 +1783,32 @@ public class Cli extends ViewObservable implements View {
             out.println("\nDevCards:");
             int counter = 1;
             int jIterator=0;
-            for(DevCard devCard : this.lightModel.getActiveDevCardList()){
+
+            for(int i=0; i<3; i++){
                 tiles[0][8+(jIterator*18)] = String.valueOf(counter);
-                String[][] devCardTiles = getPrintableDevCard(devCard);
-                for(int i = 0; i < MAX_VERT_TILES; i++) {
+                String[][] devCardTiles;
+                if(lightModel.getActiveDevCardMap().containsKey(i)){
+                    devCardTiles = getPrintableDevCard(lightModel.getActiveDevCardMap().get(i));
+                }
+                else {
+                    devCardTiles = fillEmpty();
+                }
+                for(int k = 0; k < MAX_VERT_TILES; k++) {
                     for (int j = 0; j < MAX_HORIZON_TILES; j++) {
-                        tiles[i+1][j+(jIterator*19)] = devCardTiles[i][j];
+                        tiles[k+1][j+(jIterator*19)] = devCardTiles[k][j];
                     }
                 }
                 jIterator++;
                 counter++;
             }
+
             for(int i=0; i<11; i++){
                 for(int j=0; j<80; j++){
                     out.print(tiles[i][j]);
                 }
                 out.println();
             }
+
         }
     }
 

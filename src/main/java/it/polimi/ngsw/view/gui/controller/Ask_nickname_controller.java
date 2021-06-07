@@ -30,12 +30,12 @@ public class Ask_nickname_controller extends ViewObservable implements GenericSc
         join.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onJoinButtonClick);
     }
 
-        private void onJoinButtonClick(Event event) {
-            String nickname = insertNickname.getText();
-
-            notifyObserver(obs -> obs.onUpdateNickname(nickname));
-
-        }
+    private void onJoinButtonClick(Event event) {
+        join.setDisable(true);
+        String nickname = insertNickname.getText();
+        notifyObserver(obs -> obs.onUpdateNickname(nickname));
     }
+
+}
 
 

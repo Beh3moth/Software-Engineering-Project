@@ -155,7 +155,7 @@ public class ClientController implements ViewObserver, Observer{
     }
 
     @Override
-    public void onUpdateDiscardCard(int wichCard, int turnZone) {
+    public void onUpdateDiscardLeaderCard(int wichCard, int turnZone) {
         client.sendMessage(new DiscardLeaderMessage(this.nickname, wichCard, turnZone));
     }
 
@@ -263,7 +263,7 @@ public class ClientController implements ViewObserver, Observer{
                 break;
             case START_TURN:
                 StartTurnMessage start = (StartTurnMessage) message;
-                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardList(), start.getBaseProductionPower(), start.getDevCardMarket(), start.getFirstShelf(), start.getSecondShelf(), start.getSecondShelfNumber(), start.getThirdShelf(), start.getThirdShelfNumber(), start.getChest(), start.getCrossPosition(), start.getVictoryPoints(), start.isPapalCardOne(), start.isPapalCardTwo(), start.isPapalCardThree(), start.getFsr(), start.getFsn(), start.getSsr(), start.getSsn()));
+                taskQueue.execute(() -> view.startTurnMessage(start.getLeaders(), start.getSingleMarble(), start.getFirstRow(), start.getSecondRow(), start.getThirdRow(), start.getLeaderProductionPowerList(), start.getActiveDevCardMap(), start.getBaseProductionPower(), start.getDevCardMarket(), start.getFirstShelf(), start.getSecondShelf(), start.getSecondShelfNumber(), start.getThirdShelf(), start.getThirdShelfNumber(), start.getChest(), start.getCrossPosition(), start.getVictoryPoints(), start.isPapalCardOne(), start.isPapalCardTwo(), start.isPapalCardThree(), start.getFsr(), start.getFsn(), start.getSsr(), start.getSsn()));
                 break;
             case CONTINUE_TURN:
                 ContinueTurnMessage continueMessage = (ContinueTurnMessage) message;

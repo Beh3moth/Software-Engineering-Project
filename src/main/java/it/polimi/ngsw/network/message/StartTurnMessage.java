@@ -14,7 +14,7 @@ public class StartTurnMessage extends Message{
     private Marble[] secondRow;
     private Marble[] thirdRow;
     private List<ProductionPower> leaderProductionPowerList;
-    private List<DevCard> activeDevCardList;
+    private Map<Integer, DevCard> activeDevCardMap;
     private ProductionPower baseProductionPower;
     private DevCard[][] devCardMarket;
     private Resource firstShelf;
@@ -33,7 +33,7 @@ public class StartTurnMessage extends Message{
     private Resource ssr;
     private int ssn;
 
-    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource fsr, int fsn, Resource ssr, int ssn) {
+    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource fsr, int fsn, Resource ssr, int ssn) {
         super(nickname, MessageType.START_TURN);
         this.leaderCards = Leaders;
         this.singleMarble = singleMarble;
@@ -41,7 +41,7 @@ public class StartTurnMessage extends Message{
         this.secondRow = secondRow;
         this.thirdRow = thirdRow;
         this.leaderProductionPowerList = leaderProductionPowerList;
-        this.activeDevCardList = activeDevCardList;
+        this.activeDevCardMap = activeDevCardMap;
         this.baseProductionPower = baseProductionPower;
         this.devCardMarket = devCardMarket;
         this.firstShelf = firstShelf;
@@ -85,8 +85,8 @@ public class StartTurnMessage extends Message{
         return leaderProductionPowerList;
     }
 
-    public List<DevCard> getActiveDevCardList() {
-        return activeDevCardList;
+    public Map<Integer, DevCard> getActiveDevCardMap() {
+        return activeDevCardMap;
     }
 
     public DevCard[][] getDevCardMarket() {

@@ -11,7 +11,7 @@ import java.util.Map;
 public class LightModel {
 
     private List<ProductionPower> leaderProductionPowerList;
-    private List<DevCard> activeDevCardList;
+    private Map<Integer, DevCard> activeDevCardMap;
     private ProductionPower baseProductionPower;
     private Map<Resource, Integer> chest;
     private int crossPosition;
@@ -81,12 +81,12 @@ public class LightModel {
         this.leaderProductionPowerList = leaderProductionPowerList;
     }
 
-    public List<DevCard> getActiveDevCardList() {
-        return activeDevCardList;
+    public Map<Integer, DevCard> getActiveDevCardMap() {
+        return activeDevCardMap;
     }
 
-    public void setActiveDevCardList(List<DevCard> activeDevCardList) {
-        this.activeDevCardList = activeDevCardList;
+    public void setActiveDevCardMap(Map<Integer, DevCard> activeDevCardMap) {
+        this.activeDevCardMap = activeDevCardMap;
     }
 
     public ProductionPower getBaseProductionPower() {

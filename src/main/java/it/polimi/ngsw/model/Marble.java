@@ -23,4 +23,6 @@ public abstract class Marble implements Serializable {
     }
 
     public  Resource getResource(){return typeResource;};
+
+    public MarbleColour getColour(){return marblecolour;}
 }

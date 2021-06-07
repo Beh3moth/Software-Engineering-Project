@@ -127,6 +127,8 @@ public class DevCardDashboardTest {
 
      */
 
+    /*
+
     @Test
     public void getPVTest() throws FileNotFoundException {
         DevCardDashboard devCardDashboard = new DevCardDashboard();
@@ -136,6 +138,8 @@ public class DevCardDashboardTest {
         }
         assertEquals(8, devCardDashboard.getPV());
     }
+
+     */
 
 
 }

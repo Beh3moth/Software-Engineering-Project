@@ -32,6 +32,7 @@ public class PlayerTest {
         assertTrue(player.canAfford(player.getChest().getResourcesAsMap()));
     }
 
+    /*
     @Test
     public void payProductionPowerTest() throws FileNotFoundException {
         randomChest(player.getChest());
@@ -49,7 +50,6 @@ public class PlayerTest {
         assertTrue(player.getPaidList().isEmpty());
     }
 
-    /*
     @Test
     public void checkForLeaderProductionPowerAbilityTest(){
 

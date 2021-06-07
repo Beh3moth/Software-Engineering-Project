@@ -1,13 +1,33 @@
-.mainPane {
-    -fx-background-image: url("/images/backgrounds/sky.png");
+.mainPain {
+    -fx-background-image: url("../images/backgrounds/tavern.png");
     -fx-background-size: stretch;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
 }
 
-.boardPane {
-    -fx-background-image: url("/images/backgrounds/playerBoard.jpg");
-    -fx-background-size: contain;
-    -fx-background-repeat: no-repeat;
-    -fx-background-position: center;
+
+.boardPain {
+    -fx-background-image: url("../images/backgrounds/playerBoard.png");
+    -fx-background-size: stretch;
+}
+
+.take_marble {
+    -fx-background-image: url("../images/buttons/activate.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.take_marble:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
+.faithPathBox {
+    -fx-background-image: url("../images/icons/croce.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
 }

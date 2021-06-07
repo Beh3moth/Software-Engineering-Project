@@ -72,6 +72,9 @@ public class Server {
         gameController.onMessageReceived(message);
     }
 
+    public GameController getGameController(){
+        return this.gameController;
+    }
     /**
      * Handles the disconnection of a client.
      *

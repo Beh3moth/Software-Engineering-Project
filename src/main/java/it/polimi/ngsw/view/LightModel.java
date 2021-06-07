@@ -33,6 +33,10 @@ public class LightModel {
     private int secondShelfNumber;
     private Resource thirdShelf;
     private int thirdShelfNumber;
+    private Resource fsr;
+    private int fsn;
+    private Resource ssr;
+    private int ssn;
 
     public Resource getFirstShelf(){
         return firstShelf;
@@ -192,4 +196,30 @@ public class LightModel {
     public boolean isGameFinished() {
         return gameFinished;
     }
+
+    public Resource getFsr(){
+        return fsr;
+    }
+    public Resource getSsr(){
+        return ssr;
+    }
+    public int getFsn(){
+        return fsn;
+    }
+    public int getSsn(){
+        return ssn;
+    }
+    public void setFsr(Resource fsr){
+        this.fsr = fsr;
+    }
+    public void setFsn(int fsn){
+        this.fsn = fsn;
+    }
+    public void setSsn(int ssn){
+        this.ssn = ssn;
+    }
+    public void setSsr(Resource ssr){
+        this.ssr = ssr;
+    }
+
 }

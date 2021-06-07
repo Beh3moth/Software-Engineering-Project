@@ -2,10 +2,12 @@ package it.polimi.ngsw;
 import it.polimi.ngsw.controller.GameController;
 import it.polimi.ngsw.network.server.Server;
 import it.polimi.ngsw.network.server.SocketServer;
+import it.polimi.ngsw.network.server.ServerLauncher;
 /**
  * Main of the server app.
  */
 public class ServerStarter {
+
     public static void main(String[] args) {
         int serverPort = 16847; // default value
         for (int i = 0; i < args.length; i++) {
@@ -17,10 +19,8 @@ public class ServerStarter {
                 }
             }
         }
-        GameController gameController = new GameController();
-        Server server = new Server(gameController);
-        SocketServer socketServer = new SocketServer(server, serverPort);
-        Thread thread = new Thread (socketServer, "socketserver_");
-        thread.start();
+        ServerLauncher launch = new ServerLauncher(serverPort);
+        launch.start();
     }
+
 }

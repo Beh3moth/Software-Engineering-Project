@@ -27,7 +27,6 @@ public class Cli extends ViewObservable implements View {
     private final PrintStream out;
     private Thread inputThread;
 
-    //Aaron
     private int[] leaderCardStatus; //1 means not activated but usable, 0 means discarded, 2 means activated
     private List<Resource> newResources;
     private Resource newFirstShelf;
@@ -56,7 +55,7 @@ public class Cli extends ViewObservable implements View {
      * Starts the command-line interface.
      */
     public void start() {
-        out.println("Welcome to Maestri del rinascimento");
+        out.println("Welcome to Maestri del rinascimento ᕦʕ •ᴥ•ʔᕤ ");
         try {
             askServerInfo();
         } catch (ExecutionException e) {
@@ -274,7 +273,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber) {
         out.println("\n\n It's your turn! \n\n");
         lightModel.setSingleMarble(singleMarble);
         lightModel.setFirstRow(firstRow);
@@ -295,6 +294,10 @@ public class Cli extends ViewObservable implements View {
         lightModel.setPapalCardOne(papalCardOne);
         lightModel.setPapalCardTwo(papalCardTwo);
         lightModel.setPapalCardThree(papalCardThree);
+        lightModel.setFsr(firstSpecialResource);
+        lightModel.setSsr(secondSpecialResource);
+        lightModel.setFsn(firstSpecialNumber);
+        lightModel.setSsn(secondSpecialNumber);
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             askToManageLeaderCards(Leaders, 1);
         } else {
@@ -703,6 +706,22 @@ public class Cli extends ViewObservable implements View {
             out.print("]");
         }
         out.println();
+        out.print("First special shelf: ");
+
+        for(int i = 0; i < lightModel.getFsn(); i++){
+            out.print("[ ");
+            printResource(lightModel.getFsr());
+            out.print("]");
+        }
+        out.println();
+        out.print("Second special shelf: ");
+        for(int i = 0; i < lightModel.getSsn(); i++){
+            out.print("[ ");
+            printResource(lightModel.getSsr());
+            out.print("]");
+        }
+        out.println();
+
     }
 
     private void watchOtherPlayerInfo() {
@@ -1749,9 +1768,7 @@ public class Cli extends ViewObservable implements View {
 
     private void printPlayerDevCards(){
         if(lightModel.getActiveDevCardList().isEmpty()){
-            out.println();
-            out.println();
-            out.println("You don't own Development Cards.");
+            out.println("\n\nYou don't own Development Cards.");
         }
         else {
             String tiles[][] = new String[11][80];
@@ -1760,8 +1777,7 @@ public class Cli extends ViewObservable implements View {
                     tiles[i][j] = " ";
                 }
             }
-            out.println();
-            out.println("DevCards:");
+            out.println("\nDevCards:");
             int counter = 1;
             int jIterator=0;
             for(DevCard devCard : this.lightModel.getActiveDevCardList()){

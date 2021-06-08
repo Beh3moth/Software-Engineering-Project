@@ -40,9 +40,9 @@ public class GameController implements Observer, Serializable {
      * Initialize Game Controller.
      */
     public void initGameController() {
-        this.game = Game.getInstance();
+        this.game = new Game();
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
-        this.inputController = new InputController(virtualViewMap, this);
+        this.inputController = new InputController(virtualViewMap, this, game);
         this.contSituation = 0;
         this.firstPlayerPosition = 0;
         this.isGameEnded = false;
@@ -121,7 +121,7 @@ public class GameController implements Observer, Serializable {
 
     private void initSoloGame(){
         setGameState(GameState.INIT);
-        turnController = new TurnController(virtualViewMap, this);
+        turnController = new TurnController(virtualViewMap, this, game);
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
     }
@@ -133,7 +133,7 @@ public class GameController implements Observer, Serializable {
     private void initGame() {
         setGameState(GameState.INIT);
 
-        turnController = new TurnController(virtualViewMap, this);
+        turnController = new TurnController(virtualViewMap, this, game);
         broadcastGenericMessage("All Players are connected. " + turnController.getActivePlayer()
                 + " is choosing two leadercards ");
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -394,7 +394,7 @@ public class GameController implements Observer, Serializable {
             }
         }
         broadcastGenericMessage("The winner is : " + NameWinner + " with " + PVwinner + " PV ");
-        Game.resetInstance();
+
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
     }
 
@@ -627,10 +627,6 @@ public class GameController implements Observer, Serializable {
      * Reset the Game Instance and re-initialize GameController Class.
      */
     public void endGame() {
-        Game.resetInstance();
-
-        //StorageData storageData = new StorageData();
-        //storageData.delete();
 
         initGameController();
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
@@ -822,6 +818,9 @@ public class GameController implements Observer, Serializable {
         }
     }
 
+    public Game getGame(){
+        return game;
+    }
     //Faith path
 
     public void askForFaithPath(AskForFaithPathMessage receivedMessage){

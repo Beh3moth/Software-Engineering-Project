@@ -28,8 +28,12 @@ public class StartTurnMessage extends Message{
     private boolean papalCardOne;
     private boolean papalCardTwo;
     private boolean papalCardThree;
+    private Resource fsr;
+    private int fsn;
+    private Resource ssr;
+    private int ssn;
 
-    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
+    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource fsr, int fsn, Resource ssr, int ssn) {
         super(nickname, MessageType.START_TURN);
         this.leaderCards = Leaders;
         this.singleMarble = singleMarble;
@@ -51,6 +55,10 @@ public class StartTurnMessage extends Message{
         this.papalCardOne = papalCardOne;
         this.papalCardTwo = papalCardTwo;
         this.papalCardThree = papalCardThree;
+        this.fsr = fsr;
+        this.fsn = fsn;
+        this.ssr = ssr;
+        this.ssn = ssn;
     }
 
     public List<LeaderCard> getLeaders(){
@@ -126,5 +134,18 @@ public class StartTurnMessage extends Message{
 
     public boolean isPapalCardThree() {
         return papalCardThree;
+    }
+
+    public Resource getFsr(){
+        return fsr;
+    }
+    public Resource getSsr(){
+        return ssr;
+    }
+    public int getFsn(){
+        return fsn;
+    }
+    public int getSsn(){
+        return ssn;
     }
 }

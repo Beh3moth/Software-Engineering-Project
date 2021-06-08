@@ -24,8 +24,8 @@ public class InputController implements Serializable {
      * @param virtualViewMap Virtual View Map.
      * @param gameController Game Controller.
      */
-    public InputController(Map<String, VirtualView> virtualViewMap, GameController gameController) {
-        this.game = Game.getInstance();
+    public InputController(Map<String, VirtualView> virtualViewMap, GameController gameController, Game game) {
+        this.game = game;
         this.virtualViewMap = virtualViewMap;
         this.gameController = gameController;
     }

@@ -8,7 +8,6 @@ import it.polimi.ngsw.observer.Observable;
 
 public class Game extends Observable implements FaithPathListener {
 
-    private static Game instance;
     public static final int MAX_PLAYERS = 4;
     public static final String SERVER_NICKNAME = "server";
     private Board board = new Board();
@@ -24,19 +23,13 @@ public class Game extends Observable implements FaithPathListener {
         players = new ArrayList<>(0);
         initActionTokensDeque();
         this.leaderCards = initLeaderCards();
+        this.playerNumbers = 0;
     }
 
     public Board getBoard(){
         return this.board;
     }
-    /**
-     * @return the singleton instance.
-     */
-    public static Game getInstance() {
-        if (instance == null)
-            instance = new Game();
-        return instance;
-    }
+
     /**
      * Returns a player given his {@code nickname}.
      * Only the first occurrence is returned because
@@ -104,15 +97,25 @@ public class Game extends Observable implements FaithPathListener {
         return playerNumbers;
     }
 
+    public synchronized void waitChosenNmber(){
+        if(this.playerNumbers == 0){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     /**
      * this method allows you to set the number of players
      * @param numberOfPlayers
      * @return true if the number of players is allowed
      */
-    public boolean setNumberOfPlayers(int numberOfPlayers){
+    public synchronized boolean setNumberOfPlayers(int numberOfPlayers){
         if(numberOfPlayers < 1 || numberOfPlayers > 4) return false;
         else{
             this.playerNumbers = numberOfPlayers;
+
             return true;
         }
     }
@@ -163,9 +166,10 @@ public class Game extends Observable implements FaithPathListener {
      * @param chosenMaxPlayers the max players number. Value can be {@code 0 < x < MAX_PLAYERS}.
      * @return {@code true} if the argument value is {@code 0 < x < MAX_PLAYERS}, {@code false} otherwise.
      */
-    public boolean setChosenMaxPlayers(int chosenMaxPlayers) {
+    public synchronized boolean setChosenMaxPlayers(int chosenMaxPlayers) {
         if (chosenMaxPlayers > 0 && chosenMaxPlayers <= MAX_PLAYERS) {
             this.playerNumbers = chosenMaxPlayers;
+            notifyAll();
             notifyObserver(new LobbyMessage(getPlayersNicknames(), this.playerNumbers));
             return true;
         }
@@ -466,11 +470,4 @@ public class Game extends Observable implements FaithPathListener {
         return true;
     }
 
-
-    /**
-     * Resets the game instance. After this operations, all the game data is lost.
-     */
-    public static void resetInstance() {
-        Game.instance = null;
-    }
 }

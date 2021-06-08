@@ -1,6 +1,7 @@
 package it.polimi.ngsw.network.server;
 
 
+import it.polimi.ngsw.ServerStarter;
 import it.polimi.ngsw.network.message.Message;
 
 import java.io.IOException;
@@ -14,29 +15,33 @@ public class SocketServer implements Runnable {
     private final Server server;
     private final int port;
     ServerSocket serverSocket;
+    ServerLauncher starter;
+    boolean isStarted;
 
-    public SocketServer(Server server, int port) {
+    public SocketServer(Server server, int port, ServerLauncher start, ServerSocket socket) {
         this.server = server;
         this.port = port;
+        this.starter = start;
+        this.isStarted = false;
+        this.serverSocket = socket;
     }
 
     @Override
-    public void run() {
-        try {
-            serverSocket = new ServerSocket(port);
-            Server.LOGGER.info(() -> "Socket server started on port " + port + ".");
-        } catch (IOException e) {
-            Server.LOGGER.severe("Server could not start!");
-            return;
-        }
-
-        while (!Thread.currentThread().isInterrupted()) {
+    public synchronized void run() {
+        int howMany = 0;
+        while (!isStarted) {
             try {
                 Socket client = serverSocket.accept();
                 client.setSoTimeout(5000);
                 SocketClientHandler clientHandler = new SocketClientHandler(this, client);
                 Thread thread = new Thread(clientHandler, "ss_handler" + client.getInetAddress());
                 thread.start();
+                howMany++;
+                server.getGameController().getGame().waitChosenNmber();
+                if(server.getGameController().getGame().getChosenPlayersNumber() == howMany){
+                    this.isStarted = true;
+                    this.notifyAll();
+                }
             } catch (IOException e) {
                 Server.LOGGER.severe("Connection dropped");
             }
@@ -49,8 +54,9 @@ public class SocketServer implements Runnable {
      * @param nickname      the nickname of the new client.
      * @param clientHandler the ClientHandler of the new client.
      */
-    public void addClient(String nickname, ClientHandler clientHandler) {
+    public  void addClient(String nickname, ClientHandler clientHandler) {
         server.addClient(nickname, clientHandler);
+
     }
 
     /**
@@ -69,5 +75,15 @@ public class SocketServer implements Runnable {
      */
     public void onDisconnect(ClientHandler clientHandler) {
         server.onDisconnect(clientHandler);
+    }
+
+    public synchronized void waitStart() {
+        if(!this.isStarted){
+            try {
+                this.wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

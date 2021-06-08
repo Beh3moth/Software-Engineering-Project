@@ -31,8 +31,8 @@ public class TurnController implements Serializable {
      * @param virtualViewMap Virtual View Map of all Clients.
      * @param gameController Game Controller.
      */
-    public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController) {
-        this.game = Game.getInstance();
+    public TurnController(Map<String, VirtualView> virtualViewMap, GameController gameController, Game game) {
+        this.game = game;
         this.nicknameQueue = new ArrayList<>(game.getPlayersNicknames());
 
         this.activePlayer = nicknameQueue.get(0); // set first active player
@@ -101,13 +101,17 @@ public class TurnController implements Serializable {
         int secondShelfNumber = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(2).getResourceNumber();
         Resource thirdShelf = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(3).getResourceType();
         int thirdShelfNumber = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(3).getResourceNumber();
+        Resource firstSpecialResource = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(4).getResourceType();
+        int firstSpecialNumber = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(4).getResourceNumber();
+        int secondSpecialNumber = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(5).getResourceNumber();
+        Resource secondSpecialResource = game.getPlayerByNickname(getActivePlayer()).getWarehouse().getShelf(5).getResourceType();
         Map<Resource, Integer> chest = game.getPlayerByNickname(getActivePlayer()).getChest().getResourcesAsMap();
         int crossPosition = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getCrossPosition();
         int victoryPoints = game.getPlayerByNickname(getActivePlayer()).getPV();
         boolean papalCardOne = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardOne();
         boolean papalCardTwo = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardTwo();
         boolean papalCardThree = game.getPlayerByNickname(getActivePlayer()).getFaithPath().getPapalCardThree();
-        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardMap, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
+        vv.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList,  activeDevCardMap, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree, firstSpecialResource, firstSpecialNumber, secondSpecialResource, secondSpecialNumber);
 
     }
     /**

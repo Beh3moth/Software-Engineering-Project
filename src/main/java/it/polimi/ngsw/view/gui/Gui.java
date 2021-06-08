@@ -100,7 +100,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> leaderCardList, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
+    public void startTurnMessage(List<LeaderCard> leaderCardList, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber) {
         lightModel.setSingleMarble(singleMarble);
         lightModel.setFirstRow(firstRow);
         lightModel.setSecondRow(secondRow);
@@ -120,6 +120,10 @@ public class Gui extends ViewObservable implements View {
         lightModel.setPapalCardOne(papalCardOne);
         lightModel.setPapalCardTwo(papalCardTwo);
         lightModel.setPapalCardThree(papalCardThree);
+        lightModel.setFsr(firstSpecialResource);
+        lightModel.setSsr(secondSpecialResource);
+        lightModel.setFsn(firstSpecialNumber);
+        lightModel.setSsn(secondSpecialNumber);
         this.gameController.setLightModel(lightModel);
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             LeaderActionController controller = new LeaderActionController(leaderCardList);

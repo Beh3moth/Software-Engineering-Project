@@ -1713,6 +1713,36 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    private String[][] fillEmpty() {
+
+        String[][] tiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
+
+        tiles[0][0] = rectangleArt.getLeftTopAngle(Color.ANSI_BRIGHT_BLACK);
+        for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+            tiles[0][c] = rectangleArt.getTopDownBorder(Color.ANSI_BRIGHT_BLACK);
+        }
+
+        tiles[0][MAX_HORIZON_TILES - 1] = rectangleArt.getRightTopAngle(Color.ANSI_BRIGHT_BLACK);
+
+        for (int r = 1; r < MAX_VERT_TILES - 1; r++) {
+            tiles[r][0] = rectangleArt.getLeftRightBorder(Color.ANSI_BRIGHT_BLACK);
+            for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+                tiles[r][c] = " ";
+            }
+            tiles[r][MAX_HORIZON_TILES -1] = rectangleArt.getLeftRightBorder(Color.ANSI_BRIGHT_BLACK);
+        }
+
+        tiles[MAX_VERT_TILES - 1][0] = rectangleArt.getLeftDownAngle(Color.ANSI_BRIGHT_BLACK);
+        for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+            tiles[MAX_VERT_TILES - 1][c] = rectangleArt.getTopDownBorder(Color.ANSI_BRIGHT_BLACK);
+        }
+
+        tiles[MAX_VERT_TILES - 1][MAX_HORIZON_TILES - 1] = rectangleArt.getRightDownAngle(Color.ANSI_BRIGHT_BLACK);
+
+        return tiles;
+
+    }
+
     //notifyObserver(obs -> obs.onUpdateAskForFatihPath());
 
     //FaithPath

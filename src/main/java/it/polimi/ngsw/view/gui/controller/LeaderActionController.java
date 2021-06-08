@@ -2,6 +2,7 @@ package it.polimi.ngsw.view.gui.controller;
 
 import it.polimi.ngsw.model.LeaderCard;
 import it.polimi.ngsw.observer.ViewObservable;
+import it.polimi.ngsw.view.LightModel;
 import it.polimi.ngsw.view.gui.SceneController;
 import javafx.application.Platform;
 import javafx.event.Event;
@@ -18,6 +19,7 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     private int discardedLeaderCard;
     private int activatedLeaderCard;
     private List<LeaderCard> leaderCardList;
+    private LightModel lightModel;
 
     @FXML
     private Button activateLeaderCardOneButton;
@@ -34,10 +36,11 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     @FXML
     private ImageView leaderCardTwoImageView;
 
-    public LeaderActionController(List<LeaderCard> leaderCardList){
+    public LeaderActionController(List<LeaderCard> leaderCardList, LightModel lightModel){
         this.activatedLeaderCard = 0;
         this.discardedLeaderCard = 0;
         this.leaderCardList = leaderCardList;
+        this.lightModel = lightModel;
     }
 
     @FXML
@@ -77,7 +80,10 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     }
 
     private void onConfirmButton(Event event){
-
+        GameController gameController = new GameController();
+        gameController.addAllObservers(observers);
+        gameController.setLightModel(lightModel);
+        Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
     }
 
     private void disableButton(Button button){

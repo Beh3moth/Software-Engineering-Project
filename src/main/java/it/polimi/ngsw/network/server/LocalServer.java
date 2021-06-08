@@ -65,7 +65,7 @@ public class LocalServer {
         //Import DevCardDashboard active cards
         List<ProductionPower> leaderProductionPowerList = game.getPlayerByNickname(nickname).getDevCardDashboard().getLeaderProductionPowerList();
         ProductionPower baseProductionPower = game.getPlayerByNickname(nickname).getDevCardDashboard().getBaseProductionPower();
-        List<DevCard> activeDevCardList = game.getPlayerByNickname(nickname).getDevCardDashboard().getActiveDevCards();
+        Map<Integer, DevCard> activeDevCardMap = game.getPlayerByNickname(nickname).getDevCardDashboard().getActiveDevCardsAsMap();
         List<ProductionPower> productionPowerList = game.getPlayerByNickname(nickname).getDevCardDashboard().getActiveProductionPowerList();
         DevCard[][] devCardMarket = game.getBoard().getDevCardMarket();
         Resource firstShelf = game.getPlayerByNickname(nickname).getWarehouse().getShelf(1).getResourceType();
@@ -79,7 +79,7 @@ public class LocalServer {
         boolean papalCardOne = game.getPlayerByNickname(nickname).getFaithPath().getPapalCardOne();
         boolean papalCardTwo = game.getPlayerByNickname(nickname).getFaithPath().getPapalCardTwo();
         boolean papalCardThree = game.getPlayerByNickname(nickname).getFaithPath().getPapalCardThree();
-        cli.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardList, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
+        cli.startTurnMessage(Leaders,singleMarble, firstRow, secondRow, thirdRow, leaderProductionPowerList, activeDevCardMap, baseProductionPower, devCardMarket, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, chest, crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
 
     }
 

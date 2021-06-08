@@ -126,7 +126,7 @@ public class Gui extends ViewObservable implements View {
         lightModel.setSsn(secondSpecialNumber);
         this.gameController.setLightModel(lightModel);
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
-            LeaderActionController controller = new LeaderActionController(leaderCardList);
+            LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel);
             controller.addAllObservers(observers);
             Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
         } else {
@@ -142,7 +142,7 @@ public class Gui extends ViewObservable implements View {
             if (actionTypology == 1) { //1 vuol dire che era stata chiamata una leadercard request, 2 una discard card
 
                 if (goneRight == 0) {  //0 vuol dire non attivata, quindi richiedi, 1 attivata
-                    LeaderActionController controller = new LeaderActionController(leaderCardList);
+                    LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel);
                     controller.addAllObservers(observers);
                     Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
                 }
@@ -189,7 +189,10 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
-
+        ReorderWarehouseController controller = new ReorderWarehouseController();
+        controller.addAllObservers(observers);
+        controller.setReorderWarehouseController(lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), resources);
+        Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
     @Override

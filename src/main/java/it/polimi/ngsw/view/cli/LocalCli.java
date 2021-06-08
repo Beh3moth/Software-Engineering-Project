@@ -241,7 +241,7 @@ public class LocalCli {
     }
 
 
-    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, List<DevCard> activeDevCardList, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
+    public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
         out.println("\n\n It's your turn! \n\n");
         lightModel.setSingleMarble(singleMarble);
         lightModel.setFirstRow(firstRow);
@@ -249,7 +249,7 @@ public class LocalCli {
         lightModel.setThirdRow(thirdRow);
         lightModel.setDevCardMarket(devCardMarket);
         lightModel.setLeaderProductionPowerList(leaderProductionPowerList);
-        lightModel.setActiveDevCardList(activeDevCardList);
+        lightModel.setActiveDevCardMap(activeDevCardMap);
         this.lightModel.setFirstShelf(firstShelf);
         this.lightModel.setSecondShelf(secondShelf);
         this.lightModel.setThirdShelf(thirdShelf);
@@ -622,6 +622,36 @@ public class LocalCli {
 
     }
 
+    private String[][] fillEmpty() {
+
+        String[][] tiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
+
+        tiles[0][0] = rectangleArt.getLeftTopAngle(Color.ANSI_BRIGHT_BLACK);
+        for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+            tiles[0][c] = rectangleArt.getTopDownBorder(Color.ANSI_BRIGHT_BLACK);
+        }
+
+        tiles[0][MAX_HORIZON_TILES - 1] = rectangleArt.getRightTopAngle(Color.ANSI_BRIGHT_BLACK);
+
+        for (int r = 1; r < MAX_VERT_TILES - 1; r++) {
+            tiles[r][0] = rectangleArt.getLeftRightBorder(Color.ANSI_BRIGHT_BLACK);
+            for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+                tiles[r][c] = " ";
+            }
+            tiles[r][MAX_HORIZON_TILES -1] = rectangleArt.getLeftRightBorder(Color.ANSI_BRIGHT_BLACK);
+        }
+
+        tiles[MAX_VERT_TILES - 1][0] = rectangleArt.getLeftDownAngle(Color.ANSI_BRIGHT_BLACK);
+        for (int c = 1; c < MAX_HORIZON_TILES - 1; c++) {
+            tiles[MAX_VERT_TILES - 1][c] = rectangleArt.getTopDownBorder(Color.ANSI_BRIGHT_BLACK);
+        }
+
+        tiles[MAX_VERT_TILES - 1][MAX_HORIZON_TILES - 1] = rectangleArt.getRightDownAngle(Color.ANSI_BRIGHT_BLACK);
+
+        return tiles;
+
+    }
+
     private String getResourceArt(Resource resource) {
         switch (resource) {
             case SLAVE:
@@ -715,35 +745,47 @@ public class LocalCli {
     }
 
     private void printPlayerDevCards() {
-        if (lightModel.getActiveDevCardList().isEmpty()) {
-            out.println("\n\nYou don't own Development Cards.");
-        } else {
+        if(lightModel.getActiveDevCardMap().isEmpty()){
+            out.println();
+            out.println();
+            out.println("You don't own Development Cards.");
+        }
+        else {
             String tiles[][] = new String[11][80];
-            for (int i = 0; i < 11; i++) {
-                for (int j = 0; j < 80; j++) {
+            for(int i=0; i<11; i++){
+                for(int j=0; j<80; j++){
                     tiles[i][j] = " ";
                 }
             }
             out.println("\nDevCards:");
             int counter = 1;
-            int jIterator = 0;
-            for (DevCard devCard : this.lightModel.getActiveDevCardList()) {
-                tiles[0][8 + (jIterator * 18)] = String.valueOf(counter);
-                String[][] devCardTiles = getPrintableDevCard(devCard);
-                for (int i = 0; i < MAX_VERT_TILES; i++) {
+            int jIterator=0;
+
+            for(int i=0; i<3; i++){
+                tiles[0][8+(jIterator*18)] = String.valueOf(counter);
+                String[][] devCardTiles;
+                if(lightModel.getActiveDevCardMap().containsKey(i)){
+                    devCardTiles = getPrintableDevCard(lightModel.getActiveDevCardMap().get(i));
+                }
+                else {
+                    devCardTiles = fillEmpty();
+                }
+                for(int k = 0; k < MAX_VERT_TILES; k++) {
                     for (int j = 0; j < MAX_HORIZON_TILES; j++) {
-                        tiles[i + 1][j + (jIterator * 19)] = devCardTiles[i][j];
+                        tiles[k+1][j+(jIterator*19)] = devCardTiles[k][j];
                     }
                 }
                 jIterator++;
                 counter++;
             }
-            for (int i = 0; i < 11; i++) {
-                for (int j = 0; j < 80; j++) {
+
+            for(int i=0; i<11; i++){
+                for(int j=0; j<80; j++){
                     out.print(tiles[i][j]);
                 }
                 out.println();
             }
+
         }
     }
 

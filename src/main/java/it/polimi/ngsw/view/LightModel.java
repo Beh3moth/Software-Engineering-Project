@@ -26,7 +26,6 @@ public class LightModel {
     private Marble[] thirdRow;
     private DevCard[][] devCardMarket;
     private boolean gameFinished;
-
     //aaron
     private Resource firstShelf;
     private Resource secondShelf;

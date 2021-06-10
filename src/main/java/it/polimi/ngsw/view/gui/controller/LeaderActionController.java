@@ -83,8 +83,15 @@ public class LeaderActionController extends ViewObservable implements GenericSce
 
     private void onConfirmButton(Event event){
         if(turnZone==1){
-            notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
+            GameController gameController = new GameController();
+            gameController.addAllObservers(observers);
+            gameController.setLightModel(lightModel);
+            Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
         }
+        else if(!lightModel.isGameFinished() && turnZone == 2){
+            notifyObserver(obs -> obs.onEndTurn());
+        }
+        else notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
     }
 
     private void disableButton(Button button){
@@ -110,8 +117,9 @@ public class LeaderActionController extends ViewObservable implements GenericSce
             LeaderCard leaderCardOne = leaderCardList.get(0);
             Image img1 = new Image("images/leader/" + leaderCardOne.getAbilityName() + leaderCardOne.getLeaderCardId() + ".png");
             leaderCardOneImageView.setImage(img1);
-            leaderCardTwoImageView.setDisable(true);
-            activateLeaderCardTwoButton.setCancelButton(true);
+            leaderCardTwoImageView.setImage(null);
+            activateLeaderCardTwoButton.setDisable(true);
+            discardLeaderCardTwoButton.setDisable(true);
         }
     }
 

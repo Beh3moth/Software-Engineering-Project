@@ -62,8 +62,11 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         setCost();
     }
 
+    @FXML
     public void initialize(){
         startingPoint();
+        warehouse.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onWarehouseButtonClick);
+        chest.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChestButtonClick);
     }
 
     public void startingPoint(){
@@ -77,8 +80,6 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         else{warehouse.setDisable(true);}
         if(controlChest(actualResource)){chest.setDisable(false);}
         else{chest.setDisable(true);}
-        warehouse.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onWarehouseButtonClick);
-        chest.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChestButtonClick);
     }
 
     public void onWarehouseButtonClick(Event event){

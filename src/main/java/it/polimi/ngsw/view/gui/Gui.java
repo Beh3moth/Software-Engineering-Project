@@ -152,7 +152,7 @@ public class Gui extends ViewObservable implements View {
                 else if (goneRight == 1) {
                     gameController.addAllObservers(observers);
                     gameController.setLightModel(lightModel);
-                    Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
+                    Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
                     this.leaderCardStatus[whichCard-1] = 2;
                     // mainMove();
                 }

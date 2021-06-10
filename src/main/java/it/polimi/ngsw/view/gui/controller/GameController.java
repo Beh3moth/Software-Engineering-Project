@@ -104,7 +104,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
             FIRSTSHELF.setImage(null);
         }
         else{
-            Image firstshelf = new Image("images/icons" + getTypeResourceForImage(lightModel.getFirstShelf()) + ".png");
+            Image firstshelf = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFirstShelf()) + ".png");
             FIRSTSHELF.setImage(firstshelf);
         }
 
@@ -113,7 +113,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
             SECONDSHELF2.setImage(null);
         }
         else{
-            Image secondshelf = new Image("images/icons" + getTypeResourceForImage(lightModel.getSecondShelf()) + ".png");
+            Image secondshelf = new Image("images/icons/" + getTypeResourceForImage(lightModel.getSecondShelf()) + ".png");
             SECONDSHELF1.setImage(secondshelf);
             if(lightModel.getSecondShelfNumber() == 2){
                 SECONDSHELF2.setImage(secondshelf);
@@ -126,7 +126,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
             THIRDSHELF3.setImage(null);
         }
         else{
-            Image thirdshelf = new Image("images/icons" + getTypeResourceForImage(lightModel.getThirdShelf()) + ".png");
+            Image thirdshelf = new Image("images/icons/" + getTypeResourceForImage(lightModel.getThirdShelf()) + ".png");
             THIRDSHELF1.setImage(thirdshelf);
             if(lightModel.getThirdShelfNumber() >= 2){
                 THIRDSHELF2.setImage(thirdshelf);
@@ -138,13 +138,17 @@ public class GameController extends ViewObservable implements GenericSceneContro
     }
 
     public String getTypeResourceForImage(Resource resource){
-        switch(resource){
-            case MONEY:return "coin";
-            case STONE:return "stone";
-            case SLAVE:return "servant";
-            case SHIELD:return "shield";
-            default: return null;
+        if(resource != null){
+
+            switch(resource){
+                case MONEY:return "coin";
+                case STONE:return "stone";
+                case SLAVE:return "servant";
+                case SHIELD:return "shield";
+                default: return null;
+            }
         }
+        return "coin";
     }
 
     public void upDateDevCard(){

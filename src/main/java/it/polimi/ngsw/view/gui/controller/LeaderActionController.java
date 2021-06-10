@@ -82,10 +82,9 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     }
 
     private void onConfirmButton(Event event){
-        GameController gameController = new GameController();
-        gameController.addAllObservers(observers);
-        gameController.setLightModel(lightModel);
-        Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
+        if(turnZone==1){
+            notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
+        }
     }
 
     private void disableButton(Button button){

@@ -48,7 +48,7 @@
                    <Insets left="50.0" />
                 </StackPane.margin>
                 <children>
-                   <Button fx:id="backButton" layoutX="51.0" layoutY="38.0" mnemonicParsing="false" styleClass="backButton" text="Back" />
+                   <Button fx:id="backButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="130.0" styleClass="backButton" />
                 </children>
             </AnchorPane>
         </StackPane>

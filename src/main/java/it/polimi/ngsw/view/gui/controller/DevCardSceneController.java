@@ -65,7 +65,7 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         int row = GridPane.getRowIndex(button);
         int col = GridPane.getColumnIndex(button);
         button.setDisable(true);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(row+1, col+1, 1))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(3-row, col+1, 1))).start();
     }
 
     private void setButtonsEventHandler(){

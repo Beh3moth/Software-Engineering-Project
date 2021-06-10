@@ -13,16 +13,16 @@
                     <children>
                   <AnchorPane prefHeight="156.0" prefWidth="894.0" stylesheets="@../css/game_scene.css" AnchorPane.bottomAnchor="376.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
+                         <ImageView fx:id="papalCard1" fitHeight="50.0" fitWidth="150.0" layoutX="226.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
+                             <Image url="@../images/icons/quadrato giallo.png" />
+                         </ImageView>
+                         <ImageView fx:id="papalCard2" fitHeight="50.0" fitWidth="150.0" layoutX="447.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
+                             <Image url="@../images/icons/quadrato arancione.png" />
+                         </ImageView>
+                         <ImageView fx:id="papalCard3" fitHeight="50.0" fitWidth="150.0" layoutX="710.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
+                             <Image url="@../images/icons/quadrato rosso.png" />
+                         </ImageView>
                          <Pane fx:id="faithPath">
-                             <ImageView fx:id="papalCard1" fitHeight="50.0" fitWidth="150.0" layoutX="226.0" layoutY="73.0" pickOnBounds="true" preserveRatio="true">
-                                 <Image url="@../images/icons/quadrato giallo.png" />
-                             </ImageView>
-                             <ImageView fx:id="papalCard2" fitHeight="50.0" fitWidth="150.0" layoutX="447.0" layoutY="43.0" pickOnBounds="true" preserveRatio="true">
-                                 <Image url="@../images/icons/quadrato arancione.png" />
-                             </ImageView>
-                             <ImageView fx:id="papalCard3" fitHeight="50.0" fitWidth="150.0" layoutX="710.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true">
-                                 <Image url="@../images/icons/quadrato rosso.png" />
-                             </ImageView>
                              <ImageView fx:id="pathPosition24" fitHeight="29.0" fitWidth="24.0" layoutX="826.0" layoutY="35.0" pickOnBounds="true" preserveRatio="true">
                                  <Image url="@../images/icons/croce.png" />
                              </ImageView>

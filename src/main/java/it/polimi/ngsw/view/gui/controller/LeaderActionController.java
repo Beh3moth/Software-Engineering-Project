@@ -20,6 +20,7 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     private int activatedLeaderCard;
     private List<LeaderCard> leaderCardList;
     private LightModel lightModel;
+    private int turnZone;
 
     @FXML
     private Button activateLeaderCardOneButton;
@@ -36,11 +37,12 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     @FXML
     private ImageView leaderCardTwoImageView;
 
-    public LeaderActionController(List<LeaderCard> leaderCardList, LightModel lightModel){
+    public LeaderActionController(List<LeaderCard> leaderCardList, LightModel lightModel, int turnZone){
         this.activatedLeaderCard = 0;
         this.discardedLeaderCard = 0;
         this.leaderCardList = leaderCardList;
         this.lightModel = lightModel;
+        this.turnZone = turnZone;
     }
 
     @FXML
@@ -58,25 +60,25 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     private void onActivateLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, 1))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, turnZone))).start();
     }
 
     private void onActivateLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, 1))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, turnZone))).start();
     }
 
     private void onDiscardLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, 1))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, turnZone))).start();
     }
 
     private void onDiscardLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, 1))).start();
+        new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, turnZone))).start();
     }
 
     private void onConfirmButton(Event event){

@@ -1,16 +1,21 @@
 package it.polimi.ngsw.view.gui.controller;
 
 import it.polimi.ngsw.model.Resource;
+import it.polimi.ngsw.model.Shelf;
+import it.polimi.ngsw.model.Warehouse;
 import it.polimi.ngsw.observer.ViewObservable;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
+import javafx.scene.layout.Pane;
 
-import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,51 +23,44 @@ import java.util.Map;
 public class ReorderWarehouseController extends ViewObservable implements GenericSceneController {
 
     @FXML
-    public ImageView shelf11;
+    public Pane warehouse;
     @FXML
-    public ImageView shelf21;
+    public Pane resourcesNumber;
     @FXML
-    public ImageView shelf22;
+    public Pane resourcesImageView;
     @FXML
-    public ImageView shelf31;
+    public Button confirmButton;
     @FXML
-    public ImageView shelf32;
-    @FXML
-    public ImageView shelf33;
-    @FXML
-    public ImageView shelf41;
-    @FXML
-    public ImageView shelf42;
-    @FXML
-    public ImageView shelf51;
-    @FXML
-    public ImageView shelf52;
-    @FXML
-    public Label moneyLabel;
-    @FXML
-    public Label shieldLabel;
-    @FXML
-    public Label slaveLabel;
-    @FXML
-    public Label stoneLabel;
-    @FXML
-    public ImageView money;
-    @FXML
-    public ImageView shield;
-    @FXML
-    public ImageView slave;
-    @FXML
-    public ImageView stone;
+    public Button resetButton;
 
     private Resource firstShelf;
     private Resource secondShelf;
     private int secondShelfNumber;
     private Resource thirdShelf;
     private int thirdShelfNumber;
+    private Resource fsr;
+    private int fsn;
+    private Resource ssr;
+    private int ssn;
+    private List<Resource> resourceList;
+    private boolean isIndependent;
 
     private Map<Resource, Integer> resourcesMap = new HashMap<>();
+    private Warehouse warehouseSurrogate = new Warehouse();
 
-    public void setReorderWarehouseController(Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, List<Resource> resourceList) {
+    public void setReorderWarehouseController(Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Resource fsr, int fsn, Resource ssr, int ssn, List<Resource> resourceList, boolean isIndependent) {
+
+        this.firstShelf = firstShelf;
+        this.secondShelf = secondShelf;
+        this.secondShelfNumber = secondShelfNumber;
+        this.thirdShelf = thirdShelf;
+        this.thirdShelfNumber = thirdShelfNumber;
+        this.fsr = fsr;
+        this.fsn = fsn;
+        this.ssr = ssr;
+        this.ssn = ssn;
+        this.resourceList = resourceList;
+        this.isIndependent = isIndependent;
 
         resourcesMap.put(Resource.MONEY, 0);
         resourcesMap.put(Resource.STONE, 0);
@@ -78,6 +76,12 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         if(thirdShelf!=Resource.EMPTY && thirdShelf != Resource.FAITHPOINT){
             resourcesMap.put(thirdShelf, thirdShelfNumber);
         }
+        if(fsr!=Resource.EMPTY && fsr != Resource.FAITHPOINT){
+            resourcesMap.put(fsr, fsn);
+        }
+        if(ssr!=Resource.EMPTY && ssr != Resource.FAITHPOINT){
+            resourcesMap.put(ssr, ssn);
+        }
         for(Resource resource : resourceList){
             resourcesMap.put(resource, resourcesMap.get(resource)+1 );
         }
@@ -85,75 +89,225 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
     }
 
     @FXML
-    public void initialize() {
-        if(resourcesMap.containsKey(Resource.MONEY)){
-            moneyLabel.setText(String.valueOf(resourcesMap.get(Resource.MONEY)));
-        }
-        else {
-            moneyLabel.setText(String.valueOf(0));
-        }
-        if(resourcesMap.containsKey(Resource.STONE)){
-            stoneLabel.setText(String.valueOf(resourcesMap.get(Resource.STONE)));
-        }
-        else {
-            stoneLabel.setText(String.valueOf(0));
-        }
-        if(resourcesMap.containsKey(Resource.SHIELD)){
-            shieldLabel.setText(String.valueOf(resourcesMap.get(Resource.SHIELD)));
-        }
-        else {
-            shieldLabel.setText(String.valueOf(0));
-        }
-        if(resourcesMap.containsKey(Resource.SLAVE)){
-            slaveLabel.setText(String.valueOf(resourcesMap.get(Resource.SLAVE)));
-        }
-        else {
-            slaveLabel.setText(String.valueOf(0));
-        }
+    public void initialize(){
+        setLabelsValues();
+        setResourceOnDragDetected();
+        setResourceOnDragDone();
+        setTargetOnDragOver();
+        setTargetOnDragDropped();
+        confirmButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onConfirmButton);
+        resetButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onResetButton);
+    }
 
-        //Drop
-        //Data is over the target. Can it be dropped?
-        shelf11.setOnDragOver(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent dragEvent) {
-                if(dragEvent.getDragboard().hasString()){
-                    dragEvent.acceptTransferModes(TransferMode.ANY);
+    private void onResetButton(Event event){
+        setReorderWarehouseController(firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, fsr, fsn, ssr, ssn, resourceList, isIndependent);
+        setLabelsValues();
+        setResourceOnDragDetected();
+        setResourceOnDragDone();
+        setTargetOnDragOver();
+        setTargetOnDragDropped();
+        resetWarehouse();
+    }
+
+    private void resetWarehouse(){
+        for(Node node : warehouse.getChildren()){
+            ImageView imageView = (ImageView) node;
+            Image image = new Image("images/icons/shelf.png");
+            imageView.setImage(image);
+        }
+        this.warehouseSurrogate = new Warehouse();
+    }
+
+    private void onConfirmButton(Event event){
+        Resource newFirstShelf;
+        if(warehouseSurrogate.getShelf(1).getResourceType()!=Resource.EMPTY && warehouseSurrogate.getShelf(1).getResourceType()!=Resource.FAITHPOINT){
+            newFirstShelf = warehouseSurrogate.getShelf(1).getResourceType();
+        }
+        else newFirstShelf = null;
+        List<Resource> newSecondShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(2));
+        List<Resource> newThirdShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(3));
+        List<Resource> newFirstSpecialShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(4));
+        List<Resource> newSecondSpecialShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(5));
+        List<Resource> discardList = createDiscardList();
+        notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndependent));
+    }
+
+    private List<Resource> createDiscardList(){
+        List<Resource> discardList = new ArrayList<>();
+        for(Resource resource : Resource.values()){
+            if(resource!=Resource.EMPTY && resource!=Resource.FAITHPOINT && resourcesMap.containsKey(resource)){
+                for(int i=0; i<resourcesMap.get(resource); i++){
+                    discardList.add(resource);
                 }
             }
-        });
-        //Data is dragged over a target. This is the reaction.
-        shelf11.setOnDragDropped(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent dragEvent) {
-                ImageView imageView = (ImageView) dragEvent.getSource();
-                if(imageView.getId().equals(shelf11.getId()) && firstShelf==null){
-                    Image image = new Image("images/icons/coin.png");
-                    shelf11.setImage(image);
-                    firstShelf = Resource.MONEY;
+        }
+        if(discardList.size() > 0){
+            return discardList;
+        }
+        else return null;
+    }
+
+    private List<Resource> getResourceListFromShelf(Shelf shelf){
+        List<Resource> resourceList = new ArrayList<>();
+        if(shelf!=null && shelf.getResourceNumber()>0){
+            for(int i=0; i<shelf.getResourceNumber(); i++){
+                resourceList.add(shelf.getResourceType());
+            }
+        }
+        if(resourceList.size() > 0){
+            return resourceList;
+        }
+        else return null;
+
+    }
+
+    private void setLabelsValues(){
+        for(Node node : resourcesNumber.getChildren()){
+            Label label = (Label) node;
+            Resource resource = getResourceFromLabelName(label.getId());
+            if(resourcesMap.containsKey(resource) && resource != null){
+                label.setText(String.valueOf(resourcesMap.get(resource)));
+            }
+            else {
+                label.setText(String.valueOf(0));
+            }
+        }
+    }
+
+    private Resource getResourceFromLabelName(String labelName){
+        switch (labelName) {
+            case "moneyLabel":
+                return Resource.MONEY;
+            case "shieldLabel":
+                return Resource.SHIELD;
+            case "slaveLabel":
+                return Resource.SLAVE;
+            case "stoneLabel":
+                return Resource.STONE;
+            default:
+                return null;
+        }
+    }
+
+    private void setResourceOnDragDetected(){
+        for(Node node : resourcesImageView.getChildren()){
+            ImageView imageView = (ImageView) node;
+            node.setOnDragDetected(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
+                    if(resourcesMap.get(getResourceFromImageViewName(imageView.getId()))>0){
+                        Dragboard dragboard = node.startDragAndDrop(TransferMode.MOVE);
+                        ClipboardContent clipboardContent = new ClipboardContent();
+                        clipboardContent.putString(imageView.getId());
+                        dragboard.setContent(clipboardContent);
+                    }
+                    mouseEvent.consume();
                 }
-            }
-        });
+            });
+        }
+    }
 
+    private void setResourceOnDragDone(){
+        for(Node node : resourcesImageView.getChildren()){
+            node.setOnDragDone(new EventHandler<DragEvent>() {
+                @Override
+                public void handle(DragEvent dragEvent) {
 
-        //Drag
-        //Allow to drag
-        money.setOnDragDetected(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(MouseEvent mouseEvent) {
-                Dragboard dragboard = money.startDragAndDrop(TransferMode.ANY);
-                ClipboardContent clipboardContent = new ClipboardContent();
-                clipboardContent.putString("money");
-                dragboard.setContent(clipboardContent);
-                mouseEvent.consume();
-            }
-        });
-        //When dragging is completed
-        money.setOnDragDone(new EventHandler<DragEvent>() {
-            @Override
-            public void handle(DragEvent dragEvent) {
-                resourcesMap.put(Resource.MONEY, resourcesMap.get(Resource.MONEY)-1 );
-                dragEvent.consume();
-            }
-        });
+                }
+            });
+        }
+    }
+
+    private void setTargetOnDragOver(){
+        //The iteration proceeds in this way: 11, 12, 22, 31, 32, 33, 41, 42, 51, 52
+        for(Node node : warehouse.getChildren()){
+            node.setOnDragOver(new EventHandler<DragEvent>() {
+                @Override
+                public void handle(DragEvent dragEvent) {
+                    if(dragEvent.getDragboard().hasString()){
+                        dragEvent.acceptTransferModes(TransferMode.MOVE);
+                        dragEvent.consume();
+                    }
+                }
+            });
+        }
+    }
+
+    private void setTargetOnDragDropped(){
+        for(Node node : warehouse.getChildren()){
+            ImageView imageView = (ImageView) node;
+            node.setOnDragDropped(new EventHandler<DragEvent>() {
+                @Override
+                public void handle(DragEvent dragEvent) {
+                    ImageView imageViewSource = (ImageView) dragEvent.getGestureSource();
+                    String imageViewName = imageView.getId();
+                    int level = imageViewName.charAt(5);
+                    level = level - 48;
+                    final int definitiveLevel = level;
+                    Resource resource = getResourceFromImageViewName(imageViewSource.getId());
+                    if( warehouseSurrogate.addResourceToWarehouse(definitiveLevel, resource)){
+                        Image image = new Image("images/icons/" + getImagePath(imageViewSource.getId()));
+                        imageView.setImage(image);
+                        resourcesMap.put(getResourceFromImageViewName(imageViewSource.getId()), resourcesMap.get(getResourceFromImageViewName(imageViewSource.getId()))-1 );
+                        updateLabel(imageViewSource.getId(), resourcesMap.get(getResourceFromImageViewName(imageViewSource.getId())));
+                        dragEvent.consume();
+                    }
+                }
+            });
+        }
+    }
+
+    private void updateLabel(String imageViewName, int numberOfResourcesLeft){
+        switch (imageViewName) {
+            case "money":
+                Label label0 = (Label) resourcesNumber.getChildren().get(0);
+                label0.setText(String.valueOf(numberOfResourcesLeft));
+                break;
+            case "shield":
+                Label label1 = (Label) resourcesNumber.getChildren().get(1);
+                label1.setText(String.valueOf(numberOfResourcesLeft));
+                break;
+            case "slave":
+                Label label2 = (Label) resourcesNumber.getChildren().get(2);
+                label2.setText(String.valueOf(numberOfResourcesLeft));
+                break;
+            case "stone":
+                Label label3 = (Label) resourcesNumber.getChildren().get(3);
+                label3.setText(String.valueOf(numberOfResourcesLeft));
+                break;
+            default:
+                break;
+        }
+    }
+    private Resource getResourceFromImageViewName(String imageViewName){
+        switch (imageViewName) {
+            case "money":
+                return Resource.MONEY;
+            case "shield":
+                return Resource.SHIELD;
+            case "slave":
+                return Resource.SLAVE;
+            case "stone":
+                return Resource.STONE;
+            default:
+                return null;
+        }
+    }
+
+    //It has to implement the dragging conditions
+
+    private String getImagePath(String imageViewId){
+        switch (imageViewId) {
+            case "money":
+                return "coin.png";
+            case "shield":
+                return "shield.png";
+            case "slave":
+                return "servant.png";
+            case "stone":
+                return "stone.png";
+            default:
+                return "croce.png";
+        }
     }
 }

@@ -73,7 +73,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
         devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
         ArrayList<Node> faithPathList = new ArrayList<>();
         faithPathList.add(faithPath.getChildren().get(24));
-        setCrossPosition(0);
+        setCrossPosition(lightModel.getCrossPosition());
     }
 
     public void setLightModel(LightModel lightModel){this.lightModel = lightModel;}

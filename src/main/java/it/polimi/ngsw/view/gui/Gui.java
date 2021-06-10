@@ -9,6 +9,7 @@ import javafx.application.Platform;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class Gui extends ViewObservable implements View {
 
@@ -126,12 +127,14 @@ public class Gui extends ViewObservable implements View {
         lightModel.setSsn(secondSpecialNumber);
         this.gameController.setLightModel(lightModel);
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
-            LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel);
+            LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel, 1);
             controller.addAllObservers(observers);
             Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
         } else {
-            //out.println("You don't have usable leader cards");
             //mainMove();
+            gameController.addAllObservers(observers);
+            gameController.setLightModel(lightModel);
+            Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
         }
     }
 
@@ -142,7 +145,7 @@ public class Gui extends ViewObservable implements View {
             if (actionTypology == 1) { //1 vuol dire che era stata chiamata una leadercard request, 2 una discard card
 
                 if (goneRight == 0) {  //0 vuol dire non attivata, quindi richiedi, 1 attivata
-                    LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel);
+                    LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel, turnZone);
                     controller.addAllObservers(observers);
                     Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
                 }
@@ -162,36 +165,44 @@ public class Gui extends ViewObservable implements View {
                 this.leaderCardStatus[whichCard] = 0;
                 //mainMove();
             }
-
         }
-
-
-        /*
         else if (turnZone == 2) {
             if (actionTypology == 1) {
                 if (goneRight == 1) {
-                    this.leaderCardStatus[wichCard] = 2;
-                    if(lightModel.isGameFinished() == true)endGame();
-                    else{endTurn();}
+                    this.leaderCardStatus[whichCard] = 2;
+                    if(lightModel.isGameFinished()){
+                        notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
+                    }
+                    else notifyObserver(obs -> obs.onEndTurn());
                 } else if (goneRight == 0) {
-                    if(lightModel.isGameFinished() == true)afterLastMainMove(1,Leaders);
-                    else{ askToManageLeaderCards(Leaders, turnZone);}
+                    if(lightModel.isGameFinished()){
+                        afterLastMainMove(1, leaderCardList);
+                    }
+                    else {
+                        LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel, turnZone);
+                        controller.addAllObservers(observers);
+                        Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
+                    }
                 }//leadercard choice. middle turn
             } else if (actionTypology == 2) {
-                this.leaderCardStatus[wichCard] = 0;
-                if(lightModel.isGameFinished() == true)endGame();
-                else{endTurn();}
+                this.leaderCardStatus[whichCard] = 0;
+                if(lightModel.isGameFinished()){
+                    notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
+                }
+                else notifyObserver(obs -> obs.onEndTurn());
             }
             //fine turno
         }
-        */
+        else {
+
+        }
     }
 
     @Override
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
         ReorderWarehouseController controller = new ReorderWarehouseController();
+        controller.setReorderWarehouseController(lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resources, false);
         controller.addAllObservers(observers);
-        controller.setReorderWarehouseController(lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), resources);
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
@@ -206,8 +217,23 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void afterReorder(int i, List<LeaderCard> Leaders) {
-
+    public void afterReorder(int i, List<LeaderCard> leaderCardList) {
+        if (i == 1) {
+            if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
+                LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel, 2);
+                controller.addAllObservers(observers);
+                Platform.runLater(() -> SceneController.changeScene(controller, "leader_action_scene.fxml"));
+            } else {
+                if(lightModel.isGameFinished()) {
+                    notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
+                }
+                else notifyObserver(obs -> obs.onEndTurn());
+            }
+        } else {
+            gameController.addAllObservers(observers);
+            gameController.setLightModel(lightModel);
+            Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
+        }
     }
 
     @Override
@@ -249,6 +275,5 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void endGameSinglePlayer(int playerVictoryPoints, int lawrenceCrossPosition, boolean winner) {
-
     }
 }

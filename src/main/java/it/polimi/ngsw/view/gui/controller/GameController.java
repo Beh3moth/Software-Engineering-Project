@@ -152,14 +152,15 @@ public class GameController extends ViewObservable implements GenericSceneContro
             Image devcard1 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(0).getCardColour().toString() + lightModel.getActiveDevCardMap().get(0).getDevLevel() + lightModel.getActiveDevCardMap().get(0).getPV() + ".png");
             DEVCARD1.setImage(devcard1);
         }
+        else{DEVCARD1.setImage(null);}
         if(lightModel.getActiveDevCardMap().size()>=2){
             Image devcard2 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(1).getCardColour().toString() + lightModel.getActiveDevCardMap().get(1).getDevLevel() + lightModel.getActiveDevCardMap().get(1).getPV() + ".png");
             DEVCARD2.setImage(devcard2);
-        }
+        }else{DEVCARD2.setImage(null);}
         if(lightModel.getActiveDevCardMap().size()>=2){
             Image devcard3 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(2).getCardColour().toString() + lightModel.getActiveDevCardMap().get(2).getDevLevel() + lightModel.getActiveDevCardMap().get(2).getPV() + ".png");
             DEVCARD3.setImage(devcard3);
-        }
+        }else{DEVCARD3.setImage(null);}
     }
 
     public void setCrossPosition(int crossPosition){

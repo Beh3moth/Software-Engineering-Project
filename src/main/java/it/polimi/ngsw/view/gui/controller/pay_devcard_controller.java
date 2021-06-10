@@ -63,13 +63,20 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
     }
 
     public void initialize(){
+        startingPoint();
+    }
+
+    public void startingPoint(){
         upDateResourceToPay();
         chooseZone();
     }
 
     public void chooseZone(){
-        if(controlWarehouse(actualResource))warehouse.setDisable(false);
-        if(controlChest(actualResource))chest.setDisable(false);
+        disableShelfButton();
+        if(controlWarehouse(actualResource)){warehouse.setDisable(false);}
+        else{warehouse.setDisable(true);}
+        if(controlChest(actualResource)){chest.setDisable(false);}
+        else{chest.setDisable(true);}
         warehouse.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onWarehouseButtonClick);
         chest.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChestButtonClick);
     }
@@ -90,7 +97,7 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         shelfLevel.add(0);
         int n = this.Chest.get(actualResource);
         this.Chest.replace(actualResource, n - 1);
-        initialize();
+        startingPoint();
     }
 
     public void chooseShelf(){
@@ -106,7 +113,7 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         disableShelfButton();
         this.firstShelf = Resource.EMPTY;
         this.shelfLevel.add(1);
-        initialize();
+        startingPoint();
     }
 
     public void onDueButtonClick(Event event){
@@ -114,7 +121,7 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         this.secondShelfNumber--;
         if(this.secondShelfNumber == 0)this.secondShelf = Resource.EMPTY;
         this.shelfLevel.add(2);
-        initialize();
+        startingPoint();
     }
 
     public void onTreButtonClick(Event event){
@@ -122,7 +129,7 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         this.thirdShelfNumber--;
         if(this.thirdShelfNumber == 0)this.thirdShelf = Resource.EMPTY;
         this.shelfLevel.add(3);
-        initialize();
+        startingPoint();
     }
 
     public void disableShelfButton(){
@@ -160,7 +167,7 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
             cost.replace(Resource.STONE, n -1);
             this.actualResource = Resource.STONE;
         }
-        else{
+        else if(cost.get(Resource.MONEY) == 0 && cost.get(Resource.SHIELD) == 0 && cost.get(Resource.SLAVE) == 0 && cost.get(Resource.STONE) == 0){
             resource_to_pay.setImage(null);
             new Thread(() ->notifyObserver(obs -> obs.onUpdatePayDevCard(isWarehouse.toArray(new Boolean[0]), shelfLevel.toArray(new Integer[0]), resourceType.toArray(new Resource[0]), devCard, slotToPut, discountPowerOne, discountPowerTwo))).start();
         }

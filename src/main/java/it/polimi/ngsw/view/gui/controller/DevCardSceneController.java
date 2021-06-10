@@ -2,6 +2,9 @@ package it.polimi.ngsw.view.gui.controller;
 
 import it.polimi.ngsw.model.DevCard;
 import it.polimi.ngsw.observer.ViewObservable;
+import it.polimi.ngsw.view.LightModel;
+import it.polimi.ngsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -14,6 +17,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 
 public class DevCardSceneController extends ViewObservable implements GenericSceneController {
@@ -42,8 +48,11 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
     private Button devCard31;
     @FXML
     private Button devCard32;
+    @FXML
+    private Button backButton;
 
     private DevCard[][] devCardMarket;
+    private LightModel lightModel;
 
     @FXML
     public void initialize(){
@@ -51,7 +60,7 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         setButtonsEventHandler();
     }
 
-    public void onChosenDevCard(Event event){
+    private void onChosenDevCard(Event event){
         Button button = (Button) event.getSource();
         int row = GridPane.getRowIndex(button);
         int col = GridPane.getColumnIndex(button);
@@ -59,7 +68,7 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(row+1, col+1, 1))).start();
     }
 
-    public void setButtonsEventHandler(){
+    private void setButtonsEventHandler(){
         devCard00.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
         devCard01.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
         devCard02.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
@@ -72,9 +81,17 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         devCard30.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
         devCard31.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
         devCard32.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
+        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackButton);
     }
 
-    public void setButtonsImages(){
+    private void onBackButton(Event event){
+        GameController gameController = new GameController();
+        gameController.addAllObservers(observers);
+        gameController.setLightModel(lightModel);
+        Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
+    }
+
+    private void setButtonsImages(){
         setImage(devCard00, "images/devCard/" + devCardMarket[0][0].getCardColour().toString() + devCardMarket[0][0].getDevLevel() + devCardMarket[0][0].getPV() + ".png");
         setImage(devCard01, "images/devCard/" + devCardMarket[1][0].getCardColour().toString() + devCardMarket[1][0].getDevLevel() + devCardMarket[1][0].getPV() + ".png");
         setImage(devCard02, "images/devCard/" + devCardMarket[2][0].getCardColour().toString() + devCardMarket[2][0].getDevLevel() + devCardMarket[2][0].getPV() + ".png");
@@ -97,8 +114,9 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         button.setGraphic(imageView);
     }
 
-    public void setDevCardMarket(DevCard[][] devCardMarket){
+    public void setDevCardMarket(DevCard[][] devCardMarket, LightModel lightModel){
         this.devCardMarket = devCardMarket;
+        this.lightModel = lightModel;
     }
 
 }

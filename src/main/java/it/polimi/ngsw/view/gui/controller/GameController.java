@@ -86,7 +86,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
 
     public void onDevCardMarket(Event event){
         DevCardSceneController controller = new DevCardSceneController();
-        controller.setDevCardMarket(lightModel.getDevCardMarket());
+        controller.setDevCardMarket(lightModel.getDevCardMarket(), lightModel);
         controller.addAllObservers(observers);
         SceneController.changeScene(controller, "dev_card_market_scene.fxml");
     }

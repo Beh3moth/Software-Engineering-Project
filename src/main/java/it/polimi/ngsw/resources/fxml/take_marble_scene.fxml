@@ -5,7 +5,7 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/take_marble_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/take_marble_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <StackPane layoutY="-14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-14.0">
             <Group StackPane.alignment="CENTER">
@@ -83,6 +83,7 @@
                         <Button fx:id="secondcolumn" layoutX="568.0" layoutY="248.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="secondcolumn" stylesheets="@../css/take_marble_scene.css" />
                         <Button fx:id="thirdcolumn" layoutX="655.0" layoutY="248.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="thirdcolumn" stylesheets="@../css/take_marble_scene.css" />
                         <Button fx:id="fourthcolumn" layoutX="738.0" layoutY="248.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="70.0" styleClass="fourthcolumn" stylesheets="@../css/take_marble_scene.css" />
+                        <Button fx:id="backButton" layoutX="14.0" layoutY="379.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="130.0" styleClass="backButton" />
                     </children>
                 </AnchorPane>
             </Group>

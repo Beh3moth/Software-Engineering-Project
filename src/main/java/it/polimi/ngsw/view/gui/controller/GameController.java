@@ -148,6 +148,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
                 default: return null;
             }
         }
+
         return "coin";
     }
 

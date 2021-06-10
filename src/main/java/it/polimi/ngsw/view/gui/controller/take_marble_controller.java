@@ -3,6 +3,8 @@ package it.polimi.ngsw.view.gui.controller;
 import it.polimi.ngsw.model.Marble;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.LightModel;
+import it.polimi.ngsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,6 +14,7 @@ import javafx.scene.input.MouseEvent;
 
 public class take_marble_controller extends ViewObservable implements GenericSceneController{
 
+    private LightModel lightModel;
     private Marble[] firstRow;
     private Marble[] secondRow;
     private Marble[] thirdRow;
@@ -57,7 +60,8 @@ public class take_marble_controller extends ViewObservable implements GenericSce
     private ImageView MARBLE23;
     @FXML
     private ImageView SINGLEMARBLE;
-
+    @FXML
+    private Button backButton;
 
 
     public take_marble_controller(LightModel lightmodel){
@@ -65,6 +69,7 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         this.secondRow = lightmodel.getSecondRow();
         this.thirdRow = lightmodel.getThirdRow();
         this.singleMarble = lightmodel.getSingleMarble();
+        this.lightModel = lightmodel;
     }
 
     @FXML
@@ -83,6 +88,7 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         secondcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onSecondcolumnButtonClick);
         thirdcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onThirdcolumnButtonClick);
         fourthcolumn.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onFourthcolumnButtonClick);
+        backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackButton);
         setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
     }
 
@@ -235,5 +241,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         SINGLEMARBLE.setImage(singlemarble);
     }
 
-
+    private void onBackButton(Event event){
+        GameController gameController = new GameController();
+        gameController.addAllObservers(observers);
+        gameController.setLightModel(lightModel);
+        Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
+    }
 }

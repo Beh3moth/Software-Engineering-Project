@@ -190,6 +190,7 @@ public class Game extends Observable implements FaithPathListener {
      * @return true if the multiplayers' game is ended, false otherwise
      */
     public boolean isGameEndedMultiPlayers(){
+        if(getChosenPlayersNumber() == 1 )return false;
         for(int i = 0; i < playerNumbers; i++){
             if((players.get(i).getFaithPath().getCrossPosition() >= 24) ||
                     (players.get(i).getDevCardDashboard().getDevCardNumber() == 7))return true;
@@ -204,14 +205,14 @@ public class Game extends Observable implements FaithPathListener {
                     this.board.getDevCardSpace(2,i).getNumberOfCards() == 0
             )return true;
         }
-        if(this.lawrenceFaithPath.getCrossPosition() == 20){
+        if(this.lawrenceFaithPath.getCrossPosition() >= 24){
             return true;
         }
         return false;
     }
 
     public boolean SinglePlayerIsTheWinner(){
-        if(this.players.get(0).getFaithPath().getCrossPosition() == 20)return true;
+        if(this.players.get(0).getFaithPath().getCrossPosition() >= 24)return true;
 
         if(this.players.get(0).getDevCardDashboard().getDevCardNumber() == 7)return true;
 

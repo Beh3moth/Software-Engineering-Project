@@ -299,18 +299,22 @@ public class GameController implements Observer, Serializable {
 
     private void continueGame(){
         if(game.getChosenPlayersNumber()==1){
-            broadcastGenericMessage("\nLawrence Turn");
-            broadcastGenericMessage(game.drawActionToken());
-            broadcastGenericMessage("Lawrence cross position: " + String.valueOf(game.getLawrenceFaithPath().getCrossPosition()));
+            boolean bool = false;
             VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
             Player player =  game.getPlayerByNickname(turnController.getActivePlayer());
             if(game.lawrenceIsTheWinner()){
                 virtualView.endGameSinglePlayer(player.getPV(), game.getLawrenceFaithPath().getCrossPosition(), false);
+                bool = true;
                 endGame();
             }
             else if(game.SinglePlayerIsTheWinner()){
                 virtualView.endGameSinglePlayer(player.getPV(), game.getLawrenceFaithPath().getCrossPosition(), true);
+                bool = true;
                 endGame();
+            }if(bool == false){
+            broadcastGenericMessage("\nLawrence Turn");
+            broadcastGenericMessage(game.drawActionToken());
+            broadcastGenericMessage("Lawrence cross position: " + (game.getLawrenceFaithPath().getCrossPosition()));
             }
         }
         turnController.next();
@@ -476,9 +480,10 @@ public class GameController implements Observer, Serializable {
                     virtualView.afterReorder(1, Leaders);  // se non sono l'ultimo
                 }
             }
-            else if(game.isGameEndedMultiPlayers() == true && this.isGameEnded == false){  //è il primo ad arrivarci, mette il fatto che il gioco sia in fase di ended
+            else if(game.isGameEndedMultiPlayers() == true && this.isGameEnded == false ){  //è il primo ad arrivarci, mette il fatto che il gioco sia in fase di ended
                 int thisPlayerPosition = -1;
                 this.isGameEnded = true;
+                broadcastGenericMessage("THE GAME IS ALMOST FINISHED ");
                 for(int i=0; i < game.getChosenPlayersNumber(); i++){
                     if(turnController.getActivePlayer() == turnController.getNicknameQueue().get(i)) thisPlayerPosition = i +1;
                 }
@@ -627,7 +632,6 @@ public class GameController implements Observer, Serializable {
      * Reset the Game Instance and re-initialize GameController Class.
      */
     public void endGame() {
-
         initGameController();
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
     }
@@ -656,6 +660,8 @@ public class GameController implements Observer, Serializable {
         else if(game.isGameEndedMultiPlayers() == true && this.isGameEnded == false){  //è il primo ad arrivarci, mette il fatto che il gioco sia in fase di ended
             int thisPlayerPosition = -1;
             this.isGameEnded = true;
+            broadcastGenericMessage("THE GAME IS ALMOST FINISHED ");
+
             for(int i=0; i < game.getChosenPlayersNumber(); i++){
                 if(turnController.getActivePlayer() == turnController.getNicknameQueue().get(i)) thisPlayerPosition = i +1;
             }
@@ -784,7 +790,7 @@ public class GameController implements Observer, Serializable {
 
         virtualView.devCardResponse(success, "payDevCard", receivedMessage.getDevCard(), receivedMessage.getSlotToPut(), receivedMessage.getDiscountPowerOne(), receivedMessage.getDiscountPowerTwo());
 
-        String string = "the player bought a devCard: level : " + receivedMessage.getDevCard().getDevLevel() + "colour : " + receivedMessage.getDevCard().getCardColour();
+        String string = "the player bought a devCard: level : " + receivedMessage.getDevCard().getDevLevel() + ", colour : " + receivedMessage.getDevCard().getCardColour();
         this.broadcastGenericMessage(string, receivedMessage.getNickname());
 
         if(success) {
@@ -799,6 +805,7 @@ public class GameController implements Observer, Serializable {
             else if(game.isGameEndedMultiPlayers() == true && this.isGameEnded == false){  //è il primo ad arrivarci, mette il fatto che il gioco sia in fase di ended
                 int thisPlayerPosition = -1;
                 this.isGameEnded = true;
+                broadcastGenericMessage("THE GAME IS ALMOST FINISHED ");
                 for(int i=0; i < game.getChosenPlayersNumber(); i++){
                     if(turnController.getActivePlayer() == turnController.getNicknameQueue().get(i)) thisPlayerPosition = i +1;
                 }

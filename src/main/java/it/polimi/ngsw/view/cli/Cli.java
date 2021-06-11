@@ -209,7 +209,7 @@ public class Cli extends ViewObservable implements View {
         if (number == 1) {
             Resource resourceOne;
             try {
-                out.println(" Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
+                out.println("Chose between 1) Money 2) Slave 3) Shield 4) Stone ");
                 Chosen = numberInput(1, 4, "Pick resource  ");
                 if (Chosen == 1) {
                     resourceOne = Resource.MONEY;
@@ -1370,16 +1370,16 @@ public class Cli extends ViewObservable implements View {
         if(winner){
             out.println();
             out.println("You are the winner!");
-            out.println("You have " + playerVictoryPoints + "Victory Points");
+            out.println("You have " + playerVictoryPoints + " Victory Points");
             out.println("Lawrence The Magnificent cross position is " + lawrenceCrossPosition);
         }
         else {
             out.println();
             out.println("Lawrence The Magnificent is the winner!");
-            out.println("Lawrence The Magnificent is the winner!");
-            out.println("You have " + playerVictoryPoints + "Victory Points");
+            out.println("You have " + playerVictoryPoints + " Victory Points");
             out.println("Lawrence The Magnificent cross position is " + lawrenceCrossPosition);
         }
+        System.exit(0);
     }
 
     private void printOtherFaithPath(int crossPosition) {

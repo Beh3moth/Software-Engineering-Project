@@ -321,7 +321,6 @@ public class GameController implements Observer, Serializable {
         turnController.newTurn();
     }
 
-    //mettere il case
     /**
      * Switch on Game Messages' Types.
      *

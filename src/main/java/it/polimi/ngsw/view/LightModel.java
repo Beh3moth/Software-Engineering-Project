@@ -36,6 +36,8 @@ public class LightModel {
     private int fsn;
     private Resource ssr;
     private int ssn;
+    //1 means not activated but usable, 0 means discarded, 2 means activated
+    private int[] leaderCardStatus = new int[]{1, 1};
 
     public Resource getFirstShelf(){
         return firstShelf;
@@ -221,4 +223,13 @@ public class LightModel {
         this.ssr = ssr;
     }
 
+    public int[] getLeaderCardStatus() {
+        return leaderCardStatus;
+    }
+
+    public void setLeaderCardStatus(int index, int newState) {
+        if(index==0 || index==1){
+            leaderCardStatus[index] = newState;
+        }
+    }
 }

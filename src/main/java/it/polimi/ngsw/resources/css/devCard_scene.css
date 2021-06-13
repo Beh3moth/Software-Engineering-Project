@@ -29,3 +29,45 @@
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }
+
+.SlotButtonOne {
+    -fx-background-image: url("../images/buttons/back.png");
+    -fx-background-size: stretch;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.SlotButtonOne:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
+.SlotButtonTwo {
+    -fx-background-image: url("../images/buttons/back.png");
+    -fx-background-size: stretch;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.SlotButtonTwo:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
+.SlotButtonThree {
+    -fx-background-image: url("../images/buttons/back.png");
+    -fx-background-size: stretch;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.SlotButtonThree:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}

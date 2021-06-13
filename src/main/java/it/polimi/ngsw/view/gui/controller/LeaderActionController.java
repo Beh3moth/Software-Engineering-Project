@@ -60,24 +60,28 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     private void onActivateLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
+        lightModel.setLeaderCardStatus(0, 2);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, turnZone))).start();
     }
 
     private void onActivateLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
+        lightModel.setLeaderCardStatus(1, 2);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, turnZone))).start();
     }
 
     private void onDiscardLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
+        lightModel.setLeaderCardStatus(0, 0);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, turnZone))).start();
     }
 
     private void onDiscardLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
+        lightModel.setLeaderCardStatus(1, 0);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, turnZone))).start();
     }
 
@@ -105,22 +109,27 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     //Set images
 
     private void setLeaderCardsImage(List<LeaderCard> leaderCardList){
-        if(leaderCardList.size()==2){
+        if(lightModel.getLeaderCardStatus()[0]==1){
             LeaderCard leaderCardOne = leaderCardList.get(0);
             Image img1 = new Image("images/leader/" + leaderCardOne.getAbilityName() + leaderCardOne.getLeaderCardId() + ".png");
             leaderCardOneImageView.setImage(img1);
+        }
+        else {
+            leaderCardOneImageView.setImage(null);
+            activateLeaderCardOneButton.setDisable(true);
+            discardLeaderCardOneButton.setDisable(true);
+        }
+        if(lightModel.getLeaderCardStatus()[1]==1){
             LeaderCard leaderCardTwo = leaderCardList.get(1);
             Image img2 = new Image("images/leader/" + leaderCardTwo.getAbilityName() + leaderCardTwo.getLeaderCardId() + ".png");
             leaderCardTwoImageView.setImage(img2);
         }
-        if(leaderCardList.size()==1){
-            LeaderCard leaderCardOne = leaderCardList.get(0);
-            Image img1 = new Image("images/leader/" + leaderCardOne.getAbilityName() + leaderCardOne.getLeaderCardId() + ".png");
-            leaderCardOneImageView.setImage(img1);
+        else {
             leaderCardTwoImageView.setImage(null);
             activateLeaderCardTwoButton.setDisable(true);
             discardLeaderCardTwoButton.setDisable(true);
         }
+
     }
 
 

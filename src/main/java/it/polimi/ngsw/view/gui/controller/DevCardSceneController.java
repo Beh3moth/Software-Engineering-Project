@@ -50,6 +50,12 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
     private Button devCard32;
     @FXML
     private Button backButton;
+    @FXML
+    private Button SlotButtonOne;
+    @FXML
+    private Button SlotButtonTwo;
+    @FXML
+    private Button SlotButtonThree;
 
     private DevCard[][] devCardMarket;
     private LightModel lightModel;
@@ -82,6 +88,18 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         devCard31.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
         devCard32.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackButton);
+    }
+
+    private void onSlotButtonOne(Event event){
+
+    }
+
+    private void onSlotButtonTwo(Event event){
+
+    }
+
+    private void onSlotButtonThree(Event event){
+
     }
 
     private void onBackButton(Event event){

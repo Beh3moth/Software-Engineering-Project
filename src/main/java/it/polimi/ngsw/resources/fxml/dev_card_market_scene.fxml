@@ -51,6 +51,14 @@
                    <Button fx:id="backButton" mnemonicParsing="false" prefHeight="70.0" prefWidth="130.0" styleClass="backButton" />
                 </children>
             </AnchorPane>
+            <AnchorPane maxHeight="500.0" maxWidth="200.0" prefHeight="0.0" StackPane.alignment="CENTER_RIGHT">
+                <Button fx:id="SlotButtonOne" mnemonicParsing="false" prefHeight="70.0" prefWidth="130.0" styleClass="SlotButtonOne" />
+                <Button fx:id="SlotButtonTwo" layoutY="250.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="130.0" styleClass="SlotButtonTwo" />
+                <Button fx:id="SlotButtonThree" layoutY="123.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="130.0" styleClass="SlotButtonThree" />
+            <StackPane.margin>
+               <Insets right="50.0" />
+            </StackPane.margin>
+            </AnchorPane>
         </StackPane>
     </children>
 

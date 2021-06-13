@@ -118,6 +118,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
             if(lightModel.getSecondShelfNumber() == 2){
                 SECONDSHELF2.setImage(secondshelf);
             }
+            else{
+                SECONDSHELF2.setImage(null);
+            }
         }
 
         if(lightModel.getThirdShelfNumber() == 0){
@@ -131,14 +134,20 @@ public class GameController extends ViewObservable implements GenericSceneContro
             if(lightModel.getThirdShelfNumber() >= 2){
                 THIRDSHELF2.setImage(thirdshelf);
             }
+            else{
+                THIRDSHELF2.setImage(null);
+                THIRDSHELF3.setImage(null);
+            }
             if(lightModel.getThirdShelfNumber() == 3){
                 THIRDSHELF3.setImage(thirdshelf);
+            }
+            else{
+                THIRDSHELF3.setImage(null);
             }
         }
     }
 
     public String getTypeResourceForImage(Resource resource){
-        if(resource != null){
             switch(resource){
                 case MONEY:return "coin";
                 case STONE:return "stone";
@@ -146,21 +155,19 @@ public class GameController extends ViewObservable implements GenericSceneContro
                 case SHIELD:return "shield";
                 default: return null;
             }
-        }
-        return "coin";
     }
 
     public void upDateDevCard(){
-        if(lightModel.getActiveDevCardMap().size()>=1){
+        if(lightModel.getActiveDevCardMap().get(1) != null){
             Image devcard1 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(0).getCardColour().toString() + lightModel.getActiveDevCardMap().get(0).getDevLevel() + lightModel.getActiveDevCardMap().get(0).getPV() + ".png");
             DEVCARD1.setImage(devcard1);
         }
         else{DEVCARD1.setImage(null);}
-        if(lightModel.getActiveDevCardMap().size()>=2){
+        if(lightModel.getActiveDevCardMap().get(2) != null){
             Image devcard2 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(1).getCardColour().toString() + lightModel.getActiveDevCardMap().get(1).getDevLevel() + lightModel.getActiveDevCardMap().get(1).getPV() + ".png");
             DEVCARD2.setImage(devcard2);
         }else{DEVCARD2.setImage(null);}
-        if(lightModel.getActiveDevCardMap().size()>=2){
+        if(lightModel.getActiveDevCardMap().get(3) != null){
             Image devcard3 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(2).getCardColour().toString() + lightModel.getActiveDevCardMap().get(2).getDevLevel() + lightModel.getActiveDevCardMap().get(2).getPV() + ".png");
             DEVCARD3.setImage(devcard3);
         }else{DEVCARD3.setImage(null);}

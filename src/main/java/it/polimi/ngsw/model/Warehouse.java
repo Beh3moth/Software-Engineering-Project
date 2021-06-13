@@ -88,6 +88,14 @@ public class Warehouse {
         return true;
 
     }
+
+    public boolean controlOtherShelf(int level, Resource resource){
+        for(int i = 1; i <= 3; i++){
+            if(i != level && getShelf(i).getResourceType() == resource)return false;
+        }
+        return true;
+    }
+
     /**
      *this method adds a resource to the warehouse checking that it is legal
      * @param level
@@ -96,6 +104,7 @@ public class Warehouse {
      */
     public boolean addResourceToWarehouse (int level, Resource resource){
         if(!controlShelf(level, resource))return false;
+        if(!controlOtherShelf(level, resource))return false;
         else{
             if(getShelf(level).getResourceNumber() == 0)getShelf(level).setResourceType(resource);
             getShelf(level).addResourceNumber();

@@ -139,7 +139,6 @@ public class GameController extends ViewObservable implements GenericSceneContro
 
     public String getTypeResourceForImage(Resource resource){
         if(resource != null){
-
             switch(resource){
                 case MONEY:return "coin";
                 case STONE:return "stone";
@@ -148,7 +147,6 @@ public class GameController extends ViewObservable implements GenericSceneContro
                 default: return null;
             }
         }
-
         return "coin";
     }
 

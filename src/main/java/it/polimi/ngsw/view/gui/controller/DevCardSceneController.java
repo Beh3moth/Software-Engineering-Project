@@ -59,6 +59,8 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
 
     private DevCard[][] devCardMarket;
     private LightModel lightModel;
+    private int row;
+    private int col;
 
     @FXML
     public void initialize(){
@@ -68,10 +70,10 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
 
     private void onChosenDevCard(Event event){
         Button button = (Button) event.getSource();
-        int row = GridPane.getRowIndex(button);
-        int col = GridPane.getColumnIndex(button);
-        button.setDisable(true);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(3-row, col+1, 1))).start();
+        row = GridPane.getRowIndex(button);
+        col = GridPane.getColumnIndex(button);
+        disableEveryDevCardButton();
+        activateEverySlotButton();
     }
 
     private void setButtonsEventHandler(){
@@ -88,18 +90,28 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         devCard31.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
         devCard32.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenDevCard);
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackButton);
+        SlotButtonOne.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onSlotButton);
+        SlotButtonTwo.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onSlotButton);
+        SlotButtonThree.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onSlotButton);
+        disableEverySlotButton();
     }
 
-    private void onSlotButtonOne(Event event){
-
-    }
-
-    private void onSlotButtonTwo(Event event){
-
-    }
-
-    private void onSlotButtonThree(Event event){
-
+    private void onSlotButton(Event event){
+        Button button = (Button) event.getSource();
+        switch (button.getId()){
+            case "SlotButtonOne":
+                new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(3-row, col+1, 1))).start();
+                break;
+            case "SlotButtonTwo":
+                new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(3-row, col+1, 2))).start();
+                break;
+            case "SlotButtonThree":
+                new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(3-row, col+1, 3))).start();
+                break;
+            default:
+                new Thread(() -> notifyObserver(obs -> obs.onUpdateChooseDevCard(3-row, col+1, 1))).start();
+                break;
+        }
     }
 
     private void onBackButton(Event event){
@@ -135,6 +147,33 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
     public void setDevCardMarket(DevCard[][] devCardMarket, LightModel lightModel){
         this.devCardMarket = devCardMarket;
         this.lightModel = lightModel;
+    }
+
+    private void disableEveryDevCardButton(){
+        devCard00.setDisable(true);
+        devCard01.setDisable(true);
+        devCard02.setDisable(true);
+        devCard10.setDisable(true);
+        devCard11.setDisable(true);
+        devCard12.setDisable(true);
+        devCard20.setDisable(true);
+        devCard21.setDisable(true);
+        devCard22.setDisable(true);
+        devCard30.setDisable(true);
+        devCard31.setDisable(true);
+        devCard32.setDisable(true);
+    }
+
+    private void disableEverySlotButton(){
+        SlotButtonOne.setDisable(true);
+        SlotButtonTwo.setDisable(true);
+        SlotButtonThree.setDisable(true);
+    }
+
+    private void activateEverySlotButton(){
+        SlotButtonOne.setDisable(false);
+        SlotButtonTwo.setDisable(false);
+        SlotButtonThree.setDisable(false);
     }
 
 }

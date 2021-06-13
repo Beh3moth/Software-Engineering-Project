@@ -11,6 +11,7 @@ import java.util.Map;
 public class LightModel {
 
     private List<ProductionPower> leaderProductionPowerList;
+    //The possible Integers values are 0,1,2 and they represent the DevCard of a certain DevCardSpace.
     private Map<Integer, DevCard> activeDevCardMap;
     private ProductionPower baseProductionPower;
     private Map<Resource, Integer> chest;

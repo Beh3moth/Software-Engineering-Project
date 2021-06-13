@@ -158,16 +158,16 @@ public class GameController extends ViewObservable implements GenericSceneContro
     }
 
     public void upDateDevCard(){
-        if(lightModel.getActiveDevCardMap().get(1) != null){
+        if(lightModel.getActiveDevCardMap().get(0) != null){
             Image devcard1 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(0).getCardColour().toString() + lightModel.getActiveDevCardMap().get(0).getDevLevel() + lightModel.getActiveDevCardMap().get(0).getPV() + ".png");
             DEVCARD1.setImage(devcard1);
         }
         else{DEVCARD1.setImage(null);}
-        if(lightModel.getActiveDevCardMap().get(2) != null){
+        if(lightModel.getActiveDevCardMap().get(1) != null){
             Image devcard2 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(1).getCardColour().toString() + lightModel.getActiveDevCardMap().get(1).getDevLevel() + lightModel.getActiveDevCardMap().get(1).getPV() + ".png");
             DEVCARD2.setImage(devcard2);
         }else{DEVCARD2.setImage(null);}
-        if(lightModel.getActiveDevCardMap().get(3) != null){
+        if(lightModel.getActiveDevCardMap().get(2) != null){
             Image devcard3 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(2).getCardColour().toString() + lightModel.getActiveDevCardMap().get(2).getDevLevel() + lightModel.getActiveDevCardMap().get(2).getPV() + ".png");
             DEVCARD3.setImage(devcard3);
         }else{DEVCARD3.setImage(null);}

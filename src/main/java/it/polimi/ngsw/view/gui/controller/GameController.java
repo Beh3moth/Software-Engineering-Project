@@ -118,6 +118,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
             if(lightModel.getSecondShelfNumber() == 2){
                 SECONDSHELF2.setImage(secondshelf);
             }
+            else{
+                SECONDSHELF2.setImage(null);
+            }
         }
 
         if(lightModel.getThirdShelfNumber() == 0){
@@ -131,15 +134,20 @@ public class GameController extends ViewObservable implements GenericSceneContro
             if(lightModel.getThirdShelfNumber() >= 2){
                 THIRDSHELF2.setImage(thirdshelf);
             }
+            else{
+                THIRDSHELF2.setImage(null);
+                THIRDSHELF3.setImage(null);
+            }
             if(lightModel.getThirdShelfNumber() == 3){
                 THIRDSHELF3.setImage(thirdshelf);
+            }
+            else{
+                THIRDSHELF3.setImage(null);
             }
         }
     }
 
     public String getTypeResourceForImage(Resource resource){
-        if(resource != null){
-
             switch(resource){
                 case MONEY:return "coin";
                 case STONE:return "stone";
@@ -147,9 +155,6 @@ public class GameController extends ViewObservable implements GenericSceneContro
                 case SHIELD:return "shield";
                 default: return null;
             }
-        }
-
-        return "coin";
     }
 
     public void upDateDevCard(){

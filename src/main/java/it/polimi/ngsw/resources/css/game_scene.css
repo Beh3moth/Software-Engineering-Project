@@ -23,6 +23,20 @@
     -fx-cursor: hand;
 }
 
+.reorder {
+    -fx-background-image: url("../images/buttons/reo.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.reorder:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
 .faithPathBox {
     -fx-background-image: url("../images/icons/croce.png");
     -fx-border-color: transparent;

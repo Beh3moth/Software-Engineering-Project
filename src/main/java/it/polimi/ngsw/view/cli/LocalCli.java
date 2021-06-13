@@ -77,7 +77,7 @@ public class LocalCli {
                 out.println("\n\nPlease, enter one ID confirm with ENTER.");
                 IdChoosen = numberInput(1, LeaderCards.size(), (1) + "° LeaderCard ID: ") - 1;
                 chosenCard.add(LeaderCards.get(IdChoosen));
-                out.println("Please, enter one ID confirm with ENTER."); //non scegli lo stesso cojone
+                out.println("Please, enter one ID confirm with ENTER.");
                 boolean goneRight = false;
                 do {
                     IdChoosenTwo = numberInput(1, LeaderCards.size(), (2) + "° LeaderCard ID: ") - 1;
@@ -340,10 +340,9 @@ public class LocalCli {
                         endTurn();
                     }
                 } else if (goneRight == 0) {
-                   /* if (lightModel.isGameFinished() == true) afterLastMainMove(1, Leaders);
-                    else {
+
                         askToManageLeaderCards(Leaders, turnZone);
-                    }*/
+
                 }//leadercard choice. middle turn
             } else if (actionTypology == 2) {
                 this.leaderCardStatus[wichCard] = 0;
@@ -352,7 +351,6 @@ public class LocalCli {
                     endTurn();
                 }
             }
-            //fine turno
         }
     }
 
@@ -361,14 +359,13 @@ public class LocalCli {
             printDevCardMarket();
             printMarket();
             printPlayerDashBoard();
-            out.println("\nChose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers 5) Visualize other Player Dashboard");
-            int chose = numberInput(1, 5, "Which move? ");
+            out.println("\nChose what you want to do: 1) Reorder warehouse 2) Take resources from the market 3) Buy a Development Card 4) Activate Production Powers");
+            int chose = numberInput(1, 4, "Which move? ");
             if (chose == 1) {
                 server.ReorderWarehouse(true);
             } else if (chose == 2) takeResourcesFromMarket();
             else if (chose == 3) chooseDevCard();
-           // else if (chose == 4) productionPowerMove();
-           // else if (chose == 5) watchOtherPlayerInfo();
+            else if (chose == 4) productionPowerMove();
             try {
                 TimeUnit.SECONDS.sleep(1);
             } catch (InterruptedException e) {
@@ -461,15 +458,9 @@ public class LocalCli {
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
-
-        //aggiunge subito risorse allo stock e white marble allo stock white, poi ritorno un messaggio con situazione stock (se ha whitre ability, butta le white dentro,
-        //se no le cancella.... con lo stock decido risorsa per risorsa che fare, se buttare dentro al mercato o scartare, salvo lo stock dentro alla cli, posso passare al riordina
-        //magazzino e poi ritornare allom stock, alla fine di tutto devo avere uno stock VUOTO.
     }
 
     private void endGame() {
-        out.println("\n\nThe game is ended, now it's time to calculate the PV of every player.");
-        //notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
     }
 
     public void discardCard(int turnZone) {
@@ -863,7 +854,7 @@ public class LocalCli {
 
     public void endTurn() {
         out.println("Your turn is ended! ");
-        //notifyObserver(obs -> obs.onEndTurn());
+        server.continueGame();
     }
 
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
@@ -1215,5 +1206,332 @@ public class LocalCli {
             out.println("you can't pay like you said, try again");
             payDevCard(devCard, slotToPut, discountPowerOne, discountPowerTwo);
         }
+    }
+    List<ProductionPower> paidProductionPowerList = new ArrayList<>();
+    List <Integer> chosenIntegerList = new ArrayList<>();
+    public void productionPowerMove() {
+
+        out.println();
+        printPlayerDashBoard();
+        printPaidProductionPowerList(paidProductionPowerList);
+        int choseAction = 0;
+        out.println();
+        out.println("Chose your action");
+        out.println("Type '0' if you want to chose a Production Power, '1' to activate the Production Powers or to end your action.");
+
+        try{
+            choseAction = numberInput(0, 1, "Which action? ");
+        }
+        catch (ExecutionException e){
+            out.println("Wrong input");
+        }
+
+        if (choseAction == 0) {
+            choseProductionPower();
+        }
+        else if (choseAction == 1) {
+            activateProductionPowers();
+        }
+
+    }
+
+    public void activateProductionPowers(){
+        out.println("Activation...");
+        for(ProductionPower productionPower : paidProductionPowerList){
+            if(productionPower.isLeaderProductionPower()){
+                lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
+            }
+            else {
+                for(Resource resource : productionPower.getResourceToReceive()){
+                    if(resource.equals(Resource.FAITHPOINT)){
+                        lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
+                    }
+                }
+            }
+
+        }
+        server.ProductionPowerActivation();
+    }
+
+    public void choseProductionPower(){
+        int productionPowerChosen = 0;
+
+        try {
+            productionPowerChosen = numberInput(0, 5, "Which Production Power? ");
+        }
+        catch (ExecutionException e) {
+            out.println("Wrong input");
+        }
+
+        if(productionPowerChosen==0){
+            chosenBaseProductionPower();
+        }
+        else if(productionPowerChosen>=1 && productionPowerChosen<=3){
+            chosenDevCardProductionPower(productionPowerChosen);
+        }
+        else if(productionPowerChosen>=4 && productionPowerChosen <= 5){
+            leaderProductionPowerChosen(productionPowerChosen);
+        }
+    }
+
+    public void leaderProductionPowerChosen(int productionPowerChosen){
+        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen-3<=lightModel.getLeaderProductionPowerList().size()){
+            chosenIntegerList.add(productionPowerChosen);
+            setLeaderProductionPower(lightModel.getLeaderProductionPowerList().get(productionPowerChosen-4));
+        }
+        else {
+            out.println("You can't active this Production Power.");
+            productionPowerMove();
+        }
+    }
+
+    public void chosenDevCardProductionPower(int productionPowerChosen){
+        if(!chosenIntegerList.contains(productionPowerChosen) && lightModel.getActiveDevCardMap().containsKey(productionPowerChosen-1)){
+            chosenIntegerList.add(productionPowerChosen);
+            List<ProductionPower> productionPower = new ArrayList<>();
+            productionPower.add(lightModel.getActiveDevCardMap().get(productionPowerChosen-1).getProductionPower());
+            server.ProductionPowerList(productionPower, "productionPowerChosen");
+        }
+        else {
+            out.println("You can't active this Production Power.");
+            productionPowerMove();
+        }
+    }
+
+
+
+    public void chosenBaseProductionPower(){
+        if(!chosenIntegerList.contains(0)){
+            chosenIntegerList.add(0);
+            setBaseProductionPower();
+        }
+        else {
+            out.println("You can't active this Production Power.");
+            productionPowerMove();
+        }
+    }
+
+    public void payProductionPower(ProductionPower productionPower){
+
+        out.println("Pay the Production Power chosen.");
+        out.print("[   ");
+        for(Resource resource : productionPower.getResourceToPay()){
+            printResource(resource);
+            out.print("  ");
+        }
+        out.println(" ]");
+
+        List<Boolean> isWarehouse = new ArrayList<>();
+        List<Integer> shelfLevel = new ArrayList<>();
+        List<Resource> resourceType = new ArrayList<>();
+
+        for(Resource resource : productionPower.getResourceToPay()){
+
+            out.print("From where do you want to pay for the resource ");
+            printResource(resource);
+            out.println(" 1)Warehouse - 2)Chest");
+
+            int fromWhere = 0;
+            try {
+                fromWhere = numberInput(1, 2, "Warehouse or Chest? ");
+            }
+            catch (ExecutionException e) {
+                out.println("Wrong input");
+            }
+
+            if (fromWhere == 1) {
+                isWarehouse.add(true);
+            }
+            else {
+                isWarehouse.add(false);
+            }
+
+            if (fromWhere == 1) {
+                out.println("Which shelf? 1) 2) 3) 4) 5): ");
+                int shelf = 0;
+                try {
+                    shelf = numberInput(1, 5, "Choose: ");
+                }
+                catch (ExecutionException e) {
+                    out.println("Wrong input");
+                }
+                shelfLevel.add(shelf);
+            }
+            else {
+                shelfLevel.add(0);
+            }
+
+            resourceType.add(resource);
+
+        }
+
+        server.PayProductionPower(isWarehouse.toArray(new Boolean[0]), shelfLevel.toArray(new Integer[0]), resourceType.toArray(new Resource[0]), productionPower);
+
+    }
+
+    public void setLeaderProductionPower(ProductionPower productionPower){
+        out.println("You have chosen a Leader Production Power. Choose a resource to receive.");
+        Resource resourceChosen = choseResource();
+        productionPower.setLeaderProductionPowerResourceToReceive(resourceChosen);
+        server.ProductionPowerResource(resourceChosen, productionPower);
+    }
+
+    public void setBaseProductionPower(){
+        out.println("Set the Base Production Power Resources");
+        List<Resource> resourcesToPayList = new ArrayList<>();
+        List<Resource> resourceToReceiveList = new ArrayList<>();
+        for( int i=0; i<2; i++){
+            out.println("Set the resource " + (i+1) + " to pay");
+            resourcesToPayList.add( choseResource() );
+        }
+        out.println("Set the resource to receive");
+        resourceToReceiveList.add( choseResource() );
+        server.TwoResourceList(resourcesToPayList, resourceToReceiveList, "setBaseProductionPower");
+    }
+
+    public Resource choseResource(){
+        int resource = 0;
+        out.println("Type: 0)MONEY - 1)STONE - 2)SLAVE - 3)SHIELD");
+        try {
+            resource = numberInput(0, 3, "Which resource? ");
+        }
+        catch (ExecutionException e) {
+            out.println("Wrong input");
+        }
+        switch (resource) {
+            case 0:
+                return Resource.MONEY;
+            case 1:
+                return Resource.STONE;
+            case 2:
+                return Resource.SLAVE;
+            case 3:
+                return Resource.SHIELD;
+            default :
+                return null;
+        }
+    }
+
+    public void printPaidProductionPowerList(List<ProductionPower> list){
+
+        int productionPowerCounter = 0;
+        out.println();
+        out.println("Paid Production Power List:");
+
+        for(ProductionPower productionPower : list){
+
+            if(productionPower.isBaseProductionPower()){
+                out.println("Base Production Power:");
+            }
+            if(productionPower.isLeaderProductionPower()){
+                out.println("Leader Production Power:");
+            }
+            out.print(productionPowerCounter + " - ");
+            for(Resource resource : productionPower.getResourceToPay()){
+                printResource(resource);
+                out.print(" ");
+            }
+            out.print(" --> ");
+            for(Resource resource : productionPower.getResourceToReceive()){
+                printResource(resource);
+                out.print(" ");
+            }
+            out.println();
+            productionPowerCounter++;
+
+        }
+
+    }
+
+    public void productionPowerResponse(boolean response, String action, ProductionPower productionPower) {
+        switch (action) {
+            case "setBaseProductionPower":
+                if (response) {
+                    out.println("the resources have been set up.");
+                    lightModel.getBaseProductionPower().setBaseProductionPowerLists(productionPower.getResourceToPay(), productionPower.getResourceToReceive());
+                    payProductionPower(productionPower);
+                } else {
+                    out.println("the resources haven't been set up.");
+                    mainMove();
+                }
+                break;
+            case "productionPowerCheck":
+                if (response) {
+                    out.println("Production Power have been chosen.");
+                    payProductionPower(productionPower);
+                } else {
+                    out.println("Production Power have been chosen, but you can't afford it.");
+                    if(productionPower.isLeaderProductionPower()){
+                        for(ProductionPower power : lightModel.getLeaderProductionPowerList()){
+                            if(power.equals(productionPower)){
+                                power.resetLeaderProductionPower();
+                            }
+                        }
+                    }
+                    mainMove();
+                }
+                break;
+            case "payProductionPower":
+                if (response) {
+                    out.println("You have successfully paid the Production Power.");
+                    paidProductionPowerList.add(productionPower);
+                    productionPowerMove();
+                } else {
+                    out.println("You haven't successfully paid the Production Power chosen.");
+                    payProductionPower(productionPower); //to check (loop?)
+                }
+                break;
+            case "activation":
+                if (response) {
+                    out.println("Successfully activated the Production Powers.");
+                    paidProductionPowerList.clear();
+                    lightModel.getBaseProductionPower().resetBaseProductionPower();
+                    for(ProductionPower leaderProductionPower : lightModel.getLeaderProductionPowerList()){
+                        leaderProductionPower.resetLeaderProductionPower();
+                    }
+                    chosenIntegerList.clear();
+                }
+                else {
+                    out.println("Activation FAIL.");
+                }
+                break;
+            case "setLeaderProductionPower":
+                if (response) {
+                    out.println("Leader Production Power have been set successfully.");
+                    payProductionPower(productionPower);
+                }
+                else {
+                    out.println("FAIL.");
+                    for(ProductionPower productionPowers : lightModel.getLeaderProductionPowerList()){
+                        if(productionPowers.equals(productionPower)){
+                            productionPowers.resetLeaderProductionPower();
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void broadcastGenericMessage(String drawActionToken) {
+        out.println("\n \n" +drawActionToken + "\n \n");
+
+    }
+
+    public void endGameSinglePlayer(int pv, int crossPosition, boolean b) {
+        if(b){
+            out.println();
+            out.println("You are the winner!");
+            out.println("You have " + pv + " Victory Points");
+            out.println("Lawrence The Magnificent cross position is " + crossPosition);
+        }
+        else {
+            out.println();
+            out.println("Lawrence The Magnificent is the winner!");
+            out.println("You have " + pv + " Victory Points");
+            out.println("Lawrence The Magnificent cross position is " + crossPosition);
+        }
+        System.exit(0);
     }
 }

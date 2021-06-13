@@ -21,10 +21,14 @@ public class ClientStarter {
                 doYouWantCli = true;
                 break;
             }
+        }
+        for (String arg : args) {
             if (arg.equals("--local") ||  arg.equals("-l")){
                 doYouWantLocal = true;
+                break;
             }
         }
+
         if (doYouWantCli && !doYouWantLocal) {
             Client.LOGGER.setLevel(Level.WARNING);
             Cli cli = new Cli();

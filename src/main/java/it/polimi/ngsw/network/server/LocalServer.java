@@ -203,4 +203,93 @@ public class LocalServer {
            cli.afterReorder(1, Leaders);  //l'ho chiamata dopo buy market, quindi finita la main move
         }
     }
+
+    public void ProductionPowerActivation() {
+        Player player =  game.getPlayerByNickname(nickname);
+        List<LeaderCard> Leaders = game.getPlayerByNickname(nickname).getLeaderCards();
+        boolean success = player.activateProductionPowers();
+        cli.productionPowerResponse(success, "activation", null);
+        cli.afterReorder(1, Leaders);
+    }
+
+    public void ProductionPowerList(List<ProductionPower> productionPower, String productionPowerChosen) {
+        if(productionPowerChosen.equals("productionPowerChosen")){
+            productionPowerCheck(productionPower.get(0), nickname);
+        }
+    }
+    public void productionPowerCheck (ProductionPower productionPower, String nickName) {
+        Player player =  game.getPlayerByNickname(nickName);
+        if( !player.canAfford(productionPower.getResourceToPayAsMap()) && productionPower.isLeaderProductionPower() ) {
+            for (ProductionPower prodPower : player.getDevCardDashboard().getLeaderProductionPowerList()) {
+                if(prodPower.equals(productionPower)){
+                    prodPower.resetLeaderProductionPower();
+                }
+            }
+        }
+        cli.productionPowerResponse(player.canAfford(productionPower.getResourceToPayAsMap()), "productionPowerCheck", productionPower);
+    }
+
+    public void PayProductionPower(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, ProductionPower productionPower) {
+        Player player =  game.getPlayerByNickname(nickname);
+        boolean success = player.payProductionPower(productionPower, isWarehouse, shelfLevel, resourceType);
+
+        if (success) {
+            cli.productionPowerResponse(true, "payProductionPower", productionPower);
+        }
+        else {
+            player.rejectProductionPower(productionPower);
+            cli.productionPowerResponse(false, "payProductionPower", productionPower);
+        }
+    }
+
+    public void ProductionPowerResource(Resource resourceChosen, ProductionPower ProductionPower) {
+        Player player =  game.getPlayerByNickname(nickname);
+        for (ProductionPower productionPower : player.getDevCardDashboard().getLeaderProductionPowerList()) {
+            if(productionPower.getResourceToPay().equals((ProductionPower.getResourceToPay()))){
+                if(productionPower.isLeaderProductionPower()){
+                    boolean success = productionPower.setLeaderProductionPowerResourceToReceive(resourceChosen);
+                    cli.productionPowerResponse(success, "setLeaderProductionPower", ProductionPower);
+                }
+            }
+        }
+    }
+
+    public void TwoResourceList(List<Resource> resourcesToPayList, List<Resource> resourceToReceiveList, String setBaseProductionPower) {
+        if (setBaseProductionPower.equals("setBaseProductionPower")) {
+            Player player =  game.getPlayerByNickname(nickname);
+            ProductionPower baseProductionPower = player.getDevCardDashboard().getProductionPower(0);
+            List<Resource> resourceToPay = resourcesToPayList;
+            List<Resource> resourceToReceive = resourceToReceiveList;
+
+            if( ! baseProductionPower.setBaseProductionPowerLists(resourceToPay, resourceToReceive) ) {
+                cli.productionPowerResponse(false, "setBaseProductionPower", baseProductionPower);
+                baseProductionPower.resetLeaderProductionPower();
+            }
+            else {
+                if (player.canAfford(baseProductionPower.getResourceToPayAsMap())) {
+                    cli.productionPowerResponse(true, "setBaseProductionPower", baseProductionPower);
+                }
+                else{
+                    cli.productionPowerResponse(false, "setBaseProductionPower", baseProductionPower);
+                    baseProductionPower.resetBaseProductionPower();
+                }
+
+            }
+        }
+    }
+    public void continueGame(){
+            boolean bool = false;
+            Player player =  game.getPlayerByNickname(nickname);
+            if(game.lawrenceIsTheWinner()){
+                cli.endGameSinglePlayer(player.getPV(), game.getLawrenceFaithPath().getCrossPosition(), false);
+                bool = true;
+            }
+            else if(game.SinglePlayerIsTheWinner()){
+                cli.endGameSinglePlayer(player.getPV(), game.getLawrenceFaithPath().getCrossPosition(), true);
+                bool = true;
+            }if(bool == false){
+                cli.broadcastGenericMessage(game.drawActionToken());
+            }
+        newTurn();
+    }
 }

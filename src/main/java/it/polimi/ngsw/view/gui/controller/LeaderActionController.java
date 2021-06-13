@@ -75,6 +75,7 @@ public class LeaderActionController extends ViewObservable implements GenericSce
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
         lightModel.setLeaderCardStatus(0, 0);
+        lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, turnZone))).start();
     }
 
@@ -82,6 +83,7 @@ public class LeaderActionController extends ViewObservable implements GenericSce
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
         lightModel.setLeaderCardStatus(1, 0);
+        lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, turnZone))).start();
     }
 

@@ -24,7 +24,7 @@
 }
 
 .reorder {
-    -fx-background-image: url("../images/buttons/reo.png");
+    -fx-background-image: url("../images/buttons/reorder.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;

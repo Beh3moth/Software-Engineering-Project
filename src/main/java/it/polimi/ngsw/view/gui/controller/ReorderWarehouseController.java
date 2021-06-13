@@ -82,8 +82,10 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         if(ssr!=Resource.EMPTY && ssr != Resource.FAITHPOINT){
             resourcesMap.put(ssr, ssn);
         }
-        for(Resource resource : resourceList){
-            resourcesMap.put(resource, resourcesMap.get(resource)+1 );
+        if(resourceList!=null){
+            for(Resource resource : resourceList){
+                resourcesMap.put(resource, resourcesMap.get(resource)+1 );
+            }
         }
 
     }

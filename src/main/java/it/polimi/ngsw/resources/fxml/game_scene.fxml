@@ -168,7 +168,7 @@
                 <Label fx:id="PVnumber" layoutX="1010.0" layoutY="493.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
                 </Label>
                 <Button fx:id="take_marble" layoutX="910.0" layoutY="132.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
-                <Button fx:id="devCardMarket" layoutX="910.0" layoutY="29.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
+                <Button fx:id="devCardMarket" layoutX="910.0" layoutY="29.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="devCardMarket" stylesheets="@../css/game_scene.css" />
                 <Button fx:id="reorder" layoutX="910.0" layoutY="226.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="reorder" stylesheets="@../css/game_scene.css" />
             </Group>
         </StackPane>

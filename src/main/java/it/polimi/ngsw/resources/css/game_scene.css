@@ -10,7 +10,7 @@
 }
 
 .take_marble {
-    -fx-background-image: url("../images/buttons/activate.png");
+    -fx-background-image: url("../images/buttons/market.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;
@@ -19,6 +19,20 @@
 }
 
 .take_marble:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}
+
+.devCardMarket {
+    -fx-background-image: url("../images/buttons/devCard.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.devCardMarket:hover {
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }

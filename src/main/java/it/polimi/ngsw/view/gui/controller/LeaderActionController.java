@@ -105,22 +105,12 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     //Set images
 
     private void setLeaderCardsImage(List<LeaderCard> leaderCardList){
-        if(leaderCardList.size()==2){
-            LeaderCard leaderCardOne = leaderCardList.get(0);
-            Image img1 = new Image("images/leader/" + leaderCardOne.getAbilityName() + leaderCardOne.getLeaderCardId() + ".png");
-            leaderCardOneImageView.setImage(img1);
-            LeaderCard leaderCardTwo = leaderCardList.get(1);
-            Image img2 = new Image("images/leader/" + leaderCardTwo.getAbilityName() + leaderCardTwo.getLeaderCardId() + ".png");
-            leaderCardTwoImageView.setImage(img2);
-        }
-        if(leaderCardList.size()==1){
-            LeaderCard leaderCardOne = leaderCardList.get(0);
-            Image img1 = new Image("images/leader/" + leaderCardOne.getAbilityName() + leaderCardOne.getLeaderCardId() + ".png");
-            leaderCardOneImageView.setImage(img1);
-            leaderCardTwoImageView.setImage(null);
-            activateLeaderCardTwoButton.setDisable(true);
-            discardLeaderCardTwoButton.setDisable(true);
-        }
+        LeaderCard leaderCardOne = leaderCardList.get(0);
+        Image img1 = new Image("images/leader/" + leaderCardOne.getAbilityName() + leaderCardOne.getLeaderCardId() + ".png");
+        leaderCardOneImageView.setImage(img1);
+        LeaderCard leaderCardTwo = leaderCardList.get(1);
+        Image img2 = new Image("images/leader/" + leaderCardTwo.getAbilityName() + leaderCardTwo.getLeaderCardId() + ".png");
+        leaderCardTwoImageView.setImage(img2);
     }
 
 

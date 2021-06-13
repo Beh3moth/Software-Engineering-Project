@@ -211,10 +211,8 @@ public class Game extends Observable implements FaithPathListener {
     }
 
     public boolean SinglePlayerIsTheWinner(){
-        if(this.players.get(0).getFaithPath().getCrossPosition() == 20)return true;
-
-        if(this.players.get(0).getDevCardDashboard().getDevCardNumber() == 7)return true;
-
+        if(this.players.get(0).getFaithPath().getCrossPosition() == 20) return true;
+        if(this.players.get(0).getDevCardDashboard().getDevCardNumber() == 7) return true;
         return false;
     }
 

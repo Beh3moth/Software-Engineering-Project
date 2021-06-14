@@ -201,7 +201,7 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
         ReorderWarehouseController controller = new ReorderWarehouseController();
-        controller.setReorderWarehouseController(lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resources, false);
+        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resources, false);
         controller.addAllObservers(observers);
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }

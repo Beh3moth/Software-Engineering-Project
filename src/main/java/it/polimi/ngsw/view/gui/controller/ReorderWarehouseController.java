@@ -4,6 +4,7 @@ import it.polimi.ngsw.model.Resource;
 import it.polimi.ngsw.model.Shelf;
 import it.polimi.ngsw.model.Warehouse;
 import it.polimi.ngsw.observer.ViewObservable;
+import it.polimi.ngsw.view.LightModel;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -44,11 +45,12 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
     private int ssn;
     private List<Resource> resourceList;
     private boolean isIndependent;
+    private LightModel lightModel;
 
     private Map<Resource, Integer> resourcesMap = new HashMap<>();
     private Warehouse warehouseSurrogate = new Warehouse();
 
-    public void setReorderWarehouseController(Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Resource fsr, int fsn, Resource ssr, int ssn, List<Resource> resourceList, boolean isIndependent) {
+    public void setReorderWarehouseController(LightModel lightModel, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Resource fsr, int fsn, Resource ssr, int ssn, List<Resource> resourceList, boolean isIndependent) {
 
         this.firstShelf = firstShelf;
         this.secondShelf = secondShelf;
@@ -61,6 +63,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         this.ssn = ssn;
         this.resourceList = resourceList;
         this.isIndependent = isIndependent;
+        this.lightModel = lightModel;
 
         resourcesMap.put(Resource.MONEY, 0);
         resourcesMap.put(Resource.STONE, 0);
@@ -102,7 +105,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
     }
 
     private void onResetButton(Event event){
-        setReorderWarehouseController(firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, fsr, fsn, ssr, ssn, resourceList, isIndependent);
+        setReorderWarehouseController(lightModel, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, fsr, fsn, ssr, ssn, resourceList, isIndependent);
         setLabelsValues();
         setResourceOnDragDetected();
         setResourceOnDragDone();
@@ -125,12 +128,21 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         if(warehouseSurrogate.getShelf(1).getResourceType()!=Resource.EMPTY && warehouseSurrogate.getShelf(1).getResourceType()!=Resource.FAITHPOINT){
             newFirstShelf = warehouseSurrogate.getShelf(1).getResourceType();
         }
-        else newFirstShelf = null;
+        else newFirstShelf = Resource.EMPTY;
         List<Resource> newSecondShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(2));
         List<Resource> newThirdShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(3));
         List<Resource> newFirstSpecialShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(4));
         List<Resource> newSecondSpecialShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(5));
         List<Resource> discardList = createDiscardList();
+        lightModel.setFirstShelf(newFirstShelf);
+        lightModel.setSecondShelf(warehouseSurrogate.getShelf(2).getResourceType());
+        lightModel.setSecondShelfNumber(warehouseSurrogate.getShelf(2).getResourceNumber());
+        lightModel.setThirdShelf(warehouseSurrogate.getShelf(3).getResourceType());
+        lightModel.setThirdShelfNumber(warehouseSurrogate.getShelf(3).getResourceNumber());
+        lightModel.setFsr(warehouseSurrogate.getShelf(4).getResourceType());
+        lightModel.setFsn(warehouseSurrogate.getShelf(4).getResourceNumber());
+        lightModel.setSsr(warehouseSurrogate.getShelf(5).getResourceType());
+        lightModel.setSsn(warehouseSurrogate.getShelf(5).getResourceNumber());
         notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndependent));
     }
 

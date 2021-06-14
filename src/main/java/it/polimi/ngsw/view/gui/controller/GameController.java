@@ -81,7 +81,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
 
     public void onReorder(Event event){
         ReorderWarehouseController controller = new ReorderWarehouseController();
-        controller.setReorderWarehouseController(lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), null, true);
+        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), null, true);
         controller.addAllObservers(observers);
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }

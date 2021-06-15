@@ -28,6 +28,8 @@ public class GameController extends ViewObservable implements GenericSceneContro
     @FXML
     private Button devCardMarket;
     @FXML
+    private Button view_other_player;
+    @FXML
     private Label moneyNumber;
     @FXML
     private Label shieldNumber;
@@ -68,10 +70,13 @@ public class GameController extends ViewObservable implements GenericSceneContro
     @FXML
     private Button production;
 
+    //FaithPath
+
 
     @FXML
     public void initialize(){
         take_marble.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTakeMarbleButtonClick);
+        view_other_player.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onViewOtherPlayerButtonClick);
         upDateValuesOfChest();
         upDateValuesOfWarehouse();
         upDateDevCard();
@@ -237,5 +242,13 @@ public class GameController extends ViewObservable implements GenericSceneContro
     public void upDatePV(){
         PVnumber.setText(String.valueOf((lightModel.getVictoryPoints())));
     }
+
+    public void onViewOtherPlayerButtonClick(Event event){
+        choose_nickname_player_controller cnp = new choose_nickname_player_controller();
+        cnp.setLightModel(this.lightModel);
+        cnp.addAllObservers(observers);
+        Platform.runLater(() -> SceneController.changeScene(cnp, "choose_nickname_player_scene.fxml"));
+    }
+
 
 }

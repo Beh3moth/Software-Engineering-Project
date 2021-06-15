@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/ask_nickname_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Group StackPane.alignment="CENTER">
+                <AnchorPane prefHeight="600.0" prefWidth="500.0" styleClass="box" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                    <children>
+                        <TextField fx:id="insertNickname" alignment="CENTER" layoutX="135.0" layoutY="238.0" prefHeight="30.0" prefWidth="229.0" text="nickname">
+                        </TextField>
+                        <Button fx:id="join" layoutX="178.0" layoutY="300.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="150.0" styleClass="join" stylesheets="@../css/choose_nickname_player_scene.css" />
+                        <Button fx:id="backButton" layoutX="178.0" layoutY="375.0" mnemonicParsing="false" prefHeight="68.0" prefWidth="150.0" styleClass="backButton" stylesheets="@../css/choose_nickname_player_scene.css" />
+                    </children>
+                </AnchorPane>
+            </Group>
+        </StackPane>
+    </children>
+</AnchorPane>

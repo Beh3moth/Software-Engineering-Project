@@ -252,7 +252,10 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void viewOtherPlayer(String otherPlayer, Boolean goneRight, int crossPosition, Map<Resource, Integer> resourcesAsMap, List<DevCard> activeDevCards, int[] shelfResNumber, Resource[] shelfResType) {
-
+        view_other_player_scene_controller vop = new view_other_player_scene_controller();
+        vop.setView_other_player_scene_controller(crossPosition, resourcesAsMap, activeDevCards, shelfResNumber, shelfResType, this.lightModel);
+        vop.addAllObservers(observers);
+        Platform.runLater(() -> SceneController.changeScene(vop, "view_other_player_scene.fxml"));
     }
 
     @Override

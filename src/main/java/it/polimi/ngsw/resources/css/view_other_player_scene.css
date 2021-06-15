@@ -1,0 +1,24 @@
+.mainPain {
+    -fx-background-image: url("../images/backgrounds/tavern.png");
+    -fx-background-size: stretch;
+}
+
+
+.boardPain {
+    -fx-background-image: url("../images/backgrounds/playerBoard.png");
+    -fx-background-size: stretch;
+}
+
+.backButton {
+    -fx-background-image: url("../images/buttons/back.png");
+    -fx-border-color: transparent;
+    -fx-background-size: stretch;
+    -fx-border-width: 0;
+    -fx-background-radius: 0;
+    -fx-background-color: transparent;
+}
+
+.backButton:hover {
+    -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
+    -fx-cursor: hand;
+}

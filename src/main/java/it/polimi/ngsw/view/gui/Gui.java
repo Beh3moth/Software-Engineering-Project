@@ -269,13 +269,14 @@ public class Gui extends ViewObservable implements View {
     public void endGameSinglePlayer(int playerVictoryPoints, int lawrenceCrossPosition, boolean winner) {
     }
 
+    //Production power
+
     @Override
     public void productionPowerList(List<ProductionPower> productionPowerList, String action) {
-
+        //empty
     }
 
     @Override
     public void productionPowerResponse(boolean response, String action, ProductionPower baseProductionPower) {
-
     }
 }

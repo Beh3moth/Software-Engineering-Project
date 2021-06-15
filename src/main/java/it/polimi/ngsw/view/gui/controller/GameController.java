@@ -62,6 +62,8 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private Label PVnumber;
     @FXML
     private Button reorder;
+    @FXML
+    private Button production;
 
 
     @FXML
@@ -77,6 +79,11 @@ public class GameController extends ViewObservable implements GenericSceneContro
         faithPathList.add(faithPath.getChildren().get(24));
         setCrossPosition(lightModel.getCrossPosition());
         reorder.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onReorder);
+        production.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onProduction);
+    }
+
+    public void onProduction(Event event){
+
     }
 
     public void onReorder(Event event){

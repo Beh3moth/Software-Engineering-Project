@@ -4,6 +4,7 @@ import it.polimi.ngsw.model.Resource;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.LightModel;
 import it.polimi.ngsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -61,6 +62,8 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private ImageView papalCard3;
     @FXML
     private Label PVnumber;
+    @FXML
+    private Button reorder;
 
     //FaithPath
 
@@ -78,6 +81,14 @@ public class GameController extends ViewObservable implements GenericSceneContro
         ArrayList<Node> faithPathList = new ArrayList<>();
         faithPathList.add(faithPath.getChildren().get(24));
         setCrossPosition(lightModel.getCrossPosition());
+        reorder.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onReorder);
+    }
+
+    public void onReorder(Event event){
+        ReorderWarehouseController controller = new ReorderWarehouseController();
+        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), null, true);
+        controller.addAllObservers(observers);
+        Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
     public void setLightModel(LightModel lightModel){this.lightModel = lightModel;}
@@ -86,13 +97,6 @@ public class GameController extends ViewObservable implements GenericSceneContro
         take_marble_controller takeMarbleController = new take_marble_controller(this.lightModel);
         takeMarbleController.addAllObservers(observers);
         SceneController.changeScene(takeMarbleController, "take_marble_scene.fxml");
-    }
-
-    public void onViewOtherPlayerButtonClick(Event event){
-        choose_nickname_player_controller cnp = new choose_nickname_player_controller();
-        cnp.setLightModel(lightModel);
-        cnp.addAllObservers(observers);
-        SceneController.changeScene(cnp, "choose_nickname_player_scene.fxml");
     }
 
     public void onDevCardMarket(Event event){

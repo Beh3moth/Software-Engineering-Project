@@ -16,6 +16,7 @@ public class Gui extends ViewObservable implements View {
     GameController gameController = new GameController();
     LightModel lightModel = new LightModel();
     private int[] leaderCardStatus;
+    private List<LeaderCard> leaderCardList;
 
     @Override
     public void askNickname() {
@@ -125,6 +126,7 @@ public class Gui extends ViewObservable implements View {
         lightModel.setSsr(secondSpecialResource);
         lightModel.setFsn(firstSpecialNumber);
         lightModel.setSsn(secondSpecialNumber);
+        lightModel.setLeaderCardList(leaderCardList);
         this.gameController.setLightModel(lightModel);
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel, 1);
@@ -237,16 +239,6 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void productionPowerList(List<ProductionPower> productionPowerList, String action) {
-
-    }
-
-    @Override
-    public void productionPowerResponse(boolean response, String action, ProductionPower baseProductionPower) {
-
-    }
-
-    @Override
     public void devCardResponse(boolean response, String action, DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo) {
 
     }
@@ -275,5 +267,15 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void endGameSinglePlayer(int playerVictoryPoints, int lawrenceCrossPosition, boolean winner) {
+    }
+
+    @Override
+    public void productionPowerList(List<ProductionPower> productionPowerList, String action) {
+
+    }
+
+    @Override
+    public void productionPowerResponse(boolean response, String action, ProductionPower baseProductionPower) {
+
     }
 }

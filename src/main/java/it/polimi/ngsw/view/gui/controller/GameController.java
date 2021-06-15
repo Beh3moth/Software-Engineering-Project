@@ -228,4 +228,12 @@ public class GameController extends ViewObservable implements GenericSceneContro
         PVnumber.setText(String.valueOf((lightModel.getVictoryPoints())));
     }
 
+    public void onViewOtherPlayerButtonClick(Event event){
+        choose_nickname_player_controller cnp = new choose_nickname_player_controller();
+        cnp.setLightModel(this.lightModel);
+        cnp.addAllObservers(observers);
+        Platform.runLater(() -> SceneController.changeScene(cnp, "choose_nickname_player_scene.fxml"));
+    }
+
+
 }

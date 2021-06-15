@@ -170,6 +170,7 @@
                 <Button fx:id="take_marble" layoutX="910.0" layoutY="132.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
                 <Button fx:id="devCardMarket" layoutX="910.0" layoutY="29.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
                 <Button fx:id="reorder" layoutX="910.0" layoutY="226.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="reorder" stylesheets="@../css/game_scene.css" />
+                <Button fx:id="view_other_player" layoutX="910.0" layoutY="337.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="view_other_player" stylesheets="@../css/game_scene.css" />
             </Group>
         </StackPane>
     </children>

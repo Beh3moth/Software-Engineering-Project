@@ -280,13 +280,31 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void productionPowerResponse(boolean response, String action, ProductionPower baseProductionPower) {
+    public void productionPowerResponse(boolean response, String action, ProductionPower productionPower) {
         switch (action) {
             case "setBaseProductionPower":
                 if (response) {
                     //to the scene where you pay the production power.
                 } else {
                     //reset all
+                    gameController.addAllObservers(observers);
+                    gameController.setLightModel(lightModel);
+                    Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
+                }
+                break;
+            case "productionPowerCheck":
+                if (response) {
+                    //to the scene where you pay the production power.
+                } else {
+                    //out.println("Production Power have been chosen, but you can't afford it.");
+                    if(productionPower.isLeaderProductionPower()){
+                        for(ProductionPower power : lightModel.getLeaderProductionPowerList()){
+                            if(power.equals(productionPower)){
+                                power.resetLeaderProductionPower();
+                            }
+                        }
+                    }
+                    lightModel.getChosenIntegerList().remove(lightModel.getChosenIntegerList().size() - 1);
                     gameController.addAllObservers(observers);
                     gameController.setLightModel(lightModel);
                     Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));

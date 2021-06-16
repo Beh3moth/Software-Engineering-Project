@@ -81,7 +81,7 @@ public class ProductionChoiceController extends ViewObservable implements Generi
     private void onDevCards(Event event){
         ImageView imageView = (ImageView) event.getSource();
         List<ProductionPower> productionPowerList = new ArrayList<>();
-        if(getDevCard(imageView.getId())!=null){
+        if(getDevCard(imageView.getId())!=null && !lightModel.getChosenIntegerList().contains(getDevCardNumber(imageView.getId()))){
             productionPowerList.add( getDevCard(imageView.getId()).getProductionPower() );
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPowerList, "productionPowerChosen"));
         }
@@ -97,6 +97,19 @@ public class ProductionChoiceController extends ViewObservable implements Generi
                 return lightModel.getActiveDevCardMap().get(2);
             default:
                 return null;
+        }
+    }
+
+    private int getDevCardNumber(String id){
+        switch (id) {
+            case "devCard1":
+                return 1;
+            case "devCard2":
+                return 2;
+            case "devCard3":
+                return 3;
+            default:
+                return 0;
         }
     }
 

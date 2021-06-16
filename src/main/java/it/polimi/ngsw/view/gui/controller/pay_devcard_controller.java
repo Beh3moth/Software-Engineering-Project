@@ -67,11 +67,15 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         startingPoint();
         warehouse.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onWarehouseButtonClick);
         chest.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChestButtonClick);
+        uno.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onUnoButtonClick);
+        due.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDueButtonClick);
+        tre.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTreButtonClick);
     }
 
     public void startingPoint(){
         upDateResourceToPay();
         chooseZone();
+        disableShelfButton();
     }
 
     public void chooseZone(){
@@ -105,9 +109,6 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         if(this.firstShelf == actualResource)uno.setDisable(false);
         if(this.secondShelf == actualResource)due.setDisable(false);
         if(this.thirdShelf == actualResource)tre.setDisable(false);
-        uno.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onUnoButtonClick);
-        due.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDueButtonClick);
-        tre.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTreButtonClick);
     }
 
     public void onUnoButtonClick(Event event){

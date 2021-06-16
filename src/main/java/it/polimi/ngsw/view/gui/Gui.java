@@ -284,7 +284,9 @@ public class Gui extends ViewObservable implements View {
         switch (action) {
             case "setBaseProductionPower":
                 if (response) {
-                    //to the scene where you pay the production power.
+                    pay_production_power_controller ppp = new pay_production_power_controller(productionPower, this.lightModel);
+                    ppp.addAllObservers(observers);
+                    Platform.runLater(() -> SceneController.changeScene(ppp, "pay_production_power_scene.fxml"));
                 } else {
                     //reset all
                     gameController.addAllObservers(observers);
@@ -314,4 +316,5 @@ public class Gui extends ViewObservable implements View {
                 break;
         }
     }
+    
 }

@@ -5,6 +5,8 @@ import it.polimi.ngsw.model.LeaderCard;
 import it.polimi.ngsw.model.ProductionPower;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.LightModel;
+import it.polimi.ngsw.view.gui.SceneController;
+import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -118,7 +120,9 @@ public class ProductionChoiceController extends ViewObservable implements Generi
     }
 
     private void onBaseProductionPower(Event event){
-        //link to set scene
+        SetBaseController setBaseController = new SetBaseController();
+        setBaseController.addAllObservers(observers);
+        Platform.runLater(() -> SceneController.changeScene(setBaseController, "set_base_scene.fxml"));
     }
 
 }

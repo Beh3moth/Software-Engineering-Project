@@ -11,22 +11,22 @@
             <Group StackPane.alignment="CENTER_LEFT">
                 <Pane fx:id="devCards" prefHeight="300.0" prefWidth="600.0">
                    <children>
-                       <ImageView fitHeight="223.0" fitWidth="170.0" layoutX="14.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
-                       <ImageView fitHeight="223.0" fitWidth="170.0" layoutX="195.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
-                       <ImageView fitHeight="223.0" fitWidth="170.0" layoutX="408.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+                       <ImageView fx:id="devCard1" fitHeight="223.0" fitWidth="170.0" layoutX="14.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" styleClass="devCard" />
+                       <ImageView fx:id="devCard2" fitHeight="223.0" fitWidth="170.0" layoutX="195.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" styleClass="devCard" />
+                       <ImageView fx:id="devCard3" fitHeight="223.0" fitWidth="170.0" layoutX="408.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" styleClass="devCard" />
                    </children>
                 </Pane>
             </Group>
             <Group StackPane.alignment="CENTER_RIGHT">
                 <Pane fx:id="leaderCards" prefHeight="300.0" prefWidth="500.0">
                     <children>
-                        <ImageView fitHeight="223.0" fitWidth="170.0" layoutX="14.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
-                        <ImageView fitHeight="223.0" fitWidth="170.0" layoutX="215.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" />
+                        <ImageView fx:id="leader1" fitHeight="223.0" fitWidth="170.0" layoutX="14.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" styleClass="leaderCard" />
+                        <ImageView fx:id="leader2" fitHeight="223.0" fitWidth="170.0" layoutX="215.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" styleClass="leaderCard" />
                     </children>
                 </Pane>
             </Group>
             <Group StackPane.alignment="CENTER">
-                <Button fx:id="baseProductionPower" layoutX="589.0" layoutY="12.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="130.0" styleClass="playButton" stylesheets="@../css/production_choice_scene.css" />
+                <Button fx:id="baseProductionPower" layoutX="589.0" layoutY="12.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="130.0" styleClass="baseProductionPower" stylesheets="@../css/production_choice_scene.css" />
             </Group>
         </StackPane>
     </children>

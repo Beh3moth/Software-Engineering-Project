@@ -994,16 +994,15 @@ public class Cli extends ViewObservable implements View {
         out.flush();
     }
 
-    //Activate Production Powers
+    //Activate Production Powers Methods
 
-    List<ProductionPower> paidProductionPowerList = new ArrayList<>();
-    List <Integer> chosenIntegerList = new ArrayList<>();
+
 
     public void productionPowerMove() {
 
         out.println();
         printPlayerDashBoard();
-        printPaidProductionPowerList(paidProductionPowerList);
+        printPaidProductionPowerList(lightModel.getPaidProductionPowerList());
         int choseAction = 0;
         out.println();
         out.println("Chose your action");
@@ -1027,7 +1026,7 @@ public class Cli extends ViewObservable implements View {
 
     public void activateProductionPowers(){
         out.println("Activation...");
-        for(ProductionPower productionPower : paidProductionPowerList){
+        for(ProductionPower productionPower : lightModel.getPaidProductionPowerList()){
             if(productionPower.isLeaderProductionPower()){
                 lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
             }
@@ -1065,8 +1064,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void leaderProductionPowerChosen(int productionPowerChosen){
-        if(!chosenIntegerList.contains(productionPowerChosen) && productionPowerChosen-3<=lightModel.getLeaderProductionPowerList().size()){
-            chosenIntegerList.add(productionPowerChosen);
+        if(!lightModel.getChosenIntegerList().contains(productionPowerChosen) && productionPowerChosen-3<=lightModel.getLeaderProductionPowerList().size()){
+            lightModel.getChosenIntegerList().add(productionPowerChosen);
             setLeaderProductionPower(lightModel.getLeaderProductionPowerList().get(productionPowerChosen-4));
         }
         else {
@@ -1076,8 +1075,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void chosenDevCardProductionPower(int productionPowerChosen){
-        if(!chosenIntegerList.contains(productionPowerChosen) && lightModel.getActiveDevCardMap().containsKey(productionPowerChosen-1)){
-            chosenIntegerList.add(productionPowerChosen);
+        if(!lightModel.getChosenIntegerList().contains(productionPowerChosen) && lightModel.getActiveDevCardMap().containsKey(productionPowerChosen-1)){
+            lightModel.getChosenIntegerList().add(productionPowerChosen);
             List<ProductionPower> productionPower = new ArrayList<>();
             productionPower.add(lightModel.getActiveDevCardMap().get(productionPowerChosen-1).getProductionPower());
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPower, "productionPowerChosen"));
@@ -1089,8 +1088,8 @@ public class Cli extends ViewObservable implements View {
     }
 
     public void chosenBaseProductionPower(){
-        if(!chosenIntegerList.contains(0)){
-            chosenIntegerList.add(0);
+        if(!lightModel.getChosenIntegerList().contains(0)){
+            lightModel.getChosenIntegerList().add(0);
             setBaseProductionPower();
         }
         else {
@@ -1177,6 +1176,79 @@ public class Cli extends ViewObservable implements View {
         notifyObserver(obs -> obs.onUpdateTwoResourceList(resourcesToPayList, resourceToReceiveList, "setBaseProductionPower"));
     }
 
+    @Override
+    public void productionPowerResponse (boolean response, String action, ProductionPower productionPower) {
+        switch (action) {
+            case "setBaseProductionPower":
+                if (response) {
+                    out.println("the resources have been set up.");
+                    lightModel.getBaseProductionPower().setBaseProductionPowerLists(productionPower.getResourceToPay(), productionPower.getResourceToReceive());
+                    payProductionPower(productionPower);
+                } else {
+                    out.println("the resources haven't been set up.");
+                    mainMove();
+                }
+                break;
+            case "productionPowerCheck":
+                if (response) {
+                    out.println("Production Power have been chosen.");
+                    payProductionPower(productionPower);
+                } else {
+                    out.println("Production Power have been chosen, but you can't afford it.");
+                    if(productionPower.isLeaderProductionPower()){
+                        for(ProductionPower power : lightModel.getLeaderProductionPowerList()){
+                            if(power.equals(productionPower)){
+                                power.resetLeaderProductionPower();
+                            }
+                        }
+                    }
+                    lightModel.getChosenIntegerList().remove(lightModel.getChosenIntegerList().size() - 1);
+                    mainMove();
+                }
+                break;
+            case "payProductionPower":
+                if (response) {
+                    out.println("You have successfully paid the Production Power.");
+                    lightModel.getPaidProductionPowerList().add(productionPower);
+                    productionPowerMove();
+                } else {
+                    out.println("You haven't successfully paid the Production Power chosen.");
+                    payProductionPower(productionPower); //to check (loop?)
+                }
+                break;
+            case "activation":
+                if (response) {
+                    out.println("Successfully activated the Production Powers.");
+                    lightModel.getPaidProductionPowerList().clear();
+                    lightModel.getBaseProductionPower().resetBaseProductionPower();
+                    for(ProductionPower leaderProductionPower : lightModel.getLeaderProductionPowerList()){
+                        leaderProductionPower.resetLeaderProductionPower();
+                    }
+                    lightModel.getChosenIntegerList().clear();
+                }
+                else {
+                    out.println("Activation FAIL.");
+                }
+                break;
+            case "setLeaderProductionPower":
+                if (response) {
+                    out.println("Leader Production Power have been set successfully.");
+                    payProductionPower(productionPower);
+                }
+                else {
+                    out.println("FAIL.");
+                    for(ProductionPower productionPowers : lightModel.getLeaderProductionPowerList()){
+                        if(productionPowers.equals(productionPower)){
+                            productionPowers.resetLeaderProductionPower();
+                        }
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
     public Resource choseResource(){
         int resource = 0;
         out.println("Type: 0)MONEY - 1)STONE - 2)SLAVE - 3)SHIELD");
@@ -1233,78 +1305,6 @@ public class Cli extends ViewObservable implements View {
 
     @Override
     public void productionPowerList (List<ProductionPower> productionPowerList, String action) {
-    }
-
-    @Override
-    public void productionPowerResponse (boolean response, String action, ProductionPower productionPower) {
-        switch (action) {
-            case "setBaseProductionPower":
-                if (response) {
-                    out.println("the resources have been set up.");
-                    lightModel.getBaseProductionPower().setBaseProductionPowerLists(productionPower.getResourceToPay(), productionPower.getResourceToReceive());
-                    payProductionPower(productionPower);
-                } else {
-                    out.println("the resources haven't been set up.");
-                    mainMove();
-                }
-                break;
-            case "productionPowerCheck":
-                if (response) {
-                    out.println("Production Power have been chosen.");
-                    payProductionPower(productionPower);
-                } else {
-                    out.println("Production Power have been chosen, but you can't afford it.");
-                    if(productionPower.isLeaderProductionPower()){
-                        for(ProductionPower power : lightModel.getLeaderProductionPowerList()){
-                            if(power.equals(productionPower)){
-                                power.resetLeaderProductionPower();
-                            }
-                        }
-                    }
-                    mainMove();
-                }
-                break;
-            case "payProductionPower":
-                if (response) {
-                    out.println("You have successfully paid the Production Power.");
-                    paidProductionPowerList.add(productionPower);
-                    productionPowerMove();
-                } else {
-                    out.println("You haven't successfully paid the Production Power chosen.");
-                    payProductionPower(productionPower); //to check (loop?)
-                }
-                break;
-            case "activation":
-                if (response) {
-                    out.println("Successfully activated the Production Powers.");
-                    paidProductionPowerList.clear();
-                    lightModel.getBaseProductionPower().resetBaseProductionPower();
-                    for(ProductionPower leaderProductionPower : lightModel.getLeaderProductionPowerList()){
-                        leaderProductionPower.resetLeaderProductionPower();
-                    }
-                    chosenIntegerList.clear();
-                }
-                else {
-                    out.println("Activation FAIL.");
-                }
-                break;
-            case "setLeaderProductionPower":
-                if (response) {
-                    out.println("Leader Production Power have been set successfully.");
-                    payProductionPower(productionPower);
-                }
-                else {
-                    out.println("FAIL.");
-                    for(ProductionPower productionPowers : lightModel.getLeaderProductionPowerList()){
-                        if(productionPowers.equals(productionPower)){
-                            productionPowers.resetLeaderProductionPower();
-                        }
-                    }
-                }
-                break;
-            default:
-                break;
-        }
     }
 
     //devCard

@@ -30,7 +30,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void askLeaderCard(List<LeaderCard> leaderCards) {
-        this.leaderCardStatus = new int[]{1, 1};
+        this.leaderCardStatus = lightModel.getLeaderCardStatus();
         ChoseLeaderCardController controller = new ChoseLeaderCardController(leaderCards);
         controller.addAllObservers(observers);
         Platform.runLater(() -> SceneController.changeScene(controller, "chose_leader_scene.fxml"));
@@ -103,6 +103,7 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void startTurnMessage(List<LeaderCard> leaderCardList, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber) {
+        this.leaderCardStatus = lightModel.getLeaderCardStatus();
         lightModel.setSingleMarble(singleMarble);
         lightModel.setFirstRow(firstRow);
         lightModel.setSecondRow(secondRow);
@@ -154,8 +155,8 @@ public class Gui extends ViewObservable implements View {
                 else if (goneRight == 1) {
                     gameController.addAllObservers(observers);
                     gameController.setLightModel(lightModel);
-                    Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
-                    this.leaderCardStatus[whichCard-1] = 2;
+                    Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
+                    this.leaderCardStatus[whichCard] = 2;
                     // mainMove();
                 }
 
@@ -296,7 +297,9 @@ public class Gui extends ViewObservable implements View {
                 break;
             case "productionPowerCheck":
                 if (response) {
-                    //to the scene where you pay the production power.
+                    pay_production_power_controller ppp = new pay_production_power_controller(productionPower, this.lightModel);
+                    ppp.addAllObservers(observers);
+                    Platform.runLater(() -> SceneController.changeScene(ppp, "pay_production_power_scene.fxml"));
                 } else {
                     //out.println("Production Power have been chosen, but you can't afford it.");
                     if(productionPower.isLeaderProductionPower()){
@@ -310,6 +313,34 @@ public class Gui extends ViewObservable implements View {
                     gameController.addAllObservers(observers);
                     gameController.setLightModel(lightModel);
                     Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
+                }
+                break;
+            case "payProductionPower":
+                if (response) {
+                    //out.println("You have successfully paid the Production Power.");
+                    lightModel.getPaidProductionPowerList().add(productionPower);
+                    ProductionChoiceController controller = new ProductionChoiceController();
+                    controller.setProductionChoiceController(lightModel);
+                    controller.addAllObservers(observers);
+                    Platform.runLater(() -> SceneController.changeScene(controller, "production_choice_scene.fxml"));
+                } else {
+                    pay_production_power_controller ppp = new pay_production_power_controller(productionPower, this.lightModel);
+                    ppp.addAllObservers(observers);
+                    Platform.runLater(() -> SceneController.changeScene(ppp, "pay_production_power_scene.fxml"));
+                }
+                break;
+            case "setLeaderProductionPower":
+                if (response) {
+                    pay_production_power_controller ppp = new pay_production_power_controller(productionPower, this.lightModel);
+                    ppp.addAllObservers(observers);
+                    Platform.runLater(() -> SceneController.changeScene(ppp, "pay_production_power_scene.fxml"));
+                }
+                else {
+                    for(ProductionPower productionPowers : lightModel.getLeaderProductionPowerList()){
+                        if(productionPowers.equals(productionPower)){
+                            productionPowers.resetLeaderProductionPower();
+                        }
+                    }
                 }
                 break;
             default:

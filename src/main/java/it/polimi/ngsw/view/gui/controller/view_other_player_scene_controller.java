@@ -60,9 +60,9 @@ public class view_other_player_scene_controller extends ViewObservable implement
     private Button backButton;
 
     public void initialize(){
-        //ArrayList<Node> faithPathList = new ArrayList<>();
-        //faithPathList.add(faithPath.getChildren().get(24));
-        //setCrossPosition(crossPosition);
+        ArrayList<Node> faithPathList = new ArrayList<>();
+        faithPathList.add(faithPath.getChildren().get(24));
+        setCrossPosition(crossPosition);
         upDateValuesOfChest();
         upDateDevCard();
         upDateValuesOfWarehouse();

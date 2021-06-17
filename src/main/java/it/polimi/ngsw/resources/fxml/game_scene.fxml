@@ -160,18 +160,18 @@
                         </ImageView>
                     </children>
                 </AnchorPane>
-                <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="950.0" layoutY="480.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="120.0" fitWidth="120.0" layoutX="925.0" layoutY="442.0" pickOnBounds="true" preserveRatio="true">
                     <Image url="@../images/icons/box_resources.png" />
                 </ImageView>
-                <Label layoutX="965.0" layoutY="493.0" prefHeight="17.0" prefWidth="48.0" text="PV" textFill="WHITE">
+                <Label layoutX="939.0" layoutY="455.0" prefHeight="17.0" prefWidth="21.0" text="PV" textFill="WHITE">
                 </Label>
-                <Label fx:id="PVnumber" layoutX="1010.0" layoutY="493.0" prefHeight="17.0" prefWidth="48.0" text="100" textFill="WHITE">
+                <Label fx:id="PVnumber" layoutX="989.0" layoutY="456.0" prefHeight="17.0" prefWidth="30.0" text="100" textFill="WHITE">
                 </Label>
-                <Button fx:id="take_marble" layoutX="910.0" layoutY="132.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
+                <Button fx:id="take_marble" layoutX="910.0" layoutY="109.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="take_marble" stylesheets="@../css/game_scene.css" />
                 <Button fx:id="devCardMarket" layoutX="910.0" layoutY="29.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="devCardMarket" stylesheets="@../css/game_scene.css" />
-                <Button fx:id="reorder" layoutX="910.0" layoutY="226.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="reorder" stylesheets="@../css/game_scene.css" />
-                <Button fx:id="production" layoutX="910.0" layoutY="321.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="production" stylesheets="@../css/game_scene.css" />
-                <Button fx:id="view_other_player" layoutX="910.0" layoutY="337.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="view_other_player" stylesheets="@../css/game_scene.css" />
+                <Button fx:id="reorder" layoutX="910.0" layoutY="189.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="reorder" stylesheets="@../css/game_scene.css" />
+                <Button fx:id="production" layoutX="910.0" layoutY="266.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="production" stylesheets="@../css/game_scene.css" />
+                <Button fx:id="view_other_player" layoutX="910.0" layoutY="346.0" mnemonicParsing="false" prefHeight="80.0" prefWidth="150.0" styleClass="view_other_player" stylesheets="@../css/game_scene.css" />
             </Group>
         </StackPane>
     </children>

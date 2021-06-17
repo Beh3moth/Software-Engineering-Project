@@ -75,7 +75,7 @@
 }
 
 .view_other_player {
-    -fx-background-image: url("../images/buttons/activate.png");
+    -fx-background-image: url("../images/buttons/players.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;

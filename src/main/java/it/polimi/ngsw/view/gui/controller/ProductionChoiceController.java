@@ -55,13 +55,14 @@ public class ProductionChoiceController extends ViewObservable implements Generi
     public void setLeaderCards(){
         for (int i = 0; i < 2; i++) {
             ImageView imageView = (ImageView) leaderCards.getChildren().get(i);
-            if(lightModel.getLeaderCardStatus()[i]==2){
+            if(lightModel.getLeaderCardStatus()[i]==2 && leaderCardList.get(i).getAbilityName().equals("production power")){
                 LeaderCard leaderCard = leaderCardList.get(i);
                 Image image = new Image("images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png");
                 imageView.setImage(image);
             }
             else {
                 imageView.setImage(null);
+                imageView.setDisable(true);
             }
         }
     }
@@ -116,7 +117,19 @@ public class ProductionChoiceController extends ViewObservable implements Generi
     }
 
     private void onLeaderCards(Event event){
-        //link to set scene
+        ProductionPower productionPower = null;
+        ImageView imageView = (ImageView) event.getSource();
+        if(imageView.getId().equals("leader1") && lightModel.getLeaderProductionPowerList().size()>=1){
+            productionPower = lightModel.getLeaderProductionPowerList().get(0);
+        }
+        else if(imageView.getId().equals("leader2") && lightModel.getLeaderProductionPowerList().size()>=2){
+            productionPower = lightModel.getLeaderProductionPowerList().get(1);
+        }
+        if(productionPower!=null){
+            SetLeaderCardController controller = new SetLeaderCardController(productionPower);
+            controller.addAllObservers(observers);
+            Platform.runLater(() -> SceneController.changeScene(controller, "set_leaderCard_scene.fxml"));
+        }
     }
 
     private void onBaseProductionPower(Event event){

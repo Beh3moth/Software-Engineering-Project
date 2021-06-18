@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -27,6 +28,12 @@
             </Group>
             <Group StackPane.alignment="CENTER">
                 <Button fx:id="baseProductionPower" layoutX="589.0" layoutY="12.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="130.0" styleClass="baseProductionPower" stylesheets="@../css/production_choice_scene.css" />
+            </Group>
+            <Group StackPane.alignment="TOP_CENTER">
+                <Button fx:id="activate" styleClass="activate" stylesheets="@../css/production_choice_scene.css" text="Activate" />
+            <StackPane.margin>
+               <Insets top="100.0" />
+            </StackPane.margin>
             </Group>
         </StackPane>
     </children>

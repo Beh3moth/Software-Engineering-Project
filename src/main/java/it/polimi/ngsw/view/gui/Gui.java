@@ -204,8 +204,8 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
         ReorderWarehouseController controller = new ReorderWarehouseController();
-        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resources, false);
         controller.addAllObservers(observers);
+        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resources, false);
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
@@ -341,6 +341,17 @@ public class Gui extends ViewObservable implements View {
                             productionPowers.resetLeaderProductionPower();
                         }
                     }
+                }
+                break;
+            case "activation":
+                if (response) {
+                    //out.println("Successfully activated the Production Powers.");
+                    lightModel.getPaidProductionPowerList().clear();
+                    lightModel.getBaseProductionPower().resetBaseProductionPower();
+                    for(ProductionPower leaderProductionPower : lightModel.getLeaderProductionPowerList()){
+                        leaderProductionPower.resetLeaderProductionPower();
+                    }
+                    lightModel.getChosenIntegerList().clear();
                 }
                 break;
             default:

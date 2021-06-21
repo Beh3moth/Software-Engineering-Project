@@ -59,7 +59,7 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         this.devCard = devCard;
         this.discountPowerOne = discountPowerOne;
         this.discountPowerTwo = discountPowerTwo;
-        setCost();
+        //setCost();
     }
 
     @FXML

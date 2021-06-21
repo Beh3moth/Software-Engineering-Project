@@ -2,6 +2,9 @@ package it.polimi.ngsw.network.message;
 
 import it.polimi.ngsw.model.Resource;
 
+/**
+ * Message of the coordinates
+ */
 public class CoordinatesMessage extends Message {
 
     private Boolean[] isWarehouse;

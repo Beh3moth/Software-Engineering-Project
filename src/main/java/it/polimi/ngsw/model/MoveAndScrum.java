@@ -16,6 +16,10 @@ public class MoveAndScrum implements ActionToken {
         game.shuffleActionTokensDeque();
     }
 
+    /**
+     * Takes the name of the action token
+     * @return the name
+     */
     @Override
     public String getActionTokenName() {
         return ActionTokenName;

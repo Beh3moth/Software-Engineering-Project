@@ -9,6 +9,9 @@ import it.polimi.ngsw.view.cli.LocalCli;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Fake server that is used if you want to play the game alone in a local way
+ */
 public class LocalServer {
 
     private Game game;

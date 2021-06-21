@@ -1,5 +1,8 @@
 package it.polimi.ngsw.network.message;
 
+/**
+ * Method that ask for the faith path of the plyer
+ */
 public class AskForFaithPathMessage extends Message{
 
     public AskForFaithPathMessage(String nickname) {
@@ -7,6 +10,6 @@ public class AskForFaithPathMessage extends Message{
     }
     @Override
     public String toString() {
-        return "asking the faithpath";
+        return "Asking for the faithpath";
     }
 }

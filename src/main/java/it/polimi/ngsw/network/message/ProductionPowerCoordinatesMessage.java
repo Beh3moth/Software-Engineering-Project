@@ -3,6 +3,9 @@ package it.polimi.ngsw.network.message;
 import it.polimi.ngsw.model.ProductionPower;
 import it.polimi.ngsw.model.Resource;
 
+/**
+ * Message about the coordinates of a production power
+ */
 public class ProductionPowerCoordinatesMessage extends CoordinatesMessage{
 
     private ProductionPower productionPower;

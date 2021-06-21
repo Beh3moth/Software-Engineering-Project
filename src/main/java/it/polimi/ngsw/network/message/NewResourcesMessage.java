@@ -4,6 +4,9 @@ import it.polimi.ngsw.model.*;
 
 import java.util.List;
 
+/**
+ * Message for the new resources
+ */
 public class NewResourcesMessage extends Message{
 
     private static final long serialVersionUID = -345102443683001469L;

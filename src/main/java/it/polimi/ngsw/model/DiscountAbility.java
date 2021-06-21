@@ -5,6 +5,9 @@ import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The ability discount of the leadercard
+ */
 public class DiscountAbility extends LeaderCardBaseDecorator {
 
     private final int PV;
@@ -23,6 +26,10 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
         this.id = id;
     }
 
+    /**
+     * Takes the id
+     * @return the id
+     */
     @Override
     public String getLeaderCardId() {
         return id;
@@ -74,6 +81,10 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
         }
     }
 
+    /**
+     * Check if is active
+     * @return a boolean of if it is active
+     */
     @Override
     public boolean isActive(){
         return isActive;
@@ -105,6 +116,10 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
 
     }
 
+    /**
+     * Method that takes the ability of the leadercard
+     * @return the ability as string
+     */
     @Override
     public String[] getLeaderCardAbilityAsString() {
         List<String> stringList = new ArrayList<>();
@@ -113,6 +128,10 @@ public class DiscountAbility extends LeaderCardBaseDecorator {
         return stringList.toArray(new String[0]);
     }
 
+    /**
+     * Method that take the cost of the leadercard
+     * @return the string of the cost
+     */
     @Override
     public String[] getLeaderCardCostAsString() {
         List<String> stringList = new ArrayList<>();

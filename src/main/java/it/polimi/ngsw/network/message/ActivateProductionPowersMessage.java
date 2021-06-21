@@ -1,5 +1,8 @@
 package it.polimi.ngsw.network.message;
 
+/**
+ * Message to activate a production power
+ */
 public class ActivateProductionPowersMessage extends Message {
 
     public ActivateProductionPowersMessage(String nickname) {

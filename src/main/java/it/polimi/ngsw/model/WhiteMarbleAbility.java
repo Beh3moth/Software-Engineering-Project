@@ -6,6 +6,9 @@ import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class of the ability of having the possibility to chose a resources given a white marble
+ */
 public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
 
     private final int PV;
@@ -75,6 +78,10 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
         }
     }
 
+    /**
+     * Method that check if the leadercard is active
+     * @return if is active
+     */
     @Override
     public boolean isActive(){
         return isActive;
@@ -106,6 +113,10 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
 
     }
 
+    /**
+     * Method that takes the ability of the leader card as a string
+     * @return the cost as a string
+     */
     @Override
     public String[] getLeaderCardAbilityAsString() {
         List<String> stringList = new ArrayList<>();
@@ -117,6 +128,10 @@ public class WhiteMarbleAbility extends LeaderCardBaseDecorator{
         return stringList.toArray(new String[0]);
     }
 
+    /**
+     * Method that takes cost of the leader card as a map
+     * @return the cost
+     */
     @Override
     public String[] getLeaderCardCostAsString() {
         List<String> stringList = new ArrayList<>();

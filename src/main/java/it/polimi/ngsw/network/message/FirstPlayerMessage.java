@@ -1,5 +1,9 @@
 package it.polimi.ngsw.network.message;
 import java.util.List;
+
+/**
+ * Message of the first player that will start the game
+ */
 public class FirstPlayerMessage extends Message{
 
     private final List<String> activePlayers;

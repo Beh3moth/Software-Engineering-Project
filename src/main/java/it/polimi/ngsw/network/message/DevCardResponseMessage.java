@@ -4,6 +4,9 @@ import it.polimi.ngsw.model.DevCard;
 import it.polimi.ngsw.model.ProductionPower;
 import it.polimi.ngsw.model.Resource;
 
+/**
+ * The responde of the action devcard
+ */
 public class DevCardResponseMessage extends ResponseMessage{
 
     private DevCard devCard;

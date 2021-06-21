@@ -63,11 +63,18 @@ public class DevCardSpace {
         this.numberOfCards--;
     }
 
+    /**
+     * Method that remove the first card of the list
+     */
     public void removeFirstCard(){
         this.developDeck.remove(0);
         this.numberOfCards--;
     }
 
+    /**
+     * Method that return the first card, if empty, return an empty card
+     * @return
+     */
     public DevCard firstDevCard(){
         if(this.developDeck.size()>0){
             return this.developDeck.get(0);
@@ -79,6 +86,10 @@ public class DevCardSpace {
         }
     }
 
+    /**
+     * Remove the devcard from a deck
+     * @return
+     */
     public int removeDevCardFromDevelopDeck(){
         int removedCards = 0;
         int numberOfCards = getNumberOfCards();

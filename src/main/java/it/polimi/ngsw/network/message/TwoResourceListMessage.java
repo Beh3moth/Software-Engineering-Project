@@ -4,6 +4,9 @@ import it.polimi.ngsw.model.Resource;
 
 import java.util.List;
 
+/**
+ * Message about a list of resources to pay, and a list of resources to receive
+ */
 public class TwoResourceListMessage extends Message {
 
     private List<Resource> resourcesToPay;

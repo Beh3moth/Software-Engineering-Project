@@ -62,14 +62,4 @@ public class InputController implements Serializable {
     public boolean checkUser(Message receivedMessage) {
         return receivedMessage.getNickname().equals(gameController.getTurnController().getActivePlayer());
     }
-    public boolean verifyReceivedData(Message message) {
-
-        switch (message.getMessageType()) {
-            case LOGIN_REPLY: // server doesn't receive a LOGIN_REPLY.
-                return false;
-            default: // Never should reach this statement.
-                return false;
-        }
-
-    }
 }

@@ -5,6 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class of the warehouse that is formed of three shelf, and up to two other special shelf
+ */
 public class Warehouse {
     private Shelf firstLevel;
     private Shelf secondLevel;
@@ -42,24 +45,48 @@ public class Warehouse {
         return nResource;
     }
 
+    /**
+     * Method that put a resource to the white stock
+     * @param resource the white marble
+     * @return if went well
+     */
     public boolean addResourceToWhiteStock(Resource resource){
         whitemarbleStock.add(resource);
         return true;
     }
+
+    /**
+     * Remove all the resources in the withe stock
+     */
     public void removeFromWhiteStock(){
         whitemarbleStock.clear();
     }
+
+    /**
+     * Remove al resources from the stock of the warehouse
+     */
     public void removeAllStock(){
         warehouseStock.clear();
     }
+
+    /**
+     * Method that gives the white marble stock
+     * @return the white marble stock
+     */
     public List<Resource> getWhiteStock(){
         return whitemarbleStock;
     }
+
+    /**
+     * @return the size of the white marble stock
+     */
     public int numberOfWhiteStock(){
         return whitemarbleStock.size();
     }
-    //??
 
+    /**
+     * @return the stock of the warehouse
+     */
     public List<Resource> getWarehouseStock(){return warehouseStock; }
 
     /**
@@ -89,6 +116,12 @@ public class Warehouse {
 
     }
 
+    /**
+     * Control if other shelf has the same resource
+     * @param level the level of the shelf to be skipped
+     * @param resource the resource to check
+     * @return if 1 == not exist
+     */
     public boolean controlOtherShelf(int level, Resource resource){
         for(int i = 1; i <= 3; i++){
             if(i != level && getShelf(i).getResourceType() == resource)return false;
@@ -112,18 +145,14 @@ public class Warehouse {
         }
     }
 
+    /**
+     * Add the resource to the stock
+     * @param resource the resource
+     * @return if went well
+     */
     public boolean addResourceToStock(Resource resource){
         warehouseStock.add(resource);
         return true;
-    }
-
-    public boolean removeResourceFromStock(int i){
-        warehouseStock.remove(i);
-        return true;
-    }
-
-    public List<Resource> getResourceStock(){
-        return this.warehouseStock;
     }
 
     /**
@@ -277,18 +306,17 @@ public class Warehouse {
 
     //samuele
 
+    /**
+     * Method that takes the level of the shelf that has a given resource type
+     * @param resource the type of resource
+     * @return the level
+     */
     public int getLevel(Resource resource){
         if(firstLevel.getResourceType() == resource )return 1;
         else if(secondLevel.getResourceType() == resource)return 2;
         else if(thirdLevel.getResourceType() == resource)return 3;
-            //else if(firstLeaderLevel.getResourceType() == resource && firstLeaderLevel.getResourceNumber() >= 1)return 4;
-            //else if(secondLeaderLevel.getResourceType() == resource && secondLeaderLevel.getResourceNumber() >= 1)return 5;
         else return 0;
     }
-
-    //Fede
-
-    //To test
 
     /**
      * this method return the number of the resource
@@ -349,6 +377,12 @@ public class Warehouse {
         return true;
     }
 
+    /**
+     * Check if the shelf is full of resources
+     * @param nResource the number of resources
+     * @param level the shelf level
+     * @return if is full or not
+     */
     public boolean checkShelf(int nResource, int level){
         if(nResource <= getShelf(level).getResourceNumber())return true;
         else return false;
@@ -374,25 +408,44 @@ public class Warehouse {
         return true;
     }
 
-    //Reorder Warehouse methods
 
+    /**
+     * Method that build the new first shelf
+     * @param newResource the resources that will build the shelf
+     */
     public void newFirstShelf(Resource newResource){
         this.firstLevel.setResourceType(newResource);
         this.firstLevel.setResourceNumber(1);
     }
 
+    /**
+     * Method that build the new second shelf
+     * @param newResources the resources that will build the shelf
+     */
     public void newSecondShelf(List<Resource> newResources){
         this.secondLevel.setResourceType(newResources.get(0));
         this.secondLevel.setResourceNumber(newResources.size());
     }
+    /**
+     * Method that build the new third shelf
+     * @param newResources the resources that will build the shelf
+     */
     public void newThirdShelf(List<Resource> newResources){
         this.thirdLevel.setResourceType(newResources.get(0));
         this.thirdLevel.setResourceNumber(newResources.size());
     }
+    /**
+     * Method that build the new first special shelf
+     * @param newResources the resources that will build the shelf
+     */
     public void newFirstSpecialShelf(List<Resource> newResources){
         this.firstLeaderLevel.setResourceType(newResources.get(0));
         this.firstLeaderLevel.setResourceNumber(newResources.size());
     }
+    /**
+     * Method that build the new second special shelf
+     * @param newResources the resources that will build the shelf
+     */
     public void newSecondSpecialShelf(List<Resource> newResources){
         this.secondLeaderLevel.setResourceType(newResources.get(0));
         this.secondLeaderLevel.setResourceNumber(newResources.size());

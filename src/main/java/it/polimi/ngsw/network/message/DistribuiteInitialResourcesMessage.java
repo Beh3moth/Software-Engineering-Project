@@ -1,6 +1,9 @@
 package it.polimi.ngsw.network.message;
 import it.polimi.ngsw.model.Resource;
 
+/**
+ * Message of distribuiting the initial resources
+ */
 public class DistribuiteInitialResourcesMessage extends Message {
 
     private static final long serialVersionUID = -6428105731449076513L;

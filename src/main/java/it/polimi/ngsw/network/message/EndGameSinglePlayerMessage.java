@@ -1,5 +1,8 @@
 package it.polimi.ngsw.network.message;
 
+/**
+ * Message of the end of the game in single player
+ */
 public class EndGameSinglePlayerMessage extends Message {
 
     private int playerVictoryPoints;
@@ -24,5 +27,9 @@ public class EndGameSinglePlayerMessage extends Message {
 
     public boolean isWinner() {
         return winner;
+    }
+    @Override
+    public String toString() {
+        return "The game is ended";
     }
 }

@@ -1,5 +1,8 @@
 package it.polimi.ngsw.network.message;
 
+/**
+ * Message of the request of the faith path
+ */
 public class FaithPathMessage extends Message {
 
     private int crossPosition;

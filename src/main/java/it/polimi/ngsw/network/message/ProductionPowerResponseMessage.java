@@ -2,6 +2,9 @@ package it.polimi.ngsw.network.message;
 
 import it.polimi.ngsw.model.ProductionPower;
 
+/**
+ * The response of the production power message
+ */
 public class ProductionPowerResponseMessage extends ResponseMessage {
 
     private ProductionPower productionPower;

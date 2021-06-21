@@ -20,6 +20,10 @@ public class DiscardDevCard implements ActionToken {
         board.removeTwoDevCard(devCardColour);
     }
 
+    /**
+     * Get the name of the token
+     * @return the name
+     */
     @Override
     public String getActionTokenName() {
         return ActionTokenName;

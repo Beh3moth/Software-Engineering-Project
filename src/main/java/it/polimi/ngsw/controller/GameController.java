@@ -119,6 +119,9 @@ public class GameController implements Observer, Serializable {
 
     }
 
+    /**
+     * This method start the solo game
+     */
     private void initSoloGame(){
         setGameState(GameState.INIT);
         turnController = new TurnController(virtualViewMap, this, game);
@@ -214,7 +217,10 @@ public class GameController implements Observer, Serializable {
         }
     }
 
-
+    /**
+     * Manage the two leader card chosen from the plkayer
+     * @param receivedMessage the message with the two leadercard
+     */
     private  void leaderCardHandler(LeaderCardListMessage receivedMessage){
         game.getPlayerByNickname(receivedMessage.getNickname()).setLeaderCard(receivedMessage.getLeaderCardList());
         turnController.next();
@@ -237,9 +243,9 @@ public class GameController implements Observer, Serializable {
     }
 
     /**
-     * Handles the Challenger's choice for the first player.
+     * Handles the first player.
      *
-     * @param firstPlayerNick first player choosen by Challenger.
+     * @param firstPlayerNick first player choosen by the starter player.
      */
     private void pickFirstPlayerHandler(String firstPlayerNick) {
         turnController.setActivePlayer(firstPlayerNick);
@@ -262,7 +268,10 @@ public class GameController implements Observer, Serializable {
         else{contSituation = 0;}
     }
 
-
+    /**
+     * Distribuite the resources of the first part before the game
+     * @param message the message with the resources
+     */
     private void distribuiteResourceHandler(DistribuiteInitialResourcesMessage message){
         Player player = game.getPlayerByNickname(message.getNickname());
         player.getWarehouse().addResourceToWarehouse(message.getFirstPosition(), message.getFirstResource()); //contSituation arriva prima volta con valore 2
@@ -288,15 +297,17 @@ public class GameController implements Observer, Serializable {
         }
     }
     /**
-     *
+     * Start the game
      */
     private void startGame() {
         setGameState(GameState.IN_GAME);
         broadcastGenericMessage("Game Started!");   //aggiungi su client controller nickname scelto
-        //turnController.broadcastMatchInfo();
         turnController.newTurn();
     }
 
+    /**
+     * Continue the game, so pass the action to the next player
+     */
     private void continueGame(){
         if(game.getChosenPlayersNumber()==1){
             boolean bool = false;
@@ -387,6 +398,9 @@ public class GameController implements Observer, Serializable {
         }
     }
 
+    /**
+     * Calculate the PV of the players and return the winner
+     */
     private void calculatePVWin() {
         int PVwinner = -1;
         String NameWinner = "none";
@@ -401,6 +415,10 @@ public class GameController implements Observer, Serializable {
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
     }
 
+    /**
+     * Take all the info of the other player that the activeplayer wants to know about
+     * @param receivedMessage the message
+     */
     private void watchOtherInfo(Message receivedMessage) {
         List<String> players = turnController.getNicknameQueue();
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -423,6 +441,10 @@ public class GameController implements Observer, Serializable {
         else virtualView.viewOtherPlayer(((WatchOtherPlayerInfoMessage) receivedMessage).getNicknameOtherPlayer(), goneRight, 0, null,null, null, null);
     }
 
+    /**
+     * This method manage the creation of the new warehoouse of the player
+     * @param receivedMessage the message
+     */
     private void newWarehouse(Message receivedMessage) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has formed his new warehouse ", turnController.getActivePlayer());
@@ -502,6 +524,10 @@ public class GameController implements Observer, Serializable {
         }
     }
 
+    /**
+     * Receive the action of the reordering of the warehouse
+     * @param receivedMessage
+     */
     private void reorderWarehouseGetter(Message receivedMessage) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " is reordering his warehouse", turnController.getActivePlayer());
@@ -509,6 +535,10 @@ public class GameController implements Observer, Serializable {
         virtualView.reorderWarehouse(game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getResourcesAsMap(), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(1), game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getLeaderLevelType(2), ((ReorderWarehouseMessage) receivedMessage).getIsIndependent());
     }
 
+    /**
+     * Activates the chosen leadercard, it returns if the action went well or not
+     * @param received the received message
+     */
     public void activateLeaderCard(Message received){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         if(game.getPlayerByNickname(turnController.getActivePlayer()).activeLeaderCard(((LeaderCardActivationMessage) received).getCardChosen())){
@@ -527,6 +557,10 @@ public class GameController implements Observer, Serializable {
         }
     }
 
+    /**
+     * Discard the card, it goes well always
+     * @param received the message
+     */
     public void discardCard(Message received){
         game.getPlayerByNickname(received.getNickname()).getFaithPath().increaseCrossPosition();
         broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has discarded a leadercard, he gained a faith point", turnController.getActivePlayer());
@@ -534,6 +568,10 @@ public class GameController implements Observer, Serializable {
         virtualView.continueTurn(((DiscardLeaderMessage) received).getTurnZone(),2,1, ((DiscardLeaderMessage) received).getCardChosen(), null);
     }
 
+    /**
+     * Buy from the market given the sector and wich column/row
+     * @param received the message with all the info
+     */
     public void buyFromMarket(Message received){
         Player activePlayer = game.getPlayerByNickname(received.getNickname());
         game.buyFromMarket(((BuyFromMarketMessage) received).getRowOrColumn(),((BuyFromMarketMessage) received).getWichOne(), activePlayer);
@@ -591,7 +629,6 @@ public class GameController implements Observer, Serializable {
         VirtualView vv = virtualViewMap.remove(nickname);
 
         game.removeObserver(vv);
-        //game.getBoard().removeObserver(vv);
         game.removePlayerByNickname(nickname, notifyEnabled);
     }
 
@@ -635,8 +672,11 @@ public class GameController implements Observer, Serializable {
         Server.LOGGER.info("Game finished. Server ready for a new Game.");
     }
 
-    //Production Power methods
 
+    /**
+     * This method activates all the production power selected
+     * @param message the mesage with the production powers
+     */
     public void activateProductionPowers(ActivateProductionPowersMessage message){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(message.getNickname());
@@ -679,12 +719,21 @@ public class GameController implements Observer, Serializable {
         }
     }
 
+    /**
+     * Manage the list of the of the production powers
+     * @param receivedMessage the message with all the info needed
+     */
     public void productionPowerListAction (ProductionPowerListMessage receivedMessage) {
         if(receivedMessage.getAction().equals("productionPowerChosen")){
             productionPowerCheck(receivedMessage.getProductionPowerList().get(0), receivedMessage.getNickname());
         }
     }
 
+    /**
+     * Makes a check if you can activate the production power
+     * @param productionPower the production power to be checked
+     * @param nickName the player
+     */
     public void productionPowerCheck (ProductionPower productionPower, String nickName) {
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(nickName);
@@ -698,15 +747,27 @@ public class GameController implements Observer, Serializable {
         virtualView.productionPowerResponse(player.canAfford(productionPower.getResourceToPayAsMap()), "productionPowerCheck", productionPower);
     }
 
+    /**
+     * A method created without sense
+     * @param receivedMessage the message
+     */
     public void integerChosenAction (IntegerMessage receivedMessage) {
     }
 
+    /**
+     * Receive two resources to be payed and two to receive
+     * @param receivedMessage
+     */
     public void twoResourceListAction (TwoResourceListMessage receivedMessage) {
         if (receivedMessage.getAction().equals("setBaseProductionPower")) {
             setBaseProductionPower(receivedMessage);
         }
     }
 
+    /**
+     * Set the production power of the leader skills
+     * @param receivedMessage the message with all the info
+     */
     public void setLeaderProductionPower(ProductionPowerResourceMessage receivedMessage){
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -723,7 +784,10 @@ public class GameController implements Observer, Serializable {
 
     }
 
-
+    /**
+     * Set the base production power of the player
+     * @param receivedMessage the received message with all the info
+     */
     public void setBaseProductionPower (TwoResourceListMessage receivedMessage) {
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -749,6 +813,10 @@ public class GameController implements Observer, Serializable {
 
     }
 
+    /**
+     * This method manage the payment of the production power
+     * @param receivedMessage the received message
+     */
     public void payProductionPower(ProductionPowerCoordinatesMessage receivedMessage) {
 
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -766,6 +834,10 @@ public class GameController implements Observer, Serializable {
 
     }
 
+    /**
+     * Chose the devcard to buy
+     * @param receivedMessage the message with all the info
+     */
     public void chooseDevCardToPay(ChosenDevCardMessage receivedMessage){
         DevCard devCardChosen;
 
@@ -778,6 +850,10 @@ public class GameController implements Observer, Serializable {
 
     }
 
+    /**
+     * This method manage the payment of the devcard
+     * @param receivedMessage the message with all the info
+     */
     public void payDevCard(DevCardCoordinatesMessage receivedMessage){
 
         List<LeaderCard> Leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
@@ -824,11 +900,18 @@ public class GameController implements Observer, Serializable {
         }
     }
 
+    /**
+     * Return the game
+     * @return the game
+     */
     public Game getGame(){
         return game;
     }
-    //Faith path
 
+    /**
+     * method that takes all the info about the faith path
+     * @param receivedMessage all the info by message
+     */
     public void askForFaithPath(AskForFaithPathMessage receivedMessage){
         VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
         Player player =  game.getPlayerByNickname(receivedMessage.getNickname());

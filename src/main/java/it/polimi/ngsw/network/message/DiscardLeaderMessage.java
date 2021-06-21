@@ -1,5 +1,8 @@
 package it.polimi.ngsw.network.message;
 
+/**
+ * Message of the action of discarding a leader card
+ */
 public class DiscardLeaderMessage extends Message{
     private static final long serialVersionUID = 130412160057182598L;
     private int leaderCardChosen;

@@ -2,6 +2,9 @@ package it.polimi.ngsw.model;
 
 import java.io.Serializable;
 
+/**
+ * The interface of the leadercards
+ */
 public interface LeaderCard extends Serializable {
 
     String getLeaderCardId();

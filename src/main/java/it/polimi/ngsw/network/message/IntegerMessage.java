@@ -1,5 +1,8 @@
 package it.polimi.ngsw.network.message;
 
+/**
+ * Message that transport an integer and a type of an action
+ */
 public class IntegerMessage extends Message{
 
     private int integer;
@@ -24,4 +27,5 @@ public class IntegerMessage extends Message{
     public String getAction() {
         return action;
     }
+
 }

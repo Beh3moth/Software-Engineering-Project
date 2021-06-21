@@ -1,5 +1,8 @@
 package it.polimi.ngsw.model;
 
+/**
+ * The move of the action token
+ */
 public class Move implements ActionToken {
 
     private final String ActionTokenName = "Lawrence The Magnificent proceeded in the Faith Path.";
@@ -17,6 +20,10 @@ public class Move implements ActionToken {
         }
     }
 
+    /**
+     * Takes the name of the action token
+     * @return
+     */
     @Override
     public String getActionTokenName() {
         return ActionTokenName;

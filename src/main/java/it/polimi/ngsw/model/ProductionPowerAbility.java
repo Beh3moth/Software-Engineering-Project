@@ -5,6 +5,9 @@ import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The production power ability of the leadercard
+ */
 public class ProductionPowerAbility extends LeaderCardBaseDecorator{
 
     private final int PV;
@@ -90,6 +93,9 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         player.getDevCardDashboard().activateProductionPowerAbility(this);
     }
 
+    /**
+     * @return check if is active
+     */
     @Override
     public boolean isActive(){
         return isActive;
@@ -111,6 +117,9 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         return false;
     }
 
+    /**
+     * @return the ability of the leadercard as a string
+     */
     @Override
     public String[] getLeaderCardAbilityAsString() {
         List<String> stringList = new ArrayList<>();
@@ -127,6 +136,9 @@ public class ProductionPowerAbility extends LeaderCardBaseDecorator{
         return stringList.toArray(new String[0]);
     }
 
+    /**
+     * @return the cost of the leadercard as a string
+     */
     @Override
     public String[] getLeaderCardCostAsString() {
         List<String> stringList = new ArrayList<>();

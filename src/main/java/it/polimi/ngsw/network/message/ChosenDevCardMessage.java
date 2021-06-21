@@ -1,6 +1,9 @@
 package it.polimi.ngsw.network.message;
 import it.polimi.ngsw.model.DevCardColour;
 
+/**
+ * Message of the devard chosen to buy
+ */
 public class ChosenDevCardMessage extends Message {
     private int level;
     private int column;

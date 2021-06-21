@@ -100,6 +100,9 @@ public class ProductionPower implements Serializable {
         }
     }
 
+    /**
+     * Reset the production power
+     */
     public void resetBaseProductionPower(){
         resourceToPay = null;
         resourceToProduce = null;
@@ -145,6 +148,9 @@ public class ProductionPower implements Serializable {
         }
     }
 
+    /**
+     * Reset leader production power
+     */
     public void resetLeaderProductionPower(){
         List<Resource> resourceList = new ArrayList<>();
         resourceList.add(Resource.EMPTY);

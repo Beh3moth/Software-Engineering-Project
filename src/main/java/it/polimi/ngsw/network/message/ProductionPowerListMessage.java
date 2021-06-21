@@ -4,6 +4,9 @@ import it.polimi.ngsw.model.ProductionPower;
 
 import java.util.List;
 
+/**
+ * Message of the list of all the production powers
+ */
 public class ProductionPowerListMessage extends Message {
 
     private List<ProductionPower> productionPowerList;

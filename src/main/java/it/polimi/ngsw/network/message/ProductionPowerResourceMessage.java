@@ -5,6 +5,9 @@ import it.polimi.ngsw.model.Resource;
 
 import java.awt.*;
 
+/**
+ * Message of the production power resources
+ */
 public class ProductionPowerResourceMessage extends ResourceMessage {
 
     ProductionPower productionPower;

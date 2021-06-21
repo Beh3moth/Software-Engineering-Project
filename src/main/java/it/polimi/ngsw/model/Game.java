@@ -6,6 +6,10 @@ import java.util.*;
 import it.polimi.ngsw.network.message.LobbyMessage;
 import it.polimi.ngsw.observer.Observable;
 
+/**
+ * The most important class of the model, this is the bridge between the controller and all the model.
+ * It manages all the players, and the dashboard
+ */
 public class Game extends Observable implements FaithPathListener {
 
     public static final int MAX_PLAYERS = 4;
@@ -26,6 +30,10 @@ public class Game extends Observable implements FaithPathListener {
         this.playerNumbers = 0;
     }
 
+    /**
+     * Method that return the board
+     * @return the board
+     */
     public Board getBoard(){
         return this.board;
     }
@@ -120,23 +128,6 @@ public class Game extends Observable implements FaithPathListener {
         }
     }
 
-    /**
-     * this method create the player
-     */
-    public void createPlayers(){
-        for(int i = 0; i < this.playerNumbers; i++){
-            Player newPlayer = new Player("jhon");
-            players.add(newPlayer);
-            makeGameListenerOfPlayerFaithPath(players.get(i));
-        }
-        if(players.size()==1){
-            Player newPlayer = new Player("john");
-            players.add(newPlayer);
-            makeGameListenerOfPlayerFaithPath(players.get(0));
-            initLawrenceFaithPath();
-            makeGameListenerOfLawrenceFaithPath();
-        }
-    }
 
     /**
      * Adds a player to the game.
@@ -176,10 +167,9 @@ public class Game extends Observable implements FaithPathListener {
         return false;
     }
 
-    //Init game
 
     /**
-     * this method initialize the Lawrence's FaithPath
+     * This method initialize the Lawrence's FaithPath
      */
     public void initLawrenceFaithPath(){
         this.lawrenceFaithPath = new FaithPath();
@@ -198,6 +188,10 @@ public class Game extends Observable implements FaithPathListener {
         return false;
     }
 
+    /**
+     * Check if lawrence is the winner
+     * @return the boolean
+     */
     public boolean lawrenceIsTheWinner(){
         for(int i = 0; i < 4; i++){
             if(this.board.getDevCardSpace(0,i).getNumberOfCards() == 0 &&
@@ -211,6 +205,10 @@ public class Game extends Observable implements FaithPathListener {
         return false;
     }
 
+    /**
+     * Check if the player in the solo game is the winner
+     * @return the boolean
+     */
     public boolean SinglePlayerIsTheWinner(){
         if(this.players.get(0).getFaithPath().getCrossPosition() >= 24)return true;
 
@@ -219,17 +217,22 @@ public class Game extends Observable implements FaithPathListener {
         return false;
     }
 
-
-    public Player getPlayerFromList(int indexNumber){
-        return this.players.get(indexNumber);
-    }
-
+    /**
+     * this method permits the player to buy from the market
+     * @param rowOrColumn if row or column
+     * @param wichOne wich row/column
+     * @param activePlayer the active player
+     */
     public void buyFromMarket(int rowOrColumn, int wichOne, Player activePlayer) {
         if (rowOrColumn == 0) getBoard().getMarbleColumn(wichOne, activePlayer);
         else getBoard().getMarbleRow(wichOne, activePlayer);
     }
 
 
+    /**
+     * This method manage the white marbles that the player found in the market
+     * @param activePlayer the player
+     */
     public void manageWhiteResources(Player activePlayer) {
         if (activePlayer.getWhiteMarblePowerOne() == Resource.EMPTY && activePlayer.getWhiteMarblePowerTwo() == Resource.EMPTY) {
             activePlayer.getWarehouse().removeFromWhiteStock();
@@ -268,8 +271,6 @@ public class Game extends Observable implements FaithPathListener {
         }
     }
 
-    //LeaderCard methods
-
     /**
      * The method return a list of every LeaderCard of the game.
      * @return a list of LeaderCards.
@@ -302,9 +303,6 @@ public class Game extends Observable implements FaithPathListener {
         }
         return leaderCardList;
     }
-
-
-    //ActionToken's methods
 
     /**
      * The method returns a Deque of ActionToken.
@@ -354,8 +352,10 @@ public class Game extends Observable implements FaithPathListener {
     }
 
 
-    //Vatican Report management
-
+    /**
+     * Takes the faith path of lwarence
+     * @return the faithpath
+     */
     public FaithPath getLawrenceFaithPath(){
         return lawrenceFaithPath;
     }

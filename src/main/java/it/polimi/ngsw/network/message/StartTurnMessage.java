@@ -5,6 +5,9 @@ import it.polimi.ngsw.model.*;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Message of the begining of the turn, it transport all the info needed by the player to play the game
+ */
 public class StartTurnMessage extends Message{
 
     private static final long serialVersionUID = -1157260256539543173L;
@@ -113,7 +116,7 @@ public class StartTurnMessage extends Message{
 
     @Override
     public String toString() {
-        return " Turn starter ";
+        return " Turn has started ";
     }
 
     public int getCrossPosition() {

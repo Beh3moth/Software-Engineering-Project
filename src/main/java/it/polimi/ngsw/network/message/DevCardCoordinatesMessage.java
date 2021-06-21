@@ -3,6 +3,9 @@ package it.polimi.ngsw.network.message;
 import it.polimi.ngsw.model.DevCard;
 import it.polimi.ngsw.model.Resource;
 
+/**
+ * Message of the coordinates of a devcard
+ */
 public class DevCardCoordinatesMessage extends CoordinatesMessage{
 
     private DevCard devCard;

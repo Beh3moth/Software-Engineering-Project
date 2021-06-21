@@ -1,5 +1,8 @@
 package it.polimi.ngsw.model;
 
+/**
+ * Class of the yellow marble
+ */
 public class YellowMarble extends Marble{
     private Resource typeResource;
     private MarbleColour marbleColour;

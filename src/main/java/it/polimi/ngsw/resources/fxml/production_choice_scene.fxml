@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/production_choice_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" >
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/production_choice_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Group StackPane.alignment="CENTER_LEFT">
@@ -27,6 +28,12 @@
             </Group>
             <Group StackPane.alignment="CENTER">
                 <Button fx:id="baseProductionPower" layoutX="589.0" layoutY="12.0" mnemonicParsing="false" prefHeight="58.0" prefWidth="130.0" styleClass="baseProductionPower" stylesheets="@../css/production_choice_scene.css" />
+            </Group>
+            <Group StackPane.alignment="TOP_CENTER">
+                <Button fx:id="activate" layoutY="1.0" prefHeight="57.0" prefWidth="105.0" styleClass="activate" stylesheets="@../css/production_choice_scene.css" />
+            <StackPane.margin>
+               <Insets top="100.0" />
+            </StackPane.margin>
             </Group>
         </StackPane>
     </children>

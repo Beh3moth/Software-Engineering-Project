@@ -70,21 +70,24 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         resourcesMap.put(Resource.SHIELD, 0);
         resourcesMap.put(Resource.SLAVE, 0);
 
-        if(firstShelf!=Resource.EMPTY && firstShelf != Resource.FAITHPOINT){
-            resourcesMap.put(firstShelf, 1);
+        if(isIndependent){
+            if(firstShelf!=Resource.EMPTY && firstShelf != Resource.FAITHPOINT){
+                resourcesMap.put(firstShelf, 1);
+            }
+            if(secondShelf!=Resource.EMPTY && secondShelf != Resource.FAITHPOINT){
+                resourcesMap.put(secondShelf, secondShelfNumber);
+            }
+            if(thirdShelf!=Resource.EMPTY && thirdShelf != Resource.FAITHPOINT){
+                resourcesMap.put(thirdShelf, thirdShelfNumber);
+            }
+            if(fsr!=Resource.EMPTY && fsr != Resource.FAITHPOINT){
+                resourcesMap.put(fsr, fsn);
+            }
+            if(ssr!=Resource.EMPTY && ssr != Resource.FAITHPOINT){
+                resourcesMap.put(ssr, ssn);
+            }
         }
-        if(secondShelf!=Resource.EMPTY && secondShelf != Resource.FAITHPOINT){
-            resourcesMap.put(secondShelf, secondShelfNumber);
-        }
-        if(thirdShelf!=Resource.EMPTY && thirdShelf != Resource.FAITHPOINT){
-            resourcesMap.put(thirdShelf, thirdShelfNumber);
-        }
-        if(fsr!=Resource.EMPTY && fsr != Resource.FAITHPOINT){
-            resourcesMap.put(fsr, fsn);
-        }
-        if(ssr!=Resource.EMPTY && ssr != Resource.FAITHPOINT){
-            resourcesMap.put(ssr, ssn);
-        }
+
         if(resourceList!=null){
             for(Resource resource : resourceList){
                 resourcesMap.put(resource, resourcesMap.get(resource)+1 );
@@ -129,6 +132,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
             newFirstShelf = warehouseSurrogate.getShelf(1).getResourceType();
         }
         else newFirstShelf = Resource.EMPTY;
+        lightModel.setCrossPosition(lightModel.getCrossPosition()+getTotalNumberOfResources());
         List<Resource> newSecondShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(2));
         List<Resource> newThirdShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(3));
         List<Resource> newFirstSpecialShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(4));
@@ -144,6 +148,16 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         lightModel.setSsr(warehouseSurrogate.getShelf(5).getResourceType());
         lightModel.setSsn(warehouseSurrogate.getShelf(5).getResourceNumber());
         notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndependent));
+    }
+
+    private int getTotalNumberOfResources(){
+        int number = 0;
+        for(Resource resource : Resource.values()){
+            if(resource!=Resource.EMPTY && resource!=Resource.FAITHPOINT){
+                number = number + resourcesMap.get(resource);
+            }
+        }
+        return number;
     }
 
     private List<Resource> createDiscardList(){

@@ -32,8 +32,9 @@ public class StartTurnMessage extends Message{
     private int fsn;
     private Resource ssr;
     private int ssn;
+    private Integer lawrencePosition;
 
-    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource fsr, int fsn, Resource ssr, int ssn) {
+    public StartTurnMessage (String nickname, List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource fsr, int fsn, Resource ssr, int ssn, Integer lawrancePosition) {
         super(nickname, MessageType.START_TURN);
         this.leaderCards = Leaders;
         this.singleMarble = singleMarble;
@@ -59,6 +60,7 @@ public class StartTurnMessage extends Message{
         this.fsn = fsn;
         this.ssr = ssr;
         this.ssn = ssn;
+        this.lawrencePosition = lawrancePosition;
     }
 
     public List<LeaderCard> getLeaders(){
@@ -147,5 +149,9 @@ public class StartTurnMessage extends Message{
     }
     public int getSsn(){
         return ssn;
+    }
+
+    public Integer getLawrencePosition() {
+        return lawrencePosition;
     }
 }

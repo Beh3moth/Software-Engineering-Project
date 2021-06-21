@@ -9,7 +9,6 @@ import javafx.application.Platform;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ExecutionException;
 
 public class Gui extends ViewObservable implements View {
 
@@ -102,7 +101,7 @@ public class Gui extends ViewObservable implements View {
     }
 
     @Override
-    public void startTurnMessage(List<LeaderCard> leaderCardList, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber) {
+    public void startTurnMessage(List<LeaderCard> leaderCardList, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber, Integer lawrencePosition) {
         this.leaderCardStatus = lightModel.getLeaderCardStatus();
         lightModel.setSingleMarble(singleMarble);
         lightModel.setFirstRow(firstRow);
@@ -128,6 +127,7 @@ public class Gui extends ViewObservable implements View {
         lightModel.setFsn(firstSpecialNumber);
         lightModel.setSsn(secondSpecialNumber);
         lightModel.setLeaderCardList(leaderCardList);
+        lightModel.setLawrencePosition(lawrencePosition);
         this.gameController.setLightModel(lightModel);
         if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
             LeaderActionController controller = new LeaderActionController(leaderCardList, lightModel, 1);
@@ -204,8 +204,8 @@ public class Gui extends ViewObservable implements View {
     @Override
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
         ReorderWarehouseController controller = new ReorderWarehouseController();
-        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resources, false);
         controller.addAllObservers(observers);
+        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resources, false);
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
@@ -341,6 +341,17 @@ public class Gui extends ViewObservable implements View {
                             productionPowers.resetLeaderProductionPower();
                         }
                     }
+                }
+                break;
+            case "activation":
+                if (response) {
+                    //out.println("Successfully activated the Production Powers.");
+                    lightModel.getPaidProductionPowerList().clear();
+                    lightModel.getBaseProductionPower().resetBaseProductionPower();
+                    for(ProductionPower leaderProductionPower : lightModel.getLeaderProductionPowerList()){
+                        leaderProductionPower.resetLeaderProductionPower();
+                    }
+                    lightModel.getChosenIntegerList().clear();
                 }
                 break;
             default:

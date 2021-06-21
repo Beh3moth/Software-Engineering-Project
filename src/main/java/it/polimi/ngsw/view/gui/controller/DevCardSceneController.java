@@ -73,7 +73,7 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         row = GridPane.getRowIndex(button);
         col = GridPane.getColumnIndex(button);
         disableEveryDevCardButton();
-        activateEverySlotButton();
+        activateEverySlotButton(row, col);
     }
 
     private void setButtonsEventHandler(){
@@ -162,6 +162,7 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         devCard30.setDisable(true);
         devCard31.setDisable(true);
         devCard32.setDisable(true);
+        backButton.setDisable(true);
     }
 
     private void disableEverySlotButton(){
@@ -170,10 +171,17 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         SlotButtonThree.setDisable(true);
     }
 
-    private void activateEverySlotButton(){
-        SlotButtonOne.setDisable(false);
-        SlotButtonTwo.setDisable(false);
-        SlotButtonThree.setDisable(false);
+    private void activateEverySlotButton(int row, int col){
+        if( (!lightModel.getActiveDevCardMap().containsKey(0) && (3-row)==1 ) || (lightModel.getActiveDevCardMap().containsKey(0) && lightModel.getActiveDevCardMap().get(0).getDevLevel() < (3-row))){
+            SlotButtonOne.setDisable(false);
+        }
+        if( ( !lightModel.getActiveDevCardMap().containsKey(1) && (3-row)==1 ) || (lightModel.getActiveDevCardMap().containsKey(1) && lightModel.getActiveDevCardMap().get(1).getDevLevel() < (3-row))){
+            SlotButtonTwo.setDisable(false);
+
+        }
+        if( ( !lightModel.getActiveDevCardMap().containsKey(2) && (3-row)==1 ) || (lightModel.getActiveDevCardMap().containsKey(2) && lightModel.getActiveDevCardMap().get(2).getDevLevel() < (3-row))){
+            SlotButtonThree.setDisable(false);
+        }
     }
 
 }

@@ -60,29 +60,33 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     private void onActivateLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
-        lightModel.setLeaderCardStatus(0, 2);
+        disableButton(activateLeaderCardTwoButton);
+        disableButton(discardLeaderCardTwoButton);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, turnZone))).start();
     }
 
     private void onActivateLeaderCardTwoButton(Event event){
+        disableButton(activateLeaderCardOneButton);
+        disableButton(discardLeaderCardOneButton);
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
-        lightModel.setLeaderCardStatus(1, 2);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, turnZone))).start();
     }
 
     private void onDiscardLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
-        lightModel.setLeaderCardStatus(0, 0);
+        disableButton(activateLeaderCardTwoButton);
+        disableButton(discardLeaderCardTwoButton);
         lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, turnZone))).start();
     }
 
     private void onDiscardLeaderCardTwoButton(Event event){
+        disableButton(activateLeaderCardOneButton);
+        disableButton(discardLeaderCardOneButton);
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
-        lightModel.setLeaderCardStatus(1, 0);
         lightModel.setCrossPosition(lightModel.getCrossPosition()+1);
         new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, turnZone))).start();
     }
@@ -132,6 +136,13 @@ public class LeaderActionController extends ViewObservable implements GenericSce
             discardLeaderCardTwoButton.setDisable(true);
         }
 
+    }
+
+    private void activateEveryButton(){
+        activateButton(activateLeaderCardOneButton);
+        activateButton(discardLeaderCardOneButton);
+        activateButton(activateLeaderCardTwoButton);
+        activateButton(discardLeaderCardTwoButton);
     }
 
 

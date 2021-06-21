@@ -1,16 +1,17 @@
 package it.polimi.ngsw.view;
 
-import it.polimi.ngsw.model.DevCard;
-import it.polimi.ngsw.model.Marble;
-import it.polimi.ngsw.model.ProductionPower;
-import it.polimi.ngsw.model.Resource;
+import it.polimi.ngsw.model.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class LightModel {
 
     private List<ProductionPower> leaderProductionPowerList;
+    private List<LeaderCard> leaderCardList;
+    private List <Integer> chosenIntegerList = new ArrayList<>();
+    private List<ProductionPower> paidProductionPowerList = new ArrayList<>();
     //The possible Integers values are 0,1,2 and they represent the DevCard of a certain DevCardSpace.
     private Map<Integer, DevCard> activeDevCardMap;
     private ProductionPower baseProductionPower;
@@ -232,5 +233,29 @@ public class LightModel {
         if(index==0 || index==1){
             leaderCardStatus[index] = newState;
         }
+    }
+
+    public List<LeaderCard> getLeaderCardList() {
+        return leaderCardList;
+    }
+
+    public void setLeaderCardList(List<LeaderCard> leaderCardList) {
+        this.leaderCardList = leaderCardList;
+    }
+
+    public List<Integer> getChosenIntegerList() {
+        return chosenIntegerList;
+    }
+
+    public void setChosenIntegerList(List<Integer> chosenIntegerList) {
+        this.chosenIntegerList = chosenIntegerList;
+    }
+
+    public List<ProductionPower> getPaidProductionPowerList() {
+        return paidProductionPowerList;
+    }
+
+    public void setPaidProductionPowerList(List<ProductionPower> paidProductionPowerList) {
+        this.paidProductionPowerList = paidProductionPowerList;
     }
 }

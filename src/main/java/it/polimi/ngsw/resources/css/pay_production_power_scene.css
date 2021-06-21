@@ -3,14 +3,8 @@
     -fx-background-size: stretch;
 }
 
-
-.boardPain {
-    -fx-background-image: url("../images/backgrounds/playerBoard.png");
-    -fx-background-size: stretch;
-}
-
-.take_marble {
-    -fx-background-image: url("../images/buttons/market.png");
+.warehouse {
+    -fx-background-image: url("../images/buttons/warehouse.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;
@@ -18,13 +12,13 @@
     -fx-background-color: transparent;
 }
 
-.take_marble:hover {
+.warehouse:hover {
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }
 
-.devCardMarket {
-    -fx-background-image: url("../images/buttons/devCard.png");
+.chest {
+    -fx-background-image: url("../images/buttons/chest.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;
@@ -32,13 +26,13 @@
     -fx-background-color: transparent;
 }
 
-.devCardMarket:hover {
+.chest:hover {
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }
 
-.reorder {
-    -fx-background-image: url("../images/buttons/reorder.png");
+.uno {
+    -fx-background-image: url("../images/buttons/1.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;
@@ -46,13 +40,13 @@
     -fx-background-color: transparent;
 }
 
-.reorder:hover {
+.uno:hover {
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }
 
-.production {
-    -fx-background-image: url("../images/buttons/production.png");
+.due {
+    -fx-background-image: url("../images/buttons/2.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;
@@ -60,13 +54,13 @@
     -fx-background-color: transparent;
 }
 
-.production:hover {
+.due:hover {
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }
 
-.faithPathBox {
-    -fx-background-image: url("../images/icons/croce.png");
+.tre {
+    -fx-background-image: url("../images/buttons/3.png");
     -fx-border-color: transparent;
     -fx-background-size: stretch;
     -fx-border-width: 0;
@@ -74,16 +68,7 @@
     -fx-background-color: transparent;
 }
 
-.view_other_player {
-    -fx-background-image: url("../images/buttons/players.png");
-    -fx-border-color: transparent;
-    -fx-background-size: stretch;
-    -fx-border-width: 0;
-    -fx-background-radius: 0;
-    -fx-background-color: transparent;
-}
-
-.view_other_player:hover {
+.tre:hover {
     -fx-effect: dropshadow(gaussian, #f2e0d6, 20, 0.3, 0, 0);
     -fx-cursor: hand;
 }

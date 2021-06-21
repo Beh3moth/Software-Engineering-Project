@@ -1,5 +1,6 @@
 package it.polimi.ngsw.view.gui.controller;
 
+import it.polimi.ngsw.model.LeaderCard;
 import it.polimi.ngsw.model.Resource;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.LightModel;
@@ -15,10 +16,12 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameController extends ViewObservable implements GenericSceneController {
 
     private LightModel lightModel;
+    List<LeaderCard> leaderCardList;
 
     @FXML
     private Button take_marble;
@@ -64,6 +67,8 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private Label PVnumber;
     @FXML
     private Button reorder;
+    @FXML
+    private Button production;
 
     //FaithPath
 
@@ -82,6 +87,14 @@ public class GameController extends ViewObservable implements GenericSceneContro
         faithPathList.add(faithPath.getChildren().get(24));
         setCrossPosition(lightModel.getCrossPosition());
         reorder.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onReorder);
+        production.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onProduction);
+    }
+
+    public void onProduction(Event event){
+        ProductionChoiceController controller = new ProductionChoiceController();
+        controller.setProductionChoiceController(lightModel);
+        controller.addAllObservers(observers);
+        Platform.runLater(() -> SceneController.changeScene(controller, "production_choice_scene.fxml"));
     }
 
     public void onReorder(Event event){
@@ -91,7 +104,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
-    public void setLightModel(LightModel lightModel){this.lightModel = lightModel;}
+    public void setLightModel(LightModel lightModel){
+        this.lightModel = lightModel;
+    }
 
     public void onTakeMarbleButtonClick(Event event){
         take_marble_controller takeMarbleController = new take_marble_controller(this.lightModel);

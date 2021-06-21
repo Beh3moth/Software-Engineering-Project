@@ -25,19 +25,29 @@ public class Ask_players_number_controller extends ViewObservable implements Gen
     }
 
     private void onUnoButtonClick(Event event) {
+        disableButton();
         notifyObserver(obs -> obs.onUpdatePlayersNumber(1));
     }
 
     private void onDueButtonClick(Event event) {
+        disableButton();
         notifyObserver(obs -> obs.onUpdatePlayersNumber(2));
     }
 
     private void onTreButtonClick(Event event) {
+        disableButton();
         notifyObserver(obs -> obs.onUpdatePlayersNumber(3));
     }
 
     private void onQuattroButtonClick(Event event) {
+        disableButton();
         notifyObserver(obs -> obs.onUpdatePlayersNumber(4));
     }
 
+    public void disableButton(){
+        uno.setDisable(true);
+        due.setDisable(true);
+        tre.setDisable(true);
+        quattro.setDisable(true);
+    }
 }

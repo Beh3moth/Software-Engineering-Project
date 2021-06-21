@@ -24,6 +24,7 @@ public class ChoseFirstPlayerController extends ViewObservable implements Generi
     }
 
     private void onConfirmButton(Event event) {
+        confirmButton.setDisable(true);
         String firstPlayerNickname = playerNameTextField.getText();
         new Thread(() -> notifyObserver(obs -> obs.onUpdateFirstPlayer(firstPlayerNickname))).start();
     }

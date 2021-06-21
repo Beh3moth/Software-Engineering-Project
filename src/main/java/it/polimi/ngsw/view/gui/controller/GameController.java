@@ -50,6 +50,14 @@ public class GameController extends ViewObservable implements GenericSceneContro
     @FXML
     private ImageView THIRDSHELF3;
     @FXML
+    private ImageView FIRSTLEADERSHELF1;
+    @FXML
+    private ImageView FIRSTLEADERSHELF2;
+    @FXML
+    private ImageView SECONDLEADERSHELF1;
+    @FXML
+    private ImageView SECONDLEADERSHELF2;
+    @FXML
     private ImageView DEVCARD1;
     @FXML
     private ImageView DEVCARD2;
@@ -82,6 +90,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
         upDateDevCard();
         upDatePapalCard();
         upDatePV();
+        upDateLeaderShelf();
         devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
         ArrayList<Node> faithPathList = new ArrayList<>();
         faithPathList.add(faithPath.getChildren().get(24));
@@ -241,6 +250,38 @@ public class GameController extends ViewObservable implements GenericSceneContro
 
     public void upDatePV(){
         PVnumber.setText(String.valueOf((lightModel.getVictoryPoints())));
+    }
+
+    public void upDateLeaderShelf(){
+        if(lightModel.getFsn() > 0){
+            Image img = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFsr()) + ".png");
+            FIRSTLEADERSHELF1.setImage(img);
+            if(lightModel.getFsn() == 2){
+                FIRSTLEADERSHELF2.setImage(img);
+            }
+            else{
+                FIRSTLEADERSHELF2.setImage(null);
+            }
+        }
+        else{
+            FIRSTLEADERSHELF1.setImage(null);
+            FIRSTLEADERSHELF2.setImage(null);
+        }
+
+        if(lightModel.getSsn() > 0){
+            Image img = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFsr()) + ".png");
+            SECONDLEADERSHELF1.setImage(img);
+            if(lightModel.getSsn() == 2){
+                SECONDLEADERSHELF2.setImage(img);
+            }
+            else{
+                SECONDLEADERSHELF2.setImage(null);
+            }
+        }
+        else{
+            SECONDLEADERSHELF1.setImage(null);
+            SECONDLEADERSHELF2.setImage(null);
+        }
     }
 
     public void onViewOtherPlayerButtonClick(Event event){

@@ -4,6 +4,9 @@ import it.polimi.ngsw.model.Resource;
 
 import java.util.List;
 
+/**
+ * Message that transport all the info about the new warehouse
+ */
 public class NewWarehouseMessage extends Message{
     private Resource newFirstShelf;
     private List<Resource> newSecondShelf;

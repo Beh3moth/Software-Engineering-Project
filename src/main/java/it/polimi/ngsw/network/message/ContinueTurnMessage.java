@@ -5,6 +5,9 @@ import it.polimi.ngsw.model.Resource;
 
 import java.util.List;
 
+/**
+ * Message that permit to continue the turn after an action
+ */
 public class ContinueTurnMessage extends Message {
     private static final long serialVersionUID = -3139552725958120485L;
     private int turnZone;
@@ -45,6 +48,6 @@ public class ContinueTurnMessage extends Message {
 
     @Override
     public String toString() {
-        return "the turn continue";
+        return "The turn continue";
     }
 }

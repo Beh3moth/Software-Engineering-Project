@@ -78,6 +78,11 @@ public class DevCardParser {
 
     }
 
+    /**
+     * Manage the resources neeeded
+     * @param resourcesNeeded the resources
+     * @param object the json object that describes the resources needed
+     */
     private void whatResource(List<Resource> resourcesNeeded, JsonElement object) {
         if(object.getAsString().equals("MONEY")){
             resourcesNeeded .add(Resource.MONEY);
@@ -96,6 +101,11 @@ public class DevCardParser {
         }
     }
 
+    /**
+     * Manage the colour of the resources needed
+     * @param string wich color by string
+     * @return the enum colour
+     */
     private DevCardColour whatDevCardColour(String string){
         if(string.equals("GREEN")){
             return DevCardColour.GREEN;

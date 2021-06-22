@@ -1,8 +1,5 @@
 package it.polimi.ngsw.model;
-//package Marble
-//import enum delle marble color
-//import le enum delle risorse
-//import libreria player
+
 
 public class RedMarble extends Marble{
     private Resource typeResource;

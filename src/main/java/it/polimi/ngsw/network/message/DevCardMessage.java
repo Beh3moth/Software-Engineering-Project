@@ -3,6 +3,9 @@ package it.polimi.ngsw.network.message;
 import it.polimi.ngsw.model.DevCard;
 import it.polimi.ngsw.model.Resource;
 
+/**
+ * Message of buying a devcard
+ */
 public class DevCardMessage extends Message{
     private DevCard devCard;
     private int slotToPut;

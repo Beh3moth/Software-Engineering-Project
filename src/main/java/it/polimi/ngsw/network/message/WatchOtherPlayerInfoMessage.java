@@ -6,6 +6,9 @@ import it.polimi.ngsw.model.Resource;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Message that permit to watch the info of the other players
+ */
 public class WatchOtherPlayerInfoMessage extends Message{
 
     private String nicknameOtherPlayer;

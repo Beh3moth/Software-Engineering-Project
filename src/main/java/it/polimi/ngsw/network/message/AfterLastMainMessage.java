@@ -4,6 +4,9 @@ import it.polimi.ngsw.model.LeaderCard;
 
 import java.util.List;
 
+/**
+ * Message that permit to finish the turn for the last time of the game
+ */
 public class AfterLastMainMessage extends Message{
     private int isIndependent;
     private List<LeaderCard> Leaders;

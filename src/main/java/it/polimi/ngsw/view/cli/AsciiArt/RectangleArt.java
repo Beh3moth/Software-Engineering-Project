@@ -2,6 +2,9 @@ package it.polimi.ngsw.view.cli.AsciiArt;
 
 import it.polimi.ngsw.model.DevCard;
 
+/**
+ * Class for the rectangle art
+ */
 public class RectangleArt {
 
     public String getRightTopAngle(DevCard devCard){

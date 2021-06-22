@@ -16,7 +16,7 @@ public class GameTest {
         chest.addResource(Resource.SLAVE, new Random().nextInt(100));
         chest.addResource(Resource.MONEY, new Random().nextInt(100));
     }
-
+/*
     @Test
     public void increaseOtherFaithPointsTest(){
         Player player1 = new Player("jhon");
@@ -84,7 +84,7 @@ public class GameTest {
     }
 
      */
-
+/*
     @Test
     public void updateTest1(){
 
@@ -144,5 +144,5 @@ public class GameTest {
         assertTrue(game.getPlayerFromList(2).getFaithPath().getPapalCardOne());
 
     }
-
+*/
 }

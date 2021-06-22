@@ -1,5 +1,8 @@
 package it.polimi.ngsw.model;
 
+/**
+ * The leadercard of type "concrete"
+ */
 public class ConcreteLeaderCard implements LeaderCard {
 
     @Override

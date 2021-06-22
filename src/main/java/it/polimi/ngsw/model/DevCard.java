@@ -18,6 +18,7 @@ public class DevCard implements Serializable {
     private int PV;
     private List<Resource> resourceToPay;
 
+
     public DevCard (int devLevel, DevCardColour devCardColour, List<Resource> devCostList , ProductionPower productionPower, int PV) {
         this.devLevel = devLevel;
         this.devCardColour = devCardColour;

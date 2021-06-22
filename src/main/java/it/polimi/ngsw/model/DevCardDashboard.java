@@ -209,6 +209,10 @@ public class DevCardDashboard {
        else return null;
     }
 
+    /**
+     * Method that takes the number of devcards
+     * @return the number
+     */
     public int getDevCardNumber(){
         return this.devCardNumber;
     }

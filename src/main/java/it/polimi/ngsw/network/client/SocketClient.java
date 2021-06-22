@@ -20,12 +20,10 @@ import java.util.concurrent.TimeUnit;
 public class SocketClient extends Client {
 
     private final Socket socket;
-
     private final ObjectOutputStream outputStm;
     private final ObjectInputStream inputStm;
     private final ExecutorService readExecutionQueue;
     private final ScheduledExecutorService pinger;
-
     private static final int SOCKET_TIMEOUT = 10000;
 
     public SocketClient(String address, int port) throws IOException {
@@ -36,9 +34,6 @@ public class SocketClient extends Client {
         this.readExecutionQueue = Executors.newSingleThreadExecutor();
         this.pinger = Executors.newSingleThreadScheduledExecutor();
     }
-
-
-
     /**
      * Asynchronously reads a message from the server via socket and notifies the ClientController.
      */
@@ -60,10 +55,6 @@ public class SocketClient extends Client {
             }
         });
     }
-
-
-
-
     /**
      * Sends a message to the server via socket.
      *
@@ -76,16 +67,8 @@ public class SocketClient extends Client {
             outputStm.reset();
         } catch (IOException e) {
             disconnect();
-            notifyObserver(new ErrorMessage(null, "Could not send message."));
-        }
+            notifyObserver(new ErrorMessage(null, "Could not send message.")); }
     }
-
-
-
-
-
-
-
 
     /**
      * Disconnect the socket from the server.
@@ -102,12 +85,6 @@ public class SocketClient extends Client {
             notifyObserver(new ErrorMessage(null, "Could not disconnect."));
         }
     }
-
-
-
-
-
-
     /**
      * Enable a heartbeat (ping messages) between client and server sockets to keep the connection alive.
      *

@@ -1,5 +1,8 @@
 package it.polimi.ngsw.network.message;
 
+/**
+ * A message of the response
+ */
 public class ResponseMessage extends Message {
 
     private boolean response;

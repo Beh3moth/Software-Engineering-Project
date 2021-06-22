@@ -98,6 +98,11 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new PlayerNumberReply(this.nickname, playersNumber));
     }
 
+    /**
+     * Sends a message to the server with the chosen cards of the player.
+     *
+     * @param chosenCard a list of two chosen cards
+     */
     @Override
     public void onUpdateLeaderCard(List<LeaderCard> chosenCard){
         client.sendMessage(new LeaderCardListMessage(this.nickname, chosenCard));
@@ -121,12 +126,25 @@ public class ClientController implements ViewObserver, Observer{
         client.disconnect();
     }
 
+    /**
+     * Sends to the server a message with the new warehouse of the player
+     * @param newFirstShelf  the new first shelf
+     * @param newSecondShelf  the new second shelf
+     * @param newThirdShelf  the new third shelf
+     * @param newFirstSpecialShelf the new special first shelf
+     * @param newSecondSpecialShelf the new special second shelf
+     * @param discardList  the list of recources to discard
+     * @param isIndependent if 1 is a reorderwarehose, if 0 it is after buy market
+     */
     @Override
     public void onUpdateNewWarehouse(Resource newFirstShelf, List<Resource> newSecondShelf, List<Resource> newThirdShelf, List<Resource> newFirstSpecialShelf, List<Resource> newSecondSpecialShelf, List<Resource> discardList, Boolean isIndependent) {
         client.sendMessage(new NewWarehouseMessage(this.nickname, newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndependent));
 
     }
 
+    /**
+     * Send the end of the turn message
+     */
     @Override
     public void onEndTurn() {
         client.sendMessage(new EndTurnMessage(this.nickname));
@@ -144,85 +162,174 @@ public class ClientController implements ViewObserver, Observer{
         client.sendMessage(new LoginRequest(this.nickname));
     }
 
+    /**
+     * Send a message to the server of the picked resources
+     * @param number the number
+     * @param resourceOne first resource
+     * @param resourceTwo second resource
+     * @param firstPos the first position
+     * @param secondPos the second position
+     */
     @Override
     public void onUpdatePickedResources(int number, Resource resourceOne, Resource resourceTwo, int firstPos, int secondPos){
         client.sendMessage(new DistribuiteInitialResourcesMessage(this.nickname, MessageType.PICK_INITIAL_RESOURCES, number, resourceOne, resourceTwo, firstPos, secondPos));
     }
 
+    /**
+     * Send a message to the server of the activation of a leadercard
+     * @param chosenCard the chosen card
+     * @param turnZone in wich part of the turno, if 1 == start, if 2 == end of the turn
+     */
     @Override
     public void onUpdateLeaderCardActivation(int chosenCard, int turnZone){
         client.sendMessage(new LeaderCardActivationMessage(this.nickname, chosenCard, turnZone));
     }
 
+    /**
+     * Send a message to the server of the discard of a leadercard
+     * @param wichCard the card chosen
+     * @param turnZone in wich part of the turno, if 1 == start, if 2 == end of the turn
+     */
     @Override
     public void onUpdateDiscardLeaderCard(int wichCard, int turnZone) {
         client.sendMessage(new DiscardLeaderMessage(this.nickname, wichCard, turnZone));
     }
 
+    /**
+     * Send a message to the server of the action "Buy from market"
+     * @param rowOrColumn if 1 == column, if 2 == row
+     * @param wichOne wich column/row
+     */
     @Override
     public void onUpdateBuyFromMarket(int rowOrColumn, int wichOne){
         client.sendMessage(new BuyFromMarketMessage(this.nickname, rowOrColumn, wichOne));
     }
 
+    /**
+     * Send q message of the action "reorder warehouse"
+     * @param isIndipendent if it is indipendent
+     */
     @Override
     public void onUpdateReorderWarehouse(boolean isIndipendent) {
         client.sendMessage(new ReorderWarehouseMessage(this.nickname, null, null, null, isIndipendent));
     }
 
+    /**
+     * Send a message with an integer and a string
+     * @param integerChosen the integer
+     * @param action the string
+     */
     @Override
     public void onUpdateIntegerChosen(int integerChosen, String action) {
         client.sendMessage(new IntegerMessage(this.nickname, integerChosen, action));
     }
 
+    /**
+     * Send a message to the server with the resources to pay and to receive
+     * @param resourcesToPay resource that the player has to pay
+     * @param resourcesToReceive the resources that the player will receive
+     * @param action a string of the action
+     */
     @Override
     public void onUpdateTwoResourceList(List<Resource> resourcesToPay, List<Resource> resourcesToReceive, String action) {
         client.sendMessage(new TwoResourceListMessage(this.nickname, resourcesToPay, resourcesToReceive, action));
     }
 
+    /**
+     * Send a message of the payment of the production power
+     * @param isWarehouse if is from warehouse
+     * @param shelfLevel wich shelf
+     * @param resourceType type of the resources
+     * @param productionPower wich production power
+     */
     @Override
     public void onUpdatePayProductionPower(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, ProductionPower productionPower) {
         client.sendMessage(new ProductionPowerCoordinatesMessage(this.nickname, isWarehouse, shelfLevel, resourceType, productionPower));
     }
 
+    /**
+     * Send a message of all the production powers
+     * @param productionPowerList the list of the production power
+     * @param action string of the action
+     */
     @Override
     public void onUpdateProductionPowerList(List<ProductionPower> productionPowerList, String action){
         client.sendMessage(new ProductionPowerListMessage(this.nickname, productionPowerList, action));
     }
 
+    /**
+     * Send a message of the resources of the production power
+     * @param resource the resource
+     * @param productionPower the production power
+     */
     @Override
     public void onUpdateProductionPowerResource(Resource resource, ProductionPower productionPower) {
         client.sendMessage(new ProductionPowerResourceMessage(this.nickname, resource, productionPower));
     }
 
+    /**
+     * Send a message of the chosen dev card to buy
+     * @param level  wich level ot the dashboard
+     * @param column wich color
+     * @param slotToPut where to put it
+     */
     @Override
     public void onUpdateChooseDevCard(int level, int column, int slotToPut){
         client.sendMessage(new ChosenDevCardMessage(this.nickname, level, column, slotToPut));
     }
+
+    /**
+     * Send a message to the server with the activation of the production powers
+     */
     @Override
     public void onUpdateProductionPowerActivation() {
         client.sendMessage(new ActivateProductionPowersMessage(this.nickname));
     }
 
+    /**
+     * Send a message to the server with the payment of the devCard
+     * @param isWarehouse if is warehouse
+     * @param shelfLevel wich shelf
+     * @param resourceType the type of the resources
+     * @param devCard the devacard
+     * @param slotToPut where to put the card
+     * @param discountPowerOne the discount one
+     * @param discountPowerTwo the discount two
+     */
     @Override
     public void onUpdatePayDevCard(Boolean[] isWarehouse, Integer[] shelfLevel, Resource[] resourceType, DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo) {
         client.sendMessage(new DevCardCoordinatesMessage (this.nickname, isWarehouse, shelfLevel, resourceType, devCard, slotToPut, discountPowerOne, discountPowerTwo));
     }
 
+    /**
+     * Send a message to the server to watch the info of the other player
+     * @param nicknameOtherPlayer the nickname of the player
+     */
     @Override
     public void onUpdateWatchInfo(String nicknameOtherPlayer) {
         client.sendMessage(new WatchOtherPlayerInfoMessage(this.nickname, nicknameOtherPlayer, null, 0, null, null, null,null ));
     }
 
+    /**
+     * Send a message to the server to calculate the PV of the players
+     */
     @Override
     public void onUpdateCalculatePVEndGame() {
         client.sendMessage(new CalculatePVEndGame(this.nickname));
     }
 
+    /**
+     * Send a message to ask for the faithpath of the player
+     */
     @Override
     public void onUpdateAskForFaithPath() {
         client.sendMessage(new AskForFaithPathMessage(this.nickname));
     }
 
+    /**
+     * This method receive all the message from the server and send them to the right method of the cli/gui
+     * @param message the message
+     */
     public void update(Message message) {
 
         switch (message.getMessageType()) {
@@ -313,7 +420,7 @@ public class ClientController implements ViewObserver, Observer{
                 EndGameSinglePlayerMessage endGameSinglePlayerMessage = (EndGameSinglePlayerMessage) message;
                 taskQueue.execute(() -> view.endGameSinglePlayer(endGameSinglePlayerMessage.getPlayerVictoryPoints(), endGameSinglePlayerMessage.getLawrenceCrossPosition(), endGameSinglePlayerMessage.isWinner()));
                 break;
-            default: // Should never reach this condition
+            default:
                 break;
         }
     }

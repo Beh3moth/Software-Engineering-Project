@@ -11,6 +11,9 @@ import javafx.application.Application;
 
 import java.util.logging.Level;
 
+/**
+ * Main of the client
+ */
 public class ClientStarter {
     public static void main(String[] args) {
 

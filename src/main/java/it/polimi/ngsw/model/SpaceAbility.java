@@ -5,6 +5,9 @@ import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The space ability of the leadercard
+ */
 public class SpaceAbility extends LeaderCardBaseDecorator{
 
     private final int PV;
@@ -74,6 +77,10 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         }
     }
 
+    /**
+     * Check if the ability is active
+     * @return if is active
+     */
     @Override
     public boolean isActive(){
         return isActive;
@@ -93,6 +100,10 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         return resourcesOwned >= resourceNumber;
     }
 
+    /**
+     * Method that takes the leader card ability as a string
+     * @return the ability
+     */
     @Override
     public String[] getLeaderCardAbilityAsString() {
         List<String> stringList = new ArrayList<>();
@@ -102,6 +113,10 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         return stringList.toArray(new String[0]);
     }
 
+    /**
+     * Method that takes the leader card cost as a string
+     * @return the cost
+     */
     @Override
     public String[] getLeaderCardCostAsString() {
         List<String> stringList = new ArrayList<>();
@@ -110,6 +125,11 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         return stringList.toArray(new String[0]);
     }
 
+    /**
+     *
+     * @param resource the resource
+     * @return a string of the art of the resource
+     */
     private String getResourceArt (Resource resource) {
         switch (resource) {
             case SLAVE:

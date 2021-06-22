@@ -6,6 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * The class of the player.
+ * The player has a warehouse, a chest, a faith path adn a devcard dashboard
+ */
 public class Player extends Observable implements Serializable {
 
     private String nickName;
@@ -34,8 +38,6 @@ public class Player extends Observable implements Serializable {
         PV = 0;
     }
 
-
-    //Player general methods
 
     /**
      * this method allows you to change the nickName attribute
@@ -81,6 +83,10 @@ public class Player extends Observable implements Serializable {
         return PV;
     }
 
+    /**
+     * Takes all the PV from the resources
+     * @return the PV
+     */
     public int getPVFormResources(){
         int PV = 0;
         int totalNumberOfResources = this.getChest().getTotalNumberOfResources() + this.getWarehouse().getTotalNumberOfResources();
@@ -204,9 +210,10 @@ public class Player extends Observable implements Serializable {
         else return false;
     }
 
-
-    //LeaderCard methods
-
+    /**
+     *Set the two leadercards
+     * @param twoLeaderCard the two leadercards
+     */
     public void setLeaderCard(List<LeaderCard> twoLeaderCard){
         this.leaderCards = twoLeaderCard;
     }
@@ -273,8 +280,6 @@ public class Player extends Observable implements Serializable {
         return true;
     }
 
-
-
     //Activate Production Power
 
     private List<ProductionPower> paidList = new ArrayList<>();
@@ -292,9 +297,6 @@ public class Player extends Observable implements Serializable {
     public List<ProductionPower> getAbilityList(){
         return abilityList;
     }
-
-    //chooseProductionPower moved in DevCardDashboard
-    //setBaseProductionPowerLists moved in Production Power
 
     /**
      * The method ensures the player can afford the Production Power.

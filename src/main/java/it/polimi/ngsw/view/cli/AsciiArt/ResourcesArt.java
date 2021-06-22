@@ -5,6 +5,9 @@ import it.polimi.ngsw.model.Resource;
 
 import java.io.Serializable;
 
+/**
+ * Class for the art for the resources
+ */
 public class ResourcesArt implements Serializable {
 
     private Color color;

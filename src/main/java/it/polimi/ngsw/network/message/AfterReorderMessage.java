@@ -5,6 +5,9 @@ import it.polimi.ngsw.model.Resource;
 
 import java.util.List;
 
+/**
+ * Message after reordering the warehouse
+ */
 public class AfterReorderMessage extends Message{
 
     private int isIndependent;
@@ -26,6 +29,6 @@ public class AfterReorderMessage extends Message{
 
     @Override
     public String toString() {
-        return "Continue turn";
+        return "Continue turn after having reordered the warehouse";
     }
 }

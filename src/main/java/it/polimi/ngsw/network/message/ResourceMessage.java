@@ -2,6 +2,9 @@ package it.polimi.ngsw.network.message;
 
 import it.polimi.ngsw.model.Resource;
 
+/**
+ * Message that transport a resource
+ */
 public class ResourceMessage extends  Message {
 
     private Resource resource;

@@ -6,6 +6,9 @@ import it.polimi.ngsw.network.server.SocketServer;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+/**
+ * Class that permit to launch the server
+ */
 public class ServerLauncher {
     private final int serverPort;
     private boolean continueListening;

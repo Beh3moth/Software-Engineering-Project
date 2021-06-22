@@ -1,22 +1,21 @@
 package it.polimi.ngsw.view.cli;
 
-import it.polimi.ngsw.controller.ClientController;
 import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.network.server.LocalServer;
-import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.LightModel;
-import it.polimi.ngsw.view.View;
 import it.polimi.ngsw.view.cli.AsciiArt.Color;
 import it.polimi.ngsw.view.cli.AsciiArt.RectangleArt;
 import it.polimi.ngsw.view.cli.AsciiArt.ResourcesArt;
-
 import java.io.PrintStream;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeUnit;
 
-
+/**
+ * This class is used if the player wants to play in local.
+ * It represents the CLI.
+ */
 public class LocalCli {
 
     ResourcesArt resourcesArt = new ResourcesArt();
@@ -52,6 +51,9 @@ public class LocalCli {
         this.server = new LocalServer(this);
     }
 
+    /**
+     * The start Game Method
+     */
     public void start() {
         out.println("Welcome to Maestri del rinascimento");
         out.print("Enter your nickname: ");
@@ -66,6 +68,10 @@ public class LocalCli {
 
     }
 
+    /**
+     * Asks the player the leadercards
+     * @param LeaderCards the leadercards
+     */
     public void askLeaderCard(List<LeaderCard> LeaderCards) {
         int IdChoosen;
         int IdChoosenTwo;
@@ -99,6 +105,10 @@ public class LocalCli {
         }
     }
 
+    /**
+     * Print the leadercard
+     * @param leaderCards the leadercard
+     */
     public void printLeaderCard(List<LeaderCard> leaderCards) {
 
         int col = 10;
@@ -137,6 +147,11 @@ public class LocalCli {
 
     String[][] leaderCardTiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
 
+    /**
+     * Get the leadercard that are printable
+     * @param leaderCard the leadercard
+     * @return a string
+     */
     public String[][] getPrintableLeaderCard(LeaderCard leaderCard) {
         fillEmptyLeaderCard();
         loadLeaderCardCost(leaderCard);

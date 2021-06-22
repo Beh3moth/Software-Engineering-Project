@@ -5,6 +5,9 @@ import it.polimi.ngsw.model.Resource;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Message of the action "reorder warehouse"
+ */
 public class ReorderWarehouseMessage extends Message{
 
     private static final long serialVersionUID = -6247374243399107843L;

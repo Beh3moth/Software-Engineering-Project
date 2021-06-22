@@ -92,6 +92,10 @@ public class LeaderActionController extends ViewObservable implements GenericSce
     }
 
     private void onConfirmButton(Event event){
+        disableButton(activateLeaderCardOneButton);
+        disableButton(discardLeaderCardOneButton);
+        disableButton(activateLeaderCardTwoButton);
+        disableButton(discardLeaderCardTwoButton);
         if(turnZone==1){
             GameController gameController = new GameController();
             gameController.addAllObservers(observers);

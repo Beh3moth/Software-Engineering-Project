@@ -7,6 +7,10 @@
 
 <AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/game_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
     <children>
+        <ImageView fx:id="leaderCardOneImageView" fitHeight="148.0" fitWidth="100.0" layoutX="10.0" layoutY="200.0" pickOnBounds="true" preserveRatio="true">
+        </ImageView>
+        <ImageView fx:id="leaderCardTwoImageView" fitHeight="148.0" fitWidth="100.0" layoutX="10.0" layoutY="430.0" pickOnBounds="true" preserveRatio="true">
+        </ImageView>
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <Group StackPane.alignment="CENTER">
                 <AnchorPane prefHeight="532.0" prefWidth="895.0" styleClass="boardPain">

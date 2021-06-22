@@ -77,12 +77,16 @@ public class GameController extends ViewObservable implements GenericSceneContro
     private Button reorder;
     @FXML
     private Button production;
+    @FXML
+    private ImageView leaderCardOneImageView;
+    @FXML
+    private ImageView leaderCardTwoImageView;
 
     //FaithPath
 
 
     @FXML
-    public void initialize(){
+    public void initialize() {
         take_marble.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTakeMarbleButtonClick);
         view_other_player.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onViewOtherPlayerButtonClick);
         upDateValuesOfChest();
@@ -91,6 +95,7 @@ public class GameController extends ViewObservable implements GenericSceneContro
         upDatePapalCard();
         upDatePV();
         upDateLeaderShelf();
+        upDateLeaderCard();
         devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
         ArrayList<Node> faithPathList = new ArrayList<>();
         faithPathList.add(faithPath.getChildren().get(24));
@@ -99,216 +104,236 @@ public class GameController extends ViewObservable implements GenericSceneContro
         production.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onProduction);
     }
 
-    public void onProduction(Event event){
+    public void onProduction(Event event) {
         ProductionChoiceController controller = new ProductionChoiceController();
         controller.setProductionChoiceController(lightModel);
         controller.addAllObservers(observers);
         Platform.runLater(() -> SceneController.changeScene(controller, "production_choice_scene.fxml"));
     }
 
-    public void onReorder(Event event){
+    public void onReorder(Event event) {
         ReorderWarehouseController controller = new ReorderWarehouseController();
         controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), null, true);
         controller.addAllObservers(observers);
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
-    public void setLightModel(LightModel lightModel){
+    public void setLightModel(LightModel lightModel) {
         this.lightModel = lightModel;
     }
 
-    public void onTakeMarbleButtonClick(Event event){
+    public void onTakeMarbleButtonClick(Event event) {
         take_marble_controller takeMarbleController = new take_marble_controller(this.lightModel);
         takeMarbleController.addAllObservers(observers);
         SceneController.changeScene(takeMarbleController, "take_marble_scene.fxml");
     }
 
-    public void onDevCardMarket(Event event){
+    public void onDevCardMarket(Event event) {
         DevCardSceneController controller = new DevCardSceneController();
         controller.setDevCardMarket(lightModel.getDevCardMarket(), lightModel);
         controller.addAllObservers(observers);
         SceneController.changeScene(controller, "dev_card_market_scene.fxml");
     }
 
-    public void upDateValuesOfChest(){
+    public void upDateValuesOfChest() {
         moneyNumber.setText(lightModel.getChest().get(Resource.MONEY).toString());
         shieldNumber.setText(lightModel.getChest().get(Resource.SHIELD).toString());
         stoneNumber.setText(lightModel.getChest().get(Resource.STONE).toString());
         slaveNumber.setText(lightModel.getChest().get(Resource.SLAVE).toString());
     }
 
-    public void upDateValuesOfWarehouse(){
+    public void upDateValuesOfWarehouse() {
 
-        if(lightModel.getFirstShelf() == Resource.EMPTY){
+        if (lightModel.getFirstShelf() == Resource.EMPTY) {
             FIRSTSHELF.setImage(null);
-        }
-        else{
+        } else {
             Image firstshelf = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFirstShelf()) + ".png");
             FIRSTSHELF.setImage(firstshelf);
         }
 
-        if(lightModel.getSecondShelfNumber() == 0){
+        if (lightModel.getSecondShelfNumber() == 0) {
             SECONDSHELF1.setImage(null);
             SECONDSHELF2.setImage(null);
-        }
-        else{
+        } else {
             Image secondshelf = new Image("images/icons/" + getTypeResourceForImage(lightModel.getSecondShelf()) + ".png");
             SECONDSHELF1.setImage(secondshelf);
-            if(lightModel.getSecondShelfNumber() == 2){
+            if (lightModel.getSecondShelfNumber() == 2) {
                 SECONDSHELF2.setImage(secondshelf);
-            }
-            else{
+            } else {
                 SECONDSHELF2.setImage(null);
             }
         }
 
-        if(lightModel.getThirdShelfNumber() == 0){
+        if (lightModel.getThirdShelfNumber() == 0) {
             THIRDSHELF1.setImage(null);
             THIRDSHELF2.setImage(null);
             THIRDSHELF3.setImage(null);
-        }
-        else{
+        } else {
             Image thirdshelf = new Image("images/icons/" + getTypeResourceForImage(lightModel.getThirdShelf()) + ".png");
             THIRDSHELF1.setImage(thirdshelf);
-            if(lightModel.getThirdShelfNumber() >= 2){
+            if (lightModel.getThirdShelfNumber() >= 2) {
                 THIRDSHELF2.setImage(thirdshelf);
-            }
-            else{
+            } else {
                 THIRDSHELF2.setImage(null);
                 THIRDSHELF3.setImage(null);
             }
-            if(lightModel.getThirdShelfNumber() == 3){
+            if (lightModel.getThirdShelfNumber() == 3) {
                 THIRDSHELF3.setImage(thirdshelf);
-            }
-            else{
+            } else {
                 THIRDSHELF3.setImage(null);
             }
         }
     }
 
-    public String getTypeResourceForImage(Resource resource){
-            switch(resource){
-                case MONEY:return "coin";
-                case STONE:return "stone";
-                case SLAVE:return "servant";
-                case SHIELD:return "shield";
-                default: return null;
-            }
+    public String getTypeResourceForImage(Resource resource) {
+        switch (resource) {
+            case MONEY:
+                return "coin";
+            case STONE:
+                return "stone";
+            case SLAVE:
+                return "servant";
+            case SHIELD:
+                return "shield";
+            default:
+                return null;
+        }
     }
 
-    public void upDateDevCard(){
-        if(lightModel.getActiveDevCardMap().get(0) != null){
+    public void upDateDevCard() {
+        if (lightModel.getActiveDevCardMap().get(0) != null) {
             Image devcard1 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(0).getCardColour().toString() + lightModel.getActiveDevCardMap().get(0).getDevLevel() + lightModel.getActiveDevCardMap().get(0).getPV() + ".png");
             DEVCARD1.setImage(devcard1);
+        } else {
+            DEVCARD1.setImage(null);
         }
-        else{DEVCARD1.setImage(null);}
-        if(lightModel.getActiveDevCardMap().get(1) != null){
+        if (lightModel.getActiveDevCardMap().get(1) != null) {
             Image devcard2 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(1).getCardColour().toString() + lightModel.getActiveDevCardMap().get(1).getDevLevel() + lightModel.getActiveDevCardMap().get(1).getPV() + ".png");
             DEVCARD2.setImage(devcard2);
-        }else{DEVCARD2.setImage(null);}
-        if(lightModel.getActiveDevCardMap().get(2) != null){
+        } else {
+            DEVCARD2.setImage(null);
+        }
+        if (lightModel.getActiveDevCardMap().get(2) != null) {
             Image devcard3 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(2).getCardColour().toString() + lightModel.getActiveDevCardMap().get(2).getDevLevel() + lightModel.getActiveDevCardMap().get(2).getPV() + ".png");
             DEVCARD3.setImage(devcard3);
-        }else{DEVCARD3.setImage(null);}
+        } else {
+            DEVCARD3.setImage(null);
+        }
     }
 
-    public void setCrossPosition(int crossPosition, Integer lawrencePosition){
-        if(lawrencePosition!=null){
-            for(int i = 0; i < 25; i++){
+    public void setCrossPosition(int crossPosition, Integer lawrencePosition) {
+        if (lawrencePosition != null) {
+            for (int i = 0; i < 25; i++) {
                 ImageView imageView = (ImageView) faithPath.getChildren().get(i);
 
-                if(i==(24-crossPosition) && crossPosition!=lawrencePosition) {
+                if (i == (24 - crossPosition) && crossPosition != lawrencePosition) {
                     imageView.setImage(new Image("images/icons/croce.png"));
-                }
-                else if(i==(24-lawrencePosition) && crossPosition!=lawrencePosition){
+                } else if (i == (24 - lawrencePosition) && crossPosition != lawrencePosition) {
                     imageView.setImage(new Image("images/icons/croceLorenzo.png"));
-                }
-                else if(i==(24-crossPosition) && i==(24-lawrencePosition) && crossPosition==lawrencePosition){
+                } else if (i == (24 - crossPosition) && i == (24 - lawrencePosition) && crossPosition == lawrencePosition) {
                     imageView.setImage(new Image("images/icons/lorenzoPlusPlayer.png"));
-                }
-                else {
+                } else {
                     imageView.setImage(null);
                 }
             }
-        }
-        else {
-            for(int i = 0; i < 25; i++){
+        } else {
+            for (int i = 0; i < 25; i++) {
                 ImageView imageView = (ImageView) faithPath.getChildren().get(i);
-                if(i!=(24-crossPosition)){
+                if (i != (24 - crossPosition)) {
                     imageView.setImage(null);
-                }
-                else {
+                } else {
                     imageView.setImage(new Image("images/icons/croce.png"));
                 }
             }
         }
     }
 
-    public void upDatePapalCard(){
-        if(lightModel.isPapalCardOne()){
+    public void upDatePapalCard() {
+        if (lightModel.isPapalCardOne()) {
             papalCard1.setImage(new Image("images/icons/quadrato giallo.png"));
-        }
-        else{
+        } else {
             papalCard1.setImage(null);
         }
 
-        if(lightModel.isPapalCardTwo()){
+        if (lightModel.isPapalCardTwo()) {
             papalCard2.setImage(new Image("images/icons/quadrato arancione.png"));
-        }
-        else{
+        } else {
             papalCard2.setImage(null);
         }
 
-        if(lightModel.isPapalCardThree()){
+        if (lightModel.isPapalCardThree()) {
             papalCard3.setImage(new Image("images/icons/quadrato rosso.png"));
-        }
-        else{
+        } else {
             papalCard3.setImage(null);
         }
     }
 
-    public void upDatePV(){
+    public void upDatePV() {
         PVnumber.setText(String.valueOf((lightModel.getVictoryPoints())));
     }
 
-    public void upDateLeaderShelf(){
-        if(lightModel.getFsn() > 0){
+    public void upDateLeaderShelf() {
+        if (lightModel.getFsn() > 0) {
             Image img = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFsr()) + ".png");
             FIRSTLEADERSHELF1.setImage(img);
-            if(lightModel.getFsn() == 2){
+            if (lightModel.getFsn() == 2) {
                 FIRSTLEADERSHELF2.setImage(img);
-            }
-            else{
+            } else {
                 FIRSTLEADERSHELF2.setImage(null);
             }
-        }
-        else{
+        } else {
             FIRSTLEADERSHELF1.setImage(null);
             FIRSTLEADERSHELF2.setImage(null);
         }
 
-        if(lightModel.getSsn() > 0){
+        if (lightModel.getSsn() > 0) {
             Image img = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFsr()) + ".png");
             SECONDLEADERSHELF1.setImage(img);
-            if(lightModel.getSsn() == 2){
+            if (lightModel.getSsn() == 2) {
                 SECONDLEADERSHELF2.setImage(img);
-            }
-            else{
+            } else {
                 SECONDLEADERSHELF2.setImage(null);
             }
-        }
-        else{
+        } else {
             SECONDLEADERSHELF1.setImage(null);
             SECONDLEADERSHELF2.setImage(null);
         }
     }
 
-    public void onViewOtherPlayerButtonClick(Event event){
+    public void onViewOtherPlayerButtonClick(Event event) {
         choose_nickname_player_controller cnp = new choose_nickname_player_controller();
         cnp.setLightModel(this.lightModel);
         cnp.addAllObservers(observers);
         Platform.runLater(() -> SceneController.changeScene(cnp, "choose_nickname_player_scene.fxml"));
     }
 
+    public void upDateLeaderCard() {
+
+        if (lightModel.getLeaderCardStatus()[0] != 0) {
+            Image leader1 = new Image(("images/leader/" + lightModel.getLeaderCardList().get(0).getAbilityName() + lightModel.getLeaderCardList().get(0).getLeaderCardId() + ".png"));
+            leaderCardOneImageView.setImage(leader1);
+            if (lightModel.getLeaderCardStatus()[0] == 1) {
+                leaderCardOneImageView.setDisable(true);
+            } else {
+                leaderCardOneImageView.setDisable(false);
+            }
+        } else {
+            leaderCardOneImageView.setImage(null);
+        }
+
+        if (lightModel.getLeaderCardStatus()[1] != 0) {
+            Image leader1 = new Image(("images/leader/" + lightModel.getLeaderCardList().get(1).getAbilityName() + lightModel.getLeaderCardList().get(1).getLeaderCardId() + ".png"));
+            leaderCardTwoImageView.setImage(leader1);
+            if (lightModel.getLeaderCardStatus()[1] == 1) {
+                leaderCardTwoImageView.setDisable(true);
+            } else {
+                leaderCardTwoImageView.setDisable(false);
+            }
+        } else {
+            leaderCardTwoImageView.setImage(null);
+        }
+
+    }
 
 }
+

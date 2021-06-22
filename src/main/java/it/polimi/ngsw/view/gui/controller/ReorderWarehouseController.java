@@ -1,8 +1,6 @@
 package it.polimi.ngsw.view.gui.controller;
 
-import it.polimi.ngsw.model.Resource;
-import it.polimi.ngsw.model.Shelf;
-import it.polimi.ngsw.model.Warehouse;
+import it.polimi.ngsw.model.*;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.LightModel;
 import javafx.event.Event;
@@ -95,6 +93,8 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         }
 
     }
+
+
 
     @FXML
     public void initialize(){
@@ -338,4 +338,5 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
                 return "croce.png";
         }
     }
+
 }

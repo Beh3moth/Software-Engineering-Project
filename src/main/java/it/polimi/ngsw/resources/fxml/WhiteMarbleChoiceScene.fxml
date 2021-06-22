@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/WhiteMarbleChoiceScene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"  >
+    <children>
+        <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <Group StackPane.alignment="CENTER">
+                <children>
+                        <Button fx:id="firstWhiteButton" layoutX="500.0" layoutY="10.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="120.0" styleClass="playButton" stylesheets="@../css/WhiteMarbleChoiceScene.css" />
+                        <Button fx:id="secondWhiteButton" layoutX="50.0" layoutY="10.0" mnemonicParsing="false" prefHeight="120.0" prefWidth="120.0" styleClass="quitButton" stylesheets="@../css/WhiteMarbleChoiceScene.css" />
+                </children>
+                <StackPane.margin>
+                    <Insets top="400.0" />
+                </StackPane.margin>
+            </Group>
+        </StackPane>
+    </children>
+</AnchorPane>

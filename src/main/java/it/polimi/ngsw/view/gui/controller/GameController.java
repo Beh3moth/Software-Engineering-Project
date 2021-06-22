@@ -50,6 +50,14 @@ public class GameController extends ViewObservable implements GenericSceneContro
     @FXML
     private ImageView THIRDSHELF3;
     @FXML
+    private ImageView FIRSTLEADERSHELF1;
+    @FXML
+    private ImageView FIRSTLEADERSHELF2;
+    @FXML
+    private ImageView SECONDLEADERSHELF1;
+    @FXML
+    private ImageView SECONDLEADERSHELF2;
+    @FXML
     private ImageView DEVCARD1;
     @FXML
     private ImageView DEVCARD2;
@@ -82,10 +90,11 @@ public class GameController extends ViewObservable implements GenericSceneContro
         upDateDevCard();
         upDatePapalCard();
         upDatePV();
+        upDateLeaderShelf();
         devCardMarket.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDevCardMarket);
         ArrayList<Node> faithPathList = new ArrayList<>();
         faithPathList.add(faithPath.getChildren().get(24));
-        setCrossPosition(lightModel.getCrossPosition());
+        setCrossPosition(lightModel.getCrossPosition(), lightModel.getLawrencePosition());
         reorder.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onReorder);
         production.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onProduction);
     }
@@ -203,14 +212,34 @@ public class GameController extends ViewObservable implements GenericSceneContro
         }else{DEVCARD3.setImage(null);}
     }
 
-    public void setCrossPosition(int crossPosition){
-        for(int i = 0; i < 25; i++){
-            ImageView imageView = (ImageView) faithPath.getChildren().get(i);
-            if(i!=(24-crossPosition)){
-                imageView.setImage(null);
+    public void setCrossPosition(int crossPosition, Integer lawrencePosition){
+        if(lawrencePosition!=null){
+            for(int i = 0; i < 25; i++){
+                ImageView imageView = (ImageView) faithPath.getChildren().get(i);
+
+                if(i==(24-crossPosition) && crossPosition!=lawrencePosition) {
+                    imageView.setImage(new Image("images/icons/croce.png"));
+                }
+                else if(i==(24-lawrencePosition) && crossPosition!=lawrencePosition){
+                    imageView.setImage(new Image("images/icons/croceLorenzo.png"));
+                }
+                else if(i==(24-crossPosition) && i==(24-lawrencePosition) && crossPosition==lawrencePosition){
+                    imageView.setImage(new Image("images/icons/lorenzoPlusPlayer.png"));
+                }
+                else {
+                    imageView.setImage(null);
+                }
             }
-            else {
-                imageView.setImage(new Image("images/icons/croce.png"));
+        }
+        else {
+            for(int i = 0; i < 25; i++){
+                ImageView imageView = (ImageView) faithPath.getChildren().get(i);
+                if(i!=(24-crossPosition)){
+                    imageView.setImage(null);
+                }
+                else {
+                    imageView.setImage(new Image("images/icons/croce.png"));
+                }
             }
         }
     }
@@ -220,8 +249,8 @@ public class GameController extends ViewObservable implements GenericSceneContro
             papalCard1.setImage(new Image("images/icons/quadrato giallo.png"));
         }
         else{
-                papalCard1.setImage(null);
-                }
+            papalCard1.setImage(null);
+        }
 
         if(lightModel.isPapalCardTwo()){
             papalCard2.setImage(new Image("images/icons/quadrato arancione.png"));
@@ -236,11 +265,42 @@ public class GameController extends ViewObservable implements GenericSceneContro
         else{
             papalCard3.setImage(null);
         }
-
     }
 
     public void upDatePV(){
         PVnumber.setText(String.valueOf((lightModel.getVictoryPoints())));
+    }
+
+    public void upDateLeaderShelf(){
+        if(lightModel.getFsn() > 0){
+            Image img = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFsr()) + ".png");
+            FIRSTLEADERSHELF1.setImage(img);
+            if(lightModel.getFsn() == 2){
+                FIRSTLEADERSHELF2.setImage(img);
+            }
+            else{
+                FIRSTLEADERSHELF2.setImage(null);
+            }
+        }
+        else{
+            FIRSTLEADERSHELF1.setImage(null);
+            FIRSTLEADERSHELF2.setImage(null);
+        }
+
+        if(lightModel.getSsn() > 0){
+            Image img = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFsr()) + ".png");
+            SECONDLEADERSHELF1.setImage(img);
+            if(lightModel.getSsn() == 2){
+                SECONDLEADERSHELF2.setImage(img);
+            }
+            else{
+                SECONDLEADERSHELF2.setImage(null);
+            }
+        }
+        else{
+            SECONDLEADERSHELF1.setImage(null);
+            SECONDLEADERSHELF2.setImage(null);
+        }
     }
 
     public void onViewOtherPlayerButtonClick(Event event){

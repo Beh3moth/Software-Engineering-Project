@@ -35,6 +35,8 @@ public class choose_nickname_player_controller extends ViewObservable implements
     }
 
     private void onBackButton(Event event){
+        join.setDisable(true);
+        backButton.setDisable(true);
         GameController gameController = new GameController();
         gameController.addAllObservers(observers);
         gameController.setLightModel(lightModel);

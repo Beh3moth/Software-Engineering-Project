@@ -58,6 +58,9 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         if(selectedLeaderCardList.size()<2){
             selectedLeaderCardList.add(leaderCardList.get(0));
             disableButton(leaderCardOneButton);
+            if(selectedLeaderCardList.size() == 2){
+                disableAllButton();
+            }
         }
     }
 
@@ -65,6 +68,9 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         if(selectedLeaderCardList.size()<2){
             selectedLeaderCardList.add(leaderCardList.get(1));
             disableButton(leaderCardTwoButton);
+            if(selectedLeaderCardList.size() == 2){
+                disableAllButton();
+            }
         }
     }
 
@@ -72,6 +78,10 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         if(selectedLeaderCardList.size()<2){
             selectedLeaderCardList.add(leaderCardList.get(2));
             disableButton(leaderCardThreeButton);
+            if(selectedLeaderCardList.size() == 2){
+                disableAllButton();
+            }
+
         }
     }
 
@@ -79,12 +89,16 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         if(selectedLeaderCardList.size()<2){
             selectedLeaderCardList.add(leaderCardList.get(3));
             disableButton(leaderCardFourButton);
+            if(selectedLeaderCardList.size() == 2){
+                disableAllButton();
+            }
         }
     }
 
     private void onConfirmButton(Event event){
         if(selectedLeaderCardList.size()==2){
             disableButton(confirmButton);
+            disableAllButton();
             new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCard(selectedLeaderCardList))).start();
         }
     }
@@ -121,5 +135,11 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         leaderCardFourImageView.setImage(img);
     }
 
+    public void disableAllButton(){
+        leaderCardOneButton.setDisable(true);
+        leaderCardTwoButton.setDisable(true);
+        leaderCardThreeButton.setDisable(true);
+        leaderCardFourButton.setDisable(true);
+    }
 
 }

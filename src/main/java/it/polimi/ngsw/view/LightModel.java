@@ -21,14 +21,12 @@ public class LightModel {
     private boolean papalCardOne;
     private boolean papalCardTwo;
     private boolean papalCardThree;
-    //samu
     private Marble singleMarble;
     private Marble[] firstRow;
     private Marble[] secondRow;
     private Marble[] thirdRow;
     private DevCard[][] devCardMarket;
     private boolean gameFinished;
-    //aaron
     private Resource firstShelf;
     private Resource secondShelf;
     private int secondShelfNumber;
@@ -40,6 +38,7 @@ public class LightModel {
     private int ssn;
     //1 means not activated but usable, 0 means discarded, 2 means activated
     private int[] leaderCardStatus = new int[]{1, 1};
+    Integer lawrencePosition;
 
     public Resource getFirstShelf(){
         return firstShelf;
@@ -258,4 +257,13 @@ public class LightModel {
     public void setPaidProductionPowerList(List<ProductionPower> paidProductionPowerList) {
         this.paidProductionPowerList = paidProductionPowerList;
     }
+
+    public Integer getLawrencePosition(){
+        return lawrencePosition;
+    }
+
+    public void setLawrencePosition(Integer lawrencePosition){
+        this.lawrencePosition = lawrencePosition;
+    }
+
 }

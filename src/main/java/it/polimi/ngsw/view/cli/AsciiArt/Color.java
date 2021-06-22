@@ -1,5 +1,8 @@
 package it.polimi.ngsw.view.cli.AsciiArt;
 
+/**
+ * Class with the color used for the cli
+ */
 public enum Color {
 
     ANSI_RED("\u001B[31m"),

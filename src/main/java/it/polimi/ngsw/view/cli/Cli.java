@@ -110,7 +110,9 @@ public class Cli extends ViewObservable implements View {
         notifyObserver(obs -> obs.onUpdateServerInfo(serverInfo));
     }
 
-
+    /**
+     * Ask the nickname to the client
+     */
     @Override
     public void askNickname() {
         out.print("Enter your nickname: ");
@@ -122,6 +124,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Ask the number of players to the client
+     */
     @Override
     public void askPlayersNumber() {
         int playerNumber;
@@ -135,6 +140,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Ask to the client who will start the game
+     * @param nicknameQueue
+     */
     @Override
     public void askFirstPlayer(List<String> nicknameQueue) {
         out.println("\n\nChoose the first player: ");
@@ -198,7 +207,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
-
+    /**
+     *Ask to the client where to put the resources at the start of the game
+     * @param number
+     */
     @Override
     public void distributeInitialResources(int number) {
         out.println("You start with " + number + " resources");
@@ -273,6 +285,33 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Set the model at the start of the turn of the player
+     * @param Leaders the leader cards
+     * @param singleMarble the single marble of the market
+     * @param firstRow the first row of the market
+     * @param secondRow the second row
+     * @param thirdRow the third row
+     * @param leaderProductionPowerList production powers of leaders
+     * @param activeDevCardMap active devcards
+     * @param baseProductionPower the base procution power
+     * @param devCardMarket the market of the devcards
+     * @param firstShelf first shelf of the warehouse
+     * @param secondShelf second shelf
+     * @param secondShelfNumber second shelf number of resources
+     * @param thirdShelf third shelf type of resources
+     * @param thirdShelfNumber thirs shelf number of resources
+     * @param chest the chest
+     * @param crossPosition position in the faith path
+     * @param victoryPoints PV
+     * @param papalCardOne the first papal card
+     * @param papalCardTwo the second papal card
+     * @param papalCardThree the third papal card
+     * @param firstSpecialResource first special resource
+     * @param firstSpecialNumber first special number
+     * @param secondSpecialResource second special shelf resources
+     * @param secondSpecialNumber second special shelf number of resources
+     */
     @Override
     public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber) {
         out.println("\n\n It's your turn! \n\n");
@@ -307,6 +346,14 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Permit to continue the turn after the leadercard move
+     * @param turnZone the turn zone, if before or after the mainmove
+     * @param actionTypology typology of the action, if discard o activate
+     * @param goneRight if went well
+     * @param wichCard wich card was selected
+     * @param Leaders the leader cards
+     */
     @Override
     public void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders) {
         if (turnZone == 1) { //inizio turno
@@ -340,6 +387,12 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Permit to buy the resources from the market
+     * @param resources taken resources
+     * @param firstWhite if there is an ability of the white marble
+     * @param secondWhite if exists the second ability of the white marble
+     */
     @Override
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
         for (int i = 0; i < resources.size(); i++) {
@@ -356,6 +409,9 @@ public class Cli extends ViewObservable implements View {
         notifyObserver(obs -> obs.onUpdateReorderWarehouse(false));
     }
 
+    /**
+     * Reset the warehouse of the cli model
+     */
     private void resetCliWarehouse() {
         this.newFirstShelf = Resource.EMPTY;
         if (this.newSecondShelf != null) this.newSecondShelf.clear();
@@ -364,6 +420,13 @@ public class Cli extends ViewObservable implements View {
         if (this.newSecondSpecialShelf != null) this.newSecondSpecialShelf.clear();
     }
 
+    /**
+     * Permit to reorder the warehouse of the cli
+     * @param mapResources the resources you have to manage
+     * @param firstLevel the first shelf
+     * @param secondLevel the second shelf
+     * @param isIndipendent if is independent
+     */
     @Override
     public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         resetCliWarehouse();
@@ -378,6 +441,13 @@ public class Cli extends ViewObservable implements View {
         askToSendNewWarehouse(mapResources, firstLevel, secondLevel, isIndipendent);
     }
 
+    /**
+     * Ask if you want defenetly that warehouse
+     * @param mapResources the resources
+     * @param firstLevel first shelf
+     * @param secondLevel second shelf
+     * @param isIndipendent if is independent
+     */
     private void askToSendNewWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         try {
             out.println("Do you want this new warehouse and discard the other resources? " + discardList.toString());
@@ -396,6 +466,12 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Permit to build the new warehouse
+     * @param mapResources resources
+     * @param firstLevel first special shelf
+     * @param secondLevel second special shelf
+     */
     private void buildWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
         try {
             for (Map.Entry<Resource, Integer> entry : mapResources.entrySet()) {
@@ -449,6 +525,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Method that print the warehouse
+     */
     private void printWarehouse() {
         out.println();
         out.println("Warehouse");
@@ -464,6 +543,14 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Method that control if the floors are ok
+     * @param chose the chosen floor
+     * @param resource the resource type
+     * @param firstFloor the first special shelf
+     * @param secondFloor the second special shelf
+     * @return if is everything ok
+     */
     private boolean controllFloor(int chose, Resource resource, Resource firstFloor, Resource secondFloor) {
         if (chose == 1) {
             Resource evitateOne = Resource.EMPTY;
@@ -577,7 +664,12 @@ public class Cli extends ViewObservable implements View {
         return false;
     }
 
-
+    /**
+     * This method permit to chose the resource
+     * @param firstWhite the first white ability
+     * @param secondWhite the second white ability
+     * @return the resource chosen
+     */
     public Resource choseResource(Resource firstWhite, Resource secondWhite) {
         Resource chosen = Resource.EMPTY;
         try {
@@ -594,6 +686,11 @@ public class Cli extends ViewObservable implements View {
         return chosen;
     }
 
+    /**
+     * This method asks the player to manage his leadercards
+     * @param Leaders the leadercards
+     * @param turnZone the turn zone
+     */
     public void askToManageLeaderCards(List<LeaderCard> Leaders, int turnZone) {
         try {
             List<LeaderCard> leaderCardList = new ArrayList<>();
@@ -609,6 +706,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Ask the player if he wants to discard a leadercard
+     * @param turnZone the turn zone
+     */
     public void askToDiscardLeaderCard(int turnZone) {
         try {
             out.println("\nDo you want to discard a leadercard? 1) YES 0) NO ");
@@ -625,11 +726,18 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Method for the end of the game
+     */
     private void endGame() {
         out.println("\n\nThe game is ended, now it's time to calculate the PV of every player.");
         notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
     }
 
+    /**
+     * Permit to discard a leadercard
+     * @param turnZone wich turn zone
+     */
     public void discardCard(int turnZone) {
         try {
             if (this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1) {
@@ -646,6 +754,11 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Permit to activate a leadercard
+     * @param Leaders the leadercards
+     * @param turnZone the turn zone
+     */
     public void activateLeaderCard(List<LeaderCard> Leaders, int turnZone) {
         try {
             if (this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1) {
@@ -661,7 +774,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
-
+    /**
+     * The mainmove, permit the player to chose the move
+     */
     public void mainMove() {
         try {
             printDevCardMarket();
@@ -685,6 +800,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Print the warehouse
+     */
     private void printStartTurnWarehouse() {
         out.println("\nWarehouse");
         out.print("First shelf: ");
@@ -725,6 +843,9 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * Permit to watch the info of another player
+     */
     private void watchOtherPlayerInfo() {
         try {
             out.println("Write the exact name of the player: ");
@@ -735,6 +856,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Permit to take the resources from the market
+     */
     public void takeResourcesFromMarket() {
         try {
             out.println("Do you want to take a column or a row? 1) Column 2) Row");
@@ -778,12 +902,11 @@ public class Cli extends ViewObservable implements View {
         } catch (ExecutionException e) {
             out.println("Input canceled");
         }
-
-        //aggiunge subito risorse allo stock e white marble allo stock white, poi ritorno un messaggio con situazione stock (se ha whitre ability, butta le white dentro,
-        //se no le cancella.... con lo stock decido risorsa per risorsa che fare, se buttare dentro al mercato o scartare, salvo lo stock dentro alla cli, posso passare al riordina
-        //magazzino e poi ritornare allom stock, alla fine di tutto devo avere uno stock VUOTO.
     }
 
+    /**
+     * Print the market
+     */
     public void printMarket() {
         out.println("MARKET");
         out.print("SINGLE MARBLE: ");
@@ -836,6 +959,11 @@ public class Cli extends ViewObservable implements View {
         out.println(genericMessage);
     }
 
+    /**
+     * The action after reordering the warehouse
+     * @param i if is indipendent
+     * @param leaders the leadercards
+     */
     @Override
     public void afterReorder(int i, List<LeaderCard> leaders) {
         if (i == 1) {
@@ -865,12 +993,18 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * Print the leadercard
+     * @param card the leadercard
+     */
     private void printLeaderCard(LeaderCard card) {
         out.println("PV: " + card.getPV());
         out.println("AbilityName: " + card.getAbilityName());
     }
 
-
+    /**
+     * End of the turn
+     */
     public void endTurn() {
         out.println("Your turn is ended! ");
         notifyObserver(obs -> obs.onEndTurn());

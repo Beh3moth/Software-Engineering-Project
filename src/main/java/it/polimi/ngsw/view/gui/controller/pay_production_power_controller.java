@@ -30,6 +30,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
     private Button due;
     @FXML
     private Button tre;
+    @FXML
+    private Button quattro;
+    @FXML
+    private Button cinque;
 
     private ProductionPower productionPower;
     private List<Resource> cost;
@@ -43,6 +47,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
     private List<Integer> shelfLevel = new ArrayList<>();
     private List<Resource> resourceType = new ArrayList<>();
     private Resource actualResource;
+    private Resource firstSpecialresource;
+    private int firstSpecialNumber;
+    private Resource secondSpecialResource;
+    private int secondSpecialNumber;
 
     public pay_production_power_controller(ProductionPower productionPower, LightModel lightModel){
         this.productionPower = productionPower;
@@ -53,6 +61,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
         this.secondShelfNumber = lightModel.getSecondShelfNumber();
         this.thirdShelfNumber = lightModel.getThirdShelfNumber();
         this.Chest = lightModel.getChest();
+        this.firstSpecialresource = lightModel.getFsr();
+        this.firstSpecialNumber = lightModel.getFsn();
+        this.secondSpecialResource = lightModel.getSsr();
+        this.secondSpecialNumber = lightModel.getSsn();
     }
 
     public void initialize(){
@@ -62,6 +74,8 @@ public class pay_production_power_controller  extends ViewObservable implements 
         uno.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onUnoButtonClick);
         due.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDueButtonClick);
         tre.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTreButtonClick);
+        quattro.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onQuattroButtonClick);
+        cinque.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCinqueButtonClick);
     }
 
     public void startingPoint(){
@@ -82,6 +96,8 @@ public class pay_production_power_controller  extends ViewObservable implements 
         if(this.firstShelf == actualResource)uno.setDisable(false);
         if(this.secondShelf == actualResource)due.setDisable(false);
         if(this.thirdShelf == actualResource)tre.setDisable(false);
+        if(this.firstSpecialresource == actualResource && this.firstSpecialNumber > 0)quattro.setDisable(false);
+        if(this.secondSpecialResource == actualResource && this.secondSpecialNumber > 0)cinque.setDisable(false);
     }
 
     public void onUnoButtonClick(Event event){
@@ -104,6 +120,20 @@ public class pay_production_power_controller  extends ViewObservable implements 
         this.thirdShelfNumber--;
         if(this.thirdShelfNumber == 0)this.thirdShelf = Resource.EMPTY;
         this.shelfLevel.add(3);
+        startingPoint();
+    }
+
+    public void onQuattroButtonClick(Event event){
+        disableShelfButton();
+        this.firstSpecialNumber--;
+        this.shelfLevel.add(4);
+        startingPoint();
+    }
+
+    public void onCinqueButtonClick(Event event){
+        disableShelfButton();
+        this.secondSpecialNumber--;
+        this.shelfLevel.add(5);
         startingPoint();
     }
 
@@ -143,12 +173,16 @@ public class pay_production_power_controller  extends ViewObservable implements 
         uno.setDisable(true);
         due.setDisable(true);
         tre.setDisable(true);
+        quattro.setDisable(true);
+        cinque.setDisable(true);
     }
 
     public boolean controlWarehouse(Resource resource){
         if(resource == this.firstShelf)return true;
         if(resource == this.secondShelf)return true;
         if(resource == this.thirdShelf)return true;
+        if(resource == this.firstSpecialresource && this.firstSpecialNumber > 0)return true;
+        if(resource == this.secondSpecialResource && this.secondSpecialNumber > 0)return true;
         return false;
     }
 

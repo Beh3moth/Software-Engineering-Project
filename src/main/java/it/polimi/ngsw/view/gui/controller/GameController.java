@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -311,25 +312,26 @@ public class GameController extends ViewObservable implements GenericSceneContro
 
         if (lightModel.getLeaderCardStatus()[0] != 0) {
             Image leader1 = new Image(("images/leader/" + lightModel.getLeaderCardList().get(0).getAbilityName() + lightModel.getLeaderCardList().get(0).getLeaderCardId() + ".png"));
-            leaderCardOneImageView.setImage(leader1);
-            if (lightModel.getLeaderCardStatus()[0] == 1) {
-                leaderCardOneImageView.setDisable(true);
+            if (lightModel.getLeaderCardStatus()[0] == 2) {
+                leaderCardOneImageView.setImage(leader1);
             } else {
-                leaderCardOneImageView.setDisable(false);
+                leaderCardOneImageView.setImage(null);
             }
-        } else {
-            leaderCardOneImageView.setImage(null);
         }
+            else{
+                leaderCardOneImageView.setImage(null);
+            }
+
 
         if (lightModel.getLeaderCardStatus()[1] != 0) {
             Image leader1 = new Image(("images/leader/" + lightModel.getLeaderCardList().get(1).getAbilityName() + lightModel.getLeaderCardList().get(1).getLeaderCardId() + ".png"));
-            leaderCardTwoImageView.setImage(leader1);
-            if (lightModel.getLeaderCardStatus()[1] == 1) {
-                leaderCardTwoImageView.setDisable(true);
+            if (lightModel.getLeaderCardStatus()[1] == 2) {
+                leaderCardTwoImageView.setImage(leader1);
             } else {
-                leaderCardTwoImageView.setDisable(false);
+                leaderCardTwoImageView.setImage(null);
             }
-        } else {
+        }
+        else{
             leaderCardTwoImageView.setImage(null);
         }
 

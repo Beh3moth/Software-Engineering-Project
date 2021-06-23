@@ -7,6 +7,7 @@ import it.polimi.ngsw.view.View;
 import it.polimi.ngsw.view.gui.controller.*;
 import javafx.application.Platform;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -203,9 +204,23 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
+        List<Resource> newResources = new ArrayList<>();
+        if(firstWhite!=Resource.EMPTY && secondWhite!=Resource.EMPTY){
+            WhiteMarbleChoiceController controller = new WhiteMarbleChoiceController(lightModel, resources, firstWhite, secondWhite);
+            Platform.runLater(() -> SceneController.changeScene(controller, "WhiteMarbleChoiceScene.fxml"));
+        }
+        else if(firstWhite!=Resource.EMPTY){
+            for (Resource resource : resources) {
+                if (resource == Resource.EMPTY) {
+                    newResources.add(firstWhite);
+                } else {
+                    newResources.add(resource);
+                }
+            }
+        }
         ReorderWarehouseController controller = new ReorderWarehouseController();
         controller.addAllObservers(observers);
-        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resources, false);
+        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), newResources, false);
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 

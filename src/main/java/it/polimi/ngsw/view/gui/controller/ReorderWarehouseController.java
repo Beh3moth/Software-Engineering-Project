@@ -68,7 +68,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         resourcesMap.put(Resource.SHIELD, 0);
         resourcesMap.put(Resource.SLAVE, 0);
 
-        if(isIndependent){
+        if(isIndependent && resourceList==null){
             if(firstShelf!=Resource.EMPTY && firstShelf != Resource.FAITHPOINT){
                 resourcesMap.put(firstShelf, 1);
             }
@@ -86,7 +86,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
             }
         }
 
-        if(resourceList!=null){
+        if(resourceList!=null && !isIndependent){
             for(Resource resource : resourceList){
                 resourcesMap.put(resource, resourcesMap.get(resource)+1 );
             }

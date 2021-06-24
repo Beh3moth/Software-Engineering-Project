@@ -32,6 +32,10 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
     private List<Resource> resourceType = new ArrayList<>();
     private Resource actualResource;
     private int slotToPut;
+    private Resource firstSpecialresource;
+    private int firstSpecialNumber;
+    private Resource secondSpecialResource;
+    private int secondSpecialNumber;
 
     @FXML
     private ImageView resource_to_pay;
@@ -45,7 +49,10 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
     private Button due;
     @FXML
     private Button tre;
-
+    @FXML
+    private Button quattro;
+    @FXML
+    private Button cinque;
 
     public pay_devcard_controller(DevCard devCard, LightModel lightModel, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo){
         this.cost = devCard.getDevCostAsMap();
@@ -59,6 +66,10 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         this.devCard = devCard;
         this.discountPowerOne = discountPowerOne;
         this.discountPowerTwo = discountPowerTwo;
+        this.firstSpecialresource = lightModel.getFsr();
+        this.firstSpecialNumber = lightModel.getFsn();
+        this.secondSpecialResource = lightModel.getSsr();
+        this.secondSpecialNumber = lightModel.getSsn();
         //setCost();
     }
 
@@ -70,6 +81,8 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         uno.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onUnoButtonClick);
         due.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onDueButtonClick);
         tre.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onTreButtonClick);
+        quattro.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onQuattroButtonClick);
+        cinque.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCinqueButtonClick);
     }
 
     public void startingPoint(){
@@ -109,6 +122,8 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         if(this.firstShelf == actualResource)uno.setDisable(false);
         if(this.secondShelf == actualResource)due.setDisable(false);
         if(this.thirdShelf == actualResource)tre.setDisable(false);
+        if(this.firstSpecialresource == actualResource && this.firstSpecialNumber > 0)quattro.setDisable(false);
+        if(this.secondSpecialResource == actualResource && this.secondSpecialNumber > 0)cinque.setDisable(false);
     }
 
     public void onUnoButtonClick(Event event){
@@ -134,10 +149,26 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         startingPoint();
     }
 
+    public void onQuattroButtonClick(Event event){
+        disableShelfButton();
+        this.firstSpecialNumber--;
+        this.shelfLevel.add(4);
+        startingPoint();
+    }
+
+    public void onCinqueButtonClick(Event event){
+        disableShelfButton();
+        this.secondSpecialNumber--;
+        this.shelfLevel.add(5);
+        startingPoint();
+    }
+
     public void disableShelfButton(){
         uno.setDisable(true);
         due.setDisable(true);
         tre.setDisable(true);
+        quattro.setDisable(true);
+        cinque.setDisable(true);
     }
 
     public void upDateResourceToPay(){
@@ -179,6 +210,8 @@ public class pay_devcard_controller extends ViewObservable implements GenericSce
         if(resource == this.firstShelf)return true;
         if(resource == this.secondShelf)return true;
         if(resource == this.thirdShelf)return true;
+        if(resource == this.firstSpecialresource && this.firstSpecialNumber > 0)return true;
+        if(resource == this.secondSpecialResource && this.secondSpecialNumber > 0)return true;
         return false;
     }
 

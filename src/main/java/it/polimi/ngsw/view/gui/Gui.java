@@ -156,6 +156,14 @@ public class Gui extends ViewObservable implements View {
                 else if (goneRight == 1) {
                     gameController.addAllObservers(observers);
                     gameController.setLightModel(lightModel);
+                    if(lightModel.getFsr()==Resource.EMPTY && leaderCardList.get(whichCard)!=null && leaderCardList.get(whichCard).getAbilityName().equals("space")){
+                        SpaceAbility spaceAbilityLeader = (SpaceAbility) leaderCardList.get(whichCard);
+                        lightModel.setFsr(spaceAbilityLeader.getResourceToIncrease());
+                    }
+                    else if(lightModel.getSsr()==Resource.EMPTY && leaderCardList.get(whichCard)!=null && leaderCardList.get(whichCard).getAbilityName().equals("space")){
+                        SpaceAbility spaceAbilityLeader = (SpaceAbility) leaderCardList.get(whichCard);
+                        lightModel.setSsr(spaceAbilityLeader.getResourceToIncrease());
+                    }
                     Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
                     this.leaderCardStatus[whichCard] = 2;
                     // mainMove();
@@ -216,6 +224,11 @@ public class Gui extends ViewObservable implements View {
                 } else {
                     newResources.add(resource);
                 }
+            }
+        }
+        else {
+            for (Resource resource : resources) {
+                newResources.add(resource);
             }
         }
         ReorderWarehouseController controller = new ReorderWarehouseController();

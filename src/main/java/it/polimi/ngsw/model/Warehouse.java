@@ -96,8 +96,10 @@ public class Warehouse {
      * @return true if it can
      */
     public boolean controlSpecialShelf(int level, Resource resource){
-        if(getShelf(level).getResourceType() != resource)return false;
-        if(getShelf(level).getResourceNumber() == 2)return false;
+        if(getShelf(level).getResourceType() != resource)
+            return false;
+        if(getShelf(level).getResourceNumber() == 2)
+            return false;
         return true;
     }
 
@@ -108,7 +110,7 @@ public class Warehouse {
      * @return true if it can
      */
     public boolean controlShelf(int level, Resource resource){
-        if(level == 4 || level == 5)return controlSpecialShelf(level, resource);
+        if(level == 4 || level == 5) return controlSpecialShelf(level, resource);
         if(getShelf(level).getResourceNumber() == 0)return true;
         if(getShelf(level).getResourceType() != resource && getShelf(level).getResourceType()!=Resource.EMPTY)return false;
         return true;
@@ -137,7 +139,8 @@ public class Warehouse {
     public boolean addResourceToWarehouse (int level, Resource resource){
         if(!controlShelf(level, resource))return false;
         if(level != 4 && level != 5){
-        if(!controlOtherShelf(level, resource))return false;}
+            if(!controlOtherShelf(level, resource))return false;
+        }
         else{
             if(level == 4 || level == 5){
                 getShelf(level).addResourceNumber();

@@ -62,13 +62,18 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         this.resourceList = resourceList;
         this.isIndependent = isIndependent;
         this.lightModel = lightModel;
+        if (lightModel.getFsr() != Resource.EMPTY){
+            this.warehouseSurrogate.unlockLeaderLevel(lightModel.getFsr());}
+        if(lightModel.getSsr() != Resource.EMPTY){
+            this.warehouseSurrogate.unlockLeaderLevel(lightModel.getSsr());
+        }
 
         resourcesMap.put(Resource.MONEY, 0);
         resourcesMap.put(Resource.STONE, 0);
         resourcesMap.put(Resource.SHIELD, 0);
         resourcesMap.put(Resource.SLAVE, 0);
 
-        if(isIndependent && resourceList==null){
+        if(isIndependent){
             if(firstShelf!=Resource.EMPTY && firstShelf != Resource.FAITHPOINT){
                 resourcesMap.put(firstShelf, 1);
             }

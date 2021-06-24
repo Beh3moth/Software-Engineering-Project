@@ -76,12 +76,24 @@ public interface View {
      */
     void showWinMessage(String winner);
 
+    /**
+     *It represents the start of the turn
+     */
     void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket,Resource firstShelf,Resource secondShelf,int secondShelfNumber,Resource thirdShelf,int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree, Resource firstSpecialResource, int firstSpecialNumber,Resource secondSpecialResource,int secondSpecialNumber, Integer lawrencePosition);
 
+    /**
+     * Permit the player to continue the turn
+     */
     void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders);
 
+    /**
+     * Permit the player to buy the resources from the market
+     */
     void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite);
 
+    /**
+     * Permit the player to reorder the warehouse
+     */
     void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent);
 
     /**
@@ -91,6 +103,9 @@ public interface View {
      */
     void showGenericMessage(String genericMessage);
 
+    /**
+     * Method that permit to continue the turn after the reordering the warehouse
+     */
     void afterReorder(int i, List<LeaderCard> Leaders);
 
     void productionPowerList(List<ProductionPower> productionPowerList, String action);
@@ -101,12 +116,24 @@ public interface View {
 
     void devCard(DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo);
 
+    /**
+     * Pemrit to view other player info
+     */
     void viewOtherPlayer(String otherPlayer, Boolean goneRight, int crossPosition, Map<Resource, Integer> resourcesAsMap, List<DevCard> activeDevCards, int[] shelfResNumber, Resource[] shelfResType);
 
+    /**
+     * The response of the faithpath, it contains all the info
+     */
     void faithPathResponse(int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree);
 
+    /**
+     * Method called after last turn of the player
+     */
     void afterLastMainMove(int i, List<LeaderCard> leaders);
 
+    /**
+     * This ,method ends the game in the single player mode
+     */
     void endGameSinglePlayer(int playerVictoryPoints, int lawrenceCrossPosition, boolean winner);
 
 }

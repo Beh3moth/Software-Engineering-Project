@@ -1,7 +1,5 @@
 package it.polimi.ngsw.network.server;
 
-
-import it.polimi.ngsw.ServerStarter;
 import it.polimi.ngsw.network.message.Message;
 
 import java.io.IOException;

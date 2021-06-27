@@ -22,7 +22,6 @@ public class GameController implements Observer, Serializable {
     private transient Map<String, VirtualView> virtualViewMap;
     private GameState gameState;
     private TurnController turnController;
-    private InputController inputController;
     private static final String STR_INVALID_STATE = "Invalid game state!";
     private int contSituation;
     private int firstPlayerPosition;
@@ -42,7 +41,6 @@ public class GameController implements Observer, Serializable {
     public void initGameController() {
         this.game = new Game();
         this.virtualViewMap = Collections.synchronizedMap(new HashMap<>());
-        this.inputController = new InputController(virtualViewMap, this, game);
         this.contSituation = 0;
         this.firstPlayerPosition = 0;
         this.isGameEnded = false;
@@ -60,15 +58,25 @@ public class GameController implements Observer, Serializable {
 
 
 
+
     /**
-     * Verifies the nickname through the InputController.
+     * Check if a nickname is valid or not.
      *
-     * @param nickname the nickname to be checked.
-     * @param view     the view of the player who is logging in.
-     * @return see {@link InputController#checkLoginNickname(String, View)}
+     * @param nickname new client's nickname.
+     * @param view     view for active client.
+     * @return {code @true} if it's a valid nickname {code @false} otherwise.
      */
     public boolean checkLoginNickname(String nickname, View view) {
-        return inputController.checkLoginNickname(nickname, view);
+        if (nickname.isEmpty() || nickname.equalsIgnoreCase(Game.SERVER_NICKNAME)) {
+            view.showGenericMessage("Forbidden name.");
+            view.showLoginResult(false, true, null);
+            return false;
+        } else if (game.isNicknameTaken(nickname)) {
+            view.showGenericMessage("Nickname already taken.");
+            view.showLoginResult(false, true, null);
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -129,6 +137,15 @@ public class GameController implements Observer, Serializable {
         virtualView.askLeaderCard(game.removeAndReturnTheLastFourLeaderCards());
     }
 
+    /**
+     * Check if message is sent from active player.
+     *
+     * @param receivedMessage message from client.
+     * @return {@code true} if correct {@code false} otherwise.
+     */
+    public boolean checkUser(Message receivedMessage) {
+        return receivedMessage.getNickname().equals(getTurnController().getActivePlayer());
+    }
 
     /**
      * Change gameState into INIT. Initialize TurnController and asks a player to pick the leadercards
@@ -160,7 +177,7 @@ public class GameController implements Observer, Serializable {
                 initState(receivedMessage, virtualView);
                 break;
             case IN_GAME:
-                if (inputController.checkUser(receivedMessage)) {
+                if (this.checkUser(receivedMessage)) {
                     inGameState(receivedMessage);
                 }
                 break;

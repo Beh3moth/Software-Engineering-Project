@@ -6,11 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class represents the model saved in the client, it is made of getter and setter
+ */
 public class LightModel {
 
     private List<ProductionPower> leaderProductionPowerList;
     private List<LeaderCard> leaderCardList;
-    private List <Integer> chosenIntegerList = new ArrayList<>();
+    private List<Integer> chosenIntegerList = new ArrayList<>();
     private List<ProductionPower> paidProductionPowerList = new ArrayList<>();
     //The possible Integers values are 0,1,2 and they represent the DevCard of a certain DevCardSpace.
     private Map<Integer, DevCard> activeDevCardMap;
@@ -40,41 +43,50 @@ public class LightModel {
     private int[] leaderCardStatus = new int[]{1, 1};
     Integer lawrencePosition;
 
-    public Resource getFirstShelf(){
+    public Resource getFirstShelf() {
         return firstShelf;
     }
-    public void setFirstShelf(Resource first){
+
+    public void setFirstShelf(Resource first) {
         this.firstShelf = first;
     }
-    public void setSecondShelfNumber(int second){
+
+    public void setSecondShelfNumber(int second) {
         this.secondShelfNumber = second;
     }
-    public void setSecondShelf(Resource second){
+
+    public void setSecondShelf(Resource second) {
         this.secondShelf = second;
     }
-    public void setThirdShelf(Resource third){
+
+    public void setThirdShelf(Resource third) {
         this.thirdShelf = third;
     }
-    public void setThirdShelfNumber(int third){
+
+    public void setThirdShelfNumber(int third) {
         this.thirdShelfNumber = third;
     }
 
-    public Resource getSecondShelf(){
+    public Resource getSecondShelf() {
         return secondShelf;
     }
-    public Resource getThirdShelf(){
+
+    public Resource getThirdShelf() {
         return thirdShelf;
     }
-    public int getSecondShelfNumber(){
+
+    public int getSecondShelfNumber() {
         return secondShelfNumber;
     }
-    public int getThirdShelfNumber(){
+
+    public int getThirdShelfNumber() {
         return thirdShelfNumber;
     }
 
-    public LightModel(){
+    public LightModel() {
         this.gameFinished = false;
     }
+
     public List<ProductionPower> getLeaderProductionPowerList() {
         return leaderProductionPowerList;
     }
@@ -149,15 +161,25 @@ public class LightModel {
 
     //samu
 
-    public Marble getSingleMarble(){return this.singleMarble;}
+    public Marble getSingleMarble() {
+        return this.singleMarble;
+    }
 
-    public void setSingleMarble(Marble singleMarble){this.singleMarble = singleMarble;}
+    public void setSingleMarble(Marble singleMarble) {
+        this.singleMarble = singleMarble;
+    }
 
-    public Marble[] getFirstRow() {return this.firstRow;}
+    public Marble[] getFirstRow() {
+        return this.firstRow;
+    }
 
-    public Marble[] getSecondRow() {return this.secondRow;}
+    public Marble[] getSecondRow() {
+        return this.secondRow;
+    }
 
-    public Marble[] getThirdRow() {return this.thirdRow;}
+    public Marble[] getThirdRow() {
+        return this.thirdRow;
+    }
 
     public void setFirstRow(Marble[] firstRow) {
         this.firstRow = firstRow;
@@ -171,7 +193,7 @@ public class LightModel {
         this.thirdRow = thirdRow;
     }
 
-    public void setMarbleInFirstRow(int i, Marble marble){
+    public void setMarbleInFirstRow(int i, Marble marble) {
         this.firstRow[i] = marble;
     }
 
@@ -179,7 +201,7 @@ public class LightModel {
         this.secondRow[i] = marble;
     }
 
-    public void setMarbleInThirdRow(int i, Marble marble){
+    public void setMarbleInThirdRow(int i, Marble marble) {
         this.thirdRow[i] = marble;
     }
 
@@ -199,28 +221,35 @@ public class LightModel {
         return gameFinished;
     }
 
-    public Resource getFsr(){
+    public Resource getFsr() {
         return fsr;
     }
-    public Resource getSsr(){
+
+    public Resource getSsr() {
         return ssr;
     }
-    public int getFsn(){
+
+    public int getFsn() {
         return fsn;
     }
-    public int getSsn(){
+
+    public int getSsn() {
         return ssn;
     }
-    public void setFsr(Resource fsr){
+
+    public void setFsr(Resource fsr) {
         this.fsr = fsr;
     }
-    public void setFsn(int fsn){
+
+    public void setFsn(int fsn) {
         this.fsn = fsn;
     }
-    public void setSsn(int ssn){
+
+    public void setSsn(int ssn) {
         this.ssn = ssn;
     }
-    public void setSsr(Resource ssr){
+
+    public void setSsr(Resource ssr) {
         this.ssr = ssr;
     }
 
@@ -229,7 +258,7 @@ public class LightModel {
     }
 
     public void setLeaderCardStatus(int index, int newState) {
-        if(index==0 || index==1){
+        if (index == 0 || index == 1) {
             leaderCardStatus[index] = newState;
         }
     }
@@ -258,11 +287,11 @@ public class LightModel {
         this.paidProductionPowerList = paidProductionPowerList;
     }
 
-    public Integer getLawrencePosition(){
+    public Integer getLawrencePosition() {
         return lawrencePosition;
     }
 
-    public void setLawrencePosition(Integer lawrencePosition){
+    public void setLawrencePosition(Integer lawrencePosition) {
         this.lawrencePosition = lawrencePosition;
     }
 

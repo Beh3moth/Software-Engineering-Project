@@ -160,22 +160,37 @@ public class LocalCli {
         return leaderCardTiles;
     }
 
+    /**
+     * This method load the leadercard production power
+     * @param leaderCard the leadercard
+     */
     private void loadLeaderCardPower(LeaderCard leaderCard) {
         for (int i = 0; i < leaderCard.getLeaderCardAbilityAsString().length; i++) {
             leaderCardTiles[6][i + 2] = leaderCard.getLeaderCardAbilityAsString()[i];
         }
     }
 
+    /**
+     * This method load the leadercard PV
+     * @param leaderCard the leadercard
+     */
     private void loadLeaderPV(LeaderCard leaderCard) {
         leaderCardTiles[4][8] = String.valueOf(leaderCard.getPV());
     }
 
+    /**
+     * This method load the leader card Cost
+     * @param leaderCard the leadercard
+     */
     private void loadLeaderCardCost(LeaderCard leaderCard) {
         for (int i = 0; i < leaderCard.getLeaderCardCostAsString().length; i++) {
             leaderCardTiles[1][i + 2] = leaderCard.getLeaderCardCostAsString()[i];
         }
     }
 
+    /**
+     * This method fill the empty part of the leadercard
+     */
     private void fillEmptyLeaderCard() {
 
         leaderCardTiles[0][0] = rectangleArt.getLeftTopAngle(Color.ANSI_RED);
@@ -201,6 +216,7 @@ public class LocalCli {
         leaderCardTiles[MAX_VERT_TILES - 1][MAX_HORIZON_TILES - 1] = rectangleArt.getRightDownAngle(Color.ANSI_RED);
 
     }
+
 
     /**
      * Reads a line from the standard input.
@@ -255,7 +271,9 @@ public class LocalCli {
         return number;
     }
 
-
+    /**
+     * This method starts the turn, it set the model of the client
+     */
     public void startTurnMessage(List<LeaderCard> Leaders, Marble singleMarble, Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, List<ProductionPower> leaderProductionPowerList, Map<Integer, DevCard> activeDevCardMap, ProductionPower baseProductionPower, DevCard[][] devCardMarket, Resource firstShelf, Resource secondShelf, int secondShelfNumber, Resource thirdShelf, int thirdShelfNumber, Map<Resource, Integer> chest, int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
         out.println("\n\n It's your turn! \n\n");
         lightModel.setSingleMarble(singleMarble);
@@ -285,6 +303,11 @@ public class LocalCli {
         }
     }
 
+    /**
+     * Ask the player to manage his leader card
+     * @param Leaders the leader cards
+     * @param turnZone wich turn zone
+     */
     public void askToManageLeaderCards(List<LeaderCard> Leaders, int turnZone) {
         try {
             List<LeaderCard> leaderCardList = new ArrayList<>();
@@ -299,7 +322,11 @@ public class LocalCli {
             out.println("Input canceled");
         }
     }
-
+    /**
+     * This method is for the action "Activate leadercard"
+     * @param Leaders the leader cards
+     * @param turnZone wich turn zone
+     */
     public void activateLeaderCard(List<LeaderCard> Leaders, int turnZone) {
         try {
             if (this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1) {
@@ -315,6 +342,10 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method permit the player to discard a leadercard
+     * @param turnZone wich turn zone
+     */
     public void askToDiscardLeaderCard(int turnZone) {
         try {
             out.println("\nDo you want to discard a leadercard? 1) YES 0) NO ");
@@ -333,6 +364,14 @@ public class LocalCli {
 
     }
 
+    /**
+     * This method permit to continue the turn after a leader card action
+     * @param turnZone wich turn zone
+     * @param actionTypology the typology of the action
+     * @param goneRight if went well
+     * @param wichCard wich card was managed
+     * @param Leaders the leader cards
+     */
     public void continueTurn(int turnZone, int actionTypology, int goneRight, int wichCard, List<LeaderCard> Leaders) {
         if (turnZone == 1) { //inizio turno
             if (actionTypology == 1) { //1 vuol dire che era stata chiamata una leadercard request, 2 una discard card
@@ -369,6 +408,9 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This is the main move, the player chose wich action to do during his turn
+     */
     public void mainMove() {
         try {
             printDevCardMarket();
@@ -391,6 +433,9 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method permit to chose a devcard to play
+     */
     public void chooseDevCard() {
         int level = 0;
         int column = 0;
@@ -429,7 +474,9 @@ public class LocalCli {
         server.ChooseDevCard(finalLevel, finalColumn, finalSlotToPut);
     }
 
-
+    /**
+     * This method permit the player to take resources from the market
+     */
     public void takeResourcesFromMarket() {
         try {
             out.println("Do you want to take a column or a row? 1) Column 2) Row");
@@ -475,9 +522,16 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method ends the game
+     */
     private void endGame() {
     }
 
+    /**
+     * This method permit the player to discard a card
+     * @param turnZone wich turn zone
+     */
     public void discardCard(int turnZone) {
         try {
             if (this.leaderCardStatus[0] == 1 && this.leaderCardStatus[1] == 1) {
@@ -494,6 +548,9 @@ public class LocalCli {
         }
     }
 
+    /**
+     * Print the devcard market
+     */
     private void printDevCardMarket() {
 
         String[][] tilesArray = new String[31][80];
@@ -538,6 +595,11 @@ public class LocalCli {
 
     }
 
+    /**
+     * This method return al the printable leadercard
+     * @param devCard the devcard
+     * @return
+     */
     public String[][] getPrintableDevCard(DevCard devCard) {
         fillEmpty(devCard);
         if (devCard.getPV() != 0) {
@@ -549,6 +611,10 @@ public class LocalCli {
         return tiles;
     }
 
+    /**
+     * This method load the PV of a devcard
+     * @param devCard the devcard
+     */
     private void loadPV(DevCard devCard) {
         if (devCard.getPV() > 9) {
             tiles[7][7] = String.valueOf(devCard.getPV()).substring(0, 1);
@@ -558,6 +624,10 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method load the dev card level
+     * @param devCard the devcard
+     */
     private void loadDevCardLevel(DevCard devCard) {
         for (int i = 0; i < devCard.getDevLevel(); i++) {
             tiles[1 + i][14] = ".";
@@ -565,6 +635,10 @@ public class LocalCli {
 
     }
 
+    /**
+     * This method load the devcard cost
+     * @param devCard the devcard
+     */
     private void loadDevCardCost(DevCard devCard) {
 
         Map<Resource, Integer> devCardCost = devCard.getDevCostAsMap();
@@ -582,6 +656,10 @@ public class LocalCli {
 
     }
 
+    /**
+     * This method load the devcard's production power
+     * @param devCard the devcard
+     */
     private void loadDevCardProductionPower(DevCard devCard) {
         int i = 0;
 
@@ -602,6 +680,10 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method print the empty part of the devcard
+     * @param devCard the devcard
+     */
     private void fillEmpty(DevCard devCard) {
 
         tiles[0][0] = rectangleArt.getLeftTopAngle(devCard);
@@ -658,6 +740,11 @@ public class LocalCli {
 
     }
 
+    /**
+     * Print the resource as a cli art
+     * @param resource the resource
+     * @return the art
+     */
     private String getResourceArt(Resource resource) {
         switch (resource) {
             case SLAVE:
@@ -677,6 +764,9 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method permit the player to print the market
+     */
     public void printMarket() {
         out.println("MARKET");
         out.print("SINGLE MARBLE: ");
@@ -697,6 +787,14 @@ public class LocalCli {
         out.println("");
     }
 
+    /**
+     * This method print the faith path
+     * @param crossPosition the position on the faith path
+     * @param victoryPoints the PV
+     * @param papalCardOne the status of the first papal card
+     * @param papalCardTwo the status of the second papal card
+     * @param papalCardThree the status of the fourth papal card
+     */
     public void printFaithPath(int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree) {
         out.println();
         out.println("Cross position: " + crossPosition);
@@ -706,6 +804,9 @@ public class LocalCli {
         out.println("Papal Card Three: " + papalCardThree);
     }
 
+    /**
+     * This method print the dashboard of the player
+     */
     private void printPlayerDashBoard() {
         printFaithPath(lightModel.getCrossPosition(), lightModel.getVictoryPoints(), lightModel.isPapalCardOne(), lightModel.isPapalCardTwo(), lightModel.isPapalCardThree());
         printStartTurnWarehouse();
@@ -715,6 +816,9 @@ public class LocalCli {
         printLeaderProductionPowers();
     }
 
+    /**
+     * This method print the warehouse at the begining of the turn
+     */
     private void printStartTurnWarehouse() {
         out.println("\nWarehouse");
         out.print("First shelf: ");
@@ -739,6 +843,9 @@ public class LocalCli {
         out.println();
     }
 
+    /**
+     * This method print the chest of the player
+     */
     public void printChest() {
         out.println();
         out.println("CHEST");
@@ -750,6 +857,9 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method print the player's dev cards
+     */
     private void printPlayerDevCards() {
         if(lightModel.getActiveDevCardMap().isEmpty()){
             out.println();
@@ -795,6 +905,9 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method print the production powers of the leadercards
+     */
     private void printLeaderProductionPowers() {
 
         if (lightModel.getLeaderProductionPowerList().isEmpty()) {
@@ -819,6 +932,9 @@ public class LocalCli {
 
     }
 
+    /**
+     * This method print the base production power
+     */
     private void printBaseProductionPower() {
         out.println();
         out.println("Base Production Power");
@@ -844,6 +960,10 @@ public class LocalCli {
 
     }
 
+    /**
+     * This method permit to print the resource
+     * @param resource the resource
+     */
     public void printResource(Resource resource) {
         switch (resource) {
             case SLAVE:
@@ -867,11 +987,20 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method ends the turn of the player
+     */
     public void endTurn() {
         out.println("Your turn is ended! ");
         server.continueGame();
     }
 
+    /**
+     * This method permit to buy the resources from the market
+     * @param resources a list of the resources
+     * @param firstWhite the first ability of the white marble
+     * @param secondWhite the second ability of the white marble
+     */
     public void buyMarketResource(List<Resource> resources, Resource firstWhite, Resource secondWhite) {
         for (int i = 0; i < resources.size(); i++) {
             if (resources.get(i) == Resource.EMPTY) this.newResources.add(choseResource(firstWhite, secondWhite));
@@ -888,6 +1017,12 @@ public class LocalCli {
         server.ReorderWarehouse(false);
     }
 
+    /**
+     * This method permit the player, if he is able, to selecet a resources when he receive a white marble
+     * @param firstWhite the first white ability
+     * @param secondWhite the second one
+     * @return the resources e picked
+     */
     public Resource choseResource(Resource firstWhite, Resource secondWhite) {
         Resource chosen = Resource.EMPTY;
         try {
@@ -904,6 +1039,13 @@ public class LocalCli {
         return chosen;
     }
 
+    /**
+     * This method permit the player to reorder the warehouse
+     * @param mapResources the resources he already has
+     * @param firstLevel fist special level
+     * @param secondLevel second special level
+     * @param isIndipendent if is independent
+     */
     public void reorderWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         resetCliWarehouse();
         out.println("You have this resources in your warehouse at the moment: \n");
@@ -919,6 +1061,9 @@ public class LocalCli {
         askToSendNewWarehouse(mapResources, firstLevel, secondLevel, isIndipendent);
     }
 
+    /**
+     * This method reset the warehouse in the cli
+     */
     private void resetCliWarehouse() {
         this.newFirstShelf = Resource.EMPTY;
         if (this.newSecondShelf != null) this.newSecondShelf.clear();
@@ -927,6 +1072,13 @@ public class LocalCli {
         if (this.newSecondSpecialShelf != null) this.newSecondSpecialShelf.clear();
     }
 
+    /**
+     * This method send to the model the new warehouse
+     * @param mapResources the resources he had to managed
+     * @param firstLevel first special level
+     * @param secondLevel second special level
+     * @param isIndipendent if is independet
+     */
     private void askToSendNewWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel, Boolean isIndipendent) {
         try {
             out.println("Do you want this new warehouse and discard the other resources? " + discardList.toString());
@@ -945,6 +1097,12 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method permit the player to build the new warehouse
+     * @param mapResources the resources he has to manage
+     * @param firstLevel the first special shelf
+     * @param secondLevel the second special shelf
+     */
     private void buildWarehouse(Map<Resource, Integer> mapResources, Resource firstLevel, Resource secondLevel) {
         try {
             for (Map.Entry<Resource, Integer> entry : mapResources.entrySet()) {
@@ -998,6 +1156,9 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method print the warehouse
+     */
     private void printWarehouse() {
         out.println();
         out.println("Warehouse");
@@ -1013,6 +1174,14 @@ public class LocalCli {
         }
     }
 
+    /**
+     * This method control if the shelf respects the regolamentation
+     * @param chose wich shelf
+     * @param resource wich type of resources
+     * @param firstFloor the special shelf level
+     * @param secondFloor the second special shelf level
+     * @return a boolean if is ok to put the resources
+     */
     private boolean controllFloor(int chose, Resource resource, Resource firstFloor, Resource secondFloor) {
         if (chose == 1) {
             Resource evitateOne = Resource.EMPTY;
@@ -1120,6 +1289,11 @@ public class LocalCli {
         return false;
     }
 
+    /**
+     * This method permit to the player to continue the turn after reordering the warehouse
+     * @param i if is independent
+     * @param leaders the leadercards
+     */
     public void afterReorder(int i, List<LeaderCard> leaders) {
         if (i == 1) {
             if (this.leaderCardStatus[0] == 1 || this.leaderCardStatus[1] == 1) {
@@ -1268,6 +1442,9 @@ public class LocalCli {
         server.ProductionPowerActivation();
     }
 
+    /**
+     * Permit the player to chose a production power
+     */
     public void choseProductionPower(){
         int productionPowerChosen = 0;
 
@@ -1404,6 +1581,10 @@ public class LocalCli {
         server.TwoResourceList(resourcesToPayList, resourceToReceiveList, "setBaseProductionPower");
     }
 
+    /**
+     * Permit the player to chose a resource
+     * @return the resources picked
+     */
     public Resource choseResource(){
         int resource = 0;
         out.println("Type: 0)MONEY - 1)STONE - 2)SLAVE - 3)SHIELD");
@@ -1529,11 +1710,21 @@ public class LocalCli {
         }
     }
 
+    /**
+     * A generic message is shown
+     * @param drawActionToken the message
+     */
     public void broadcastGenericMessage(String drawActionToken) {
         out.println("\n \n" +drawActionToken + "\n \n");
 
     }
 
+    /**s
+     * This method ends the game of the single player
+     * @param pv the PV of the player
+     * @param crossPosition the position on the faith path
+     * @param b if the player has won
+     */
     public void endGameSinglePlayer(int pv, int crossPosition, boolean b) {
         if(b){
             out.println();

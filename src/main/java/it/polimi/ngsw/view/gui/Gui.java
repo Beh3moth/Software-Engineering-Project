@@ -159,6 +159,7 @@ public class Gui extends ViewObservable implements View {
                     if(lightModel.getFsr()==Resource.EMPTY && leaderCardList.get(whichCard)!=null && leaderCardList.get(whichCard).getAbilityName().equals("space")){
                         SpaceAbility spaceAbilityLeader = (SpaceAbility) leaderCardList.get(whichCard);
                         lightModel.setFsr(spaceAbilityLeader.getResourceToIncrease());
+                        lightModel.setFsn(0);
                     }
                     else if(lightModel.getSsr()==Resource.EMPTY && leaderCardList.get(whichCard)!=null && leaderCardList.get(whichCard).getAbilityName().equals("space")){
                         SpaceAbility spaceAbilityLeader = (SpaceAbility) leaderCardList.get(whichCard);

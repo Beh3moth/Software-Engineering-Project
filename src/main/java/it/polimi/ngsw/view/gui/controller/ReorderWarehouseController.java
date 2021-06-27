@@ -62,6 +62,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         this.resourceList = resourceList;
         this.isIndependent = isIndependent;
         this.lightModel = lightModel;
+
         if (lightModel.getFsr() != Resource.EMPTY){
             this.warehouseSurrogate.unlockLeaderLevel(lightModel.getFsr());}
         if(lightModel.getSsr() != Resource.EMPTY){
@@ -89,9 +90,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
             if(ssr!=Resource.EMPTY && ssr != Resource.FAITHPOINT){
                 resourcesMap.put(ssr, ssn);
             }
-        }
-
-        if(resourceList!=null && !isIndependent){
+        } else {
             for(Resource resource : resourceList){
                 resourcesMap.put(resource, resourcesMap.get(resource)+1 );
             }
@@ -129,6 +128,12 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
             imageView.setImage(image);
         }
         this.warehouseSurrogate = new Warehouse();
+        if (lightModel.getFsr() != Resource.EMPTY){
+            this.warehouseSurrogate.unlockLeaderLevel(lightModel.getFsr());
+        }
+        if(lightModel.getSsr() != Resource.EMPTY){
+            this.warehouseSurrogate.unlockLeaderLevel(lightModel.getSsr());
+        }
     }
 
     private void onConfirmButton(Event event){
@@ -152,6 +157,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         lightModel.setFsn(warehouseSurrogate.getShelf(4).getResourceNumber());
         lightModel.setSsr(warehouseSurrogate.getShelf(5).getResourceType());
         lightModel.setSsn(warehouseSurrogate.getShelf(5).getResourceNumber());
+        this.resourcesMap.clear();
         notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndependent));
     }
 

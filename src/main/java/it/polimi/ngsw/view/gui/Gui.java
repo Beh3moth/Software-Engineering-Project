@@ -216,6 +216,7 @@ public class Gui extends ViewObservable implements View {
         List<Resource> newResources = new ArrayList<>();
         if(firstWhite!=Resource.EMPTY && secondWhite!=Resource.EMPTY){
             WhiteMarbleChoiceController controller = new WhiteMarbleChoiceController(lightModel, resources, firstWhite, secondWhite);
+            controller.addAllObservers(observers);
             Platform.runLater(() -> SceneController.changeScene(controller, "WhiteMarbleChoiceScene.fxml"));
         }
         else if(firstWhite!=Resource.EMPTY){

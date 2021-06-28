@@ -18,7 +18,7 @@ public class ChestTest {
         chest.addResource(Resource.MONEY, new Random().nextInt(1));
     }
 
-    @Test
+    /*@Test
     public void randomTest(){
         randomChest();
         for(int i=0; i<100; i++){
@@ -36,6 +36,7 @@ public class ChestTest {
             }
         }
     }
+    */
 
     @Test
     public void getTotalNumberOfResourcesTest(){

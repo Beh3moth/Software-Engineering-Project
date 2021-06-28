@@ -9,7 +9,7 @@ import java.util.Map;
  * Class of the part of the board with 3 spaces for the production cards, it's a 3x3 matrix of {@link DevCard}
  */
 
-public class DevCardDashboard {
+public class   DevCardDashboard {
 
     public static final int MAX_SLOT= 3;
     public static final int MAX_CARDS_FOR_SLOT = 3;

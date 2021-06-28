@@ -1,7 +1,4 @@
 package it.polimi.ngsw.model;
-//import Player library
-//import devcardcolour enum
-
 
 import java.io.FileNotFoundException;
 import java.io.Serializable;
@@ -61,11 +58,10 @@ public class Board implements Serializable {
         catch (FileNotFoundException e) {
             System.err.println("File not found");
         }
-
     }
 
     /**
-     * method that initialize the matrix of the Developing Cards
+     * Method that initialize the matrix of the Developing Cards
      */
     private void initDevCardSpace() throws FileNotFoundException {
 
@@ -193,26 +189,18 @@ public class Board implements Serializable {
      * @return the number of cards deleted.
      */
     public boolean removeTwoDevCard(DevCardColour cardColour){
-
         int col = getDevCardColumn(cardColour);
-
         if(col==-1){
             return false;
         }
-
         int deletedDevCards = 0;
-
         for(int i=2; (i>=0 && deletedDevCards<2); i--){
-
             deletedDevCards += devDashboard[i][col].removeDevCardFromDevelopDeck();
             if(i==0 && deletedDevCards<2){
                 return true;
             }
-
         }
-
         return true;
-
     }
 
 }

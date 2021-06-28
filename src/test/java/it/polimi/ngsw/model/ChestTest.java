@@ -11,7 +11,7 @@ public class ChestTest {
 
     Chest chest = new Chest();
 
-    /*
+
 
     public void randomChest(){
         chest.addResource(Resource.SHIELD, new Random().nextInt(0));
@@ -122,5 +122,4 @@ public class ChestTest {
         assertTrue(chest.contains(Resource.MONEY, 0));
     }
 
-     */
 }

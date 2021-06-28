@@ -147,7 +147,7 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         List<Resource> newFirstSpecialShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(4));
         List<Resource> newSecondSpecialShelf = getResourceListFromShelf(warehouseSurrogate.getShelf(5));
         List<Resource> discardList = createDiscardList();
-        lightModel.setCrossPosition(lightModel.getCrossPosition()+getTotalNumberOfResources());
+        lightModel.setLawrencePosition(lightModel.getCrossPosition()+getTotalNumberOfResources());
         lightModel.setFirstShelf(newFirstShelf);
         lightModel.setSecondShelf(warehouseSurrogate.getShelf(2).getResourceType());
         lightModel.setSecondShelfNumber(warehouseSurrogate.getShelf(2).getResourceNumber());

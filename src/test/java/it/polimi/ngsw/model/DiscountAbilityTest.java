@@ -13,6 +13,13 @@ public class DiscountAbilityTest {
     List<DevCardColour> list = new ArrayList<>();
 
     @Test
+    public void isLeaderCardCostSatisfiedTest(){
+        Game game = new Game();
+        game.setNumberOfPlayers(1);
+        game.addPlayer(player);
+    }
+
+    @Test
     public void activateAbilityTest(){
         list.add(0, DevCardColour.BLUE);
         LeaderCardBaseDecorator leader1 = new DiscountAbility(new ConcreteLeaderCard(), 2, list, Resource.SHIELD, "1");

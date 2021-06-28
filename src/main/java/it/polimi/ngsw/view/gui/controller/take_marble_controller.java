@@ -95,7 +95,6 @@ public class take_marble_controller extends ViewObservable implements GenericSce
 
     public void onFirstrowButtonClick(Event event){
         reorderRow(1);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 1))).start();
         this.firstrow.setDisable(true);
         this.secondrow.setDisable(true);
         this.thirdrow.setDisable(true);
@@ -103,11 +102,11 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         this.secondcolumn.setDisable(true);
         this.thirdcolumn.setDisable(true);
         this.fourthcolumn.setDisable(true);
+        notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 1));
     }
 
     public void onSecondrowButtonClick(Event event){
         reorderRow(2);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 2))).start();
         this.firstrow.setDisable(true);
         this.secondrow.setDisable(true);
         this.thirdrow.setDisable(true);
@@ -115,11 +114,11 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         this.secondcolumn.setDisable(true);
         this.thirdcolumn.setDisable(true);
         this.fourthcolumn.setDisable(true);
+        notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 2));
     }
 
     public void onThirdrowButtonClick(Event event){
         reorderRow(3);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 3))).start();
         this.firstrow.setDisable(true);
         this.secondrow.setDisable(true);
         this.thirdrow.setDisable(true);
@@ -127,11 +126,11 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         this.secondcolumn.setDisable(true);
         this.thirdcolumn.setDisable(true);
         this.fourthcolumn.setDisable(true);
+        notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 3));
     }
 
     public void onFirstcolumnButtonClick(Event event){
         reorderColumn(1);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 1))).start();
         this.firstrow.setDisable(true);
         this.secondrow.setDisable(true);
         this.thirdrow.setDisable(true);
@@ -139,11 +138,11 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         this.secondcolumn.setDisable(true);
         this.thirdcolumn.setDisable(true);
         this.fourthcolumn.setDisable(true);
+        notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 1));
     }
 
     public void onSecondcolumnButtonClick(Event event){
         reorderColumn(2);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 2))).start();
         this.firstrow.setDisable(true);
         this.secondrow.setDisable(true);
         this.thirdrow.setDisable(true);
@@ -151,11 +150,11 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         this.secondcolumn.setDisable(true);
         this.thirdcolumn.setDisable(true);
         this.fourthcolumn.setDisable(true);
+        notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 2));
     }
 
     public void onThirdcolumnButtonClick(Event event){
         reorderColumn(3);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 3))).start();
         this.firstrow.setDisable(true);
         this.secondrow.setDisable(true);
         this.thirdrow.setDisable(true);
@@ -163,11 +162,11 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         this.secondcolumn.setDisable(true);
         this.thirdcolumn.setDisable(true);
         this.fourthcolumn.setDisable(true);
+        notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 3));
     }
 
     public void onFourthcolumnButtonClick(Event event){
         reorderColumn(4);
-        new Thread(() -> notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 4))).start();
         this.firstrow.setDisable(true);
         this.secondrow.setDisable(true);
         this.thirdrow.setDisable(true);
@@ -175,6 +174,7 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         this.secondcolumn.setDisable(true);
         this.thirdcolumn.setDisable(true);
         this.fourthcolumn.setDisable(true);
+        notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 4));
     }
 
     public void reorderColumn(int choseColumn){

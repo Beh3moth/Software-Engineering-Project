@@ -226,16 +226,20 @@ public class Gui extends ViewObservable implements View {
                     newResources.add(resource);
                 }
             }
+            ReorderWarehouseController controller = new ReorderWarehouseController();
+            controller.addAllObservers(observers);
+            controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), newResources, false);
+            Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
         }
         else {
             for (Resource resource : resources) {
                 newResources.add(resource);
             }
+            ReorderWarehouseController controller = new ReorderWarehouseController();
+            controller.addAllObservers(observers);
+            controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), newResources, false);
+            Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
         }
-        ReorderWarehouseController controller = new ReorderWarehouseController();
-        controller.addAllObservers(observers);
-        controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), newResources, false);
-        Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
     @Override

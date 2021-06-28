@@ -595,11 +595,13 @@ public class GameController implements Observer, Serializable {
      */
     public void buyFromMarket(Message received){
         Player activePlayer = game.getPlayerByNickname(received.getNickname());
-        game.buyFromMarket(((BuyFromMarketMessage) received).getRowOrColumn(),((BuyFromMarketMessage) received).getWichOne(), activePlayer);
-        game.manageWhiteResources(activePlayer);
-        broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has bought from the market and now is managing his resources", turnController.getActivePlayer());
-        VirtualView virtualView = virtualViewMap.get(received.getNickname()); //arrivo che ho una lista di risorse (anche white) nello stock, prima cosa è dare valore a tutte,
-        virtualView.buyMarketResource(game.getPlayerByNickname(received.getNickname()).getWarehouse().getWarehouseStock(),game.getPlayerByNickname(received.getNickname()).getWhiteMarblePowerOne(), game.getPlayerByNickname(received.getNickname()).getWhiteMarblePowerTwo() );
+        if(activePlayer.getWarehouse().getWarehouseStock().isEmpty()){
+            game.buyFromMarket(((BuyFromMarketMessage) received).getRowOrColumn(),((BuyFromMarketMessage) received).getWichOne(), activePlayer);
+            game.manageWhiteResources(activePlayer);
+            broadcastGenericMessage("The player " + turnController.getActivePlayer() + " has bought from the market and now is managing his resources", turnController.getActivePlayer());
+            VirtualView virtualView = virtualViewMap.get(received.getNickname()); //arrivo che ho una lista di risorse (anche white) nello stock, prima cosa è dare valore a tutte,
+            virtualView.buyMarketResource(game.getPlayerByNickname(received.getNickname()).getWarehouse().getWarehouseStock(),game.getPlayerByNickname(received.getNickname()).getWhiteMarblePowerOne(), game.getPlayerByNickname(received.getNickname()).getWhiteMarblePowerTwo() );
+        }
     }
     /**
      * Adds a Player VirtualView to the controller if the first player max_players is not exceeded.

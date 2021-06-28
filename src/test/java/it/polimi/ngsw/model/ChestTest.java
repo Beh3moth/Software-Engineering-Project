@@ -39,6 +39,15 @@ public class ChestTest {
     */
 
     @Test
+    public void getTotalNumberOfResourcesTest(){
+        chest.addResource(Resource.SHIELD, 1);
+        chest.addResource(Resource.MONEY, 1);
+        chest.addResource(Resource.SHIELD, 1);
+        chest.addResource(Resource.STONE, 1);
+        assertEquals(4, chest.getTotalNumberOfResources());
+    }
+
+    @Test
     public void getResourceNumberTest(){
         randomChest();
         assertEquals(chest.getResourceNumber(Resource.MONEY), chest.getMoney());
@@ -120,5 +129,4 @@ public class ChestTest {
         assertTrue(chest.contains(Resource.MONEY, 1));
         assertTrue(chest.contains(Resource.MONEY, 0));
     }
-
 }

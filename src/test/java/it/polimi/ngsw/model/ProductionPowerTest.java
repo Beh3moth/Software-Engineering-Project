@@ -12,18 +12,19 @@ import java.util.Map;
 public class ProductionPowerTest {
 
     ProductionPower productionPower = new ProductionPower(null, null);
-/*
+
     @Test
     public void setBaseProductionPowerListsTest(){
         Game game = new Game();
+        Player player = new Player("nickname");
         game.setNumberOfPlayers(1);
-        game.createPlayers();
+        game.addPlayer(player);
         List<Resource> resourcesToPay = new ArrayList<>(2);
         resourcesToPay.add(Resource.SLAVE);
         resourcesToPay.add(Resource.MONEY);
         List<Resource> resourcesToReceive = new ArrayList<>(1);
         resourcesToReceive.add(Resource.STONE);
-        assertTrue(game.getPlayerFromList(0).getDevCardDashboard().getProductionPower(0).setBaseProductionPowerLists(resourcesToPay, resourcesToReceive));
+        assertTrue(game.getPlayerByNickname("nickname").getDevCardDashboard().getProductionPower(0).setBaseProductionPowerLists(resourcesToPay, resourcesToReceive));
     }
 
     @Test
@@ -92,6 +93,6 @@ public class ProductionPowerTest {
         assertTrue( productionPower.addCoordinates(resourceType, isWarehouse, shelfLevel));
         assertTrue(productionPower.moveResourcesToOrigin(player));
         assertTrue(productionPower.cleanCoordinates());
-    }*/
+    }
 
 }

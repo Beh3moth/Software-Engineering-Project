@@ -474,7 +474,8 @@ public class GameController implements Observer, Serializable {
         game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstShelf(((NewWarehouseMessage) receivedMessage).getNewFirstShelf());
 
         if (((NewWarehouseMessage) receivedMessage).getNewSecondShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewSecondShelf().isEmpty()) {
-            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newSecondShelf(((NewWarehouseMessage) receivedMessage).getNewSecondShelf()); }
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newSecondShelf(((NewWarehouseMessage) receivedMessage).getNewSecondShelf());
+        }
 
         if (((NewWarehouseMessage) receivedMessage).getNewSecondShelf() == null || ((NewWarehouseMessage) receivedMessage).getNewSecondShelf().isEmpty()) {
             game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(2).setResourceType(Resource.EMPTY);
@@ -491,7 +492,8 @@ public class GameController implements Observer, Serializable {
         }
 
         if (((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf() != null && !((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf().isEmpty()) {
-            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstSpecialShelf(((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf()); }
+            game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().newFirstSpecialShelf(((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf());
+        }
 
         if ((game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(4) != null) && (((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf() == null || ((NewWarehouseMessage) receivedMessage).getNewFirstSpecialShelf().isEmpty())) {
             game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(4).setResourceNumber(0);
@@ -503,6 +505,8 @@ public class GameController implements Observer, Serializable {
         if ((game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(5) != null )&&(((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf() == null || ((NewWarehouseMessage) receivedMessage).getNewSecondSpecialShelf().isEmpty())) {
             game.getPlayerByNickname(turnController.getActivePlayer()).getWarehouse().getShelf(5).setResourceNumber(0);
         }
+
+        game.getPlayerByNickname(receivedMessage.getNickname()).getWarehouse().removeAllStock();
 
         List<LeaderCard> Leaders = game.getPlayerByNickname(turnController.getActivePlayer()).getLeaderCards();
 

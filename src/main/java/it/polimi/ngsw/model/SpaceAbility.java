@@ -125,6 +125,10 @@ public class SpaceAbility extends LeaderCardBaseDecorator{
         return stringList.toArray(new String[0]);
     }
 
+    public Resource getResourceToIncrease(){
+        return resourceToIncrease;
+    }
+
     /**
      *
      * @param resource the resource

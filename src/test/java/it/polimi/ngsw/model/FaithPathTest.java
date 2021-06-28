@@ -13,6 +13,25 @@ public class FaithPathTest {
     FaithPath faithPath = new FaithPath();
 
     @Test
+    public void papalCardsTest(){
+        faithPath.activatePapalCardOne();
+        faithPath.activatePapalCardTwo();
+        faithPath.activatePapalCardThree();
+        assertTrue(faithPath.getPapalCardOne());
+        assertTrue(faithPath.getPapalCardTwo());
+        assertTrue(faithPath.getPapalCardThree());
+    }
+
+    @Test
+    public void increaseCrossPositionTest2() {
+        for(int i=1; i<=24; i++){
+            faithPath.increaseCrossPosition(1);
+            assertEquals(i, faithPath.getCrossPosition());
+        }
+
+    }
+
+    @Test
     public void increaseCrossPositionTest() {
         for(int i=1; i<=24; i++){
             faithPath.increaseCrossPosition();

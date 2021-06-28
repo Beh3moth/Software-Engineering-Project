@@ -110,8 +110,9 @@ public class Warehouse {
     public boolean controlShelf(int level, Resource resource){
         if(level == 4 || level == 5)return controlSpecialShelf(level, resource);
         if(getShelf(level).getResourceNumber() == 0)return true;
-        if(getShelf(level).getResourceType() != resource && getShelf(level).getResourceType() != Resource.EMPTY)return false;
+        if(getShelf(level).getResourceType() != resource && getShelf(level).getResourceType()!=Resource.EMPTY)return false;
         return true;
+
     }
 
     /**

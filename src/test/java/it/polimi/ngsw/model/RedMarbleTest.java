@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.Test;
 public class RedMarbleTest {
     Player player = new Player("john");
-    BlueMarble blue = new BlueMarble();
+    RedMarble blue = new RedMarble();
 
     @Test
     public void actionMarbleTest(){
         blue.actionMarble(player);
-        assertEquals(player.getWarehouse().getWarehouseStock().get(0), blue.getResource());
+        assertEquals(player.getFaithPath().getCrossPosition(), 1);
     }
 
     @Test

@@ -217,17 +217,6 @@ public class   DevCardDashboard {
         return this.devCardNumber;
     }
 
-    /**
-     * The method allows the player to choose a Production power to use.
-     * @param productionPowerChosen a integer from 0 to 5 included.
-     * @return the Production Power chosen if it exists, null if it doesn't or if the input is wrong.
-     */
-    public ProductionPower chooseProductionPower(int productionPowerChosen){
-        if(productionPowerChosen>=0 && productionPowerChosen<=5){
-            return this.getProductionPower(productionPowerChosen);
-        }
-        else return null;
-    }
 
     /**
      * The method returns the number of Victory Points (PV) of the DevCardDashboard. The result is a sum of the Victory Points of every Development Card.
@@ -244,6 +233,4 @@ public class   DevCardDashboard {
         }
         return PV;
     }
-
 }
-

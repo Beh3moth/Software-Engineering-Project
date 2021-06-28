@@ -14,20 +14,19 @@ public class DevCardDashboardTest {
     public void getActiveProductionPowerListTest(){
         Game game = new Game();
         game.setNumberOfPlayers(1);
-       // game.createPlayers();
-        //Player player = game.getPlayerFromList(0);
-       // assertNotNull(player.getDevCardDashboard().getActiveProductionPowerList());
+        Player player = new Player("jhon");
+        assertNotNull(player.getDevCardDashboard().getActiveProductionPowerList());
     }
 
     @Test
     public void putDevCardInTest(){
         Game game = new Game();
         game.setNumberOfPlayers(1);
-       // game.createPlayers();
-       // Player player = game.getPlayerFromList(0);
+        Player player = new Player("jhon");
+
         for(int j=0; j<3; j++){
             for(int i=2; i>=0; i--){
-          //      assertTrue(player.getDevCardDashboard().putDevCardIn(j, game.getBoard().getDevCardSpace(i, 0).getDevelopDeck().get(0)));
+                assertTrue(player.getDevCardDashboard().putDevCardIn(j, game.getBoard().getDevCardSpace(i, 0).getDevelopDeck().get(0)));
             }
         }
     }
@@ -36,8 +35,7 @@ public class DevCardDashboardTest {
     public void getActiveDevCardsTest(){
         Game game = new Game();
         game.setNumberOfPlayers(1);
-      /*  game.createPlayers();
-        Player player = game.getPlayerFromList(0);
+        Player player = new Player("jhon");
         for(int j=0; j<3; j++){
             for(int i=2; i>=0; i--){
                 assertTrue(player.getDevCardDashboard().putDevCardIn(j, game.getBoard().getDevCardSpace(i, 0).getDevelopDeck().get(0)));
@@ -46,10 +44,10 @@ public class DevCardDashboardTest {
         for(DevCard devCard : player.getDevCardDashboard().getActiveDevCards()){
             assertEquals(DevCardColour.GREEN, devCard.getCardColour());
             assertEquals(3, devCard.getDevLevel());
-        }*/
+        }
     }
 
-    /*
+
 
     @Test
     public void activateProductionPowerAbilityTest(){
@@ -58,13 +56,14 @@ public class DevCardDashboardTest {
             DevCardDashboard  devCardDashboard = new DevCardDashboard();
             Game game = new Game();
             game.setNumberOfPlayers(1);
-            game.createPlayers();
-            game.getPlayerFromList(0).receiveLeaderCards(game.removeAndReturnTheLastFourLeaderCards());
-            List<LeaderCard> leaderCardList = game.getPlayerFromList(0).getLeaderCards();
+            Player player = new Player("jhon");
+            player.receiveLeaderCards(game.removeAndReturnTheLastFourLeaderCards());
+            List<LeaderCard> leaderCardList = player.getLeaderCards();
             leaderCardList.removeIf(leaderCard -> !leaderCard.getAbilityName().equals("production power"));
             if(leaderCardList.size() > 0){
                 for (LeaderCard leaderCard : leaderCardList) {
-                    //devCardDashboard.activateProductionPowerAbility(leaderCard);
+                    ProductionPowerAbility prod = new ProductionPowerAbility(leaderCard, 1, DevCardColour.GREEN, Resource.SHIELD, "test");
+                    devCardDashboard.activateProductionPowerAbility(prod);
                 }
                 assertNotEquals(devCardDashboard.getProductionPower(4), null);
             }
@@ -79,7 +78,6 @@ public class DevCardDashboardTest {
     public void getProductionPowerTestWithoutInitialization(){
         DevCardDashboard devCardDashboard = new DevCardDashboard();
         assertTrue(devCardDashboard.getProductionPower(0).isBaseProductionPower());
-        assertNull(devCardDashboard.getProductionPower(1));
         assertNull(devCardDashboard.getProductionPower(2));
         assertNull(devCardDashboard.getProductionPower(3));
         assertNull(devCardDashboard.getProductionPower(4));
@@ -91,13 +89,11 @@ public class DevCardDashboardTest {
     public void getProductionPowerTestWithInitialization() throws FileNotFoundException {
         DevCardDashboard devCardDashboard = new DevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json");
+        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json");
         devCardDashboard.putDevCardIn(0, devCardList.get(0));
         devCardDashboard.putDevCardIn(1, devCardList.get(1));
         devCardDashboard.putDevCardIn(2, devCardList.get(2));
         assertTrue(devCardDashboard.getProductionPower(0).isBaseProductionPower());
-        assertNotNull(devCardDashboard.getProductionPower(1));
-        assertEquals(devCardDashboard.getProductionPower(1), devCardList.get(0).getProductionPower());
         assertNotNull(devCardDashboard.getProductionPower(2));
         assertEquals(devCardDashboard.getProductionPower(2), devCardList.get(1).getProductionPower());
         assertNotNull(devCardDashboard.getProductionPower(3));
@@ -112,34 +108,41 @@ public class DevCardDashboardTest {
         DevCardParser devCardParser = new DevCardParser();
 
         for(int i=0; i<3;i++){
-            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json").get(i));
+            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json").get(i));
         }
 
-        for(int i=0; i<4;i++){
-            assertNotNull(devCardDashboard.chooseProductionPower(i));
-        }
-
-        for(int i=4; i<8;i++){
-            assertNull(devCardDashboard.chooseProductionPower(i));
-        }
 
     }
 
-     */
-
-    /*
 
     @Test
     public void getPVTest() throws FileNotFoundException {
         DevCardDashboard devCardDashboard = new DevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
         for(int i=0; i<3;i++){
-            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json").get(i));
+            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json").get(i));
         }
         assertEquals(8, devCardDashboard.getPV());
     }
+    @Test
+    public void getBaseTest(){
+        Player p = new Player("x");
+        assertEquals(p.getDevCardDashboard().getBaseProductionPower().getResourceToReceive(), null);
+    }
 
-     */
+    @Test
+    public void getDevCardsTest(){
+        Player p = new Player("x");
+        assertEquals(true, p.getDevCardDashboard().getDevCards().isEmpty());
+        assertEquals(true, p.getDevCardDashboard().getActiveDevCardsAsMap().isEmpty());
+        assertEquals(null, p.getDevCardDashboard().getActiveProductionPowerList().get(0).getResourceToReceive());
+        assertEquals(0, p.getDevCardDashboard().getDevCardNumber());
+        assertEquals(0, p.getDevCardDashboard().getLevel(1));
+        assertEquals(true, p.getDevCardDashboard().getLeaderProductionPowerList().isEmpty());
+    }
+
+
+
 
 
 }

@@ -32,14 +32,14 @@ public class PlayerTest {
         assertTrue(player.canAfford(player.getChest().getResourcesAsMap()));
     }
 
-    /*
+
     @Test
     public void payProductionPowerTest() throws FileNotFoundException {
         randomChest(player.getChest());
         player.getWarehouse().addResourceToWarehouse(1, Resource.MONEY);
         DevCardDashboard devCardDashboard = new DevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        ProductionPower productionPower = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/blue_level_one.json").get(0).getProductionPower();
+        ProductionPower productionPower = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json").get(0).getProductionPower();
         Boolean[] isWarehouse = {true, false, false};
         Integer[] shelfLevel = {1, 0, 0};
         Resource[] resources = {Resource.MONEY, Resource.STONE, Resource.SLAVE};
@@ -84,7 +84,9 @@ public class PlayerTest {
         player.discardLeaderCard(0);
         int PV = 0;
         for(LeaderCard leaderCard : player.getLeaderCards()){
-            PV += leaderCard.getPV();
+            if(leaderCard.isActive()){
+                PV += leaderCard.getPV();
+            }
         }
         assertEquals(PV, player.getPVFromLeaderCards());
     }
@@ -96,6 +98,6 @@ public class PlayerTest {
         assertEquals(4, player.getPVFormResources());
     }
 
-     */
+
 
 }

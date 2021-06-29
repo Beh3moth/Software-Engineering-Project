@@ -21,6 +21,15 @@ public class WhiteMarbleAbilityTest {
     }
 
     @Test
+    public void getIdTest(){
+        List<DevCardColour> devCardColourList = new ArrayList<>();
+
+        WhiteMarbleAbility w = new WhiteMarbleAbility(new ConcreteLeaderCard(), 2,devCardColourList,Resource.SHIELD, "id" );
+        assertEquals("id", w.getLeaderCardId());
+        assertEquals(devCardColourList, w.getLeaderCardCost());
+        assertEquals(false, w.isActive());
+    }
+    @Test
     public void getAbilityTest(){
         list.add(0, DevCardColour.BLUE);
         LeaderCardBaseDecorator leader1 = new WhiteMarbleAbility(new ConcreteLeaderCard(), 2, list, Resource.SHIELD, "1");

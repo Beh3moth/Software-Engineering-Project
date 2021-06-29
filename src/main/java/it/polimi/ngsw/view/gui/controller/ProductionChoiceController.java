@@ -41,11 +41,18 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         disableChosenProductionPowers();
     }
 
+    /**
+     * The method sets the light model and the leader cards.
+     * @param lightModel can't be null.
+     */
     public void setProductionChoiceController(LightModel lightModel) {
         this.lightModel = lightModel;
         this.leaderCardList = lightModel.getLeaderCardList();
     }
 
+    /**
+     * The method sets the DevCards images.
+     */
     private void setDevCards() {
         for (int i = 0; i < lightModel.getActiveDevCardMap().size(); i++) {
             ImageView imageView = (ImageView) devCards.getChildren().get(i);
@@ -58,6 +65,9 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method sets the LeaderCards images.
+     */
     public void setLeaderCards(){
         for (int i = 0; i < 2; i++) {
             ImageView imageView = (ImageView) leaderCards.getChildren().get(i);
@@ -76,6 +86,9 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method sets the event handlers for the button of the leader card and for the dev cards.
+     */
     private void setButtonsEventHandlers(){
         //devCards
         for(int i=0; i<3; i++){
@@ -94,6 +107,10 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         activate.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onActivate);
     }
 
+    /**
+     * The method allows the player to end the action. It can be done only if the player has chosen and paid at least one ProductionPower.
+     * @param event
+     */
     private void onActivate(Event event){
         if(lightModel.getChosenIntegerList().size()>0){
             for(ProductionPower productionPower : lightModel.getPaidProductionPowerList()){
@@ -113,6 +130,9 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method calls the method onUpdateProductionPowerList of the ViewObserver.
+     */
     private void onDevCards(Event event){
         ImageView imageView = (ImageView) event.getSource();
         List<ProductionPower> productionPowerList = new ArrayList<>();
@@ -123,6 +143,11 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method returns the DevCard chosen by the player.
+     * @param id is the id of the button clicked by the player.
+     * @return the DevCard chosen by the player.
+     */
     private DevCard getDevCard(String id){
         switch (id) {
             case "devCard1":
@@ -136,6 +161,11 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method returns the int of the DevCard chosen by the player.
+     * @param id is the id of the button clicked by the player.
+     * @return the int of the DevCard chosen by the player.
+     */
     private int getDevCardNumber(String id){
         switch (id) {
             case "devCard1":
@@ -149,6 +179,9 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method changes the scene to the SetLeaderCardController.
+     */
     private void onLeaderCards(Event event){
         ProductionPower productionPower = null;
         ImageView imageView = (ImageView) event.getSource();
@@ -167,6 +200,9 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method changes the scene to set the base ProductionPower.
+     */
     private void onBaseProductionPower(Event event){
         lightModel.getChosenIntegerList().add(0);
         SetBaseController setBaseController = new SetBaseController();
@@ -174,6 +210,9 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         Platform.runLater(() -> SceneController.changeScene(setBaseController, "set_base_scene.fxml"));
     }
 
+    /**
+     * The method disables the button of the ProductionPowers already paid.
+     */
     private void disableChosenProductionPowers(){
         if(lightModel.getChosenIntegerList().contains(0)){
             baseProductionPower.setDisable(true);

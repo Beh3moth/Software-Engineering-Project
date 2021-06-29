@@ -39,6 +39,9 @@ public class ServerConnectionController extends ViewObservable implements Generi
         back.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackClick);
     }
 
+    /**
+     * The method takes the number of port and the address and sends the message calling the method onUpdateServerInfo.
+     */
     private void onConnectButtonClick(Event event) {
         String address = serverAddress.getText();
         String port = serverPort.getText();
@@ -58,6 +61,9 @@ public class ServerConnectionController extends ViewObservable implements Generi
 
     }
 
+    /**
+     * The method allow the player to go back to the logo scene.
+     */
     private void onBackClick(Event event) {
         back.setDisable(true);
         connect.setDisable(true);

@@ -30,6 +30,9 @@ import java.util.Map;
         join.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onJoinButtonClick);
     }
 
+    /**
+     * The method calls method onUpdateNickname of the ViewObserver.
+     */
     private void onJoinButtonClick(Event event) {
         join.setDisable(true);
         String nickname = insertNickname.getText();

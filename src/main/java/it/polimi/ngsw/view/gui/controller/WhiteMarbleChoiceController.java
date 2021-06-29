@@ -42,6 +42,11 @@ public class WhiteMarbleChoiceController extends ViewObservable implements Gener
         secondWhiteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenWhiteMarble);
     }
 
+    /**
+     * The method receives a resource and returns the name of the represented image.
+     * @param resource
+     * @return
+     */
     private String getImagePath(Resource resource){
         switch (resource) {
             case MONEY:
@@ -57,6 +62,9 @@ public class WhiteMarbleChoiceController extends ViewObservable implements Gener
         }
     }
 
+    /**
+     * The method substitutes a WHITEMARBLE resource with the one chosen by the player in the resourceList.
+     */
     private void onChosenWhiteMarble(Event event){
         List<Resource> resourceList = new ArrayList<>();
         firstWhiteButton.setDisable(true);

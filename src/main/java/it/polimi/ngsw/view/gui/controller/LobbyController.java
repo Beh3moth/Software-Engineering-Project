@@ -31,14 +31,24 @@ public class LobbyController extends ViewObservable implements GenericSceneContr
         playersNumberLabel.setText(playersNicknames.size() + "/" + playersNumber);
     }
 
+    /**
+     * The method sets the players nicknames.
+     * @param playersNicknames is the list of the players' nicknames.
+     */
     public void setPlayersNicknames(List<String> playersNicknames) {
         this.playersNicknames = playersNicknames;
     }
 
+    /**
+     * The method sets the number of players' label.
+     */
     public void setPlayersNumber(int playersNumber) {
         this.playersNumber = playersNumber;
     }
 
+    /**
+     * The method updates the labes of the players' nicknames and of the number of players in logged in the match.
+     */
     public void upDateValues(){
         playersNicknamesLabel.setText(String.join(", ", this.playersNicknames));
         playersNumberLabel.setText(this.playersNicknamesLabel + "/" + this.playersNumber);

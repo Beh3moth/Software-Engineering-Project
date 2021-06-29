@@ -88,6 +88,9 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         disableEverySlotButton();
     }
 
+    /**
+     * The method calls the method onUpdateChooseDevCard of the ViewObserver.
+     */
     private void onSlotButton(Event event){
         Button button = (Button) event.getSource();
         switch (button.getId()){
@@ -106,6 +109,9 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         }
     }
 
+    /**
+     * The method allows the player to go back to the GameScene.
+     */
     private void onBackButton(Event event){
         GameController gameController = new GameController();
         gameController.addAllObservers(observers);
@@ -113,6 +119,9 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
     }
 
+    /**
+     * the method sets the images of the DevCards.
+     */
     private void setButtonsImages(){
         setDevCardImage(devCard00, 0, 0);
         setDevCardImage(devCard10, 0, 1);
@@ -128,6 +137,12 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         setDevCardImage(devCard32, 2, 3);
     }
 
+    /**
+     * The method sets the image of a DevCardButton.
+     * @param button is the button to set the image of.
+     * @param row is the row of the DevCard.
+     * @param col is the column of the DevCard.
+     */
     private void setDevCardImage(Button button, int row, int col){
         if(devCardMarket[row][col]==null){
             setImage(button, null);
@@ -136,6 +151,11 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         }
     }
 
+    /**
+     * The method sets the image of a Button.
+     * @param button is the row of the DevCard.
+     * @param path is the path to take the image from.
+     */
     public void setImage(Button button, String path){
         Image img = new Image(path);
         ImageView imageView = new ImageView(img);
@@ -144,11 +164,17 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         button.setGraphic(imageView);
     }
 
+    /**
+     * The method sets the devCardMarket and the lightModel.
+     */
     public void setDevCardMarket(DevCard[][] devCardMarket, LightModel lightModel){
         this.devCardMarket = devCardMarket;
         this.lightModel = lightModel;
     }
 
+    /**
+     * The method disables every button of the scene except for the slot buttons.
+     */
     private void disableEveryDevCardButton(){
         devCard00.setDisable(true);
         devCard01.setDisable(true);
@@ -165,12 +191,20 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         backButton.setDisable(true);
     }
 
+    /**
+     * The method disables only the slot buttons.
+     */
     private void disableEverySlotButton(){
         SlotButtonOne.setDisable(true);
         SlotButtonTwo.setDisable(true);
         SlotButtonThree.setDisable(true);
     }
 
+    /**
+     * The method activates only the slot buttons where the player can put the DevCard chosen.
+     * @param row is the row of the DevCard chosen.
+     * @param col is the column of the DevCard chosen.
+     */
     private void activateEverySlotButton(int row, int col){
         if( (!lightModel.getActiveDevCardMap().containsKey(0) && (3-row)==1 ) || (lightModel.getActiveDevCardMap().containsKey(0) && lightModel.getActiveDevCardMap().get(0).getDevLevel() < (3-row))){
             SlotButtonOne.setDisable(false);

@@ -23,6 +23,9 @@ public class ChoseFirstPlayerController extends ViewObservable implements Generi
         confirmButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onConfirmButton);
     }
 
+    /**
+     * The method allows the player to confirm the first player chosen.
+     */
     private void onConfirmButton(Event event) {
         confirmButton.setDisable(true);
         String firstPlayerNickname = playerNameTextField.getText();

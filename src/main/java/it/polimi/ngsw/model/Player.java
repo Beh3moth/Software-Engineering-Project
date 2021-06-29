@@ -40,14 +40,6 @@ public class Player extends Observable implements Serializable {
 
 
     /**
-     * this method allows you to change the nickName attribute
-     * @param name
-     */
-    public void setNickName(String name){
-        nickName = name;
-    }
-
-    /**
      * this method returns the string: nickName
      * @return nickName
      */
@@ -436,11 +428,8 @@ public class Player extends Observable implements Serializable {
         return true;
     }
     */
-
-    //buyDevCard methods
-
     /**
-     * this method permit to choose a devCard if it is legal this method remove the card at the dashboard
+     * This method permit to choose a devCard if it is legal this method remove the card at the dashboard
      * @param board
      * @param level
      * @param colour

@@ -18,6 +18,16 @@ public class SpaceAbilityTest {
         leader1.activateAbility(player);
         assert(player.getWarehouse().getLeaderLevelType(1).equals(Resource.MONEY));
     }
+    @Test
+    public void getIdTest(){
+        List<Resource> devCardColourList = new ArrayList<>();
+
+        SpaceAbility w = new SpaceAbility(new ConcreteLeaderCard(), 2,devCardColourList,Resource.SHIELD, "id" );
+        assertEquals("id", w.getLeaderCardId());
+        assertEquals(devCardColourList, w.getLeaderCardCost());
+        assertEquals(false, w.isActive());
+        assertEquals(Resource.SHIELD, w.getResourceToIncrease());
+    }
 
     @Test
     public void getAbilityTest(){

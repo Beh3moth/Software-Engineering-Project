@@ -16,7 +16,7 @@ public class GameTest {
         chest.addResource(Resource.SLAVE, new Random().nextInt(100));
         chest.addResource(Resource.MONEY, new Random().nextInt(100));
     }
-/*
+
     @Test
     public void increaseOtherFaithPointsTest(){
         Player player1 = new Player("jhon");
@@ -67,9 +67,26 @@ public class GameTest {
             assertNotEquals(testList1, testList2);
         }
     }
+    @Test
+    public void testPlayer(){
+        Game g = new Game();
+        assertFalse(g.isGameEndedMultiPlayers());
+        assertEquals(0, g.getChosenPlayersNumber());
+        Player p = new Player("Jhon");
+        g.addPlayer(p);
+        g.setChosenMaxPlayers(4);
+        assertFalse(g.setChosenMaxPlayers(0));
+        assertEquals(1, g.getNumCurrentPlayers());
+        assertTrue(g.isNicknameTaken("Jhon"));
+        g.setNumberOfPlayers(1);
+        assertFalse(g.isGameEndedMultiPlayers());
+        g.waitChosenNmber();
+        g.initLawrenceFaithPath();
+        assertTrue(g.removePlayerByNickname("Jhon", true));
+        assertFalse(g.lawrenceIsTheWinner());
+    }
 
-    /*
-
+/*
     @Test
     public void drawActionTokenTest(){
         game.setNumberOfPlayers(1);
@@ -77,72 +94,10 @@ public class GameTest {
         for(int i=0; i<6; i++){
             ActionToken tempActionToken = game.getTokensDeque().getFirst();
             if( !(tempActionToken instanceof MoveAndScrum) ){
-                //assertTrue(game.drawActionToken());
+                assertTrue(game.drawActionToken());
                 assertEquals(tempActionToken, game.getTokensDeque().getLast());
             }
         }
-    }
+    }*/
 
-     */
-/*
-    @Test
-    public void updateTest1(){
-
-        game.setNumberOfPlayers(3);
-        game.createPlayers();
-
-        for(int i=0; i<25; i++){
-            game.getPlayerFromList(0).getFaithPath().increaseCrossPosition();
-        }
-        for(int i=0; i<25; i++){
-            game.getPlayerFromList(1).getFaithPath().increaseCrossPosition();
-        }
-        for(int i=0; i<25; i++){
-            game.getPlayerFromList(2).getFaithPath().increaseCrossPosition();
-        }
-        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardOne());
-        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardTwo());
-        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardThree());
-        assertFalse(game.getPlayerFromList(1).getFaithPath().getPapalCardOne());
-        assertFalse(game.getPlayerFromList(1).getFaithPath().getPapalCardTwo());
-        assertFalse(game.getPlayerFromList(1).getFaithPath().getPapalCardThree());
-        assertFalse(game.getPlayerFromList(2).getFaithPath().getPapalCardOne());
-        assertFalse(game.getPlayerFromList(2).getFaithPath().getPapalCardTwo());
-        assertFalse(game.getPlayerFromList(2).getFaithPath().getPapalCardThree());
-    }
-
-    @Test
-    public void updateTest2(){
-
-        game.setNumberOfPlayers(3);
-        game.createPlayers();
-
-        for(int i=0; i<7; i++){
-            game.getPlayerFromList(0).getFaithPath().increaseCrossPosition();
-        }
-        for(int i=0; i<8; i++){
-            game.getPlayerFromList(1).getFaithPath().increaseCrossPosition();
-        }
-        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardOne());
-        assertTrue(game.getPlayerFromList(1).getFaithPath().getPapalCardOne());
-
-    }
-
-    @Test
-    public void updateTest3(){
-
-        game.setNumberOfPlayers(3);
-        game.createPlayers();
-
-        for(int i=0; i<9; i++){
-            game.getPlayerFromList(0).getFaithPath().increaseCrossPosition();
-            game.getPlayerFromList(1).getFaithPath().increaseCrossPosition();
-            game.getPlayerFromList(2).getFaithPath().increaseCrossPosition();
-        }
-        assertTrue(game.getPlayerFromList(0).getFaithPath().getPapalCardOne());
-        assertTrue(game.getPlayerFromList(1).getFaithPath().getPapalCardOne());
-        assertTrue(game.getPlayerFromList(2).getFaithPath().getPapalCardOne());
-
-    }
-*/
 }

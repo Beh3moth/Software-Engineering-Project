@@ -157,7 +157,6 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         lightModel.setFsn(warehouseSurrogate.getShelf(4).getResourceNumber());
         lightModel.setSsr(warehouseSurrogate.getShelf(5).getResourceType());
         lightModel.setSsn(warehouseSurrogate.getShelf(5).getResourceNumber());
-        this.resourcesMap.clear();
         notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndependent));
     }
 

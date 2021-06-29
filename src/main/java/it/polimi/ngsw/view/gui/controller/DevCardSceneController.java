@@ -114,18 +114,26 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
     }
 
     private void setButtonsImages(){
-        setImage(devCard00, "images/devCard/" + devCardMarket[0][0].getCardColour().toString() + devCardMarket[0][0].getDevLevel() + devCardMarket[0][0].getPV() + ".png");
-        setImage(devCard10, "images/devCard/" + devCardMarket[0][1].getCardColour().toString() + devCardMarket[0][1].getDevLevel() + devCardMarket[0][1].getPV() + ".png");
-        setImage(devCard20, "images/devCard/" + devCardMarket[0][2].getCardColour().toString() + devCardMarket[0][2].getDevLevel() + devCardMarket[0][2].getPV() + ".png");
-        setImage(devCard30, "images/devCard/" + devCardMarket[0][3].getCardColour().toString() + devCardMarket[0][3].getDevLevel() + devCardMarket[0][3].getPV() + ".png");
-        setImage(devCard01, "images/devCard/" + devCardMarket[1][0].getCardColour().toString() + devCardMarket[1][0].getDevLevel() + devCardMarket[1][0].getPV() + ".png");
-        setImage(devCard11, "images/devCard/" + devCardMarket[1][1].getCardColour().toString() + devCardMarket[1][1].getDevLevel() + devCardMarket[1][2].getPV() + ".png");
-        setImage(devCard21, "images/devCard/" + devCardMarket[1][2].getCardColour().toString() + devCardMarket[1][2].getDevLevel() + devCardMarket[1][2].getPV() + ".png");
-        setImage(devCard31, "images/devCard/" + devCardMarket[1][3].getCardColour().toString() + devCardMarket[1][3].getDevLevel() + devCardMarket[1][3].getPV() + ".png");
-        setImage(devCard02, "images/devCard/" + devCardMarket[2][0].getCardColour().toString() + devCardMarket[2][0].getDevLevel() + devCardMarket[2][0].getPV() + ".png");
-        setImage(devCard12, "images/devCard/" + devCardMarket[2][1].getCardColour().toString() + devCardMarket[2][1].getDevLevel() + devCardMarket[2][1].getPV() + ".png");
-        setImage(devCard22, "images/devCard/" + devCardMarket[2][2].getCardColour().toString() + devCardMarket[2][2].getDevLevel() + devCardMarket[2][2].getPV() + ".png");
-        setImage(devCard32, "images/devCard/" + devCardMarket[2][3].getCardColour().toString() + devCardMarket[2][3].getDevLevel() + devCardMarket[2][3].getPV() + ".png");
+        setDevCardImage(devCard00, 0, 0);
+        setDevCardImage(devCard10, 0, 1);
+        setDevCardImage(devCard20, 0, 2);
+        setDevCardImage(devCard30, 0, 3);
+        setDevCardImage(devCard01, 1, 0);
+        setDevCardImage(devCard11, 1, 1);
+        setDevCardImage(devCard21, 1, 2);
+        setDevCardImage(devCard31, 1, 3);
+        setDevCardImage(devCard02, 2, 0);
+        setDevCardImage(devCard12, 2, 1);
+        setDevCardImage(devCard22, 2, 2);
+        setDevCardImage(devCard32, 2, 3);
+    }
+
+    private void setDevCardImage(Button button, int row, int col){
+        if(devCardMarket[row][col]==null){
+            setImage(button, null);
+        } else {
+            setImage(button, "images/devCard/" + devCardMarket[row][col].getCardColour().toString() + devCardMarket[row][col].getDevLevel() + devCardMarket[row][col].getPV() + ".png");
+        }
     }
 
     public void setImage(Button button, String path){

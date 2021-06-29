@@ -12,6 +12,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class WhiteMarbleChoiceController extends ViewObservable implements GenericSceneController {
@@ -38,6 +39,7 @@ public class WhiteMarbleChoiceController extends ViewObservable implements Gener
         firstWhiteButton.setGraphic(new ImageView("images/icons/" + getImagePath(firstWhite)));
         secondWhiteButton.setGraphic(new ImageView("images/icons/" + getImagePath(secondWhite)));
         firstWhiteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenWhiteMarble);
+        secondWhiteButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onChosenWhiteMarble);
     }
 
     private String getImagePath(Resource resource){
@@ -56,28 +58,40 @@ public class WhiteMarbleChoiceController extends ViewObservable implements Gener
     }
 
     private void onChosenWhiteMarble(Event event){
+        List<Resource> resourceList = new ArrayList<>();
         firstWhiteButton.setDisable(true);
         secondWhiteButton.setDisable(true);
-        for(Resource resource : resourceList){
-            if(resource==Resource.EMPTY){
+        boolean whitePowerUsed = false;
+        for(Resource resource : this.resourceList){
+            if(resource==Resource.EMPTY && !whitePowerUsed){
                 Button button = (Button) event.getSource();
                 if(button.getId().equals("firstWhiteButton")){
-                    resource = firstWhite;
+                    resourceList.add(firstWhite);
+                    whitePowerUsed = true;
                 }
                 else if(button.getId().equals("secondWhiteButton")){
-                    resource = secondWhite;
+                    resourceList.add(secondWhite);
+                    whitePowerUsed = true;
                 }
-                break;
+            }
+            else if(resource==Resource.EMPTY && whitePowerUsed){
+                resourceList.add(Resource.EMPTY);
+            }
+            else {
+                resourceList.add(resource);
             }
         }
-        if(resourceList.contains(Resource.EMPTY)){
+        if(resourceList.size()==this.resourceList.size()){
+            this.resourceList = resourceList;
+        }
+        if(this.resourceList.contains(Resource.EMPTY)){
             firstWhiteButton.setDisable(false);
             secondWhiteButton.setDisable(false);
         }
         else {
             ReorderWarehouseController controller = new ReorderWarehouseController();
             controller.addAllObservers(observers);
-            controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), resourceList, false);
+            controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), this.resourceList, false);
             Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
         }
     }

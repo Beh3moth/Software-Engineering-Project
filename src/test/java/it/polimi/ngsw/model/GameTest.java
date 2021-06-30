@@ -18,6 +18,74 @@ public class GameTest {
     }
 
     @Test
+    public void buyFromMarketTest(){
+        boolean bool = false;
+        Player p = new Player("Jackson");
+        Player h = new Player("J");
+        Game g = new Game();
+        g.addPlayer(p);
+        g.addPlayer(h);
+        g.setChosenMaxPlayers(2);
+        g.setNumberOfPlayers(2);
+        g.buyFromMarket(1, 1, p);
+        if(p.getWarehouse().getWarehouseStock().size() <= 4 && p.getWarehouse().getWarehouseStock().size() >= 0){
+            bool = true;
+        }
+        assertTrue(bool);
+        bool = false;
+        int n = 0;
+        for(int i= 0; i < p.getWarehouse().getWarehouseStock().size(); i++){
+            if(p.getWarehouse().getWarehouseStock().get(i) == Resource.EMPTY){
+                bool = true;
+                n++;
+            }
+        }
+        int j = p.getWarehouse().getWarehouseStock().size();
+        int k = p.getWarehouse().getWhiteStock().size();
+        g.manageWhiteResources(p);
+        assertEquals(n, p.getWarehouse().getWhiteStock().size());
+        assertEquals(j, p.getWarehouse().getWarehouseStock().size());
+        p.getWarehouse().removeAllStock();
+        p.setWhiteMarblePower(Resource.MONEY);
+        g.buyFromMarket(1,1, p);
+        bool = false;
+        n = 0;
+        int i = p.getWarehouse().getWarehouseStock().size();
+        int w = p.getWarehouse().getWhiteStock().size();
+        g.manageWhiteResources(p);
+        assertEquals(0, p.getWarehouse().getWhiteStock().size());
+        assertEquals(i + w, p.getWarehouse().getWarehouseStock().size());
+        p.getFaithPath().increaseCrossPosition(26);
+        assertTrue(g.isGameEndedMultiPlayers());
+    }
+
+    @Test
+    public void initLawrenceFaithTest(){
+        Player p = new Player("Jackson");
+        Game g = new Game();
+        g.addPlayer(p);
+        g.setChosenMaxPlayers(1);
+        assertFalse(g.SinglePlayerIsTheWinner());
+
+        p.getFaithPath().increaseCrossPosition(27);
+        assertTrue(g.SinglePlayerIsTheWinner());
+        g.initLawrenceFaithPath();
+        g.initLawrenceFaithPath();
+        g.getLawrenceFaithPath().increaseCrossPosition(27);
+        assertTrue(g.lawrenceIsTheWinner());
+        g.increaseOtherFaithPoints(p, 3);
+        assertEquals(30, g.getLawrenceFaithPath().getCrossPosition());
+    }
+
+    @Test
+    public void leaderCardTest(){
+        Player p = new Player("Jackson");
+        Game g = new Game();
+        g.addPlayer(p);
+        g.setChosenMaxPlayers(1);
+        assertEquals(16, g.getLeaderCards().size());
+    }
+    @Test
     public void increaseOtherFaithPointsTest(){
         Player player1 = new Player("jhon");
         Player player2 = new Player("william");

@@ -27,7 +27,6 @@ public class Cli extends ViewObservable implements View {
     private final PrintStream out;
     private Thread inputThread;
 
-    //Aaron
     private int[] leaderCardStatus; //1 means not activated but usable, 0 means discarded, 2 means activated
     private List<Resource> newResources;
     private Resource newFirstShelf;
@@ -56,7 +55,18 @@ public class Cli extends ViewObservable implements View {
      * Starts the command-line interface.
      */
     public void start() {
-        out.println("Welcome to Maestri del rinascimento");
+        out.println("\n" +
+                "\n" +
+                "   *             (                (    (         )   (      (            )          (    (    (                 )             \n" +
+                " (  `     (      )\\ )  *   )      )\\ ) )\\ )   ( /(   )\\ )   )\\ )      ( /(   (      )\\ ) )\\ ) )\\ )    (      ( /(    (        \n" +
+                " )\\))(    )\\    (()/(` )  /( (   (()/((()/(   )\\()) (()/(  (()/( (    )\\())  )\\    (()/((()/((()/(    )\\     )\\())   )\\   (   \n" +
+                "((_)()\\((((_)(   /(_))( )(_)))\\   /(_))/(_)) ((_)\\   /(_))  /(_)))\\  ((_)\\((((_)(   /(_))/(_))/(_))((((_)(  ((_)\\  (((_)  )\\  \n" +
+                "(_()((_))\\ _ )\\ (_)) (_(_())((_) (_)) (_))     ((_) (_))_| (_)) ((_)  _((_))\\ _ )\\ (_)) (_)) (_))   )\\ _ )\\  _((_) )\\___ ((_) \n" +
+                "|  \\/  |(_)_\\(_)/ __||_   _|| __|| _ \\/ __|   / _ \\ | |_   | _ \\| __|| \\| |(_)_\\(_)|_ _|/ __|/ __|  (_)_\\(_)| \\| |((/ __|| __|\n" +
+                "| |\\/| | / _ \\  \\__ \\  | |  | _| |   /\\__ \\  | (_) || __|  |   /| _| | .` | / _ \\   | | \\__ \\\\__ \\   / _ \\  | .` | | (__ | _| \n" +
+                "|_|  |_|/_/ \\_\\ |___/  |_|  |___||_|_\\|___/   \\___/ |_|    |_|_\\|___||_|\\_|/_/ \\_\\ |___||___/|___/  /_/ \\_\\ |_|\\_|  \\___||___|\n" +
+                "                                                                                                                              \n" +
+                "\n");
         try {
             askServerInfo();
         } catch (ExecutionException e) {

@@ -68,9 +68,6 @@ public class PlayerTest {
             assertTrue(productionPower.equals(player.getDevCardDashboard().getProductionPower(4)) || productionPower.equals(player.getDevCardDashboard().getProductionPower(5)));
         }
 
-        player.setResourceToReceiveFromLeaderProductionPowerAbility(Resource.STONE, player.getAbilityList().get(0));
-        player.setResourceToReceiveFromLeaderProductionPowerAbility(Resource.STONE, player.getAbilityList().get(0));
-
         assertTrue(player.getAbilityList().isEmpty());
         assertTrue(player.activateProductionPowers());
 

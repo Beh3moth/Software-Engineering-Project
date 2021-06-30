@@ -24,26 +24,45 @@ public class Ask_players_number_controller extends ViewObservable implements Gen
         quattro.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onQuattroButtonClick);
     }
 
+    /**
+     * this method set the game with one player
+     * @param event
+     */
     private void onUnoButtonClick(Event event) {
         disableButton();
         notifyObserver(obs -> obs.onUpdatePlayersNumber(1));
     }
 
+    /**
+     * this method set the game with two players
+     * @param event
+     */
     private void onDueButtonClick(Event event) {
         disableButton();
         notifyObserver(obs -> obs.onUpdatePlayersNumber(2));
     }
 
+    /**
+     * this method set the game with three players
+     * @param event
+     */
     private void onTreButtonClick(Event event) {
         disableButton();
         notifyObserver(obs -> obs.onUpdatePlayersNumber(3));
     }
 
+    /**
+     * this method set the game with four players
+     * @param event
+     */
     private void onQuattroButtonClick(Event event) {
         disableButton();
         notifyObserver(obs -> obs.onUpdatePlayersNumber(4));
     }
 
+    /**
+     * this method disable all the buttons in this scene
+     */
     public void disableButton(){
         uno.setDisable(true);
         due.setDisable(true);

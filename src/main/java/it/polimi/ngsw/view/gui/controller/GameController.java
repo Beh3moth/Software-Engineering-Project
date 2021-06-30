@@ -283,6 +283,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         }
     }
 
+    /**
+     * this method update the papalCard
+     */
     public void upDatePapalCard() {
         if (lightModel.isPapalCardOne()) {
             papalCard1.setImage(new Image("images/icons/quadrato giallo.png"));
@@ -303,10 +306,16 @@ public class GameController extends ViewObservable implements GenericSceneContro
         }
     }
 
+    /**
+     * this method update the pv of the player
+     */
     public void upDatePV() {
         PVnumber.setText(String.valueOf((lightModel.getVictoryPoints())));
     }
 
+    /**
+     * this method update the special shelf on the warehouse
+     */
     public void upDateLeaderShelf() {
         if (lightModel.getFsn() > 0) {
             Image img = new Image("images/icons/" + getTypeResourceForImage(lightModel.getFsr()) + ".png");
@@ -335,6 +344,10 @@ public class GameController extends ViewObservable implements GenericSceneContro
         }
     }
 
+    /**
+     * this method permit to change the scene to the viewOherPlayer scene
+     * @param event
+     */
     public void onViewOtherPlayerButtonClick(Event event) {
         choose_nickname_player_controller cnp = new choose_nickname_player_controller();
         cnp.setLightModel(this.lightModel);
@@ -342,6 +355,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         Platform.runLater(() -> SceneController.changeScene(cnp, "choose_nickname_player_scene.fxml"));
     }
 
+    /**
+     * this method update the leader card
+     */
     public void upDateLeaderCard() {
 
         if (lightModel.getLeaderCardStatus()[0] != 0) {

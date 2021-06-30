@@ -92,7 +92,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
     }
 
-
+    /**
+     * this method set the line of the market wich the player want to take case: first row
+     * @param event
+     */
     public void onFirstrowButtonClick(Event event){
         reorderRow(1);
         this.firstrow.setDisable(true);
@@ -105,6 +108,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 1));
     }
 
+    /**
+     * this method set the line of the market wich the player want to take case: second row
+     * @param event
+     */
     public void onSecondrowButtonClick(Event event){
         reorderRow(2);
         this.firstrow.setDisable(true);
@@ -117,6 +124,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 2));
     }
 
+    /**
+     * this method set the line of the market wich the player want to take case: third row
+     * @param event
+     */
     public void onThirdrowButtonClick(Event event){
         reorderRow(3);
         this.firstrow.setDisable(true);
@@ -129,6 +140,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         notifyObserver(obs -> obs.onUpdateBuyFromMarket(1, 3));
     }
 
+    /**
+     * this method set the line of the market wich the player want to take case: first column
+     * @param event
+     */
     public void onFirstcolumnButtonClick(Event event){
         reorderColumn(1);
         this.firstrow.setDisable(true);
@@ -141,6 +156,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 1));
     }
 
+    /**
+     * this method set the line of the market wich the player want to take case: second column
+     * @param event
+     */
     public void onSecondcolumnButtonClick(Event event){
         reorderColumn(2);
         this.firstrow.setDisable(true);
@@ -153,6 +172,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 2));
     }
 
+    /**
+     * this method set the line of the market wich the player want to take case: third column
+     * @param event
+     */
     public void onThirdcolumnButtonClick(Event event){
         reorderColumn(3);
         this.firstrow.setDisable(true);
@@ -165,6 +188,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 3));
     }
 
+    /**
+     * this method set the line of the market wich the player want to take case: fourth column
+     * @param event
+     */
     public void onFourthcolumnButtonClick(Event event){
         reorderColumn(4);
         this.firstrow.setDisable(true);
@@ -177,6 +204,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         notifyObserver(obs -> obs.onUpdateBuyFromMarket(0, 4));
     }
 
+    /**
+     * this method reorder the column of the market after the player chose a column
+     * @param choseColumn the column that the player has chosen
+     */
     public void reorderColumn(int choseColumn){
         Marble support = this.singleMarble;
         this.singleMarble = (this.firstRow[choseColumn - 1]);
@@ -186,6 +217,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         setMarble(this.firstRow, this.secondRow, this.thirdRow, this.singleMarble);
     }
 
+    /**
+     * this method reorder the column of the market after the player chose a row
+     * @param choseRow the row that the player has chosen
+     */
     public void reorderRow(int choseRow){
         Marble support = this.singleMarble;
         if (choseRow == 1) {
@@ -212,6 +247,13 @@ public class take_marble_controller extends ViewObservable implements GenericSce
 
     //set the image of the marble
 
+    /**
+     * this method set the rows of the market
+     * @param firstRow of the market
+     * @param secondRow of the market
+     * @param thirdRow of the market
+     * @param singleMarble of the market
+     */
     public void setMarble(Marble[] firstRow, Marble[] secondRow, Marble[] thirdRow, Marble singleMarble){
         Image marble00 = new Image("images/icons/marbles/" + firstRow[0].getColour().toString() + ".png");
         MARBLE00.setImage(marble00);
@@ -241,6 +283,10 @@ public class take_marble_controller extends ViewObservable implements GenericSce
         SINGLEMARBLE.setImage(singlemarble);
     }
 
+    /**
+     * this method permit to change scene in game_scene
+     * @param event
+     */
     private void onBackButton(Event event){
         GameController gameController = new GameController();
         gameController.addAllObservers(observers);

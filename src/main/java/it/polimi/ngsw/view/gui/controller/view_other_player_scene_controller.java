@@ -69,6 +69,15 @@ public class view_other_player_scene_controller extends ViewObservable implement
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackButton);
     }
 
+    /**
+     * this method set the parameter of this class
+     * @param crossPosition of the player
+     * @param resourcesAsMap resource of player's chest
+     * @param activeDevCards the player's active devcards
+     * @param shelfResNumber the shelf number of the warehouse
+     * @param shelfResType the shelf type of the warehouse
+     * @param lightModel
+     */
     public void setView_other_player_scene_controller(int crossPosition, Map<Resource, Integer> resourcesAsMap, List<DevCard> activeDevCards, int[] shelfResNumber, Resource[] shelfResType, LightModel lightModel){
         this.crossPosition = crossPosition;
         this.resourcesAsMap = resourcesAsMap;
@@ -78,6 +87,10 @@ public class view_other_player_scene_controller extends ViewObservable implement
         this.lightModel = lightModel;
     }
 
+    /**
+     * this method set the cross position
+     * @param crossPosition
+     */
     public void setCrossPosition(int crossPosition){
         for(int i = 0; i < 25; i++){
             ImageView imageView = (ImageView) faithPath.getChildren().get(i);
@@ -90,6 +103,9 @@ public class view_other_player_scene_controller extends ViewObservable implement
         }
     }
 
+    /**
+     * this method update the values of the chest
+     */
     public void upDateValuesOfChest(){
         moneyNumber.setText(resourcesAsMap.get(Resource.MONEY).toString());
         shieldNumber.setText(resourcesAsMap.get(Resource.SHIELD).toString());
@@ -97,6 +113,9 @@ public class view_other_player_scene_controller extends ViewObservable implement
         slaveNumber.setText(resourcesAsMap.get(Resource.SLAVE).toString());
     }
 
+    /**
+     * this method update the devcards
+     */
     public void upDateDevCard(){
         if(activeDevCards.size() >= 1){
             Image devcard1 = new Image("images/devCard/" + activeDevCards.get(0).getCardColour().toString() + activeDevCards.get(0).getDevLevel() + activeDevCards.get(0).getPV() + ".png");
@@ -113,6 +132,9 @@ public class view_other_player_scene_controller extends ViewObservable implement
         }else{DEVCARD3.setImage(null);}
     }
 
+    /**
+     * this method update the values of the warehouse
+     */
     public void upDateValuesOfWarehouse(){
 
         if(shelfResType[0] == Resource.EMPTY){
@@ -161,7 +183,10 @@ public class view_other_player_scene_controller extends ViewObservable implement
             }
         }
     }
-
+    /**
+     * @param resource which you want to return the exactly name of the image of the resource
+     * @return the exactly name of the resource
+     */
     public String getTypeResourceForImage(Resource resource){
         switch(resource){
             case MONEY:return "coin";
@@ -172,6 +197,10 @@ public class view_other_player_scene_controller extends ViewObservable implement
         }
     }
 
+    /**
+     * this method permit t change scene in game_scene
+     * @param event
+     */
     private void onBackButton(Event event){
         GameController gameController = new GameController();
         gameController.addAllObservers(observers);

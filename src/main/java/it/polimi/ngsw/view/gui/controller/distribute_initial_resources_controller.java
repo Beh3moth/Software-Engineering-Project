@@ -53,6 +53,10 @@ public class distribute_initial_resources_controller extends ViewObservable impl
             shield.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onShieldButtonClick);
     }
 
+    /**
+     * this method set the initial resource case: money
+     * @param event
+     */
    public void onMoneyButtonClick(Event event){
         disableButton(money);
         disableButton(slave);
@@ -104,6 +108,10 @@ public class distribute_initial_resources_controller extends ViewObservable impl
         }
    }
 
+    /**
+     * this method set the initial resource case: slave
+     * @param event
+     */
    public void onSlaveButtonClick(Event event){
        disableButton(money);
        disableButton(slave);
@@ -155,6 +163,10 @@ public class distribute_initial_resources_controller extends ViewObservable impl
        }
    }
 
+    /**
+     * this method set the initial resource case: stone
+     * @param event
+     */
    public void onStoneButtonClick(Event event){
        disableButton(money);
        disableButton(slave);
@@ -206,6 +218,10 @@ public class distribute_initial_resources_controller extends ViewObservable impl
        }
    }
 
+    /**
+     * this method set the initial resource case: shield
+     * @param event
+     */
    public void onShieldButtonClick(Event event){
        disableButton(money);
        disableButton(slave);
@@ -257,6 +273,10 @@ public class distribute_initial_resources_controller extends ViewObservable impl
        }
    }
 
+    /**
+     * lets you choose the warehouse floor where to insert the chosen resource case: one
+     * @param event
+     */
    public void onUnoButtonClick(Event event){
         if(n == 1){
             this.firstPos = 1;}
@@ -279,6 +299,10 @@ public class distribute_initial_resources_controller extends ViewObservable impl
         }
    }
 
+    /**
+     * lets you choose the warehouse floor where to insert the chosen resource case: two
+     * @param event
+     */
     public void onDueButtonClick(Event event){
         if(n == 1){
             this.firstPos = 2;}
@@ -300,6 +324,10 @@ public class distribute_initial_resources_controller extends ViewObservable impl
         }
     }
 
+    /**
+     * lets you choose the warehouse floor where to insert the chosen resource case: three
+     * @param event
+     */
     public void onTreButtonClick(Event event){
         if(n == 1){
             this.firstPos = 3;}
@@ -321,8 +349,21 @@ public class distribute_initial_resources_controller extends ViewObservable impl
         }
     }
 
+    /**
+     * this method disable a button
+     * @param button wich you want to disable
+     */
    public void disableButton(Button button){button.setDisable(true);}
+
+    /**
+     * this method active a button
+     * @param button which you want to active
+     */
    public void activeButton(Button button){button.setDisable(false);}
 
+    /**
+     * this method set the number of the resource
+     * @param resourceNumber the number of the resource
+     */
     public void setResourceNumber(int resourceNumber){this.resourceNumber = resourceNumber;}
 }

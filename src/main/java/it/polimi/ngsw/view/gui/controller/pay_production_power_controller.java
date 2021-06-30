@@ -77,13 +77,19 @@ public class pay_production_power_controller  extends ViewObservable implements 
         quattro.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onQuattroButtonClick);
         cinque.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onCinqueButtonClick);
     }
-
+    /**
+     * this method is the start of the scene
+     */
     public void startingPoint(){
         upDateResourceToPay();
         chooseZone();
         disableShelfButton();
     }
 
+    /**
+     * this method charges the resource with the warehouse
+     * @param event
+     */
     public void onWarehouseButtonClick(Event event){
         warehouse.setDisable(true);
         chest.setDisable(true);
@@ -92,6 +98,9 @@ public class pay_production_power_controller  extends ViewObservable implements 
         chooseShelf();
     }
 
+    /**
+     * this method permit to choose the shelf of the warehouse where you want to pay the resource
+     */
     public void chooseShelf(){
         if(this.firstShelf == actualResource)uno.setDisable(false);
         if(this.secondShelf == actualResource)due.setDisable(false);
@@ -100,6 +109,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
         if(this.secondSpecialResource == actualResource && this.secondSpecialNumber > 0)cinque.setDisable(false);
     }
 
+    /**
+     * this method set the shelf case: one
+     * @param event
+     */
     public void onUnoButtonClick(Event event){
         disableShelfButton();
         this.firstShelf = Resource.EMPTY;
@@ -107,6 +120,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
         startingPoint();
     }
 
+    /**
+     * this method set the shelf case: two
+     * @param event
+     */
     public void onDueButtonClick(Event event){
         disableShelfButton();
         this.secondShelfNumber--;
@@ -115,6 +132,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
         startingPoint();
     }
 
+    /**
+     * this method set the shelf case: three
+     * @param event
+     */
     public void onTreButtonClick(Event event){
         disableShelfButton();
         this.thirdShelfNumber--;
@@ -123,6 +144,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
         startingPoint();
     }
 
+    /**
+     * this method set the shelf case: first leader shelf
+     * @param event
+     */
     public void onQuattroButtonClick(Event event){
         disableShelfButton();
         this.firstSpecialNumber--;
@@ -130,6 +155,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
         startingPoint();
     }
 
+    /**
+     * this method set the shelf case: second leader shelf
+     * @param event
+     */
     public void onCinqueButtonClick(Event event){
         disableShelfButton();
         this.secondSpecialNumber--;
@@ -137,6 +166,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
         startingPoint();
     }
 
+    /**
+     * this method charges the resource with the resource
+     * @param event
+     */
     public void onChestButtonClick(Event event){
         warehouse.setDisable(true);
         chest.setDisable(true);
@@ -148,7 +181,9 @@ public class pay_production_power_controller  extends ViewObservable implements 
         startingPoint();
     }
 
-
+    /**
+     * this method update te resource to pay
+     */
     public void upDateResourceToPay(){
         if(cost.size() > 0){
             Image img = new Image("images/icons/" + getTypeResourceForImage(cost.get(0)) + ".png");
@@ -161,6 +196,10 @@ public class pay_production_power_controller  extends ViewObservable implements 
             notifyObserver(obs -> obs.onUpdatePayProductionPower(isWarehouse.toArray(new Boolean[0]), shelfLevel.toArray(new Integer[0]), resourceType.toArray(new Resource[0]), productionPower));
         }
     }
+
+    /**
+     * this method permit to chose the zone where you want to pay the resource: warehouse or chest
+     */
     public void chooseZone(){
         disableShelfButton();
         if(controlWarehouse(actualResource)){warehouse.setDisable(false);}
@@ -169,6 +208,9 @@ public class pay_production_power_controller  extends ViewObservable implements 
         else{chest.setDisable(true);}
     }
 
+    /**
+     * this method disable the button of the shelf
+     */
     public void disableShelfButton(){
         uno.setDisable(true);
         due.setDisable(true);
@@ -177,6 +219,11 @@ public class pay_production_power_controller  extends ViewObservable implements 
         cinque.setDisable(true);
     }
 
+    /**
+     * this method control if you can pay the resource with the warehouse
+     * @param resource
+     * @return true if you can pay the resource with the warehouse
+     */
     public boolean controlWarehouse(Resource resource){
         if(resource == this.firstShelf)return true;
         if(resource == this.secondShelf)return true;
@@ -186,11 +233,20 @@ public class pay_production_power_controller  extends ViewObservable implements 
         return false;
     }
 
+    /**
+     * this method control if you can pay the resource with the chest
+     * @param resource
+     * @return true if you can pay the resource with the chest
+     */
     public boolean controlChest(Resource resource){
         if(Chest.get(resource) > 0)return true;
         else return false;
     }
 
+    /**
+     * @param resource which you want to return the exactly name of the image of the resource
+     * @return the exactly name of the resource
+     */
     public String getTypeResourceForImage(Resource resource){
         switch(resource){
             case MONEY:return "coin";

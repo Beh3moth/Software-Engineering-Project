@@ -990,7 +990,7 @@ public class Cli extends ViewObservable implements View {
     }
 
     /**
-     * Print a list of gods
+     * Print a list of leader cards
      *
      * @param cards the list of gods You want to print
      */
@@ -1561,6 +1561,13 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * this method permit to pay the devcard
+     * @param devCard that the player want to pay
+     * @param slotToPut the slot that the player want to put the dev card
+     * @param discountPowerOne the first resurce activated by the power of leader cards that allow you to pay one resource less
+     * @param discountPowerTwo the second resource activated by the power of leader cards that allow you to pay one resource less
+     */
     public void payDevCard(DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo){
 
         int nResource;
@@ -1628,7 +1635,9 @@ public class Cli extends ViewObservable implements View {
 
     }
 
-
+    /**
+     * this method permit to chose a devCard
+     */
     public void chooseDevCard(){
         int level = 0;
         int column = 0;

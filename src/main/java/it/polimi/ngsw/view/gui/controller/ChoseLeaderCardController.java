@@ -52,8 +52,9 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         setLeaderCardFourImageView(this.leaderCardList);
     }
 
-    //Buttons reaction
-
+    /**
+     * The method allows the player to choose the first LeaderCard. It adds the chosen LeaderCard to a list called selectedLeaderCardList
+     */
     private void onLeaderCardOne(Event event){
         if(selectedLeaderCardList.size()<2){
             selectedLeaderCardList.add(leaderCardList.get(0));
@@ -64,6 +65,9 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         }
     }
 
+    /**
+     * The method allows the player to choose the second LeaderCard. It adds the chosen LeaderCard to a list called selectedLeaderCardList
+     */
     private void onLeaderCardTwo(Event event){
         if(selectedLeaderCardList.size()<2){
             selectedLeaderCardList.add(leaderCardList.get(1));
@@ -74,6 +78,9 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         }
     }
 
+    /**
+     * The method allows the player to choose the third LeaderCard. It adds the chosen LeaderCard to a list called selectedLeaderCardList
+     */
     private void onLeaderCardThree(Event event){
         if(selectedLeaderCardList.size()<2){
             selectedLeaderCardList.add(leaderCardList.get(2));
@@ -85,6 +92,9 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         }
     }
 
+    /**
+     * The method allows the player to choose the fourth LeaderCard. It adds the chosen LeaderCard to a list called selectedLeaderCardList
+     */
     private void onLeaderCardFour(Event event){
         if(selectedLeaderCardList.size()<2){
             selectedLeaderCardList.add(leaderCardList.get(3));
@@ -95,6 +105,9 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         }
     }
 
+    /**
+     * The method allows the player to confirm the LeaderCard chosen. The confirm action is performed only if the selectedLeaderCardList size is greater than two
+     */
     private void onConfirmButton(Event event){
         if(selectedLeaderCardList.size()==2){
             disableButton(confirmButton);
@@ -103,13 +116,18 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
         }
     }
 
+    /**
+     * The method disables a button.
+     * @param button is the button to disable.
+     */
     private void disableButton(Button button){
         button.setDisable(true);
     }
 
-
-    //Set the images and the LeaderCards
-
+    /**
+     * The method sets the first LeaderCard image.
+     * @param leaderCardList is the list of leaderCards drawn by the player.
+     */
     public void setLeaderCardOneImageView(List<LeaderCard> leaderCardList){
         LeaderCard leaderCard = leaderCardList.get(0);
         Image img = new Image("images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png");
@@ -117,24 +135,40 @@ public class ChoseLeaderCardController extends ViewObservable implements Generic
 
     }
 
+    /**
+     * The method sets the second LeaderCard image.
+     * @param leaderCardList is the list of leaderCards drawn by the player.
+     */
     public void setLeaderCardTwoImageView(List<LeaderCard> leaderCardList){
         LeaderCard leaderCard = leaderCardList.get(1);
         Image img = new Image("images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png");
         leaderCardTwoImageView.setImage(img);
     }
 
+
+    /**
+     * The method sets the third LeaderCard image.
+     * @param leaderCardList is the list of leaderCards drawn by the player.
+     */
     public void setLeaderCardThreeImageView(List<LeaderCard> leaderCardList){
         LeaderCard leaderCard = leaderCardList.get(2);
         Image img = new Image("images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png");
         leaderCardThreeImageView.setImage(img);
     }
 
+    /**
+     * The method sets the fourth LeaderCard image.
+     * @param leaderCardList is the list of leaderCards drawn by the player.
+     */
     public void setLeaderCardFourImageView(List<LeaderCard> leaderCardList){
         LeaderCard leaderCard = leaderCardList.get(3);
         Image img = new Image("images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png");
         leaderCardFourImageView.setImage(img);
     }
 
+    /**
+     * The method allows the player to disable every Leader button of the scene.
+     */
     public void disableAllButton(){
         leaderCardOneButton.setDisable(true);
         leaderCardTwoButton.setDisable(true);

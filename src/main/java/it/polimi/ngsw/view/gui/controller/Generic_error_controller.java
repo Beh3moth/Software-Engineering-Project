@@ -39,6 +39,9 @@ public class Generic_error_controller extends ViewObservable implements GenericS
         yOffset = 0;
     }
 
+    /**
+     * The method closes the stage.
+     */
     public void onExitBtnClick(Event event){
         stage.close();
     }
@@ -47,6 +50,10 @@ public class Generic_error_controller extends ViewObservable implements GenericS
         stage.setScene(scene);
     }
 
+    /**
+     * The method sets the massage to be shown.
+     * @param message is a string of the message to be shown. It can't be null.
+     */
     public void setMessage(String message){
         this.message.setText(message);
     }

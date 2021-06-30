@@ -45,6 +45,9 @@ public class SetLeaderCardController extends ViewObservable implements GenericSc
         }
     }
 
+    /**
+     * The method gives a string containing the id of the node as a String when the player starts the drag action.
+     */
     private void setResourceOnDragDetected(){
         for(Node node : resourcesToChose.getChildren()){
             ImageView imageView = (ImageView) node;
@@ -61,6 +64,9 @@ public class SetLeaderCardController extends ViewObservable implements GenericSc
         }
     }
 
+    /**
+     * The method decide if the String can be accepted by the target.
+     */
     private void setTargetOnDragOver(){
         //The iteration proceeds in this way: 11, 12, 22, 31, 32, 33, 41, 42, 51, 52
         for(Node node : resourcesChosen.getChildren()){
@@ -76,6 +82,9 @@ public class SetLeaderCardController extends ViewObservable implements GenericSc
         }
     }
 
+    /**
+     * If the String is accepted by the target its image is changed.
+     */
     private void setTargetOnDragDropped(){
         for(Node node : resourcesChosen.getChildren()){
             ImageView imageView = (ImageView) node;
@@ -94,6 +103,9 @@ public class SetLeaderCardController extends ViewObservable implements GenericSc
         }
     }
 
+    /**
+     * The method receives a string of an ImageView id and returns the resource the string represents.
+     */
     private Resource getResourceFromImageViewName(String imageViewName){
         switch (imageViewName) {
             case "money":
@@ -109,6 +121,9 @@ public class SetLeaderCardController extends ViewObservable implements GenericSc
         }
     }
 
+    /**
+     * The method receives a string of an ImageView id and returns the name of an Image.
+     */
     private String getImagePath(String imageViewId){
         switch (imageViewId) {
             case "money":

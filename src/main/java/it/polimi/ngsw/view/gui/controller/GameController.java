@@ -105,6 +105,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         production.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onProduction);
     }
 
+    /**
+     * The method changes the scene to the setProductionChoiceController scene.
+     */
     public void onProduction(Event event) {
         ProductionChoiceController controller = new ProductionChoiceController();
         controller.setProductionChoiceController(lightModel);
@@ -112,6 +115,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         Platform.runLater(() -> SceneController.changeScene(controller, "production_choice_scene.fxml"));
     }
 
+    /**
+     * The method changes the scene to the ReorderWarehouseController scene.
+     */
     public void onReorder(Event event) {
         ReorderWarehouseController controller = new ReorderWarehouseController();
         controller.setReorderWarehouseController(lightModel, lightModel.getFirstShelf(), lightModel.getSecondShelf(), lightModel.getSecondShelfNumber(), lightModel.getThirdShelf(), lightModel.getThirdShelfNumber(), lightModel.getFsr(), lightModel.getFsn(), lightModel.getSsr(), lightModel.getSsn(), null, true);
@@ -119,16 +125,25 @@ public class GameController extends ViewObservable implements GenericSceneContro
         Platform.runLater(() -> SceneController.changeScene(controller, "reorder_warehouse_scene.fxml"));
     }
 
+    /**
+     * The method sets the LightModel of the class.
+     */
     public void setLightModel(LightModel lightModel) {
         this.lightModel = lightModel;
     }
 
+    /**
+     * The method changes the scene to the takeMarbleController scene.
+     */
     public void onTakeMarbleButtonClick(Event event) {
         take_marble_controller takeMarbleController = new take_marble_controller(this.lightModel);
         takeMarbleController.addAllObservers(observers);
         SceneController.changeScene(takeMarbleController, "take_marble_scene.fxml");
     }
 
+    /**
+     * The method changes the scene to the DevCardSceneController scene.
+     */
     public void onDevCardMarket(Event event) {
         DevCardSceneController controller = new DevCardSceneController();
         controller.setDevCardMarket(lightModel.getDevCardMarket(), lightModel);
@@ -136,6 +151,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         SceneController.changeScene(controller, "dev_card_market_scene.fxml");
     }
 
+    /**
+     * The method updates the values of the chest's labels.
+     */
     public void upDateValuesOfChest() {
         moneyNumber.setText(lightModel.getChest().get(Resource.MONEY).toString());
         shieldNumber.setText(lightModel.getChest().get(Resource.SHIELD).toString());
@@ -143,6 +161,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         slaveNumber.setText(lightModel.getChest().get(Resource.SLAVE).toString());
     }
 
+    /**
+     * The method updates the values of the warehouse.
+     */
     public void upDateValuesOfWarehouse() {
 
         if (lightModel.getFirstShelf() == Resource.EMPTY) {
@@ -186,6 +207,11 @@ public class GameController extends ViewObservable implements GenericSceneContro
         }
     }
 
+    /**
+     * The method returns a string of the resource given as parameter. If the resource is a FAITHPOINT or if it is EMPTY the method returns null.
+     * @param resource is the resource to receive the string.
+     * @return a string of the resource given as parameter.
+     */
     public String getTypeResourceForImage(Resource resource) {
         switch (resource) {
             case MONEY:
@@ -201,6 +227,9 @@ public class GameController extends ViewObservable implements GenericSceneContro
         }
     }
 
+    /**
+     * The method updates the images of the DevCards owned by the player.
+     */
     public void upDateDevCard() {
         if (lightModel.getActiveDevCardMap().get(0) != null) {
             Image devcard1 = new Image("images/devCard/" + lightModel.getActiveDevCardMap().get(0).getCardColour().toString() + lightModel.getActiveDevCardMap().get(0).getDevLevel() + lightModel.getActiveDevCardMap().get(0).getPV() + ".png");
@@ -222,6 +251,11 @@ public class GameController extends ViewObservable implements GenericSceneContro
         }
     }
 
+    /**
+     * The method set the cross position image of the player and of Lawrence the Magnificent in case of single-player match.
+     * @param crossPosition is the cross position of the player.
+     * @param lawrencePosition is the cross position of Lawrence the Magnificent.
+     */
     public void setCrossPosition(int crossPosition, Integer lawrencePosition) {
         if (lawrencePosition != null) {
             for (int i = 0; i < 25; i++) {

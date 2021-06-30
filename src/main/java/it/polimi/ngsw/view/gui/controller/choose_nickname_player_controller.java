@@ -28,12 +28,18 @@ public class choose_nickname_player_controller extends ViewObservable implements
         backButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onBackButton);
     }
 
+    /**
+     * The method calls method onUpdateWatchInfo of the ViewObserver.
+     */
     private void onJoinButtonClick(Event event) {
         join.setDisable(true);
         String nickname = insertNickname.getText();
         new Thread(() -> notifyObserver(obs -> obs.onUpdateWatchInfo(nickname))).start();
     }
 
+    /**
+     * The method allows the player to go back to the GameController.
+     */
     private void onBackButton(Event event){
         join.setDisable(true);
         backButton.setDisable(true);
@@ -43,7 +49,11 @@ public class choose_nickname_player_controller extends ViewObservable implements
         Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
     }
 
+    /**
+     * The method sets the LightModel of the class.
+     */
     public void setLightModel(LightModel lightModel){
         this.lightModel = lightModel;
     }
+
 }

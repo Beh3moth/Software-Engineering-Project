@@ -104,23 +104,27 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
     public void initialize(){
         setLabelsValues();
         setResourceOnDragDetected();
-        setResourceOnDragDone();
         setTargetOnDragOver();
         setTargetOnDragDropped();
         confirmButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onConfirmButton);
         resetButton.addEventHandler(MouseEvent.MOUSE_CLICKED, this::onResetButton);
     }
 
+    /**
+     * The method resets the state of the scene to the beginning state.
+     */
     private void onResetButton(Event event){
         setReorderWarehouseController(lightModel, firstShelf, secondShelf, secondShelfNumber, thirdShelf, thirdShelfNumber, fsr, fsn, ssr, ssn, resourceList, isIndependent);
         setLabelsValues();
         setResourceOnDragDetected();
-        setResourceOnDragDone();
         setTargetOnDragOver();
         setTargetOnDragDropped();
         resetWarehouse();
     }
 
+    /**
+     * The method reset the warehouseSurrogate to its beginning state.
+     */
     private void resetWarehouse(){
         for(Node node : warehouse.getChildren()){
             ImageView imageView = (ImageView) node;
@@ -136,6 +140,9 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method creates the object to be sent to the message and so it calls the method onUpdateNewWarehouse.
+     */
     private void onConfirmButton(Event event){
         Resource newFirstShelf;
         if(warehouseSurrogate.getShelf(1).getResourceType()!=Resource.EMPTY && warehouseSurrogate.getShelf(1).getResourceType()!=Resource.FAITHPOINT){
@@ -160,6 +167,10 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         notifyObserver(obs -> obs.onUpdateNewWarehouse(newFirstShelf, newSecondShelf, newThirdShelf, newFirstSpecialShelf, newSecondSpecialShelf, discardList, isIndependent));
     }
 
+    /**
+     * The method return the total number of resources of the resourcesMap.
+     * @return an int of the total number of resources of the resourcesMap.
+     */
     private int getTotalNumberOfResources(){
         int number = 0;
         for(Resource resource : Resource.values()){
@@ -170,6 +181,10 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         return number;
     }
 
+    /**
+     * The method creates a list of resources to be discarded.
+     * @return a list of resources to be discarded.
+     */
     private List<Resource> createDiscardList(){
         List<Resource> discardList = new ArrayList<>();
         for(Resource resource : Resource.values()){
@@ -185,6 +200,11 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         else return null;
     }
 
+    /**
+     * The method return a list of resources of a shelf.
+     * @param shelf is the shelf which contains the resources.
+     * @return a list of resources.
+     */
     private List<Resource> getResourceListFromShelf(Shelf shelf){
         List<Resource> resourceList = new ArrayList<>();
         if(shelf!=null && shelf.getResourceNumber()>0){
@@ -199,6 +219,9 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
 
     }
 
+    /**
+     * The method sets the labels of the number of resources.
+     */
     private void setLabelsValues(){
         for(Node node : resourcesNumber.getChildren()){
             Label label = (Label) node;
@@ -212,6 +235,11 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method returns the resource of a certain label.
+     * @param labelName is the label which represents a resource.
+     * @return a Resource or null if the labelName is invalid.
+     */
     private Resource getResourceFromLabelName(String labelName){
         switch (labelName) {
             case "moneyLabel":
@@ -227,6 +255,9 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method gives a string containing the id of the node as a String when the player starts the drag action.
+     */
     private void setResourceOnDragDetected(){
         for(Node node : resourcesImageView.getChildren()){
             ImageView imageView = (ImageView) node;
@@ -245,17 +276,9 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         }
     }
 
-    private void setResourceOnDragDone(){
-        for(Node node : resourcesImageView.getChildren()){
-            node.setOnDragDone(new EventHandler<DragEvent>() {
-                @Override
-                public void handle(DragEvent dragEvent) {
-
-                }
-            });
-        }
-    }
-
+    /**
+     * The method decide if the String can be accepted by the target.
+     */
     private void setTargetOnDragOver(){
         //The iteration proceeds in this way: 11, 12, 22, 31, 32, 33, 41, 42, 51, 52
         for(Node node : warehouse.getChildren()){
@@ -271,6 +294,9 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * If the String is accepted by the target its image is changed and the label of the node which started the drag is changed.
+     */
     private void setTargetOnDragDropped(){
         for(Node node : warehouse.getChildren()){
             ImageView imageView = (ImageView) node;
@@ -295,6 +321,9 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
         }
     }
 
+    /**
+     * The method updates the label.
+     */
     private void updateLabel(String imageViewName, int numberOfResourcesLeft){
         switch (imageViewName) {
             case "money":
@@ -317,6 +346,10 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
                 break;
         }
     }
+
+    /**
+     * The method returns the resource represented by the ImageView. If the ImageView does not represents any resource the method returns null.
+     */
     private Resource getResourceFromImageViewName(String imageViewName){
         switch (imageViewName) {
             case "money":
@@ -334,6 +367,9 @@ public class ReorderWarehouseController extends ViewObservable implements Generi
 
     //It has to implement the dragging conditions
 
+    /**
+     * The method returns the path of the image.
+     */
     private String getImagePath(String imageViewId){
         switch (imageViewId) {
             case "money":

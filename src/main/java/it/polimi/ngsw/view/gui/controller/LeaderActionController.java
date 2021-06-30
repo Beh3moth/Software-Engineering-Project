@@ -57,6 +57,9 @@ public class LeaderActionController extends ViewObservable implements GenericSce
 
     //Button reactions
 
+    /**
+     * The methods disables every button of the scene and calls the method onUpdateLeaderCardActivation of the ViewObserver.
+     */
     private void onActivateLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
@@ -65,6 +68,9 @@ public class LeaderActionController extends ViewObservable implements GenericSce
         new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(0, turnZone))).start();
     }
 
+    /**
+     * The methods disables every button of the scene and calls the method onUpdateLeaderCardActivation of the ViewObserver.
+     */
     private void onActivateLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
@@ -73,6 +79,9 @@ public class LeaderActionController extends ViewObservable implements GenericSce
         new Thread(() -> notifyObserver(obs -> obs.onUpdateLeaderCardActivation(1, turnZone))).start();
     }
 
+    /**
+     * The methods disables every button of the scene and calls the method onUpdateLeaderCardActivation of the ViewObserver.
+     */
     private void onDiscardLeaderCardOneButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
@@ -82,6 +91,9 @@ public class LeaderActionController extends ViewObservable implements GenericSce
         new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(0, turnZone))).start();
     }
 
+    /**
+     * The methods disables every button of the scene and calls the method onUpdateLeaderCardActivation of the ViewObserver.
+     */
     private void onDiscardLeaderCardTwoButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
@@ -91,6 +103,9 @@ public class LeaderActionController extends ViewObservable implements GenericSce
         new Thread(() -> notifyObserver(obs -> obs.onUpdateDiscardLeaderCard(1, turnZone))).start();
     }
 
+    /**
+     * The method disables every button of the scene. It also change the scene.
+     */
     private void onConfirmButton(Event event){
         disableButton(activateLeaderCardOneButton);
         disableButton(discardLeaderCardOneButton);
@@ -108,16 +123,28 @@ public class LeaderActionController extends ViewObservable implements GenericSce
         else notifyObserver(obs -> obs.onUpdateCalculatePVEndGame());
     }
 
+    /**
+     * The method disable a button.
+     * @param button is the button to be disabled.
+     */
     private void disableButton(Button button){
         button.setDisable(true);
     }
 
+    /**
+     * The method activates a button.
+     * @param button is the button to be activated.
+     */
     private void activateButton(Button button){
         button.setDisable(false);
     }
 
     //Set images
 
+    /**
+     * The method sets the leader cards images.
+     * @param leaderCardList is a list of the player's leader cards.
+     */
     private void setLeaderCardsImage(List<LeaderCard> leaderCardList){
         if(lightModel.getLeaderCardStatus()[0]==1){
             LeaderCard leaderCardOne = leaderCardList.get(0);
@@ -140,13 +167,6 @@ public class LeaderActionController extends ViewObservable implements GenericSce
             discardLeaderCardTwoButton.setDisable(true);
         }
 
-    }
-
-    private void activateEveryButton(){
-        activateButton(activateLeaderCardOneButton);
-        activateButton(discardLeaderCardOneButton);
-        activateButton(activateLeaderCardTwoButton);
-        activateButton(discardLeaderCardTwoButton);
     }
 
 

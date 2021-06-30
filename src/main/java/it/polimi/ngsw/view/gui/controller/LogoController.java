@@ -24,9 +24,7 @@ public class LogoController extends ViewObservable implements GenericSceneContro
     }
 
     /**
-     * Handles click on Play button.
-     *
-     * @param event the mouse click event.
+     * The method changes the scene.
      */
     private void onPlayBtnClick(Event event) {
         SceneController.changeScene(observers, event, "server_connection_scene.fxml");

@@ -27,10 +27,15 @@ All the Code has a description of what the methods and classes are used for.
 
 ## UML:
 You can find the final UML of the project in the following link (It was split because of the weight of the file?
+
 __UML-TOP__  https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/FinalUMLUp.png
+
 __UML-LEFT__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/FinalUMLLeft.png
+
 __UML-CENTER__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/FinalUMLCenter.png
+
 __UML-RIGHT__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/FinalUMLRight.png
+
 
 
 __STUDENTS__:

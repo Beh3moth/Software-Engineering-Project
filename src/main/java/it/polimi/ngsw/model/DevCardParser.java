@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class DevCardParser {
 
         gsonBuilder.registerTypeAdapter(DevDeckListType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader(path);
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream(path));
         devDeck = customGson.fromJson(reader, DevDeckListType);
         return devDeck;
 

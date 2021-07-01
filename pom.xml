@@ -9,8 +9,6 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>AM33</name>
-  <!-- FIXME change it to the project's website -->
-  <url>http://www.example.com</url>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -117,12 +115,18 @@
                     <mainClass>it.polimi.ngsw.ClientStarter</mainClass>
                   </transformer>
                 </transformers>
+                <artifactSet>
+                  <excludes>
+                    <exclude>com.google.*</exclude>
+                  </excludes>
+                </artifactSet>
                 <filters>
                   <filter>
                     <artifact>*:*</artifact>
                     <excludes>
                       <exclude>module-info.class</exclude>
-                      <exclude>com.google.code.gson</exclude>
+                      <exlcue>com.google.code.gson</exlcue>
+                      <exlcue>com.google.gson</exlcue>
                     </excludes>
                   </filter>
                 </filters>

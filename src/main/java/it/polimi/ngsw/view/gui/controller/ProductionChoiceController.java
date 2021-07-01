@@ -217,9 +217,6 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         if(lightModel.getChosenIntegerList().contains(0)){
             baseProductionPower.setDisable(true);
         }
-        if(lightModel.getChosenIntegerList().contains(1)){
-
-        }
     }
 
 }

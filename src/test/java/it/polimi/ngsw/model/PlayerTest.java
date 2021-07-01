@@ -39,7 +39,7 @@ public class PlayerTest {
         player.getWarehouse().addResourceToWarehouse(1, Resource.MONEY);
         DevCardDashboard devCardDashboard = new DevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        ProductionPower productionPower = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json").get(0).getProductionPower();
+        ProductionPower productionPower = devCardParser.parseDevDeck("/parsingInfo/blue_level_one.json").get(0).getProductionPower();
         Boolean[] isWarehouse = {true, false, false};
         Integer[] shelfLevel = {1, 0, 0};
         Resource[] resources = {Resource.MONEY, Resource.STONE, Resource.SLAVE};
@@ -67,9 +67,6 @@ public class PlayerTest {
         for(ProductionPower productionPower : player.getAbilityList()){
             assertTrue(productionPower.equals(player.getDevCardDashboard().getProductionPower(4)) || productionPower.equals(player.getDevCardDashboard().getProductionPower(5)));
         }
-
-        player.setResourceToReceiveFromLeaderProductionPowerAbility(Resource.STONE, player.getAbilityList().get(0));
-        player.setResourceToReceiveFromLeaderProductionPowerAbility(Resource.STONE, player.getAbilityList().get(0));
 
         assertTrue(player.getAbilityList().isEmpty());
         assertTrue(player.activateProductionPowers());

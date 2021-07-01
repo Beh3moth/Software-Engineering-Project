@@ -326,7 +326,7 @@ public class Gui extends ViewObservable implements View {
                     //reset all
                     gameController.addAllObservers(observers);
                     gameController.setLightModel(lightModel);
-                    Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
+                    Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
                 }
                 break;
             case "productionPowerCheck":

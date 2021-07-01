@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,7 +81,7 @@ public class LeaderCardParser {
         };
         gsonBuilder.registerTypeAdapter(SpaceAbilityListType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/parsingInfo/SpaceAbility.json");
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/parsingInfo/SpaceAbility.json"));
         spaceLeaderCards = customGson.fromJson(reader, SpaceAbilityListType);
     }
 
@@ -134,7 +135,7 @@ public class LeaderCardParser {
         };
         gsonBuilder.registerTypeAdapter(DiscountAbilityListType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/parsingInfo/DiscountAbility.json");
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/parsingInfo/DiscountAbility.json"));
         discountLeaderCards = customGson.fromJson(reader, DiscountAbilityListType);
     }
 
@@ -203,7 +204,7 @@ public class LeaderCardParser {
         };
         gsonBuilder.registerTypeAdapter(WhiteMarbleAbilityListType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/parsingInfo/WhiteMarbleAbility.json");
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/parsingInfo/WhiteMarbleAbility.json"));
         whiteMarbleLeaderCards = customGson.fromJson(reader, WhiteMarbleAbilityListType);
     }
 
@@ -266,7 +267,7 @@ public class LeaderCardParser {
         };
         gsonBuilder.registerTypeAdapter(ProductionPowerAbilityType, deserializer);
         Gson customGson = gsonBuilder.create();
-        FileReader reader = new FileReader("src/main/java/it/polimi/ngsw/resources/parsingInfo/ProductionPowerAbility.json");
+        InputStreamReader reader = new InputStreamReader(getClass().getResourceAsStream("/parsingInfo/ProductionPowerAbility.json"));
         productionPowerLeaderCards = customGson.fromJson(reader, ProductionPowerAbilityType);
     }
 

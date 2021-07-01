@@ -89,7 +89,7 @@ public class DevCardDashboardTest {
     public void getProductionPowerTestWithInitialization() throws FileNotFoundException {
         DevCardDashboard devCardDashboard = new DevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
-        List<DevCard> devCardList = devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json");
+        List<DevCard> devCardList = devCardParser.parseDevDeck("/parsingInfo/blue_level_one.json");
         devCardDashboard.putDevCardIn(0, devCardList.get(0));
         devCardDashboard.putDevCardIn(1, devCardList.get(1));
         devCardDashboard.putDevCardIn(2, devCardList.get(2));
@@ -108,7 +108,7 @@ public class DevCardDashboardTest {
         DevCardParser devCardParser = new DevCardParser();
 
         for(int i=0; i<3;i++){
-            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json").get(i));
+            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("/parsingInfo/blue_level_one.json").get(i));
         }
 
 
@@ -120,7 +120,7 @@ public class DevCardDashboardTest {
         DevCardDashboard devCardDashboard = new DevCardDashboard();
         DevCardParser devCardParser = new DevCardParser();
         for(int i=0; i<3;i++){
-            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json").get(i));
+            devCardDashboard.putDevCardIn(i, devCardParser.parseDevDeck("/parsingInfo/blue_level_one.json").get(i));
         }
         assertEquals(8, devCardDashboard.getPV());
     }

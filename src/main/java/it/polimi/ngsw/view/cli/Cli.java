@@ -1141,7 +1141,11 @@ public class Cli extends ViewObservable implements View {
     //Activate Production Powers Methods
 
 
-
+    /**
+     * The method allows the player to choose a production power or to confirm the production powers chosen.
+     * 0 - to chose a production power;
+     * 1 - to confirm the choice and activate the production powers chosen;
+     */
     public void productionPowerMove() {
 
         out.println();
@@ -1168,6 +1172,9 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * The method activates the production powers chosen by the player.
+     */
     public void activateProductionPowers(){
         out.println("Activation...");
         for(ProductionPower productionPower : lightModel.getPaidProductionPowerList()){
@@ -1186,6 +1193,12 @@ public class Cli extends ViewObservable implements View {
         notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
     }
 
+    /**
+     * The method allows the player to choose the production powers.
+     * 0 - to chose the base production power
+     * 1/3 - to chose a devCard's  production power
+     * 4/5 - to chose a leader production power
+     */
     public void choseProductionPower(){
         int productionPowerChosen = 0;
 
@@ -1207,6 +1220,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method allows the player to set a leader production power.
+     * @param productionPowerChosen is the production power chosen int.
+     */
     public void leaderProductionPowerChosen(int productionPowerChosen){
         if(!lightModel.getChosenIntegerList().contains(productionPowerChosen) && productionPowerChosen-3<=lightModel.getLeaderProductionPowerList().size()){
             lightModel.getChosenIntegerList().add(productionPowerChosen);
@@ -1218,6 +1235,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method calls the method onUpdateProductionPowerList of the ViewObserver.
+     * @param productionPowerChosen is the production power chosen int.
+     */
     public void chosenDevCardProductionPower(int productionPowerChosen){
         if(!lightModel.getChosenIntegerList().contains(productionPowerChosen) && lightModel.getActiveDevCardMap().containsKey(productionPowerChosen-1)){
             lightModel.getChosenIntegerList().add(productionPowerChosen);
@@ -1231,6 +1252,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method allows the player to set the base production power.
+     */
     public void chosenBaseProductionPower(){
         if(!lightModel.getChosenIntegerList().contains(0)){
             lightModel.getChosenIntegerList().add(0);
@@ -1242,6 +1266,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method allows the player to chose the resources to pay. Then calls the method onUpdatePayProductionPower of the ViewObserver.
+     * @param productionPower is the production power to pay.
+     */
     public void payProductionPower(ProductionPower productionPower){
 
         out.println("Pay the Production Power chosen.");
@@ -1300,6 +1328,10 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * The method allows the player to set the production power chosen and calls the method onUpdateProductionPowerResource of the ViewObserver.
+     * @param productionPower is the production power to set.
+     */
     public void setLeaderProductionPower(ProductionPower productionPower){
         out.println("You have chosen a Leader Production Power. Choose a resource to receive.");
         Resource resourceChosen = choseResource();
@@ -1307,6 +1339,9 @@ public class Cli extends ViewObservable implements View {
         notifyObserver(obs -> obs.onUpdateProductionPowerResource(resourceChosen, productionPower));
     }
 
+    /**
+     * The method allows the player to set the base production power. Then it calls the method onUpdateTwoResourceList of the ViewObserver.
+     */
     public void setBaseProductionPower(){
         out.println("Set the Base Production Power Resources");
         List<Resource> resourcesToPayList = new ArrayList<>();
@@ -1393,6 +1428,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method allows the player to chose a resource.
+     * @return a resource.
+     */
     public Resource choseResource(){
         int resource = 0;
         out.println("Type: 0)MONEY - 1)STONE - 2)SLAVE - 3)SHIELD");
@@ -1416,6 +1455,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method prints the player's production power.
+     * @param list of production power to print.
+     */
     public void printPaidProductionPowerList(List<ProductionPower> list){
 
         int productionPowerCounter = 0;
@@ -1526,6 +1569,10 @@ public class Cli extends ViewObservable implements View {
         System.exit(0);
     }
 
+    /**
+     * The method prints the player faith path.
+     * @param crossPosition is the int representing the cross position of the player.
+     */
     private void printOtherFaithPath(int crossPosition) {
         out.println("\nHe is in position : " + crossPosition + " on the faith track \n\n\n");
     }
@@ -1685,6 +1732,10 @@ public class Cli extends ViewObservable implements View {
 
     //PRINT METHODS
 
+    /**
+     * The method receive a resource and print it.
+     * @param resource is the resource to print. It can be null.
+     */
     public void printResource (Resource resource) {
         switch (resource){
             case SLAVE:
@@ -1708,6 +1759,11 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method takes the resource art of a resource.
+     * @param resource is the resource to takw the resource art.
+     * @return a String of the resource art.
+     */
     private String getResourceArt (Resource resource) {
         switch (resource){
             case SLAVE:
@@ -1727,6 +1783,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method prints the DevCardMarket.
+     */
     private void printDevCardMarket(){
 
         String[][] tilesArray = new String[31][80];
@@ -1776,6 +1835,11 @@ public class Cli extends ViewObservable implements View {
 
     private String[][] tiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
 
+    /**
+     * The method returns an ascii art of a DevCard.
+     * @param devCard is the DevCard to take the ascii art.
+     * @return a tile 18*9
+     */
     public String[][] getPrintableDevCard (DevCard devCard) {
         fillEmpty(devCard);
         if(devCard.getPV()!=0){
@@ -1787,6 +1851,10 @@ public class Cli extends ViewObservable implements View {
         return tiles;
     }
 
+    /**
+     * The method loads the victory points of a DevCard.
+     * @param devCard is the DevCard to set the victory points.
+     */
     private void loadPV(DevCard devCard){
         if (devCard.getPV()>9) {
             tiles[7][7] = String.valueOf(devCard.getPV()).substring(0,1);
@@ -1796,6 +1864,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method load the DevCard's level of a DevCard's ascii art.
+     * @param devCard is the DevCard to set
+     */
     private void loadDevCardLevel(DevCard devCard){
         for (int i = 0; i< devCard.getDevLevel(); i++) {
             tiles[1+i][14] = ".";
@@ -1803,6 +1875,10 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * The method sets the DevCard's cost in an ascii art DevCard.
+     * @param devCard is the DevCard to set the cost.
+     */
     private void loadDevCardCost(DevCard devCard){
 
         Map<Resource, Integer> devCardCost = devCard.getDevCostAsMap();
@@ -1820,6 +1896,10 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * The method sets the DevCard's ascii art production power.
+     * @param devCard is the DevCard to set the production power.
+     */
     private void loadDevCardProductionPower(DevCard devCard){
         int i = 0;
 
@@ -1840,6 +1920,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method fill a tile
+     * @param devCard 18*9 of blanks.
+     */
     private void fillEmpty(DevCard devCard) {
 
         tiles[0][0] = rectangleArt.getLeftTopAngle(devCard);
@@ -1866,6 +1950,9 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * The method fill a tile 18*9 of blanks.
+     */
     private String[][] fillEmpty() {
 
         String[][] tiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
@@ -1905,6 +1992,14 @@ public class Cli extends ViewObservable implements View {
         printFaithPath(crossPosition, victoryPoints, papalCardOne, papalCardTwo, papalCardThree);
     }
 
+    /**
+     * The method prints the faith path.
+     * @param crossPosition
+     * @param victoryPoints
+     * @param papalCardOne
+     * @param papalCardTwo
+     * @param papalCardThree
+     */
     public void printFaithPath(int crossPosition, int victoryPoints, boolean papalCardOne, boolean papalCardTwo, boolean papalCardThree){
         out.println();
         out.println("Cross position: " + crossPosition);
@@ -1914,6 +2009,9 @@ public class Cli extends ViewObservable implements View {
         out.println("Papal Card Three: " + papalCardThree);
     }
 
+    /**
+     * The method prints the player dashboard.
+     */
     private void printPlayerDashBoard(){
         printFaithPath(lightModel.getCrossPosition(), lightModel.getVictoryPoints(), lightModel.isPapalCardOne(), lightModel.isPapalCardTwo(), lightModel.isPapalCardThree());
         printStartTurnWarehouse();
@@ -1923,6 +2021,9 @@ public class Cli extends ViewObservable implements View {
         printLeaderProductionPowers();
     }
 
+    /**
+     * The method prints the base production power.
+     */
     private void printBaseProductionPower(){
         out.println();
         out.println("Base Production Power");
@@ -1950,6 +2051,9 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * THe method prints the player DevCard.
+     */
     private void printPlayerDevCards(){
         if(lightModel.getActiveDevCardMap().isEmpty()){
             out.println();
@@ -1995,6 +2099,9 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method prints player's leader card.
+     */
     private void printLeaderProductionPowers(){
 
         if(lightModel.getLeaderProductionPowerList().isEmpty()){
@@ -2020,6 +2127,9 @@ public class Cli extends ViewObservable implements View {
 
     }
 
+    /**
+     * The method prints the player's chest.
+     */
     public void printChest(){
         out.println();
         out.println("CHEST");
@@ -2031,6 +2141,10 @@ public class Cli extends ViewObservable implements View {
         }
     }
 
+    /**
+     * The method prints the player leader card.
+     * @param leaderCards is the list of leader card to print.
+     */
     public void printLeaderCard(List<LeaderCard> leaderCards){
 
         int col = 10;
@@ -2069,6 +2183,11 @@ public class Cli extends ViewObservable implements View {
 
     String[][] leaderCardTiles = new String[MAX_VERT_TILES][MAX_HORIZON_TILES];
 
+    /**
+     * The method returns a tile 18*9 representing the ascii art of a DevCard.
+     * @param leaderCard is the leader card to take a printable DevCard.
+     * @return a tile 18*9 representing the ascii art of a DevCard.
+     */
     public String[][] getPrintableLeaderCard(LeaderCard leaderCard){
         fillEmptyLeaderCard();
         loadLeaderCardCost(leaderCard);
@@ -2077,22 +2196,35 @@ public class Cli extends ViewObservable implements View {
         return leaderCardTiles;
     }
 
+    /**
+     * The method loads the leader card power.
+     */
     private void loadLeaderCardPower(LeaderCard leaderCard){
         for(int i=0; i<leaderCard.getLeaderCardAbilityAsString().length; i++){
             leaderCardTiles[6][i+2] = leaderCard.getLeaderCardAbilityAsString()[i];
         }
     }
 
+    /**
+     * The method loads the victory points of a leader card.
+     */
     private void loadLeaderPV(LeaderCard leaderCard){
         leaderCardTiles[4][8] = String.valueOf(leaderCard.getPV());
     }
 
+    /**
+     * The method loads the cost of a leader card.
+     * @param leaderCard is the leader card to set the leader card cost.
+     */
     private void loadLeaderCardCost(LeaderCard leaderCard){
         for(int i=0; i<leaderCard.getLeaderCardCostAsString().length; i++){
         leaderCardTiles[1][i+2] = leaderCard.getLeaderCardCostAsString()[i];
         }
     }
 
+    /**
+     * The method returns a tile 18*9 of blanks.
+     */
     private void fillEmptyLeaderCard(){
 
         leaderCardTiles[0][0] = rectangleArt.getLeftTopAngle(Color.ANSI_RED);

@@ -65,18 +65,18 @@ public class Board implements Serializable {
      */
     private void initDevCardSpace() throws FileNotFoundException {
 
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/green_level_three.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_three.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/yellow_level_three.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/purple_level_three.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/green_level_two.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_two.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/yellow_level_two.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/purple_level_two.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/green_level_one.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/blue_level_one.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/yellow_level_one.json");
-        pathList.add("src/main/java/it/polimi/ngsw/resources/parsingInfo/purple_level_one.json");
+        pathList.add("/parsingInfo/green_level_three.json");
+        pathList.add("/parsingInfo/blue_level_three.json");
+        pathList.add("/parsingInfo/yellow_level_three.json");
+        pathList.add("/parsingInfo/purple_level_three.json");
+        pathList.add("/parsingInfo/green_level_two.json");
+        pathList.add("/parsingInfo/blue_level_two.json");
+        pathList.add("/parsingInfo/yellow_level_two.json");
+        pathList.add("/parsingInfo/purple_level_two.json");
+        pathList.add("/parsingInfo/green_level_one.json");
+        pathList.add("/parsingInfo/blue_level_one.json");
+        pathList.add("/parsingInfo/yellow_level_one.json");
+        pathList.add("/parsingInfo/purple_level_one.json");
 
 
         int k = 0;

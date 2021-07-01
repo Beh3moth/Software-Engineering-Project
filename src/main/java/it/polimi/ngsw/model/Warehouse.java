@@ -250,60 +250,30 @@ public class Warehouse {
     }
 
     /**
-     * this method returns true if the resource is present in the warehouse on the "level" floor
-     * @param level
-     * @param resource
-     * @return true if the resource is present in the warehouse on the "level" floor
-     */
-    public boolean hasResource (int level, Resource resource){
-        switch(level){
-            case 1:
-                if(firstLevel.getResourceType() == resource)return true;
-                else return false;
-            case 2:
-                if(secondLevel.getResourceType() == resource)return true;
-                else return false;
-            case 3:
-                if(thirdLevel.getResourceType() == resource)return true;
-                else return false;
-            case 4:
-                if(firstLeaderLevel.getResourceNumber() >= 1)return true;
-                else return false;
-            case 5:
-                if(secondLeaderLevel.getResourceNumber() >= 1)return true;
-                else return false;
-            default: return false;
-        }
-    }
-
-    /**
      * this method returns true if in the warehouse there are at least n resources false otherwise
      * @param n
      * @param resource
      * @return true if in the warehouse there are at least n resources false otherwise
      */
     public boolean contains(int n,Resource resource){
+        int nInWarehouse = 0;
         if(firstLevel.getResourceType() == resource){
-            if(firstLevel.getResourceNumber() >= n)return true;
-            else return false;
+            nInWarehouse+=firstLevel.getResourceNumber();
         }
         else if(secondLevel.getResourceType() == resource){
-            if(secondLevel.getResourceNumber() >= n)return true;
-            else return false;
+            nInWarehouse+=secondLevel.getResourceNumber();
         }
         else if(thirdLevel.getResourceType() == resource){
-            if(thirdLevel.getResourceNumber() >= n)return true;
-            else return false;
+            nInWarehouse+=thirdLevel.getResourceNumber();
         }
         else if(firstLeaderLevelType == resource){
-            if(firstLeaderLevel.getResourceNumber() >= n)return true;
-            else return false;
+            nInWarehouse+=firstLeaderLevel.getResourceNumber();
         }
         else if(secondLeaderLevelType == resource){
-            if(secondLeaderLevel.getResourceNumber() >= n)return true;
-            else return false;
+            nInWarehouse+=secondLeaderLevel.getResourceNumber();
         }
-        return false;
+       if(n <= nInWarehouse)return true;
+       else return false;
     }
 
     //samuele
@@ -335,17 +305,6 @@ public class Warehouse {
         return nResource;
     }
 
-    /**
-     * this method calculate the total number of resources
-     * @return the total number of resources
-     */
-    public int getTotalNumber(){
-        int nResource = 0;
-        for(Resource resource : Resource.values()){
-            nResource += this.getNumberOf(resource);
-        }
-        return nResource;
-    }
 
     /**
      * this method create a map with the resource in the warehouse and the number the resource

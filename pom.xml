@@ -115,18 +115,11 @@
                     <mainClass>it.polimi.ngsw.ClientStarter</mainClass>
                   </transformer>
                 </transformers>
-                <artifactSet>
-                  <excludes>
-                    <exclude>com.google.*</exclude>
-                  </excludes>
-                </artifactSet>
                 <filters>
                   <filter>
                     <artifact>*:*</artifact>
                     <excludes>
                       <exclude>module-info.class</exclude>
-                      <exlcue>com.google.code.gson</exlcue>
-                      <exlcue>com.google.gson</exlcue>
                     </excludes>
                   </filter>
                 </filters>

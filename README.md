@@ -33,7 +33,7 @@ This project needs a versione of Java above the 11.
 
 ### CLI
 To play the game with the CLi type the following instruction:
-```
+
 java -jar AM33-client.jar --cli
 
 And if you want to play the game in local:

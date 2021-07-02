@@ -312,6 +312,9 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void endGameSinglePlayer(int playerVictoryPoints, int lawrenceCrossPosition, boolean winner) {
+        endGame_single_player_controller egspc = new endGame_single_player_controller(playerVictoryPoints, lawrenceCrossPosition, winner);
+        egspc.addAllObservers(observers);
+        Platform.runLater(() -> SceneController.changeScene(egspc, "endGame_single_player_scene.fxml"));
     }
 
     //Production power

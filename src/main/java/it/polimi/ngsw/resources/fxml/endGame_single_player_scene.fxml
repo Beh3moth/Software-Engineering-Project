@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="760.0" prefWidth="1300.0" styleClass="mainPain" stylesheets="@../css/endGame_single_player_scene.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+    <children>
+        <StackPane layoutY="-14.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-14.0">
+            <Group StackPane.alignment="CENTER">
+                <AnchorPane layoutY="8.0" prefHeight="760.0" prefWidth="1300.0" styleClass="box" AnchorPane.bottomAnchor="-8.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="8.0">
+                    <children>
+                        <Label fx:id="PVnumber" layoutX="635.0" layoutY="405.0" prefHeight="18.0" prefWidth="30.0" text="100" textFill="WHITE">
+                        </Label>
+                        <Label fx:id="winner" layoutX="635.0" layoutY="431.0" prefHeight="17.0" prefWidth="30.0" text="100" textFill="WHITE">
+                        </Label>
+                        <Button fx:id="quitButton" layoutX="14.0" layoutY="379.0" mnemonicParsing="false" prefHeight="70.0" prefWidth="130.0" styleClass="backButton" />
+                    </children>
+                </AnchorPane>
+            </Group>
+        </StackPane>
+    </children>
+</AnchorPane>

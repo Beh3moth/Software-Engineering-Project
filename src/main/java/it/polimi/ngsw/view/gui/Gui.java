@@ -330,10 +330,12 @@ public class Gui extends ViewObservable implements View {
                     ppp.addAllObservers(observers);
                     Platform.runLater(() -> SceneController.changeScene(ppp, "pay_production_power_scene.fxml"));
                 } else {
-                    //reset all
-                    gameController.addAllObservers(observers);
-                    gameController.setLightModel(lightModel);
-                    Platform.runLater(() -> SceneController.changeScene(gameController, "game_scene.fxml"));
+                    lightModel.getChosenIntegerList().remove(lightModel.getChosenIntegerList().size() - 1);
+                    lightModel.getBaseProductionPower().resetBaseProductionPower();
+                    ProductionChoiceController controller = new ProductionChoiceController();
+                    controller.setProductionChoiceController(lightModel);
+                    controller.addAllObservers(observers);
+                    Platform.runLater(() -> SceneController.changeScene(controller, "production_choice_scene.fxml"));
                 }
                 break;
             case "productionPowerCheck":
@@ -342,7 +344,6 @@ public class Gui extends ViewObservable implements View {
                     ppp.addAllObservers(observers);
                     Platform.runLater(() -> SceneController.changeScene(ppp, "pay_production_power_scene.fxml"));
                 } else {
-                    //out.println("Production Power have been chosen, but you can't afford it.");
                     if(productionPower.isLeaderProductionPower()){
                         for(ProductionPower power : lightModel.getLeaderProductionPowerList()){
                             if(power.equals(productionPower)){
@@ -350,15 +351,18 @@ public class Gui extends ViewObservable implements View {
                             }
                         }
                     }
+                    if(productionPower.isBaseProductionPower()){
+                        lightModel.getBaseProductionPower().resetBaseProductionPower();
+                    }
                     lightModel.getChosenIntegerList().remove(lightModel.getChosenIntegerList().size() - 1);
-                    gameController.addAllObservers(observers);
-                    gameController.setLightModel(lightModel);
-                    Platform.runLater(() -> SceneController.changeScene(observers, "game_scene.fxml"));
+                    ProductionChoiceController controller = new ProductionChoiceController();
+                    controller.setProductionChoiceController(lightModel);
+                    controller.addAllObservers(observers);
+                    Platform.runLater(() -> SceneController.changeScene(controller, "production_choice_scene.fxml"));
                 }
                 break;
             case "payProductionPower":
                 if (response) {
-                    //out.println("You have successfully paid the Production Power.");
                     lightModel.getPaidProductionPowerList().add(productionPower);
                     ProductionChoiceController controller = new ProductionChoiceController();
                     controller.setProductionChoiceController(lightModel);
@@ -382,22 +386,26 @@ public class Gui extends ViewObservable implements View {
                             productionPowers.resetLeaderProductionPower();
                         }
                     }
+                    lightModel.getChosenIntegerList().remove(lightModel.getChosenIntegerList().size() - 1);
                 }
                 break;
             case "activation":
                 if (response) {
-                    //out.println("Successfully activated the Production Powers.");
-                    lightModel.getPaidProductionPowerList().clear();
-                    lightModel.getBaseProductionPower().resetBaseProductionPower();
-                    for(ProductionPower leaderProductionPower : lightModel.getLeaderProductionPowerList()){
-                        leaderProductionPower.resetLeaderProductionPower();
-                    }
-                    lightModel.getChosenIntegerList().clear();
+                    resetProduction();
                 }
                 break;
             default:
                 break;
         }
+    }
+
+    private void resetProduction(){
+        lightModel.getPaidProductionPowerList().clear();
+        lightModel.getBaseProductionPower().resetBaseProductionPower();
+        for(ProductionPower leaderProductionPower : lightModel.getLeaderProductionPowerList()){
+            leaderProductionPower.resetLeaderProductionPower();
+        }
+        lightModel.getChosenIntegerList().clear();
     }
     
 }

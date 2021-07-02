@@ -71,16 +71,12 @@ public class ProductionChoiceController extends ViewObservable implements Generi
     public void setLeaderCards(){
         for (int i = 0; i < 2; i++) {
             ImageView imageView = (ImageView) leaderCards.getChildren().get(i);
-            if(lightModel.getLeaderCardStatus()[i]==2 && leaderCardList.get(i).getAbilityName().equals("production power") && !lightModel.getChosenIntegerList().contains(i+1)){
+            if(lightModel.getLeaderCardStatus()[i]==2 && leaderCardList.get(i).getAbilityName().equals("production power")){
                 LeaderCard leaderCard = leaderCardList.get(i);
                 Image image = new Image("images/leader/" + leaderCard.getAbilityName() + leaderCard.getLeaderCardId() + ".png");
                 imageView.setImage(image);
             }
-            else if(lightModel.getChosenIntegerList().contains(i+4)){
-                imageView.setDisable(true);
-            }
-            else {
-                imageView.setImage(null);
+            if(lightModel.getChosenIntegerList().contains(i+4)){
                 imageView.setDisable(true);
             }
         }

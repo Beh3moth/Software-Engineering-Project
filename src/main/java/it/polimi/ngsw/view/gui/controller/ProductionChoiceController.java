@@ -126,6 +126,7 @@ public class ProductionChoiceController extends ViewObservable implements Generi
                 }
 
             }
+            disableEveryButton();
             notifyObserver(obs -> obs.onUpdateProductionPowerActivation());
         }
     }
@@ -139,6 +140,7 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         if(getDevCard(imageView.getId())!=null && !lightModel.getChosenIntegerList().contains(getDevCardNumber(imageView.getId()))){
             productionPowerList.add( getDevCard(imageView.getId()).getProductionPower() );
             lightModel.getChosenIntegerList().add(getDevCardNumber(imageView.getId()));
+            disableEveryButton();
             notifyObserver(obs -> obs.onUpdateProductionPowerList(productionPowerList, "productionPowerChosen"));
         }
     }
@@ -196,6 +198,7 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         if(productionPower!=null){
             SetLeaderCardController controller = new SetLeaderCardController(productionPower);
             controller.addAllObservers(observers);
+            disableEveryButton();
             Platform.runLater(() -> SceneController.changeScene(controller, "set_leaderCard_scene.fxml"));
         }
     }
@@ -217,6 +220,23 @@ public class ProductionChoiceController extends ViewObservable implements Generi
         if(lightModel.getChosenIntegerList().contains(0)){
             baseProductionPower.setDisable(true);
         }
+    }
+
+    /**
+     * The method disables every button of the scene.
+     */
+    private void disableEveryButton(){
+        //devCards
+        for(int i=0; i<3; i++){
+            ImageView imageView = (ImageView) devCards.getChildren().get(i);
+            imageView.setDisable(true);
+        }
+        //leaders
+        for(int i=0; i<2; i++){
+            ImageView imageView = (ImageView) leaderCards.getChildren().get(i);
+            imageView.setDisable(true);
+        }
+        baseProductionPower.setDisable(true);
     }
 
 }

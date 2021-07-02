@@ -111,6 +111,7 @@ public class LeaderActionController extends ViewObservable implements GenericSce
         disableButton(discardLeaderCardOneButton);
         disableButton(activateLeaderCardTwoButton);
         disableButton(discardLeaderCardTwoButton);
+        disableButton(confirmButton);
         if(turnZone==1){
             GameController gameController = new GameController();
             gameController.addAllObservers(observers);

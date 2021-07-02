@@ -1,6 +1,7 @@
 package it.polimi.ngsw.view.gui.controller;
 
 import it.polimi.ngsw.model.DevCard;
+import it.polimi.ngsw.model.DevCardColour;
 import it.polimi.ngsw.observer.ViewObservable;
 import it.polimi.ngsw.view.LightModel;
 import it.polimi.ngsw.view.gui.SceneController;
@@ -144,8 +145,9 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
      * @param col is the column of the DevCard.
      */
     private void setDevCardImage(Button button, int row, int col){
-        if(devCardMarket[row][col]==null){
-            setImage(button, null);
+        if(devCardMarket[row][col].getCardColour()== DevCardColour.EMPTY){
+            button.setDisable(true);
+            button.setVisible(false);
         } else {
             setImage(button, "images/devCard/" + devCardMarket[row][col].getCardColour().toString() + devCardMarket[row][col].getDevLevel() + devCardMarket[row][col].getPV() + ".png");
         }

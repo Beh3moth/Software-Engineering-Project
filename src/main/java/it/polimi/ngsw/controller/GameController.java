@@ -326,6 +326,7 @@ public class GameController implements Observer, Serializable {
      * Continue the game, so pass the action to the next player
      */
     private void continueGame(){
+        boolean isGameEndedSinglePLayer = false;
         if(game.getChosenPlayersNumber()==1){
             boolean bool = false;
             VirtualView virtualView = virtualViewMap.get(turnController.getActivePlayer());
@@ -333,20 +334,25 @@ public class GameController implements Observer, Serializable {
             if(game.lawrenceIsTheWinner()){
                 virtualView.endGameSinglePlayer(player.getPV(), game.getLawrenceFaithPath().getCrossPosition(), false);
                 bool = true;
+                isGameEndedSinglePLayer = true;
                 endGame();
             }
             else if(game.SinglePlayerIsTheWinner()){
                 virtualView.endGameSinglePlayer(player.getPV(), game.getLawrenceFaithPath().getCrossPosition(), true);
                 bool = true;
+                isGameEndedSinglePLayer = true;
                 endGame();
-            }if(bool == false){
-            broadcastGenericMessage("\nLawrence Turn");
-            broadcastGenericMessage(game.drawActionToken());
-            broadcastGenericMessage("Lawrence cross position: " + (game.getLawrenceFaithPath().getCrossPosition()));
+            }
+            if(bool == false){
+                broadcastGenericMessage("\nLawrence Turn");
+                broadcastGenericMessage(game.drawActionToken());
+                broadcastGenericMessage("Lawrence cross position: " + (game.getLawrenceFaithPath().getCrossPosition()));
             }
         }
-        turnController.next();
-        turnController.newTurn();
+        if(!isGameEndedSinglePLayer){
+            turnController.next();
+            turnController.newTurn();
+        }
     }
 
     /**

@@ -4,7 +4,6 @@ import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -86,7 +85,7 @@ public class DevCardParser {
      */
     private void whatResource(List<Resource> resourcesNeeded, JsonElement object) {
         if(object.getAsString().equals("MONEY")){
-            resourcesNeeded .add(Resource.MONEY);
+            resourcesNeeded.add(Resource.MONEY);
         }
         if(object.getAsString().equals("SHIELD")){
             resourcesNeeded.add(Resource.SHIELD);

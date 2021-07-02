@@ -14,7 +14,7 @@ public class DevCardParserTest {
 
     @Test
     public void parseDevDeckTest() throws FileNotFoundException {
-        String path = "/parsingInfo/blue_level_one.json";
+        String path = "/parsingInfo/yellow_level_one.json";
         List<DevCard> devDeck = devCardParser.parseDevDeck(path);
         assertEquals(4, devDeck.size());
     }

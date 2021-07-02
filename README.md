@@ -51,7 +51,7 @@ You can find the final UML of the project in the following link (it was split be
 
 __INITIAL-UML__  https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/archive/uml/InitialUML.png
 
-__FINAL-UML-GLOBAL__  https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/final/uml/InitialUML.png
+__FINAL-UML-GLOBAL__  https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/final/uml/finalUML.png
 
 __FINAL-UML-MODEL__  https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/final/uml/modelUML.png
 

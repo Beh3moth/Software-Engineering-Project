@@ -216,6 +216,12 @@ public class DevCardSceneController extends ViewObservable implements GenericSce
         if( ( !lightModel.getActiveDevCardMap().containsKey(2) && (3-row)==1 ) || (lightModel.getActiveDevCardMap().containsKey(2) && lightModel.getActiveDevCardMap().get(2).getDevLevel() < (3-row))){
             SlotButtonThree.setDisable(false);
         }
+        if(SlotButtonOne.isDisable() && SlotButtonTwo.isDisable() && SlotButtonThree.isDisable()){
+            DevCardSceneController controller = new DevCardSceneController();
+            controller.setDevCardMarket(lightModel.getDevCardMarket(), lightModel);
+            controller.addAllObservers(observers);
+            SceneController.changeScene(controller, "dev_card_market_scene.fxml");
+        }
     }
 
 }

@@ -11,10 +11,10 @@ public class Chest {
     private Map<Resource, Integer> chestResources = new HashMap<>();
 
     public Chest(){
-        chestResources.put(Resource.SHIELD, 100);
-        chestResources.put(Resource.STONE, 100);
-        chestResources.put(Resource.SLAVE, 100);
-        chestResources.put(Resource.MONEY, 100);
+        chestResources.put(Resource.SHIELD, 0);
+        chestResources.put(Resource.STONE, 0);
+        chestResources.put(Resource.SLAVE, 0);
+        chestResources.put(Resource.MONEY, 0);
     }
 
     /**

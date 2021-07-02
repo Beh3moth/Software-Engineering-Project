@@ -28,7 +28,7 @@ All the Code has a description of what the methods and classes are used for.
 ## Jars
 You can find the Jar of the project here: https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/tree/master/deliveries/final/jar
 
-## Esecutin
+## Esecution
 This project needs a versione of Java above the 11.
 
 ### CLI

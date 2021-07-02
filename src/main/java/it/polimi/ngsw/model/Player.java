@@ -456,6 +456,7 @@ public class Player extends Observable implements Serializable {
             board.getDevCardSpace(3 - level, devColumn).removeFirstCard();
             return devCard;
         }
+
     }
 
     /**

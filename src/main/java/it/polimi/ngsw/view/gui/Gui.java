@@ -280,9 +280,16 @@ public class Gui extends ViewObservable implements View {
 
     @Override
     public void devCard(DevCard devCard, int slotToPut, Resource discountPowerOne, Resource discountPowerTwo) {
-        pay_devcard_controller pdc = new pay_devcard_controller(devCard, this.lightModel, slotToPut, discountPowerOne, discountPowerTwo);
-        pdc.addAllObservers(observers);
-        Platform.runLater(() -> SceneController.changeScene(pdc, "pay_devcard_scene.fxml"));
+        if(devCard == null){
+            DevCardSceneController controller = new DevCardSceneController();
+            controller.setDevCardMarket(lightModel.getDevCardMarket(), lightModel);
+            controller.addAllObservers(observers);
+            SceneController.changeScene(controller, "dev_card_market_scene.fxml");
+        }
+        else{
+            pay_devcard_controller pdc = new pay_devcard_controller(devCard, this.lightModel, slotToPut, discountPowerOne, discountPowerTwo);
+            pdc.addAllObservers(observers);
+            Platform.runLater(() -> SceneController.changeScene(pdc, "pay_devcard_scene.fxml"));}
     }
 
     @Override

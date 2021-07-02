@@ -25,16 +25,37 @@ You can connect with the Client via command line (__CLI__) or graphical interfac
 ## JavaDoc:
 All the Code has a description of what the methods and classes are used for.
 
+## Jars
+You can find the Jar of the project here: https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/tree/master/deliveries/final/jar
+
+## Esecution
+This project needs a versione of Java above the 11.
+
+### CLI
+To play the game with the CLi type the following instruction:
+
+java -jar AM33-client.jar --cli
+
+And if you want to play the game in local:
+
+java -jar AM33-client.jar --cli --local
+
+### GUI
+
+To play with the graphic you can double click on the Jar icon, or type:
+
+java -jar AM33-client.jar
+
 ## UML:
 You can find the final UML of the project in the following link (It was split because of the weight of the file?
 
-__UML-TOP__  https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/FinalUMLUp.png
+__UML-TOP__  https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/final/uml/FinalUMLUp.png
 
-__UML-LEFT__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/FinalUMLLeft.png
+__UML-LEFT__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/final/uml/FinalUMLLeft.png
 
-__UML-CENTER__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/FinalUMLCenter.png
+__UML-CENTER__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/final/uml/FinalUMLCenter.png
 
-__UML-RIGHT__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/FinalUMLRight.png
+__UML-RIGHT__ https://github.com/Beh3moth/ingswAM2021-camilletti-cettolin-cioffi/blob/master/deliveries/final/uml/FinalUMLRight.png
 
 
 

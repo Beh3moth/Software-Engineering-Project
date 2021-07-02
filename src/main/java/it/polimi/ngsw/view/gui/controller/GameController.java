@@ -288,21 +288,21 @@ public class GameController extends ViewObservable implements GenericSceneContro
      */
     public void upDatePapalCard() {
         if (lightModel.isPapalCardOne()) {
-            papalCard1.setImage(new Image("images/icons/quadrato giallo.png"));
+            papalCard1.setImage(new Image("images/icons/checkMark.png"));
         } else {
-            papalCard1.setImage(null);
+            papalCard1.setImage(new Image("images/icons/quadrato giallo.png"));
         }
 
         if (lightModel.isPapalCardTwo()) {
-            papalCard2.setImage(new Image("images/icons/quadrato arancione.png"));
+            papalCard2.setImage(new Image("images/icons/checkMark.png"));
         } else {
-            papalCard2.setImage(null);
+            papalCard2.setImage(new Image("images/icons/quadrato arancione.png"));
         }
 
         if (lightModel.isPapalCardThree()) {
-            papalCard3.setImage(new Image("images/icons/quadrato rosso.png"));
+            papalCard3.setImage(new Image("images/icons/checkMark.png"));
         } else {
-            papalCard3.setImage(null);
+            papalCard3.setImage(new Image("images/icons/quadrato rosso.png"));
         }
     }
 

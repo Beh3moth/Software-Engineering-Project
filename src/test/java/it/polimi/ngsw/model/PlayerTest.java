@@ -95,6 +95,24 @@ public class PlayerTest {
         assertEquals(4, player.getPVFormResources());
     }
 
+    @Test
+    public void chooseDevCardTest(){
+        Board board = new Board();
+        randomChest(player.getChest());
+        assertEquals(player.chooseDevCard(board,2,DevCardColour.BLUE, 2), null);
+        //assertEquals(player.chooseDevCard(board, 1, DevCardColour.BLUE, 2), board.getDevCardSpace(1, ));
+    }
+
+    @Test
+    public void buyDevCardTest(){
+
+    }
+
+    @Test
+    public void canBuyDevCardTest(){
+
+    }
+
 
 
 }

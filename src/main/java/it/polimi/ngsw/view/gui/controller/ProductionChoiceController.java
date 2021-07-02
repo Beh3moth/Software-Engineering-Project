@@ -109,7 +109,6 @@ public class ProductionChoiceController extends ViewObservable implements Generi
 
     /**
      * The method allows the player to end the action. It can be done only if the player has chosen and paid at least one ProductionPower.
-     * @param event
      */
     private void onActivate(Event event){
         if(lightModel.getChosenIntegerList().size()>0){
